@@ -5,6 +5,7 @@ from . import data
 from . import statistic
 from . import graph
 from . import test
+from . import core
 
 class Master(ttk.Notebook):
 
@@ -12,6 +13,9 @@ class Master(ttk.Notebook):
         
         # Intialize
         ttk.Notebook.__init__(self, parent)
+
+        # Data
+        self.model = core.Model()
 
         # Setup
         self.setup()

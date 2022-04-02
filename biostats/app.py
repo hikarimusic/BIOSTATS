@@ -32,7 +32,7 @@ class App(tk.Tk):
 
         # Set Minimun Size
         self.update()
-        self.minsize(int(self.winfo_screenwidth() * 2 / 3), self.winfo_height())
-        x_coordinate = int(self.winfo_screenwidth() / 6)
+        self.minsize(int(self.winfo_screenwidth() / 2), self.winfo_height())
+        x_coordinate = int(self.winfo_screenwidth() / 4)
         y_coordinate = int((self.winfo_screenheight() / 2) - (self.winfo_height() / 2))
         self.geometry("+{}+{}".format(x_coordinate, y_coordinate-20))
