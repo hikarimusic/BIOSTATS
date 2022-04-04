@@ -27,8 +27,8 @@ class App(tk.Tk):
         self.rowconfigure(index=0, weight=1)
 
         # Master Frame
-        self.master = layout.Master(self)
-        self.master.grid(row=0, column=0, sticky="nsew")
+        master = layout.Master(self)
+        master.grid(row=0, column=0, sticky="nsew")
 
         # Set Minimun Size
         self.update()

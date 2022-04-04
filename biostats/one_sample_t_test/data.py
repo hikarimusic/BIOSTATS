@@ -135,15 +135,34 @@ class Data(ttk.Frame):
         )
 
         # Table
-        self.table_frame = ttk.Notebook(self.data_edit)
+        self.table_frame = ttk.Frame(self.data_edit, style="Card.TFrame", padding=(1,11))
         self.table_frame.grid(
-            row=1, column=0, columnspan=7, padx=(5,0), sticky="nsew"
+            row=1, column=0, columnspan=7, padx=(5,0), ipadx=20, sticky="nsew"
         )
 
         self.scrollbar2 = ttk.Scrollbar(self.data_edit)
         self.scrollbar2.grid(
             row=1, column=7, padx=(0,5), sticky="nsew"
         )
+
+        # Entry
+        self.entry_frame = ttk.Frame(self.table_frame)
+        self.entry_frame.grid(
+            row=0, column=0
+        )
+
+        self.entry = {}
+        self.number = {}
+        for i in range(0,11):
+            self.number[i] = ttk.Label(self.entry_frame, text=i)
+            self.number[i].grid(
+                row=i, column=0, padx=5
+            )
+            self.entry[i] = ttk.Entry(self.entry_frame, width=10, justify="center")
+            self.entry[i].bind("<Up>", lambda event, target=i-1: self.move_focus(event, target))
+            self.entry[i].bind("<Down>", lambda event, target=i+1: self.move_focus(event, target))
+            self.entry[i].grid(row=i, column=1)
+        self.entry[0].insert(0,"Group A")
 
         # Cell Width
 
@@ -168,6 +187,12 @@ class Data(ttk.Frame):
             row=2, column=0, sticky="e"
         )
 
+        '''
+        # Bind
+        self.winfo_toplevel().bind("<Up>", self.move_up)
+        self.winfo_toplevel().bind("<Down>", self.move_down)
+        '''
+
         # Show
         self.show("view")
 
@@ -177,8 +202,22 @@ class Data(ttk.Frame):
             frame = self.data_view
         if key == "edit":
             frame = self.data_edit
+            self.entry[1].focus()
 
         frame.tkraise()
+
+    def move_focus(self, event, target):
+        if target>=0 and target<11:
+            self.entry[target].focus()
+    '''
+    def move_up(self, event):
+        #target = self.winfo_toplevel().focus_get().pos
+        print("UP")
+
+    def move_down(self, event):
+        #target = self.winfo_toplevel().focus_get().pos
+        print("Down")
+    '''
 
     def open(self):
         pass
@@ -186,3 +225,7 @@ class Data(ttk.Frame):
     def confirm(self):
         
         self.show("view")
+'''
+def move_down(event):
+    print("down")
+'''
