@@ -63,6 +63,7 @@ class Master(ttk.Frame):
         # Model
         self.model = {}
 
+        '''
         self.model[(0,0)] = one_sample_t_test.Master(self)
         self.model[(0,0)].grid(
             row=0, column=1, padx=10, pady=(20,10), sticky="nsew", rowspan=3
@@ -107,6 +108,7 @@ class Master(ttk.Frame):
         # Sizegrip
         self.sizegrip = ttk.Sizegrip(self)
         self.sizegrip.grid(row=100, column=100, padx=(0,5), pady=(0,5))
+        '''
 
         # Show
         self.show()
@@ -115,9 +117,61 @@ class Master(ttk.Frame):
         i = self.select_type.type.get()
         j = self.select_model[i].model.get()
         frame1 = self.select_model[i]
-        frame2 = self.model[(i,j)]
         frame1.tkraise()
+        if not (i,j) in self.model:
+            self.model_open((i,j))
+        frame2 = self.model[(i,j)]
         frame2.tkraise()
+
+    def model_open(self, target):
+
+        if target == (0,0):
+            self.model[(0,0)] = one_sample_t_test.Master(self)
+            self.model[(0,0)].grid(
+                row=0, column=1, padx=10, pady=(20,10), sticky="nsew", rowspan=3
+            )
+
+        if target == (0,1):
+            self.model[(0,1)] = two_sample_t_test.Master(self)
+            self.model[(0,1)].grid(
+                row=0, column=1, padx=10, pady=(20,10), sticky="nsew", rowspan=3
+            )
+
+        if target == (0,2):
+            self.model[(0,2)] = paired_t_test.Master(self)
+            self.model[(0,2)].grid(
+                row=0, column=1, padx=10, pady=(20,10), sticky="nsew", rowspan=3
+            )
+
+        if target == (0,3):
+            self.model[(0,3)] = one_way_anova.Master(self)
+            self.model[(0,3)].grid(
+                row=0, column=1, padx=10, pady=(20,10), sticky="nsew", rowspan=3
+            )
+
+        if target == (0,4):
+            self.model[(0,4)] = two_way_anova.Master(self)
+            self.model[(0,4)].grid(
+                row=0, column=1, padx=10, pady=(20,10), sticky="nsew", rowspan=3
+            )
+
+        if target == (1,0):
+            self.model[(1,0)] = one_sample_t_test.Master(self)
+            self.model[(1,0)].grid(
+                row=0, column=1, padx=10, pady=(20,10), sticky="nsew", rowspan=3
+            )
+
+        if target == (2,0):
+            self.model[(2,0)] = one_sample_t_test.Master(self)
+            self.model[(2,0)].grid(
+                row=0, column=1, padx=10, pady=(20,10), sticky="nsew", rowspan=3
+            )
+
+        if target == (3,0):
+            self.model[(3,0)] = one_sample_t_test.Master(self)
+            self.model[(0,0)].grid(
+                row=0, column=1, padx=10, pady=(20,10), sticky="nsew", rowspan=3
+            )
         
 
 class SelectType(ttk.LabelFrame):
