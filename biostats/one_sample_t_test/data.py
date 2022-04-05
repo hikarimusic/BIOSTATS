@@ -42,8 +42,10 @@ class Data(ttk.Frame):
         )
 
         # Treeview
-        self.scrollbar = ttk.Scrollbar(self.data_view)
-        self.scrollbar.grid(row=1, column=5, padx=(0,5), sticky="nsew")
+        self.scrollbar_1y = ttk.Scrollbar(self.data_view, orient="vertical")
+        self.scrollbar_1y.grid(row=1, column=5, padx=(0,5), sticky="nsew")
+        self.scrollbar_1x = ttk.Scrollbar(self.data_view, orient="horizontal")
+        self.scrollbar_1x.grid(row=2, column=0, columnspan=5, padx=(5,0), sticky="nsew")
 
         self.style = ttk.Style()
         self.style.configure("Treeview", rowheight=30)
@@ -54,8 +56,10 @@ class Data(ttk.Frame):
         self.tree.config(column=(1))
         self.tree.grid(row=1, column=0, columnspan=5, padx=(5,0), sticky="nsew")
 
-        self.tree.config(yscrollcommand=self.scrollbar.set)
-        self.scrollbar.config(command=self.tree.yview)
+        self.tree.config(yscrollcommand=self.scrollbar_1y.set)
+        self.scrollbar_1y.config(command=self.tree.yview)
+        self.tree.config(xscrollcommand=self.scrollbar_1x.set)
+        self.scrollbar_1x.config(command=self.tree.xview)
         
         self.tree.column("#0", width=0, stretch="no")
         self.tree.column(1, anchor="center", width=20)
@@ -73,7 +77,7 @@ class Data(ttk.Frame):
             self.data_view, text="Scientific", style="Switch.TCheckbutton"
         )
         self.notation.grid(
-            row=2, column=0, columnspan=2, padx=5, pady=5, sticky="nsew"
+            row=3, column=0, columnspan=2, padx=5, pady=5, sticky="nsew"
         )
 
         # Precision
@@ -81,7 +85,7 @@ class Data(ttk.Frame):
             self.data_view, text="Precision"
         )
         self.precision_label.grid(
-            row=2, column=3, pady=5, sticky="nsew"
+            row=3, column=3, pady=5, sticky="nsew"
         )
 
 
@@ -90,7 +94,7 @@ class Data(ttk.Frame):
         )
         self.precision.insert(0, 0)
         self.precision.grid(
-            row=2, column=4, padx=(5,0), pady=5, sticky="nsew"
+            row=3, column=4, padx=(5,0), pady=5, sticky="nsew"
         )
 
         # Data Edit
@@ -133,16 +137,20 @@ class Data(ttk.Frame):
         )
 
         # Table
-        self.table_frame = ttk.Frame(self.data_edit, style="Card.TFrame", padding=(1,1))
+        self.table_frame = ttk.Frame(self.data_edit, style="Card.TFrame", padding=(2,2))
         self.table_frame.grid(
             row=1, column=0, columnspan=7, padx=(5,0), ipadx=20, sticky="nsew"
         )
         self.table_frame.rowconfigure(index=0, weight=1)
         self.table_frame.columnconfigure(index=0, weight=1)
 
-        self.scrollbar_y = ttk.Scrollbar(self.data_edit)
-        self.scrollbar_y.grid(
+        self.scrollbar_2y = ttk.Scrollbar(self.data_edit, orient="vertical")
+        self.scrollbar_2y.grid(
             row=1, column=7, padx=(0,5), sticky="nsew"
+        )
+        self.scrollbar_2x = ttk.Scrollbar(self.data_edit, orient="horizontal")
+        self.scrollbar_2x.grid(
+            row=2, column=0, columnspan=7, padx=(5,0), sticky="nsew"
         )
 
         # Entry
@@ -154,15 +162,18 @@ class Data(ttk.Frame):
             row=0, column=0
         )
 
-        self.scrollbar_y.configure(command=self.entry_canvas.yview)
+        self.scrollbar_2y.configure(command=self.entry_canvas.yview)
+        self.scrollbar_2x.configure(command=self.entry_canvas.xview)
         self.entry_frame.bind(
             "<Configure>",
             lambda e: self.entry_canvas.configure(
                 scrollregion=self.entry_canvas.bbox("all")
             )
         )
+
         self.entry_canvas.create_window((0,0), window=self.entry_frame, anchor="nw")
-        self.entry_canvas.configure(yscrollcommand=self.scrollbar_y.set)
+        self.entry_canvas.configure(yscrollcommand=self.scrollbar_2y.set)
+        self.entry_canvas.configure(xscrollcommand=self.scrollbar_2x.set)
 
         self.table_frame.bind("<Enter>", self.mouse_enter)
         self.table_frame.bind("<Leave>", self.mouse_leave)
@@ -188,14 +199,14 @@ class Data(ttk.Frame):
             self.data_edit, text="Cell Width"
         )
         self.cell_width_label.grid(
-            row=2, column=5, padx=5, pady=5, sticky="nsew"
+            row=3, column=5, padx=5, pady=5, sticky="nsew"
         )
 
         self.cell_width = ttk.Spinbox(
             self.data_edit, from_=1, to=99, increment=1, width=5, command=self.change_width
         )
         self.cell_width.grid(
-            row=2, column=6, padx=(5,0), pady=5, sticky="nsew"
+            row=3, column=6, padx=(5,0), pady=5, sticky="nsew"
         )
 
         # Export
@@ -223,8 +234,11 @@ class Data(ttk.Frame):
         frame.tkraise()
 
     def mouse_enter(self, event):
+        # Linux 
         self.entry_canvas.bind_all('<4>', lambda event : self.entry_canvas.yview('scroll', -1, 'units'))
         self.entry_canvas.bind_all('<5>', lambda event : self.entry_canvas.yview('scroll', 1, 'units'))
+        self.entry_canvas.bind_all('<Shift-4>', lambda event : self.entry_canvas.xview('scroll', -1, 'units'))
+        self.entry_canvas.bind_all('<Shift-5>', lambda event : self.entry_canvas.xview('scroll', 1, 'units'))
 
     def mouse_leave(self, event):
         self.entry_canvas.unbind_all('<4>')
@@ -260,7 +274,7 @@ class Data(ttk.Frame):
         for j in range(1,column+1):
             if not (0,j) in self.entry:
                 self.entry[(0,j)] = ttk.Entry(self.entry_frame, width=width_val, justify="center")
-                self.entry[(0,j)].insert(0,"Group")
+                self.entry[(0,j)].insert(0,"Group "+self.group_name(j))
                 self.entry[(0,j)].grid(row=0, column=j, pady=(10,0))
                 self.entry[(0,j)].bind("<Down>", lambda event, target=(1,j): self.move_focus(event, target))
                 self.entry[(0,j)].bind("<Left>", lambda event, target=(0,j-1): self.move_focus(event, target))
@@ -296,3 +310,11 @@ class Data(ttk.Frame):
     def confirm(self):
         
         self.show("view")
+
+    def group_name(self, j):
+        s = ""
+        while j>0:
+            j = j - 1
+            s = chr(j%26+65) + s
+            j = j // 26
+        return s
