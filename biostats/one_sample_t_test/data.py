@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
+import numpy as np
 
-from . import core
 
 class Data(ttk.Frame):
 
@@ -10,6 +11,7 @@ class Data(ttk.Frame):
         # Initialize
         ttk.Frame.__init__(self, parent)
         self.master = master
+        self.model = master.model
 
         # Setup
         self.setup()
@@ -62,16 +64,11 @@ class Data(ttk.Frame):
         self.scrollbar_1x.config(command=self.tree.xview)
         
         self.tree.column("#0", width=0, stretch="no")
-        self.tree.column(1, anchor="center", width=20)
+        self.tree.column(1, anchor="center")
 
         self.tree.heading("#0", text="Label", anchor="center")
-        self.tree.heading(1, text="Group", anchor="center")
+        self.tree.heading(1, text="", anchor="center")
 
-        for i in range(50):
-            self.tree.insert(
-                parent='', index="end", iid=i, values=i*100
-            )
-        
         # Notation
         self.notation = ttk.Checkbutton(
             self.data_view, text="Scientific", style="Switch.TCheckbutton"
@@ -251,10 +248,18 @@ class Data(ttk.Frame):
         #row = int(float(self.row_spin.get()))
         #print(type(row))
 
-        
-        row = int(float(self.row_spin.get()))
-        column = int(float(self.column_spin.get()))
-        width_val = int(float(self.cell_width.get()))
+        try: 
+            row = int(float(self.row_spin.get()))
+        except:
+            row = 10
+        try:
+            column = int(float(self.column_spin.get()))
+        except:
+            column = 3
+        try:
+            width_val = int(float(self.cell_width.get()))
+        except:
+            width_val = 10
         
         for i in range(1,row+1):
             for j in range(1,column+1):
@@ -292,14 +297,24 @@ class Data(ttk.Frame):
                 number.grid()
 
     def change_width(self):
-        width_val = int(self.cell_width.get())
+        try:
+            width_val = int(self.cell_width.get())
+        except:
+            width_val = 10
         for entry in self.entry.values():
             entry.configure(width=width_val)
 
     def move_focus(self, event, target):
         (i,j) = target
-        row = int(float(self.row_spin.get()))
-        column = int(float(self.column_spin.get()))
+        try:
+            row = int(float(self.row_spin.get()))
+        except:
+            row = 10
+        try:
+            column = int(float(self.column_spin.get()))
+        except:
+            column=3
+
         if (i>=0 and i<=row and j>=1 and j<=column):
             self.entry[(i,j)].focus()
             self.entry[(i,j)].icursor("end")
@@ -318,3 +333,68 @@ class Data(ttk.Frame):
             s = chr(j%26+65) + s
             j = j // 26
         return s
+
+    def confirm(self):
+        try:
+            row = int(float(self.row_spin.get()))
+        except:
+            row = 10
+        try:
+            column = int(float(self.column_spin.get()))
+        except:
+            column = 3
+
+        self.model.group = []
+        self.model.data = []
+        for j in range(column):
+            self.model.group.append(self.entry[(0,j+1)].get())
+            temp_group=[]
+            for i in range(row):
+                if self.entry[(i+1,j+1)].get():
+                    try:
+                        temp_group.append(float(self.entry[(i+1,j+1)].get()))
+                    except:
+                        messagebox.showerror(
+                            title="Error",
+                            message=(
+                                'Invalid input "{}" at ({}, {}).'.format(self.entry[(i+1,j+1)].get(),i+1,j+1)
+                            )
+                        )
+                        return
+            self.model.data.append(np.array(temp_group))
+        self.tree_update()
+        self.show("view")
+
+    def tree_update(self):
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        self.tree.config(column=())
+
+        geometry = self.winfo_toplevel().geometry()
+        self.winfo_toplevel().geometry(geometry)
+
+        column = len(self.model.group)
+        row = 0
+        self.tree.config(column=tuple(range(1,column+1)))
+        self.tree.column("#0", minwidth=0, stretch="no")
+        self.tree.heading("#0", text="Label", anchor="center")
+
+        for i in range(column):
+            #self.tree.column(i+1, anchor="center", minwidth=0, width=100, stretch="no")
+            self.tree.column(i+1, anchor="center", minwidth=100)
+            self.tree.heading(i+1, text=self.model.group[i], anchor="center")
+            row = max(row, len(self.model.data[i]))
+
+        for i in range(row):
+            value = []
+            for j in range(column):
+                try:
+                    value.append(self.model.data[j][i])
+                except:
+                    value.append("")
+            self.tree.insert(
+                parent='', index="end", iid=i, values=value
+            )
+
+
+

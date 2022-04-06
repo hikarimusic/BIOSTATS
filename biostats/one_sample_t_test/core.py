@@ -7,11 +7,15 @@ class Model:
     def __init__(self):
         
         self.data = []
+        self.group = []
 
+
+    '''
     def update(self, data):
 
         self.data.clear()
         self.data = data
+    '''
 
 
 
