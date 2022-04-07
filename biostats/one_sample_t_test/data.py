@@ -70,8 +70,12 @@ class Data(ttk.Frame):
         self.tree.heading(1, text="", anchor="center")
 
         # Notation
+        self.scientific = tk.IntVar()
         self.notation = ttk.Checkbutton(
             self.data_view, text="Scientific", style="Switch.TCheckbutton"
+        )
+        self.notation.config(
+            variable=self.scientific, command=self.tree_update
         )
         self.notation.grid(
             row=3, column=0, columnspan=2, padx=5, pady=5, sticky="nsew"
@@ -87,9 +91,9 @@ class Data(ttk.Frame):
 
 
         self.precision = ttk.Spinbox(
-            self.data_view, from_=0, to=99, increment=1, width=5
+            self.data_view, from_=1, to=99, increment=1, width=5, command=self.tree_update
         )
-        self.precision.insert(0, 0)
+        self.precision.insert(0,1)
         self.precision.grid(
             row=3, column=4, padx=(5,0), pady=5, sticky="nsew"
         )
@@ -110,6 +114,7 @@ class Data(ttk.Frame):
         self.row_spin = ttk.Spinbox(
             self.data_edit, from_=1, to=999, increment=1, width=6, command=self.resize
         )
+        self.row_spin.insert(0,10)
         self.row_spin.grid(
             row=0, column=1, padx=5, pady=5, sticky="nsew"
         )
@@ -121,6 +126,7 @@ class Data(ttk.Frame):
         self.column_spin = ttk.Spinbox(
             self.data_edit, from_=1, to=999, increment=1, width=6, command=self.resize
         )
+        self.column_spin.insert(0,3)
         self.column_spin.grid(
             row=0, column=3, padx=5, pady=5, sticky="nsew"
         )
@@ -190,6 +196,17 @@ class Data(ttk.Frame):
         self.entry[0].insert(0,"Group A")
         '''
 
+        '''
+        # Clear
+
+        self.clear_button = ttk.Button(
+            self.data_edit, text="Clear", command=self.clear
+        )
+        self.clear_button.grid(
+            row=3, column=0, columnspan=2, padx=5, pady=5, sticky="w"
+        )
+        '''
+
         # Cell Width
 
         self.cell_width_label = ttk.Label(
@@ -202,6 +219,7 @@ class Data(ttk.Frame):
         self.cell_width = ttk.Spinbox(
             self.data_edit, from_=1, to=99, increment=1, width=5, command=self.change_width
         )
+        self.cell_width.insert(0,10)
         self.cell_width.grid(
             row=3, column=6, padx=(5,0), pady=5, sticky="nsew"
         )
@@ -214,9 +232,6 @@ class Data(ttk.Frame):
 
         # Show
         self.show("view")
-        self.row_spin.insert(0,10)
-        self.column_spin.insert(0,3)
-        self.cell_width.insert(0,10)
         self.resize()
         
 
@@ -296,6 +311,20 @@ class Data(ttk.Frame):
             else:
                 number.grid()
 
+    '''
+    def clear(self):
+        
+        for entry in self.entry.values():
+            entry.destroy()
+            del entry
+        self.entry = {}
+        self.number = {}
+        self.row_spin.insert(0,10)
+        self.column_spin.insert(0,3)
+        self.resize()
+    '''
+
+
     def change_width(self):
         try:
             width_val = int(self.cell_width.get())
@@ -347,7 +376,6 @@ class Data(ttk.Frame):
         self.model.group = []
         self.model.data = []
         for j in range(column):
-            self.model.group.append(self.entry[(0,j+1)].get())
             temp_group=[]
             for i in range(row):
                 if self.entry[(i+1,j+1)].get():
@@ -361,7 +389,9 @@ class Data(ttk.Frame):
                             )
                         )
                         return
-            self.model.data.append(np.array(temp_group))
+            if len(temp_group)>0:
+                self.model.data.append(np.array(temp_group))
+                self.model.group.append(self.entry[(0,j+1)].get())
         self.tree_update()
         self.show("view")
 
@@ -375,26 +405,43 @@ class Data(ttk.Frame):
 
         column = len(self.model.group)
         row = 0
+        try:
+            precision = int(float(self.precision.get()))
+        except:
+            precision = 1
+        width = [100]*column
+        notation = self.scientific.get()
+
         self.tree.config(column=tuple(range(1,column+1)))
         self.tree.column("#0", minwidth=0, stretch="no")
         self.tree.heading("#0", text="Label", anchor="center")
 
         for i in range(column):
             #self.tree.column(i+1, anchor="center", minwidth=0, width=100, stretch="no")
+            temp = self.model.group[i]
             self.tree.column(i+1, anchor="center", minwidth=100)
-            self.tree.heading(i+1, text=self.model.group[i], anchor="center")
+            self.tree.heading(i+1, text=temp, anchor="center")
             row = max(row, len(self.model.data[i]))
+            width[i] = max(width[i],len(temp)*10)
 
         for i in range(row):
             value = []
             for j in range(column):
                 try:
-                    value.append(self.model.data[j][i])
+                    if notation == 1:
+                        temp = format(round(self.model.data[j][i],precision), '.{}E'.format(precision))
+                    else:
+                        temp = format(round(self.model.data[j][i],precision), '.{}f'.format(precision))
+                    value.append(temp)
+                    width[j] = max(width[j],len(temp)*10)
                 except:
                     value.append("")
             self.tree.insert(
                 parent='', index="end", iid=i, values=value
             )
+
+        for i in range(column):
+            self.tree.column(i+1, minwidth=width[i])
 
 
 
