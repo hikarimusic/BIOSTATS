@@ -3,8 +3,8 @@ from tkinter import ttk
 
 class Graph(ttk.Frame):
 
-    def __init__(self, parent, controller):
+    def __init__(self, parent, master):
 
         ttk.Frame.__init__(self, parent)
-        self.controller = controller
+        self.master = master
 

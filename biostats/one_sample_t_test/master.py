@@ -20,6 +20,9 @@ class Master(ttk.Notebook):
         # Setup
         self.setup()
 
+        # Change Tab
+        self.bind("<<NotebookTabChanged>>", self.tab_change)
+
     def setup(self):
 
         # Configure
@@ -34,7 +37,18 @@ class Master(ttk.Notebook):
         self.add(self.statistic, text="Statistic")
 
         self.graph = graph.Graph(self, self)
-        self.add(self.graph, text="Gaprh")
+        self.add(self.graph, text="Graph")
 
         self.test = test.Test(self, self)
         self.add(self.test, text="Test")
+
+    def update(self):
+        self.model.update()
+        #self.statistic.tree_update()
+
+    def tab_change(self, event):
+        tab = event.widget.tab("current")["text"]
+        if tab == "Statistic":
+            self.winfo_toplevel().update()
+            self.statistic.tree_update()
+        

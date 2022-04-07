@@ -4,7 +4,7 @@ from tkinter import messagebox
 import numpy as np
 
 
-class Data(ttk.Frame):
+class Statistic(ttk.Frame):
 
     def __init__(self, parent, master):
         
@@ -38,7 +38,7 @@ class Data(ttk.Frame):
         )
 
         self.open_button = ttk.Button(self.data_view, text="Open")
-        self.open_button.config(command=self.open)
+        self.open_button.config(command=self.tree_update)
         self.open_button.grid(
             row=0, column=1, pady=5, sticky="nsew"
         )
@@ -55,6 +55,7 @@ class Data(ttk.Frame):
         self.tree = ttk.Treeview(
             self.data_view, selectmode="none", height=15
         )
+        self.tree.config(column=(1))
         self.tree.grid(row=1, column=0, columnspan=5, padx=(5,0), sticky="nsew")
 
         self.tree.config(yscrollcommand=self.scrollbar_1y.set)
@@ -63,7 +64,10 @@ class Data(ttk.Frame):
         self.scrollbar_1x.config(command=self.tree.xview)
         
         self.tree.column("#0", width=0, stretch="no")
+        self.tree.column(1, anchor="center")
+
         self.tree.heading("#0", text="Label", anchor="center")
+        self.tree.heading(1, text="", anchor="center")
 
         # Notation
         self.scientific = tk.IntVar()
@@ -389,7 +393,6 @@ class Data(ttk.Frame):
                 self.model.data.append(np.array(temp_group))
                 self.model.group.append(self.entry[(0,j+1)].get())
         self.tree_update()
-        self.master.update()
         self.show("view")
 
     def tree_update(self):
@@ -401,7 +404,7 @@ class Data(ttk.Frame):
         self.winfo_toplevel().geometry(geometry)
 
         column = len(self.model.group)
-        row = 0
+        row = 1
         try:
             precision = int(float(self.precision.get()))
         except:
@@ -418,7 +421,7 @@ class Data(ttk.Frame):
             temp = self.model.group[i]
             self.tree.column(i+1, anchor="center", minwidth=100)
             self.tree.heading(i+1, text=temp, anchor="center")
-            row = max(row, len(self.model.data[i]))
+            #row = max(row, len(self.model.data[i]))
             width[i] = max(width[i],len(temp)*10)
 
         for i in range(row):
@@ -426,9 +429,9 @@ class Data(ttk.Frame):
             for j in range(column):
                 try:
                     if notation == 1:
-                        temp = format(round(self.model.data[j][i],precision), '.{}E'.format(precision))
+                        temp = format(round(self.model.mean[j],precision), '.{}E'.format(precision))
                     else:
-                        temp = format(round(self.model.data[j][i],precision), '.{}f'.format(precision))
+                        temp = format(round(self.model.mean[j],precision), '.{}f'.format(precision))
                     value.append(temp)
                     width[j] = max(width[j],len(temp)*10)
                 except:
@@ -439,6 +442,7 @@ class Data(ttk.Frame):
 
         for i in range(column):
             self.tree.column(i+1, minwidth=width[i])
+
 
 
 
