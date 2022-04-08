@@ -59,7 +59,9 @@ class Model:
         alpha = 1 - level
         for i in range(len(self.group)):
             if len(self.data[i]) == 1:
-                self.interval.append("-")
+                self.CI_two.append("-")
+                self.CI_one_1.append("-")
+                self.CI_one_2.append("-")
             else:
                 n = len(self.data[i])
                 mean = stats.tmean(self.data[i])
