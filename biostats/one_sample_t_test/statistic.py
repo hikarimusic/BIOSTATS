@@ -93,6 +93,8 @@ class Statistic(ttk.Frame):
         self.tree.heading("#0", text="Label", anchor="center")
         self.tree.heading(1, text="", anchor="center")
 
+        self.open_state = {}
+
         # Notation
         self.scientific = tk.IntVar()
         self.notation = ttk.Checkbutton(
@@ -123,6 +125,13 @@ class Statistic(ttk.Frame):
         )
 
     def tree_update(self):
+        if "CI" in self.open_state:
+            self.open_state["CI"] = self.tree.item(self.CI_iid, "open")
+            self.open_state["per"] = self.tree.item(self.per_iid, "open")
+        else:
+            self.open_state["CI"] = 0
+            self.open_state["per"] = 0
+    
         for item in self.tree.get_children():
             self.tree.delete(item)
         self.tree.config(column=())
@@ -275,12 +284,13 @@ class Statistic(ttk.Frame):
         self.tree.insert(
             parent="", index="end", iid=cnt, text="{}% Confidence Interval".format(level), values=tuple(value)
         )
-        #self.tree.item(cnt, open=True)
-        CI_iid = cnt
+        if self.open_state["CI"] == 1:
+            self.tree.item(cnt, open=True)
+        self.CI_iid = cnt
         cnt += 1
 
         self.tree.insert(
-            parent=CI_iid, index="end", iid=cnt, text="Two Tailed".format(level), values=tuple(value)
+            parent=self.CI_iid, index="end", iid=cnt, text="Two Tailed".format(level), values=tuple(value)
         )
         cnt += 1
 
@@ -301,7 +311,7 @@ class Statistic(ttk.Frame):
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
-            parent=CI_iid, index="end", iid=cnt, text="One Tailed".format(level), values=tuple(value)
+            parent=self.CI_iid, index="end", iid=cnt, text="One Tailed".format(level), values=tuple(value)
         )
         cnt += 1
 
@@ -321,7 +331,7 @@ class Statistic(ttk.Frame):
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
-            parent=CI_iid, index="end", iid=cnt, text="One Tailed".format(level), values=tuple(value)
+            parent=self.CI_iid, index="end", iid=cnt, text="One Tailed".format(level), values=tuple(value)
         )
         cnt += 1
 
@@ -344,8 +354,9 @@ class Statistic(ttk.Frame):
         self.tree.insert(
             parent="", index="end", iid=cnt, text="{}th Percentile".format(percent), values=tuple(value)
         )
-        #self.tree.item(cnt, open=True)
-        per_iid = cnt
+        if self.open_state["per"] == 1:
+            self.tree.item(cnt, open=True)
+        self.per_iid = cnt
         cnt += 1
 
         # Minimum
@@ -358,7 +369,7 @@ class Statistic(ttk.Frame):
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
-            parent=per_iid, index="end", iid=cnt, text="Minimum", values=tuple(value)
+            parent=self.per_iid, index="end", iid=cnt, text="Minimum", values=tuple(value)
         )
         cnt += 1
 
@@ -372,7 +383,7 @@ class Statistic(ttk.Frame):
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
-            parent=per_iid, index="end", iid=cnt, text="1st Quartile", values=tuple(value)
+            parent=self.per_iid, index="end", iid=cnt, text="1st Quartile", values=tuple(value)
         )
         cnt += 1
 
@@ -386,7 +397,7 @@ class Statistic(ttk.Frame):
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
-            parent=per_iid, index="end", iid=cnt, text="2nd Quartile", values=tuple(value)
+            parent=self.per_iid, index="end", iid=cnt, text="2nd Quartile", values=tuple(value)
         )
         cnt += 1
 
@@ -400,7 +411,7 @@ class Statistic(ttk.Frame):
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
-            parent=per_iid, index="end", iid=cnt, text="3rd Quartile", values=tuple(value)
+            parent=self.per_iid, index="end", iid=cnt, text="3rd Quartile", values=tuple(value)
         )
         cnt += 1
 
@@ -414,7 +425,7 @@ class Statistic(ttk.Frame):
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
-            parent=per_iid, index="end", iid=cnt, text="Maximum", values=tuple(value)
+            parent=self.per_iid, index="end", iid=cnt, text="Maximum", values=tuple(value)
         )
         cnt += 1
 
