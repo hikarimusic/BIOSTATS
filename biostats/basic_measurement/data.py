@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import filedialog
 import numpy as np
+import pandas as pd
 
 
 class Data(ttk.Frame):
@@ -179,32 +181,8 @@ class Data(ttk.Frame):
 
         self.entry = {}
         self.number = {}
-        '''
-        for i in range(0,11):
-            self.number[i] = ttk.Label(self.entry_frame, text=i)
-            self.number[i].grid(
-                row=i, column=0, padx=5
-            )
-            self.entry[i] = ttk.Entry(self.entry_frame, width=10, justify="center")
-            self.entry[i].bind("<Up>", lambda event, target=i-1: self.move_focus(event, target))
-            self.entry[i].bind("<Down>", lambda event, target=i+1: self.move_focus(event, target))
-            self.entry[i].grid(row=i, column=1)
-        self.entry[0].insert(0,"Group A")
-        '''
-
-        '''
-        # Clear
-
-        self.clear_button = ttk.Button(
-            self.data_edit, text="Clear", command=self.clear
-        )
-        self.clear_button.grid(
-            row=3, column=0, columnspan=2, padx=5, pady=5, sticky="w"
-        )
-        '''
 
         # Cell Width
-
         self.cell_width_label = ttk.Label(
             self.data_edit, text="Cell Width"
         )
@@ -232,7 +210,6 @@ class Data(ttk.Frame):
         
 
     def show(self, key):
-        
         if key == "view":
             frame = self.data_view
         if key == "edit":
@@ -253,12 +230,6 @@ class Data(ttk.Frame):
         self.entry_canvas.unbind_all('<5>')
 
     def resize(self):
-        #print(self.row_spin.get())
-        #print(self.column_spin.get())
-        
-        #row = int(float(self.row_spin.get()))
-        #print(type(row))
-
         try: 
             row = int(float(self.row_spin.get()))
         except:
@@ -307,20 +278,6 @@ class Data(ttk.Frame):
             else:
                 number.grid()
 
-    '''
-    def clear(self):
-        
-        for entry in self.entry.values():
-            entry.destroy()
-            del entry
-        self.entry = {}
-        self.number = {}
-        self.row_spin.insert(0,10)
-        self.column_spin.insert(0,3)
-        self.resize()
-    '''
-
-
     def change_width(self):
         try:
             width_val = int(self.cell_width.get())
@@ -345,7 +302,38 @@ class Data(ttk.Frame):
             self.entry[(i,j)].icursor("end")
 
     def open(self):
-        pass
+        filename = filedialog.askopenfilename(
+            title="Open a File", 
+            filetypes=[("Excel File", "*.xlsx"), ("All Files", "*")]
+        )
+        if filename:
+            try:
+                filename = r"{}".format(filename)
+                df = pd.read_excel(filename, header=0)
+                self.model.group = []
+                self.model.data = []
+                self.model.group = list(df.columns)
+                for (name, column) in df.iteritems():
+                    temp = [x for x in column.tolist() if str(x) != 'nan']
+                    if len(temp) == 0:
+                        self.model.group.remove(name)
+                        continue
+                    self.model.data.append(np.array(temp))
+                self.tree_update()
+                self.master.update()
+                self.show("view")
+
+            except ValueError:
+                messagebox.showerror(
+                    title="Error",
+                    message="File could not be opened."
+                )
+
+            except FileNotFoundError:
+                messagebox.showerror(
+                    title="Error",
+                    message="File not found."
+                )
 
     def confirm(self):
         
@@ -414,7 +402,6 @@ class Data(ttk.Frame):
         self.tree.heading("#0", text="Label", anchor="center")
 
         for i in range(column):
-            #self.tree.column(i+1, anchor="center", minwidth=0, width=100, stretch="no")
             temp = self.model.group[i]
             self.tree.column(i+1, anchor="center", minwidth=100)
             self.tree.heading(i+1, text=temp, anchor="center")
