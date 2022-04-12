@@ -36,3 +36,4 @@ class App(tk.Tk):
         x_coordinate = int(self.winfo_screenwidth() / 4)
         y_coordinate = int((self.winfo_screenheight() / 2) - (self.winfo_height() / 2))
         self.geometry("+{}+{}".format(x_coordinate, y_coordinate-20))
+

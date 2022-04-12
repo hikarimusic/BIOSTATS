@@ -39,16 +39,16 @@ class Master(ttk.Notebook):
         self.graph = graph.Graph(self, self)
         self.add(self.graph, text="Graph")
 
-        self.test = test.Test(self, self)
-        self.add(self.test, text="Test")
-
     def update(self):
         self.model.update()
-        #self.statistic.tree_update()
 
     def tab_change(self, event):
         tab = event.widget.tab("current")["text"]
+
+        # Statistic
         if tab == "Statistic":
+            geometry = self.winfo_toplevel().geometry()
+            self.winfo_toplevel().geometry(geometry)
             self.winfo_toplevel().update()
             self.statistic.tree_update()
         
