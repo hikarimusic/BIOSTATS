@@ -278,6 +278,22 @@ class Data(ttk.Frame):
             else:
                 number.grid()
 
+    def edit_update(self):
+        for entry in self.entry.values():
+            entry.delete(0,tk.END)
+        column = len(self.model.group)
+        row = 0
+        for i in range(column):
+            row = max(row, len(self.model.data[i]))
+        self.row_spin.set(row)
+        self.column_spin.set(column)
+        self.resize()
+        for j in range(column):
+            self.entry[(0,j+1)].insert(0,self.model.group[j])
+            for i in range(len(self.model.data[j])):
+                self.entry[(i+1,j+1)].insert(0,self.model.data[j][i])
+
+
     def change_width(self):
         try:
             width_val = int(self.cell_width.get())
@@ -322,6 +338,7 @@ class Data(ttk.Frame):
                 self.tree_update()
                 self.master.update()
                 self.show("view")
+                self.edit_update()
 
             except ValueError:
                 messagebox.showerror(
