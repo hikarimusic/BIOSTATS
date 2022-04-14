@@ -25,14 +25,14 @@ class Data(ttk.Frame):
         self.columnconfigure(index=0, weight=1)
         self.configure(padding=(20,20))
 
-        # Data View
+        # Data_View Frame
         self.data_view = ttk.Frame(self)
         self.data_view.grid(
             row=0, column=0, sticky="nsew"
         )
         self.data_view.columnconfigure(index=2, weight=1)
 
-        # Button
+        # Setting Bar
         self.edit_button = ttk.Button(self.data_view, text="Edit")
         self.edit_button.config(command=lambda: self.show("edit"))
         self.edit_button.grid(
@@ -67,7 +67,7 @@ class Data(ttk.Frame):
         self.tree.column("#0", width=0, stretch="no")
         self.tree.heading("#0", text="Label", anchor="center")
 
-        # Notation
+        # Control Bar
         self.scientific = tk.IntVar()
         self.notation = ttk.Checkbutton(
             self.data_view, text="Scientific", style="Switch.TCheckbutton"
@@ -79,7 +79,6 @@ class Data(ttk.Frame):
             row=3, column=0, columnspan=2, padx=5, pady=5, sticky="nsew"
         )
 
-        # Precision
         self.precision_label = ttk.Label(
             self.data_view, text="Precision"
         )
@@ -96,7 +95,7 @@ class Data(ttk.Frame):
             row=3, column=4, padx=(5,0), pady=5, sticky="nsew"
         )
 
-        # Data Edit
+        # Data_Edit Frame
         self.data_edit = ttk.Frame(self) 
         self.data_edit.grid(
             row=0, column=0, sticky="nsew"
@@ -104,7 +103,7 @@ class Data(ttk.Frame):
         self.data_edit.columnconfigure(index=4, weight=1)
         self.data_edit.rowconfigure(index=1, weight=1)
 
-        # Control Bar
+        # Setting Bar
         self.row_label = ttk.Label(self.data_edit, text="Row")
         self.row_label.grid(
             row=0, column=0, padx=(5,0), pady=5, sticky="nsew"
@@ -137,7 +136,7 @@ class Data(ttk.Frame):
             row=0, column=5, columnspan=2, pady=5, sticky="e"
         )
 
-        # Table
+        # Table Frame
         self.table_frame = ttk.Frame(self.data_edit, style="Card.TFrame", padding=(2,2))
         self.table_frame.grid(
             row=1, column=0, columnspan=7, padx=(5,0), ipadx=20, sticky="nsew"
@@ -182,7 +181,7 @@ class Data(ttk.Frame):
         self.entry = {}
         self.number = {}
 
-        # Cell Width
+        # Control Bar
         self.cell_width_label = ttk.Label(
             self.data_edit, text="Cell Width"
         )
@@ -199,8 +198,9 @@ class Data(ttk.Frame):
         )
 
         # Export
-        self.export = ttk.Button(self, text="Export")
-        self.export.grid(
+        self.export_button = ttk.Button(self, text="Export")
+        self.export_button.config(command=self.export)
+        self.export_button.grid(
             row=2, column=0, sticky="e"
         )
 
@@ -208,6 +208,8 @@ class Data(ttk.Frame):
         self.show("view")
         self.resize()
         
+
+    # General Function
 
     def show(self, key):
         if key == "view":
@@ -218,16 +220,111 @@ class Data(ttk.Frame):
 
         frame.tkraise()
 
-    def mouse_enter(self, event):
-        # Linux 
-        self.entry_canvas.bind_all('<4>', lambda event : self.entry_canvas.yview('scroll', -1, 'units'))
-        self.entry_canvas.bind_all('<5>', lambda event : self.entry_canvas.yview('scroll', 1, 'units'))
-        self.entry_canvas.bind_all('<Shift-4>', lambda event : self.entry_canvas.xview('scroll', -1, 'units'))
-        self.entry_canvas.bind_all('<Shift-5>', lambda event : self.entry_canvas.xview('scroll', 1, 'units'))
+    def open(self):
+        filename = filedialog.askopenfilename(
+            title="Open File", 
+            filetypes=[("Excel File", "*.xlsx"), ("All Files", "*")]
+        )
+        if filename:
+            try:
+                filename = r"{}".format(filename)
+                df = pd.read_excel(filename, header=0)
+                self.model.group = []
+                self.model.data = []
+                self.model.group = list(df.columns)
+                for (name, column) in df.iteritems():
+                    temp = [x for x in column.tolist() if str(x) != 'nan']
+                    if len(temp) == 0:
+                        self.model.group.remove(name)
+                        continue
+                    self.model.data.append(np.array(temp))
+                self.tree_update()
+                self.master.update()
+                self.show("view")
+                self.edit_update()
 
-    def mouse_leave(self, event):
-        self.entry_canvas.unbind_all('<4>')
-        self.entry_canvas.unbind_all('<5>')
+            except ValueError:
+                messagebox.showerror(
+                    title="Error",
+                    message="File could not be opened."
+                )
+
+            except FileNotFoundError:
+                messagebox.showerror(
+                    title="Error",
+                    message="File not found."
+                )
+
+    def export(self):
+        filename = filedialog.asksaveasfilename(
+            title="Save File", 
+            filetypes=[("Excel File", "*.xlsx"), ("All Files", "*")],
+            initialfile="Results"
+        )
+        if filename:
+            try:
+                data = []
+                for i in self.tree.get_children():
+                    data.append(self.tree.item(i, "values"))
+                df = pd.DataFrame(data, columns=self.model.group)
+                df.to_excel(filename, index=False, sheet_name="Data")
+
+            except:
+                messagebox.showerror(
+                    title="Error",
+                    message="File could not be saved."
+                )       
+
+    # Data_View Function
+
+    def tree_update(self):
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        self.tree.config(column=())
+
+        geometry = self.winfo_toplevel().geometry()
+        self.winfo_toplevel().geometry(geometry)
+
+        column = len(self.model.group)
+        row = 0
+        try:
+            precision = int(float(self.precision.get()))
+        except:
+            precision = 1
+        width = [100]*column
+        notation = self.scientific.get()
+
+        self.tree.config(column=tuple(range(1,column+1)))
+        self.tree.column("#0", minwidth=0, stretch="no")
+        self.tree.heading("#0", text="Label", anchor="center")
+
+        for i in range(column):
+            temp = self.model.group[i]
+            self.tree.column(i+1, anchor="center", minwidth=100)
+            self.tree.heading(i+1, text=temp, anchor="center")
+            row = max(row, len(self.model.data[i]))
+            width[i] = max(width[i],len(temp)*10)
+
+        for i in range(row):
+            value = []
+            for j in range(column):
+                try:
+                    if notation == 1:
+                        temp = format(round(self.model.data[j][i],precision), '.{}E'.format(precision))
+                    else:
+                        temp = format(round(self.model.data[j][i],precision), '.{}f'.format(precision))
+                    value.append(temp)
+                    width[j] = max(width[j],len(temp)*10)
+                except:
+                    value.append("")
+            self.tree.insert(
+                parent='', index="end", iid=i, values=value
+            )
+
+        for i in range(column):
+            self.tree.column(i+1, minwidth=width[i])
+
+    # Data_Edit Function
 
     def resize(self):
         try: 
@@ -278,92 +375,6 @@ class Data(ttk.Frame):
             else:
                 number.grid()
 
-    def edit_update(self):
-        for entry in self.entry.values():
-            entry.delete(0,tk.END)
-        column = len(self.model.group)
-        row = 0
-        for i in range(column):
-            row = max(row, len(self.model.data[i]))
-        self.row_spin.set(row)
-        self.column_spin.set(column)
-        self.resize()
-        for j in range(column):
-            self.entry[(0,j+1)].insert(0,self.model.group[j])
-            for i in range(len(self.model.data[j])):
-                self.entry[(i+1,j+1)].insert(0,self.model.data[j][i])
-
-
-    def change_width(self):
-        try:
-            width_val = int(self.cell_width.get())
-        except:
-            width_val = 10
-        for entry in self.entry.values():
-            entry.configure(width=width_val)
-
-    def move_focus(self, event, target):
-        (i,j) = target
-        try:
-            row = int(float(self.row_spin.get()))
-        except:
-            row = 10
-        try:
-            column = int(float(self.column_spin.get()))
-        except:
-            column=3
-
-        if (i>=0 and i<=row and j>=1 and j<=column):
-            self.entry[(i,j)].focus()
-            self.entry[(i,j)].icursor("end")
-
-    def open(self):
-        filename = filedialog.askopenfilename(
-            title="Open a File", 
-            filetypes=[("Excel File", "*.xlsx"), ("All Files", "*")]
-        )
-        if filename:
-            try:
-                filename = r"{}".format(filename)
-                df = pd.read_excel(filename, header=0)
-                self.model.group = []
-                self.model.data = []
-                self.model.group = list(df.columns)
-                for (name, column) in df.iteritems():
-                    temp = [x for x in column.tolist() if str(x) != 'nan']
-                    if len(temp) == 0:
-                        self.model.group.remove(name)
-                        continue
-                    self.model.data.append(np.array(temp))
-                self.tree_update()
-                self.master.update()
-                self.show("view")
-                self.edit_update()
-
-            except ValueError:
-                messagebox.showerror(
-                    title="Error",
-                    message="File could not be opened."
-                )
-
-            except FileNotFoundError:
-                messagebox.showerror(
-                    title="Error",
-                    message="File not found."
-                )
-
-    def confirm(self):
-        
-        self.show("view")
-
-    def group_name(self, j):
-        s = ""
-        while j>0:
-            j = j - 1
-            s = chr(j%26+65) + s
-            j = j // 26
-        return s
-
     def confirm(self):
         try:
             row = int(float(self.row_spin.get()))
@@ -397,52 +408,59 @@ class Data(ttk.Frame):
         self.master.update()
         self.show("view")
 
-    def tree_update(self):
-        for item in self.tree.get_children():
-            self.tree.delete(item)
-        self.tree.config(column=())
-
-        geometry = self.winfo_toplevel().geometry()
-        self.winfo_toplevel().geometry(geometry)
-
+    def edit_update(self):
+        for entry in self.entry.values():
+            entry.delete(0,tk.END)
         column = len(self.model.group)
         row = 0
-        try:
-            precision = int(float(self.precision.get()))
-        except:
-            precision = 1
-        width = [100]*column
-        notation = self.scientific.get()
-
-        self.tree.config(column=tuple(range(1,column+1)))
-        self.tree.column("#0", minwidth=0, stretch="no")
-        self.tree.heading("#0", text="Label", anchor="center")
-
         for i in range(column):
-            temp = self.model.group[i]
-            self.tree.column(i+1, anchor="center", minwidth=100)
-            self.tree.heading(i+1, text=temp, anchor="center")
             row = max(row, len(self.model.data[i]))
-            width[i] = max(width[i],len(temp)*10)
+        self.row_spin.set(row)
+        self.column_spin.set(column)
+        self.resize()
+        for j in range(column):
+            self.entry[(0,j+1)].insert(0,self.model.group[j])
+            for i in range(len(self.model.data[j])):
+                self.entry[(i+1,j+1)].insert(0,self.model.data[j][i])
 
-        for i in range(row):
-            value = []
-            for j in range(column):
-                try:
-                    if notation == 1:
-                        temp = format(round(self.model.data[j][i],precision), '.{}E'.format(precision))
-                    else:
-                        temp = format(round(self.model.data[j][i],precision), '.{}f'.format(precision))
-                    value.append(temp)
-                    width[j] = max(width[j],len(temp)*10)
-                except:
-                    value.append("")
-            self.tree.insert(
-                parent='', index="end", iid=i, values=value
-            )
+    def mouse_enter(self, event):
+        # Linux 
+        self.entry_canvas.bind_all('<4>', lambda event : self.entry_canvas.yview('scroll', -1, 'units'))
+        self.entry_canvas.bind_all('<5>', lambda event : self.entry_canvas.yview('scroll', 1, 'units'))
+        self.entry_canvas.bind_all('<Shift-4>', lambda event : self.entry_canvas.xview('scroll', -1, 'units'))
+        self.entry_canvas.bind_all('<Shift-5>', lambda event : self.entry_canvas.xview('scroll', 1, 'units'))
 
-        for i in range(column):
-            self.tree.column(i+1, minwidth=width[i])
+    def mouse_leave(self, event):
+        self.entry_canvas.unbind_all('<4>')
+        self.entry_canvas.unbind_all('<5>')
 
+    def move_focus(self, event, target):
+        (i,j) = target
+        try:
+            row = int(float(self.row_spin.get()))
+        except:
+            row = 10
+        try:
+            column = int(float(self.column_spin.get()))
+        except:
+            column=3
 
+        if (i>=0 and i<=row and j>=1 and j<=column):
+            self.entry[(i,j)].focus()
+            self.entry[(i,j)].icursor("end")
 
+    def change_width(self):
+        try:
+            width_val = int(self.cell_width.get())
+        except:
+            width_val = 10
+        for entry in self.entry.values():
+            entry.configure(width=width_val)
+
+    def group_name(self, j):
+        s = ""
+        while j>0:
+            j = j - 1
+            s = chr(j%26+65) + s
+            j = j // 26
+        return s
