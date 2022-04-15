@@ -39,16 +39,31 @@ class Master(ttk.Notebook):
         self.graph = graph.Graph(self, self)
         self.add(self.graph, text="Graph")
 
+        # Bind
+        self.data.bind("<Right>", lambda event: self.select(1))
+        self.statistic.bind("<Left>", lambda event: self.select(0))
+        self.statistic.bind("<Right>", lambda event: self.select(2))
+        self.graph.bind("<Left>", lambda event: self.select(1))
+
     def update(self):
         self.model.update()
 
     def tab_change(self, event):
         tab = event.widget.tab("current")["text"]
 
+        # Data
+        if tab == "Data":
+            self.data.focus()
+
         # Statistic
         if tab == "Statistic":
+            self.statistic.focus()
             geometry = self.winfo_toplevel().geometry()
             self.winfo_toplevel().geometry(geometry)
             self.winfo_toplevel().update()
             self.statistic.tree_update()
+
+        # Graph
+        if tab == "Graph":
+            self.graph.focus()
         

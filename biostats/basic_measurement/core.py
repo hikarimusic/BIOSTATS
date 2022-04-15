@@ -20,16 +20,29 @@ class Model:
         for i in range(len(self.group)):
             self.mean.append(stats.tmean(self.data[i]))
 
+        self.gmean = []
+        for i in range(len(self.group)):
+            for x in self.data[i]:
+                if x<=0:
+                    self.gmean.append("-")
+                    break
+            self.gmean.append(stats.gmean(self.data[i]))
+
         self.median = []
         for i in range(len(self.group)):
             self.median.append(np.median(self.data[i]))
 
-        self.std = []
+        self.min = []
         for i in range(len(self.group)):
-            if len(self.data[i]) == 1:
-                self.std.append("-")
-            else:
-                self.std.append(stats.tstd(self.data[i]))
+            self.min.append(stats.tmin(self.data[i]))
+
+        self.max = []
+        for i in range(len(self.group)):
+            self.max.append(stats.tmax(self.data[i]))
+
+        self.range = []
+        for i in range(len(self.group)):
+            self.range.append(self.max[i]-self.min[i])
 
         self.var = []
         for i in range(len(self.group)):
@@ -38,12 +51,42 @@ class Model:
             else:
                 self.var.append(stats.tvar(self.data[i]))
 
+        self.pvar = []
+        for i in range(len(self.group)):
+            if len(self.data[i]) == 1:
+                self.pvar.append("-")
+            else:
+                self.pvar.append(np.var(self.data[i]))
+
+        self.std = []
+        for i in range(len(self.group)):
+            if len(self.data[i]) == 1:
+                self.std.append("-")
+            else:
+                self.std.append(stats.tstd(self.data[i]))
+
+        self.pstd = []
+        for i in range(len(self.group)):
+            if len(self.data[i]) == 1:
+                self.pstd.append("-")
+            else:
+                self.pstd.append(np.std(self.data[i]))
+
+        self.CV = []
+        for i in range(len(self.group)):
+            try:
+                self.CV.append(self.std[i]/self.mean[i])
+            except:
+                self.CV.append("-")
+
+        '''
         self.sem = []
         for i in range(len(self.group)):
             if len(self.data[i]) == 1:
                 self.sem.append("-")
             else:
                 self.sem.append(stats.tsem(self.data[i]))
+        '''
 
         '''
         self.range = []
@@ -52,6 +95,7 @@ class Model:
         '''
 
 
+    '''
     def CI_cal(self, level):
         self.CI_two = []
         self.CI_one_1 = []
@@ -76,16 +120,14 @@ class Model:
 
                 CI = t.ppf(1-alpha, n-1, mean, sem)
                 self.CI_one_2.append(CI)
+    '''
 
     def percent_cal(self, percent):
         self.percent = []
         for i in range(len(self.group)):
             self.percent.append(np.percentile(self.data[i], percent))
 
-        self.min = []
-        for i in range(len(self.group)):
-            self.min.append(np.percentile(self.data[i], 0))
-
+        '''
         self.per_25 = []
         for i in range(len(self.group)):
             self.per_25.append(np.percentile(self.data[i], 25))
@@ -101,6 +143,7 @@ class Model:
         self.max = []
         for i in range(len(self.group)):
             self.max.append(np.percentile(self.data[i], 100))
+        '''
 
 
 
