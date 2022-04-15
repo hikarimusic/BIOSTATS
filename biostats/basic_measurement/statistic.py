@@ -16,71 +16,51 @@ class Statistic(ttk.Frame):
     def setup(self):
 
         # Configure
-        self.rowconfigure(index=1, weight=1)
+        self.rowconfigure(index=3, weight=1)
         self.columnconfigure(index=0, weight=1)
         self.configure(padding=(20,20))
 
-        # Data View
-        self.data_view = ttk.Frame(self)
-        self.data_view.grid(
+        # Setting Bar
+        self.setting_bar = ttk.Frame(self)
+        self.setting_bar.grid(
             row=0, column=0, sticky="nsew"
         )
-        self.data_view.columnconfigure(index=4, weight=1)
+        self.setting_bar.columnconfigure(index=2, weight=1)
 
-        '''
-        # Button
-        self.edit_button = ttk.Button(self.data_view, text="Edit")
-        self.edit_button.config(command=lambda: self.show("edit"))
-        self.edit_button.grid(
-            row=0, column=0, padx=5, pady=5, sticky="nsew"
-        )
-
-        self.open_button = ttk.Button(self.data_view, text="Open")
-        self.open_button.config(command=self.open)
-        self.open_button.grid(
-            row=0, column=1, pady=5, sticky="nsew"
-        )
-        '''
-
-        # Control Bar
-        self.percent_label = ttk.Label(self.data_view, text="Percentile(%)")
+        self.percent_label = ttk.Label(self.setting_bar, text="Percentile(%)")
         self.percent_label.grid(
             row=0, column=0, padx=(5,0), pady=5, sticky="nsew"
         )
+
         self.percent_spin = ttk.Spinbox(
-            self.data_view, from_=1, to=99, increment=1, width=5, command=self.tree_update
+            self.setting_bar, from_=1, to=99, increment=1, width=5, command=self.tree_update
         )
-        self.percent_spin.insert(0,90)
+        self.percent_spin.set(88)
         self.percent_spin.grid(
             row=0, column=1, padx=5, pady=5, sticky="nsew"
         )
 
-        self.CI_label = ttk.Label(self.data_view, text="Confidence Level(%)")
-        self.CI_label.grid(
-            row=0, column=2, padx=(5,0), pady=5, sticky="nsew"
-        )
-        self.CI_spin = ttk.Spinbox(
-            self.data_view, from_=1, to=99, increment=1, width=5, command=self.tree_update
-        )
-        self.CI_spin.insert(0,95)
-        self.CI_spin.grid(
-            row=0, column=3, padx=5, pady=5, sticky="nsew"
-        )
-
         # Treeview
-        self.scrollbar_1y = ttk.Scrollbar(self.data_view, orient="vertical")
-        self.scrollbar_1y.grid(row=1, column=7, padx=(0,5), sticky="nsew")
-        self.scrollbar_1x = ttk.Scrollbar(self.data_view, orient="horizontal")
-        self.scrollbar_1x.grid(row=2, column=0, columnspan=7, padx=(5,0), sticky="nsew")
+        self.treeview = ttk.Frame(self)
+        self.treeview.grid(
+            row=1, column=0, sticky="nsew"
+        )
+        self.treeview.rowconfigure(index=0, weight=1)
+        self.treeview.columnconfigure(index=0, weight=1)
+
+        self.scrollbar_1y = ttk.Scrollbar(self.treeview, orient="vertical")
+        self.scrollbar_1y.grid(row=0, column=1, padx=(0,5), sticky="nsew")
+        self.scrollbar_1x = ttk.Scrollbar(self.treeview, orient="horizontal")
+        self.scrollbar_1x.grid(row=1, column=0, padx=(5,0), sticky="nsew")
 
         self.style = ttk.Style()
         self.style.configure("Treeview", rowheight=30)
         
         self.tree = ttk.Treeview(
-            self.data_view, selectmode="none", height=10
+            self.treeview, selectmode="none", height=10
         )
         self.tree.config(column=(1))
-        self.tree.grid(row=1, column=0, columnspan=7, padx=(5,0), sticky="nsew")
+        self.tree.grid(row=0, column=0, padx=(5,0), sticky="nsew")
 
         self.tree.config(yscrollcommand=self.scrollbar_1y.set)
         self.scrollbar_1y.config(command=self.tree.yview)
@@ -95,50 +75,60 @@ class Statistic(ttk.Frame):
 
         self.open_state = {}
 
-        # Notation
+        # Control Bar
+        self.control_bar = ttk.Frame(self)
+        self.control_bar.grid(
+           row=2, column=0, sticky="nsew"
+        )
+        self.control_bar.columnconfigure(index=1, weight=1)
+
         self.scientific = tk.IntVar()
         self.notation = ttk.Checkbutton(
-            self.data_view, text="Scientific", style="Switch.TCheckbutton"
+            self.control_bar, text="Scientific", style="Switch.TCheckbutton"
         )
         self.notation.config(
             variable=self.scientific, command=self.tree_update
         )
         self.notation.grid(
-            row=3, column=0, columnspan=4, padx=5, pady=5, sticky="nsew"
+            row=0, column=0, padx=5, pady=5, sticky="nsew"
         )
 
-        # Precision
         self.precision_label = ttk.Label(
-            self.data_view, text="Precision"
+            self.control_bar, text="Precision"
         )
         self.precision_label.grid(
-            row=3, column=5, pady=5, sticky="nsew"
+            row=0, column=2, pady=5, sticky="nsew"
         )
 
 
         self.precision = ttk.Spinbox(
-            self.data_view, from_=1, to=99, increment=1, width=5, command=self.tree_update
+            self.control_bar, from_=1, to=99, increment=1, width=5, command=self.tree_update
         )
         self.precision.insert(0,1)
         self.precision.grid(
-            row=3, column=6, padx=(5,0), pady=5, sticky="nsew"
+            row=0, column=3, padx=(5,15), pady=5, sticky="nsew"
         )
 
     def tree_update(self):
-        if "CI" in self.open_state:
-            self.open_state["CI"] = self.tree.item(self.CI_iid, "open")
-            self.open_state["per"] = self.tree.item(self.per_iid, "open")
+
+        # Keep State
+        if "mean" in self.open_state:
+            self.open_state["mean"] = self.tree.item(self.mean_iid, "open")
+            self.open_state["med"] = self.tree.item(self.med_iid, "open")
+            self.open_state["var"] = self.tree.item(self.var_iid, "open")
+            self.open_state["std"] = self.tree.item(self.std_iid, "open")
         else:
-            self.open_state["CI"] = 0
-            self.open_state["per"] = 0
+            self.open_state["mean"] = 0
+            self.open_state["med"] = 1
+            self.open_state["var"] = 0
+            self.open_state["std"] = 0
     
+        # Clear
         for item in self.tree.get_children():
             self.tree.delete(item)
         self.tree.config(column=())
 
-        #geometry = self.winfo_toplevel().geometry()
-        #self.winfo_toplevel().geometry(geometry)
-
+        # Initialize
         column = len(self.model.group)
         try:
             precision = int(float(self.precision.get()))
@@ -148,12 +138,10 @@ class Statistic(ttk.Frame):
         notation = self.scientific.get()
 
         self.tree.config(column=tuple(range(1,column+1)))
-        #self.tree.column("#0", anchor="center", minwidth=200)
         self.tree.column("#0", anchor="center", minwidth=200, width=200, stretch="yes")
         self.tree.heading("#0", text="Statistic", anchor="center")
 
         for i in range(column):
-            #self.tree.column(i+1, anchor="center", minwidth=0, width=100, stretch="no")
             temp = self.model.group[i]
             self.tree.column(i+1, anchor="center", minwidth=100)
             self.tree.heading(i+1, text=temp, anchor="center")
@@ -164,11 +152,13 @@ class Statistic(ttk.Frame):
         # Sample Size
         value = []
         for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.size[i],precision), '.{}E'.format(precision))
+            if self.model.size[i] == "-":
+                temp = "-"
             else:
-                temp = str(self.model.size[i])
-                #temp = format(round(self.model.mean[i],0), '.{}f'.format())
+                if notation == 1:
+                    temp = format(round(self.model.size[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = str(self.model.size[i])
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
@@ -179,45 +169,137 @@ class Statistic(ttk.Frame):
         # Mean
         value = []
         for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.mean[i],precision), '.{}E'.format(precision))
+            if self.model.mean[i] == "-":
+                temp = "-"
             else:
-                temp = format(round(self.model.mean[i],precision), '.{}f'.format(precision))
+                if notation == 1:
+                    temp = format(round(self.model.mean[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.mean[i],precision), '.{}f'.format(precision))
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
             parent="", index="end", iid=cnt, text="Mean", values=tuple(value)
+        )
+        if self.open_state["mean"] == 1:
+            self.tree.item(cnt, open=True)
+        self.mean_iid = cnt
+        cnt += 1
+
+        self.tree.insert(
+            parent=self.mean_iid, index="end", iid=cnt, text="Arithmetic Mean", values=tuple(value)
+        )
+        cnt += 1
+
+        # Geometric Mean
+        value = []
+        for i in range(column):
+            if self.model.gmean[i] == "-":
+                temp = "-"
+            else:
+                if notation == 1:
+                    temp = format(round(self.model.gmean[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.gmean[i],precision), '.{}f'.format(precision))
+                value.append(temp)
+                width[i] = max(width[i],len(temp)*10)
+        self.tree.insert(
+            parent=self.mean_iid, index="end", iid=cnt, text="Geometric Mean", values=tuple(value)
         )
         cnt += 1
 
         # Median
         value = []
         for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.median[i],precision), '.{}E'.format(precision))
+            if self.model.median[i] == "-":
+                temp = "-"
             else:
-                temp = format(round(self.model.median[i],precision), '.{}f'.format(precision))
+                if notation == 1:
+                    temp = format(round(self.model.median[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.median[i],precision), '.{}f'.format(precision))
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
             parent="", index="end", iid=cnt, text="Median", values=tuple(value)
         )
+        if self.open_state["med"] == 1:
+            self.tree.item(cnt, open=True)
+        self.med_iid = cnt
         cnt += 1
 
-        # Standard Deviation
+        # Minimum
         value = []
         for i in range(column):
-            if self.model.std[i] == "-":
+            if self.model.min[i] == "-":
                 temp = "-"
             else:
                 if notation == 1:
-                    temp = format(round(self.model.std[i],precision), '.{}E'.format(precision))
+                    temp = format(round(self.model.min[i],precision), '.{}E'.format(precision))
                 else:
-                    temp = format(round(self.model.std[i],precision), '.{}f'.format(precision))
+                    temp = format(round(self.model.min[i],precision), '.{}f'.format(precision))
             value.append(temp)
             width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
-            parent="", index="end", iid=cnt, text="Standard Deviation", values=tuple(value)
+            parent=self.med_iid, index="end", iid=cnt, text="Minimum", values=tuple(value)
+        )
+        cnt += 1
+
+        # Maximum
+        value = []
+        for i in range(column):
+            if self.model.max[i] == "-":
+                temp = "-"
+            else:
+                if notation == 1:
+                    temp = format(round(self.model.max[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.max[i],precision), '.{}f'.format(precision))
+            value.append(temp)
+            width[i] = max(width[i],len(temp)*10)
+        self.tree.insert(
+            parent=self.med_iid, index="end", iid=cnt, text="Maximum", values=tuple(value)
+        )
+        cnt += 1
+
+        # Range
+        value = []
+        for i in range(column):
+            if self.model.range[i] == "-":
+                temp = "-"
+            else:
+                if notation == 1:
+                    temp = format(round(self.model.range[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.range[i],precision), '.{}f'.format(precision))
+            value.append(temp)
+            width[i] = max(width[i],len(temp)*10)
+        self.tree.insert(
+            parent=self.med_iid, index="end", iid=cnt, text="Range", values=tuple(value)
+        )
+        cnt += 1
+
+        # Percentile
+        try:
+            percent = int(float(self.percent_spin.get()))
+        except:
+            percent = 88
+
+        self.model.percent_cal(percent)
+
+        value = []
+        for i in range(column):
+            if self.model.percent[i] == "-":
+                temp = "-"
+            else:
+                if notation == 1:
+                    temp = format(round(self.model.percent[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.percent[i],precision), '.{}f'.format(precision))
+            value.append(temp)
+            width[i] = max(width[i],len(temp)*10)
+        self.tree.insert(
+            parent=self.med_iid, index="end", iid=cnt, text="{}th Percentile".format(percent), values=tuple(value)
         )
         cnt += 1
 
@@ -236,8 +318,97 @@ class Statistic(ttk.Frame):
         self.tree.insert(
             parent="", index="end", iid=cnt, text="Variance", values=tuple(value)
         )
+        self.var_iid = cnt
         cnt += 1
 
+        self.tree.insert(
+            parent=self.var_iid, index="end", iid=cnt, text="Sample Variance", values=tuple(value)
+        )
+        cnt += 1
+
+        # Population Variance
+        value = []
+        for i in range(column):
+            if self.model.var[i] == "-":
+                temp = "-"
+            else:
+                if notation == 1:
+                    temp = format(round(self.model.pvar[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.pvar[i],precision), '.{}f'.format(precision))
+            value.append(temp)
+            width[i] = max(width[i],len(temp)*10)
+        self.tree.insert(
+            parent=self.var_iid, index="end", iid=cnt, text="Population Variance", values=tuple(value)
+        )
+        cnt += 1
+
+        # Standard Deviation
+        value = []
+        for i in range(column):
+            if self.model.std[i] == "-":
+                temp = "-"
+            else:
+                if notation == 1:
+                    temp = format(round(self.model.std[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.std[i],precision), '.{}f'.format(precision))
+            value.append(temp)
+            width[i] = max(width[i],len(temp)*10)
+        self.tree.insert(
+            parent="", index="end", iid=cnt, text="Standard Deviation", values=tuple(value)
+        )
+        self.std_iid = cnt
+        cnt += 1
+
+        self.tree.insert(
+            parent=self.std_iid, index="end", iid=cnt, text="Sample Std.", values=tuple(value)
+        )
+        cnt += 1
+
+        # Popular Standard Deviation
+        value = []
+        for i in range(column):
+            if self.model.std[i] == "-":
+                temp = "-"
+            else:
+                if notation == 1:
+                    temp = format(round(self.model.pstd[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.pstd[i],precision), '.{}f'.format(precision))
+            value.append(temp)
+            width[i] = max(width[i],len(temp)*10)
+        self.tree.insert(
+            parent=self.std_iid, index="end", iid=cnt, text="Population Std.", values=tuple(value)
+        )
+        cnt += 1
+
+        # Coefficient of Variation
+        value = []
+        for i in range(column):
+            if self.model.CV[i] == "-":
+                temp = "-"
+            else:
+                if notation == 1:
+                    temp = format(round(self.model.CV[i],precision), '.{}E'.format(precision))
+                else:
+                    temp = format(round(self.model.CV[i],precision), '.{}f'.format(precision))
+            value.append(temp)
+            width[i] = max(width[i],len(temp)*10)
+        self.tree.insert(
+            parent="", index="end", iid=cnt, text="Coefficient of Variation", values=tuple(value)
+        )
+        cnt += 1
+
+
+
+
+        # Resize Column
+        for i in range(column):
+            self.tree.column(i+1, minwidth=width[i])
+
+
+        '''
         # Standard Error
         value = []
         for i in range(column):
@@ -254,7 +425,9 @@ class Statistic(ttk.Frame):
             parent="", index="end", iid=cnt, text="Standard Error", values=tuple(value)
         )
         cnt += 1
+        '''
 
+        '''
         # Confidence Interval
         try:
             level = int(float(self.CI_spin.get()))
@@ -334,45 +507,9 @@ class Statistic(ttk.Frame):
             parent=self.CI_iid, index="end", iid=cnt, text="One Tailed".format(level), values=tuple(value)
         )
         cnt += 1
+        '''
 
-        # Percentile
-        try:
-            percent = int(float(self.percent_spin.get()))
-        except:
-            percent = 95
-
-        self.model.percent_cal(percent)
-
-        value = []
-        for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.percent[i],precision), '.{}E'.format(precision))
-            else:
-                temp = format(round(self.model.percent[i],precision), '.{}f'.format(precision))
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent="", index="end", iid=cnt, text="{}th Percentile".format(percent), values=tuple(value)
-        )
-        if self.open_state["per"] == 1:
-            self.tree.item(cnt, open=True)
-        self.per_iid = cnt
-        cnt += 1
-
-        # Minimum
-        value = []
-        for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.min[i],precision), '.{}E'.format(precision))
-            else:
-                temp = format(round(self.model.min[i],precision), '.{}f'.format(precision))
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent=self.per_iid, index="end", iid=cnt, text="Minimum", values=tuple(value)
-        )
-        cnt += 1
-
+        '''
         # 1st Quartile
         value = []
         for i in range(column):
@@ -414,41 +551,7 @@ class Statistic(ttk.Frame):
             parent=self.per_iid, index="end", iid=cnt, text="3rd Quartile", values=tuple(value)
         )
         cnt += 1
-
-        # Maximum
-        value = []
-        for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.max[i],precision), '.{}E'.format(precision))
-            else:
-                temp = format(round(self.model.max[i],precision), '.{}f'.format(precision))
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent=self.per_iid, index="end", iid=cnt, text="Maximum", values=tuple(value)
-        )
-        cnt += 1
-
-
-        '''
-        # Range
-        value = []
-        for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.range[i],precision), '.{}E'.format(precision))
-            else:
-                temp = format(round(self.model.range[i],precision), '.{}f'.format(precision))
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent="", index="end", iid=cnt, text="Range", values=tuple(value)
-        )
-        cnt += 1
         '''
 
-
-        # Resize Column
-        for i in range(column):
-            self.tree.column(i+1, minwidth=width[i])
 
 

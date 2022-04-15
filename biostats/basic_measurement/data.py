@@ -25,6 +25,10 @@ class Data(ttk.Frame):
         self.columnconfigure(index=0, weight=1)
         self.configure(padding=(20,20))
 
+        # Bind
+        self.bind("<e>", lambda event: self.show("edit"))
+        self.bind("<o>", lambda event: self.open())
+
         # Data_View Frame
         self.data_view = ttk.Frame(self)
         self.data_view.grid(
@@ -214,6 +218,7 @@ class Data(ttk.Frame):
     def show(self, key):
         if key == "view":
             frame = self.data_view
+            self.focus()
         if key == "edit":
             frame = self.data_edit
             self.entry[(1,1)].focus()
@@ -348,6 +353,7 @@ class Data(ttk.Frame):
                     self.entry[(i,j)].bind("<Down>", lambda event, target=(i+1,j): self.move_focus(event, target))
                     self.entry[(i,j)].bind("<Left>", lambda event, target=(i,j-1): self.move_focus(event, target))
                     self.entry[(i,j)].bind("<Right>", lambda event, target=(i,j+1): self.move_focus(event, target))
+                    self.entry[(i,j)].bind("<Return>", lambda event: self.confirm())
                     self.entry[(i,j)].grid(row=i, column=j)
 
         for i in range(1,row+1):
@@ -363,6 +369,7 @@ class Data(ttk.Frame):
                 self.entry[(0,j)].bind("<Down>", lambda event, target=(1,j): self.move_focus(event, target))
                 self.entry[(0,j)].bind("<Left>", lambda event, target=(0,j-1): self.move_focus(event, target))
                 self.entry[(0,j)].bind("<Right>", lambda event, target=(0,j+1): self.move_focus(event, target))
+                self.entry[(0,j)].bind("<Return>", lambda event: self.confirm())
 
         for (i,j), entry in self.entry.items():
             if i>row or j>column:
