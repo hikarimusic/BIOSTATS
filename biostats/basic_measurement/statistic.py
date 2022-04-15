@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
+from tkinter import filedialog
+import pandas as pd
 
 class Statistic(ttk.Frame):
 
@@ -57,7 +60,7 @@ class Statistic(ttk.Frame):
         self.style.configure("Treeview", rowheight=30)
         
         self.tree = ttk.Treeview(
-            self.treeview, selectmode="none", height=10
+            self.treeview, selectmode="none", height=14
         )
         self.tree.config(column=(1))
         self.tree.grid(row=0, column=0, padx=(5,0), sticky="nsew")
@@ -107,6 +110,16 @@ class Statistic(ttk.Frame):
         self.precision.insert(0,1)
         self.precision.grid(
             row=0, column=3, padx=(5,15), pady=5, sticky="nsew"
+        )
+
+        # Shortcut
+        self.bind("<Control-s>", lambda event: self.save())
+
+        # Save
+        self.save_button = ttk.Button(self, text="Save")
+        self.save_button.config(command=self.save)
+        self.save_button.grid(
+            row=4, column=0, sticky="e"
         )
 
     def tree_update(self):
@@ -201,8 +214,8 @@ class Statistic(ttk.Frame):
                     temp = format(round(self.model.gmean[i],precision), '.{}E'.format(precision))
                 else:
                     temp = format(round(self.model.gmean[i],precision), '.{}f'.format(precision))
-                value.append(temp)
-                width[i] = max(width[i],len(temp)*10)
+            value.append(temp)
+            width[i] = max(width[i],len(temp)*10)
         self.tree.insert(
             parent=self.mean_iid, index="end", iid=cnt, text="Geometric Mean", values=tuple(value)
         )
@@ -318,6 +331,8 @@ class Statistic(ttk.Frame):
         self.tree.insert(
             parent="", index="end", iid=cnt, text="Variance", values=tuple(value)
         )
+        if self.open_state["var"] == 1:
+            self.tree.item(cnt, open=True)
         self.var_iid = cnt
         cnt += 1
 
@@ -358,6 +373,8 @@ class Statistic(ttk.Frame):
         self.tree.insert(
             parent="", index="end", iid=cnt, text="Standard Deviation", values=tuple(value)
         )
+        if self.open_state["std"] == 1:
+            self.tree.item(cnt, open=True)
         self.std_iid = cnt
         cnt += 1
 
@@ -400,158 +417,31 @@ class Statistic(ttk.Frame):
         )
         cnt += 1
 
-
+        self.max_row = cnt
 
 
         # Resize Column
         for i in range(column):
             self.tree.column(i+1, minwidth=width[i])
 
-
-        '''
-        # Standard Error
-        value = []
-        for i in range(column):
-            if self.model.sem[i] == "-":
-                temp = "-"
-            else:
-                if notation == 1:
-                    temp = format(round(self.model.sem[i],precision), '.{}E'.format(precision))
-                else:
-                    temp = format(round(self.model.sem[i],precision), '.{}f'.format(precision))
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent="", index="end", iid=cnt, text="Standard Error", values=tuple(value)
+    def save(self):
+        filename = filedialog.asksaveasfilename(
+            title="Save File", 
+            filetypes=[("Excel File", "*.xlsx"), ("All Files", "*")],
+            initialfile="Results"
         )
-        cnt += 1
-        '''
+        if filename:
+            try:
+                group = ["Statistic"] + self.model.group
+                data = []
+                for i in range(self.max_row):
+                    row = [self.tree.item(i, "text")] + list(self.tree.item(i, "values"))
+                    data.append(row)
+                df = pd.DataFrame(data, columns=group)
+                df.to_excel(filename, index=False, sheet_name="Data")
 
-        '''
-        # Confidence Interval
-        try:
-            level = int(float(self.CI_spin.get()))
-        except:
-            level = 95
-
-        self.model.CI_cal(level/100)
-
-        # Two Tailed
-        value = []
-        CI_width = []
-        for i in range(column):
-            if self.model.CI_two[i] == "-":
-                temp = "-"
-            else:
-                if notation == 1:
-                    CI1 = format(round(self.model.CI_two[i][0],precision), '.{}E'.format(precision))
-                    CI2 = format(round(self.model.CI_two[i][1],precision), '.{}E'.format(precision))
-                    temp = "{}~{}".format(CI1, CI2)
-                else:
-                    CI1 = format(round(self.model.CI_two[i][0],precision), '.{}f'.format(precision))
-                    CI2 = format(round(self.model.CI_two[i][1],precision), '.{}f'.format(precision))
-                    temp = "{}~{}".format(CI1, CI2)
-            value.append(temp)
-            CI_width.append(len(temp))
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent="", index="end", iid=cnt, text="{}% Confidence Interval".format(level), values=tuple(value)
-        )
-        if self.open_state["CI"] == 1:
-            self.tree.item(cnt, open=True)
-        self.CI_iid = cnt
-        cnt += 1
-
-        self.tree.insert(
-            parent=self.CI_iid, index="end", iid=cnt, text="Two Tailed".format(level), values=tuple(value)
-        )
-        cnt += 1
-
-        # One Tailed
-        value = []
-        for i in range(column):
-            if self.model.CI_one_1[i] == "-":
-                temp = "-"
-            else:
-                if notation == 1:
-                    CI = format(round(self.model.CI_one_1[i],precision), '.{}E'.format(precision))
-                    s = "{}~".format(CI)
-                    temp = '{0: <{l}}'.format(s, l=CI_width[i]+1)
-                else:
-                    CI = format(round(self.model.CI_one_1[i],precision), '.{}f'.format(precision))
-                    s = "{}~".format(CI)
-                    temp = '{0: <{l}}'.format(s, l=CI_width[i]+1)
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent=self.CI_iid, index="end", iid=cnt, text="One Tailed".format(level), values=tuple(value)
-        )
-        cnt += 1
-
-        value = []
-        for i in range(column):
-            if self.model.CI_one_2[i] == "-":
-                temp = "-"
-            else:
-                if notation == 1:
-                    CI = format(round(self.model.CI_one_2[i],precision), '.{}E'.format(precision))
-                    s = "~{}".format(CI)
-                    temp = '{0: >{l}}'.format(s, l=CI_width[i]+1)
-                else:
-                    CI = format(round(self.model.CI_one_2[i],precision), '.{}f'.format(precision))
-                    s = "~{}".format(CI)
-                    temp = '{0: >{l}}'.format(s, l=CI_width[i]+1)
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent=self.CI_iid, index="end", iid=cnt, text="One Tailed".format(level), values=tuple(value)
-        )
-        cnt += 1
-        '''
-
-        '''
-        # 1st Quartile
-        value = []
-        for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.per_25[i],precision), '.{}E'.format(precision))
-            else:
-                temp = format(round(self.model.per_25[i],precision), '.{}f'.format(precision))
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent=self.per_iid, index="end", iid=cnt, text="1st Quartile", values=tuple(value)
-        )
-        cnt += 1
-
-        # 2nd Quartile
-        value = []
-        for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.per_50[i],precision), '.{}E'.format(precision))
-            else:
-                temp = format(round(self.model.per_50[i],precision), '.{}f'.format(precision))
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent=self.per_iid, index="end", iid=cnt, text="2nd Quartile", values=tuple(value)
-        )
-        cnt += 1
-
-        # 3rd Quartile
-        value = []
-        for i in range(column):
-            if notation == 1:
-                temp = format(round(self.model.per_75[i],precision), '.{}E'.format(precision))
-            else:
-                temp = format(round(self.model.per_75[i],precision), '.{}f'.format(precision))
-            value.append(temp)
-            width[i] = max(width[i],len(temp)*10)
-        self.tree.insert(
-            parent=self.per_iid, index="end", iid=cnt, text="3rd Quartile", values=tuple(value)
-        )
-        cnt += 1
-        '''
-
-
-
+            except:
+                messagebox.showerror(
+                    title="Error",
+                    message="File could not be saved."
+                )       
