@@ -25,10 +25,6 @@ class Data(ttk.Frame):
         self.columnconfigure(index=0, weight=1)
         self.configure(padding=(20,20))
 
-        # Bind
-        self.bind("<e>", lambda event: self.show("edit"))
-        self.bind("<o>", lambda event: self.open())
-
         # Data_View Frame
         self.data_view = ttk.Frame(self)
         self.data_view.grid(
@@ -59,7 +55,7 @@ class Data(ttk.Frame):
         self.style.configure("Treeview", rowheight=30)
         
         self.tree = ttk.Treeview(
-            self.data_view, selectmode="none", height=15
+            self.data_view, selectmode="none", height=14
         )
         self.tree.grid(row=1, column=0, columnspan=5, padx=(5,0), sticky="nsew")
 
@@ -201,12 +197,17 @@ class Data(ttk.Frame):
             row=3, column=6, padx=(5,0), pady=5, sticky="nsew"
         )
 
-        # Export
-        self.export_button = ttk.Button(self, text="Export")
-        self.export_button.config(command=self.export)
-        self.export_button.grid(
+        # Save
+        self.save_button = ttk.Button(self, text="Save")
+        self.save_button.config(command=self.save)
+        self.save_button.grid(
             row=2, column=0, sticky="e"
         )
+
+        # Shortcut
+        self.bind("<e>", lambda event: self.show("edit"))
+        self.bind("<o>", lambda event: self.open())
+        self.bind("<Control-s>", lambda event: self.save())
 
         # Show
         self.show("view")
@@ -260,7 +261,7 @@ class Data(ttk.Frame):
                     message="File not found."
                 )
 
-    def export(self):
+    def save(self):
         filename = filedialog.asksaveasfilename(
             title="Save File", 
             filetypes=[("Excel File", "*.xlsx"), ("All Files", "*")],

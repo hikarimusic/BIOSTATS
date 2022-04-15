@@ -22,11 +22,15 @@ class Model:
 
         self.gmean = []
         for i in range(len(self.group)):
+            val = 1
             for x in self.data[i]:
-                if x<=0:
-                    self.gmean.append("-")
+                if x <= 0:
+                    val = 0
                     break
-            self.gmean.append(stats.gmean(self.data[i]))
+            if val == 1:
+                self.gmean.append(stats.gmean(self.data[i]))
+            else:
+                self.gmean.append("-")
 
         self.median = []
         for i in range(len(self.group)):
@@ -74,10 +78,10 @@ class Model:
 
         self.CV = []
         for i in range(len(self.group)):
-            try:
-                self.CV.append(self.std[i]/self.mean[i])
-            except:
+            if self.std[i]=='-' or self.mean[i]==0:
                 self.CV.append("-")
+            else:
+                self.CV.append(self.std[i]/self.mean[i])
 
         '''
         self.sem = []
