@@ -66,4 +66,5 @@ class Master(ttk.Notebook):
         # Graph
         if tab == "Graph":
             self.graph.focus()
+            self.graph.graph_update()
         
