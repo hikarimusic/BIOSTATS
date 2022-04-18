@@ -20,7 +20,7 @@ class App(tk.Tk):
         # Theme
         theme = os.path.join(os.path.dirname(__file__), "azure.tcl")
         self.tk.call("source", theme)
-        self.tk.call("set_theme", "dark")
+        self.tk.call("set_theme", "light")
 
         # Configure
         self.columnconfigure(index=0, weight=1)
