@@ -57,14 +57,17 @@ class Master(ttk.Notebook):
 
         # Statistic
         if tab == "Statistic":
-            self.statistic.focus()
             geometry = self.winfo_toplevel().geometry()
             self.winfo_toplevel().geometry(geometry)
             self.winfo_toplevel().update()
             self.statistic.tree_update()
+            self.statistic.focus()
 
         # Graph
         if tab == "Graph":
-            self.graph.focus()
+            geometry = self.winfo_toplevel().geometry()
+            self.winfo_toplevel().geometry(geometry)
+            self.winfo_toplevel().update()
             self.graph.graph_update()
+            self.graph.focus()
         

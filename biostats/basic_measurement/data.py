@@ -265,7 +265,7 @@ class Data(ttk.Frame):
         filename = filedialog.asksaveasfilename(
             title="Save File", 
             filetypes=[("Excel File", "*.xlsx"), ("All Files", "*")],
-            initialfile="Results"
+            initialfile="Data"
         )
         if filename:
             try:

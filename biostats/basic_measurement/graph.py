@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
+from tkinter import filedialog
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -47,7 +50,6 @@ class Graph(ttk.Frame):
         self.fig = plt.Figure()
         self.canvas = FigureCanvasTkAgg(self.fig, master=self) 
         self.canvas.get_tk_widget().grid(row=1, column=0, padx=5, sticky="nsew")
-
 
         '''
         # Treeview
@@ -120,19 +122,18 @@ class Graph(ttk.Frame):
         '''
 
         # Shortcut
-        #self.bind("<Control-s>", lambda event: self.save())
+        self.bind("<Control-s>", lambda event: self.save())
 
         # Save
         self.save_button = ttk.Button(self, text="Save")
-        #self.save_button.config(command=self.save)
+        self.save_button.config(command=self.save)
         self.save_button.grid(
             row=4, column=0, sticky="e"
         )
 
-        # Update
-        self.graph_update()
-
     def graph_update(self):
+
+        self.fig.clear()
 
         # Prepare Data
         x1 = np.linspace(0.0, 5.0)
@@ -141,10 +142,11 @@ class Graph(ttk.Frame):
         y2 = np.cos(2 * np.pi * x2) * np.exp(-x1)
 
         # ax1
-        ax1 = self.fig.add_subplot(221)
-        ax1.plot(x1, y1)
-        ax1.set_title('line plot')
-        ax1.set_ylabel('Damped oscillation')
+        self.ax1 = self.fig.add_subplot(221)
+        self.ax1.plot(x1, y1)
+        #ax1.set_title('line plot')
+        self.ax1.set_title(str(np.random.randint(100)))
+        self.ax1.set_ylabel('Damped oscillation')
 
         # ax2
         ax2 = self.fig.add_subplot(222)
@@ -162,7 +164,30 @@ class Graph(ttk.Frame):
         ax4.scatter(x2, y2, marker='o')
         ax4.set_xlabel('time (s)')
 
-        # Draw
         self.canvas.draw()
+
+    def save(self):
+        filename = filedialog.asksaveasfilename(
+            title="Save File", 
+            filetypes=[
+                ("PNG File", "*.png"), 
+                ("JPEG File", "*.jpg"), 
+                ("PDF File", "*.pdf"), 
+                ("All Files", "*")
+            ],
+            initialfile="Graph"
+        )
+
+        if filename:
+            try:
+                self.fig.savefig(filename)
+            except:
+                messagebox.showerror(
+                    title="Error",
+                    message="File could not be saved."
+                )      
+
+
+
 
 
