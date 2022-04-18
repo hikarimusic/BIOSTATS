@@ -428,7 +428,7 @@ class Statistic(ttk.Frame):
         filename = filedialog.asksaveasfilename(
             title="Save File", 
             filetypes=[("Excel File", "*.xlsx"), ("All Files", "*")],
-            initialfile="Results"
+            initialfile="Statistic"
         )
         if filename:
             try:
