@@ -1,2 +1,4 @@
-# Requre Package:
-# tkinter, math, scipy, numpy, pandas, openpyxl
+# tkinter, numpy, pandas
+# scipy, statsmodel
+# matplotlib, seaborn
+# openyml, lxml
