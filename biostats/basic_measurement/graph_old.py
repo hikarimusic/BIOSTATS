@@ -6,7 +6,6 @@ from tkinter import filedialog
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import seaborn as sns
 
 class Graph(ttk.Frame):
 
@@ -58,12 +57,7 @@ class Graph(ttk.Frame):
         '''
 
         # Figure
-
-        penguins = sns.load_dataset("penguins")
-        g = sns.pairplot(penguins)
-        self.fig = g.fig
-
-        #self.fig = plt.Figure()
+        self.fig = plt.Figure()
         self.canvas = FigureCanvasTkAgg(self.fig, master=self) 
         self.canvas.get_tk_widget().grid(row=1, column=0, padx=5, sticky="nsew")
 
@@ -219,35 +213,22 @@ class Graph(ttk.Frame):
 
     def graph_update(self):
 
-        #self.fig.clear()
+        self.fig.clear()
 
-        #sns.set_theme(style="whitegrid")
-        #tips = sns.load_dataset("tips")
-        #penguins = sns.load_dataset("penguins")
-        #self.ax1 = self.fig.add_subplot()
-
-
-        '''
         # Prepare Data
         x1 = np.linspace(0.0, 5.0)
         y1 = np.cos(2 * np.pi * x1) * np.exp(-x1)
         x2 = np.linspace(0.0, 3.0)
         y2 = np.cos(2 * np.pi * x2) * np.exp(-x1)
 
-        '''
         # ax1
-
-        #tips = sns.load_dataset("tips")
-        #self.ax1 = self.fig.add_subplot()
-        #sns.boxplot(x="day", y="total_bill", data=tips, ax=self.ax1)
-
-        #self.ax1.plot(x1, y1)
+        self.ax1 = self.fig.add_subplot()
+        self.ax1.plot(x1, y1)
         #ax1.set_title('line plot')
-        #self.ax1.set_title(str(np.random.randint(100)))
-        #self.ax1.set_ylabel('Damped oscillation')
+        self.ax1.set_title(str(np.random.randint(100)))
+        self.ax1.set_ylabel('Damped oscillation')
 
         '''
-
         # ax2
         ax2 = self.fig.add_subplot(222)
         ax2.scatter(x1, y1, marker='o')
