@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from statsmodels.formula.api import ols
+from statsmodels.formula.api import logit
 from statsmodels.stats.anova import anova_lm
 
 def linear_regression(data=None, Y=None, X=None, test=None):
@@ -79,3 +80,35 @@ def multiple_regression(data=None, Y=None, X=None, test=None):
         return result2
     else:
         return result
+
+def logistic_regression(data=None, Y=None, X=None, target=None):
+    
+    data2 = data[X].copy()
+    data2[Y] = 0
+    data2.loc[data[Y]==target, Y] = 1
+
+    formula = "Q('%s') ~ " % Y
+    for var in X:
+        formula += "Q('%s') + " % var
+    formula = formula[:-3]
+    model = logit(formula, data=data2).fit(disp=0)
+
+    result = pd.read_html(
+        model.summary().tables[1].as_html(),header=0,index_col=0
+    )[0]
+    result = result.drop(columns=['[0.025', '0.975]'])
+    result = result.rename(columns={
+        'coef' : 'Coefficient',
+        'std err' : 'Std. Error',
+        'z' : 'z Statistic',
+        'P>|z|' : 'p-value'
+    })
+    index_change = {}
+    for index in result.index:
+        changed = index
+        for var in X:
+            changed = changed.replace("Q('%s')" % var, var)
+        index_change[index] = changed
+    result = result.rename(index_change)
+
+    return result
