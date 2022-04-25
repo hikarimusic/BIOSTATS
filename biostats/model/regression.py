@@ -5,7 +5,7 @@ from statsmodels.formula.api import ols
 from statsmodels.formula.api import logit
 from statsmodels.stats.anova import anova_lm
 
-def linear_regression(data=None, Y=None, X=None, test=None):
+def linear_regression(data, Y, X, test=None):
 
     formula = "Q('%s') ~ " % Y
     formula += "Q('%s')" % X
@@ -36,12 +36,12 @@ def linear_regression(data=None, Y=None, X=None, test=None):
         }, index=["Model"]
     )
 
-    if test == 1:
+    if test:
         return result2
     else:
         return result
 
-def multiple_regression(data=None, Y=None, X=None, test=None):
+def multiple_regression(data, Y, X, test=None):
 
     formula = "Q('%s') ~ " % Y
     for var in X:
@@ -76,12 +76,12 @@ def multiple_regression(data=None, Y=None, X=None, test=None):
         }, index=["Model"]
     )
 
-    if test == 1:
+    if test:
         return result2
     else:
         return result
 
-def logistic_regression(data=None, Y=None, X=None, target=None):
+def logistic_regression(data, Y, target, X):
     
     data2 = data[X].copy()
     data2[Y] = 0

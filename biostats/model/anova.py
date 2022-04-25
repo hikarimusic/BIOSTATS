@@ -4,7 +4,8 @@ import pandas as pd
 from statsmodels.formula.api import ols
 from statsmodels.stats.anova import anova_lm
 
-def one_way_anova(data=None, target=None, between=None, summary=None):
+def one_way_anova(data, target, between, summary=None):
+    
     formula = "Q('%s') ~ " % target
     formula += "C(Q('%s'))" % between
     model = ols(formula, data=data).fit()
@@ -35,12 +36,13 @@ def one_way_anova(data=None, target=None, between=None, summary=None):
         index_change[index] = changed
     result2 = result2.rename(index_change)
 
-    if summary == 1:
+    if summary:
         return result2
     else:
         return result
 
-def two_way_anova(data=None, target=None, between=None, summary=None):
+def two_way_anova(data, target, between, summary=None):
+
     formula = "Q('%s') ~ " % target
     formula += "C(Q('%s'), Sum) * " % between[0]
     formula += "C(Q('%s'), Sum)" % between[1]
@@ -79,12 +81,12 @@ def two_way_anova(data=None, target=None, between=None, summary=None):
         temp = temp.rename(index_change)
         result2 = pd.concat([result2, temp])
 
-    if summary == 1:
+    if summary:
         return result2
     else:
         return result
 
-def N_way_anova(data=None, target=None, between=None, summary=None):
+def n_way_anova(data, target, between, summary=None):
 
     formula = "Q('%s') ~ " % target
     for var in between:
@@ -126,7 +128,7 @@ def N_way_anova(data=None, target=None, between=None, summary=None):
         temp = temp.rename(index_change)
         result2 = pd.concat([result2, temp])
 
-    if summary == 1:
+    if summary:
         return result2
     else:
         return result
