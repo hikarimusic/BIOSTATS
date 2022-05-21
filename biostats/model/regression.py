@@ -19,7 +19,7 @@ def linear_regression(data, Y, X, test=None):
         'coef' : 'Coefficient',
         'std err' : 'Std. Error',
         't' : 't Statistic',
-        'P>|t|' : 'p-value'
+        'P>\vert t\vert ' : 'p-value'
     })
     index_change = {}
     for index in result.index:
@@ -41,11 +41,13 @@ def linear_regression(data, Y, X, test=None):
     else:
         return result
 
-def multiple_regression(data, Y, X, test=None):
+def multiple_regression(data, Y, X, X2=[], test=None):
 
     formula = "Q('%s') ~ " % Y
     for var in X:
         formula += "Q('%s') + " % var
+    for var in X2:
+        formula += "C(Q('%s')) + " % var
     formula = formula[:-3]
     model = ols(formula, data=data).fit()
 
@@ -57,13 +59,17 @@ def multiple_regression(data, Y, X, test=None):
         'coef' : 'Coefficient',
         'std err' : 'Std. Error',
         't' : 't Statistic',
-        'P>|t|' : 'p-value'
+        'P>\vert t\vert ' : 'p-value'
     })
     index_change = {}
     for index in result.index:
         changed = index
         for var in X:
             changed = changed.replace("Q('%s')" % var, var)
+        for var in X2:
+            changed = changed.replace("C(Q('%s'))" % var, var)
+            changed = changed.replace('[T.', '(')
+            changed = changed.replace(']', ')')
         index_change[index] = changed
     result = result.rename(index_change)
 
@@ -81,15 +87,17 @@ def multiple_regression(data, Y, X, test=None):
     else:
         return result
 
-def logistic_regression(data, Y, target, X):
+def logistic_regression(data, Y, target, X, X2=[]):
     
-    data2 = data[X].copy()
+    data2 = data[X+X2].copy()
     data2[Y] = 0
     data2.loc[data[Y]==target, Y] = 1
 
     formula = "Q('%s') ~ " % Y
     for var in X:
         formula += "Q('%s') + " % var
+    for var in X2:
+        formula += "C(Q('%s')) + " % var
     formula = formula[:-3]
     model = logit(formula, data=data2).fit(disp=0)
 
@@ -101,13 +109,17 @@ def logistic_regression(data, Y, target, X):
         'coef' : 'Coefficient',
         'std err' : 'Std. Error',
         'z' : 'z Statistic',
-        'P>|z|' : 'p-value'
+        'P>\vert z\vert ' : 'p-value'
     })
     index_change = {}
     for index in result.index:
         changed = index
         for var in X:
             changed = changed.replace("Q('%s')" % var, var)
+        for var in X2:
+            changed = changed.replace("C(Q('%s'))" % var, var)
+            changed = changed.replace('[T.', '(')
+            changed = changed.replace(']', ')')
         index_change[index] = changed
     result = result.rename(index_change)
 

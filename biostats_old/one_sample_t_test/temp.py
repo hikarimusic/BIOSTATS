@@ -183,7 +183,7 @@ class Statistic(ttk.Frame):
 
         self.entry = {}
         self.number = {}
-        '''
+        '' '
         for i in range(0,11):
             self.number[i] = ttk.Label(self.entry_frame, text=i)
             self.number[i].grid(
@@ -194,9 +194,9 @@ class Statistic(ttk.Frame):
             self.entry[i].bind("<Down>", lambda event, target=i+1: self.move_focus(event, target))
             self.entry[i].grid(row=i, column=1)
         self.entry[0].insert(0,"Group A")
-        '''
+        '' '
 
-        '''
+        '' '
         # Clear
 
         self.clear_button = ttk.Button(
@@ -205,7 +205,7 @@ class Statistic(ttk.Frame):
         self.clear_button.grid(
             row=3, column=0, columnspan=2, padx=5, pady=5, sticky="w"
         )
-        '''
+        '' '
 
         # Cell Width
 
@@ -311,7 +311,7 @@ class Statistic(ttk.Frame):
             else:
                 number.grid()
 
-    '''
+    '' '
     def clear(self):
         
         for entry in self.entry.values():
@@ -322,7 +322,7 @@ class Statistic(ttk.Frame):
         self.row_spin.insert(0,10)
         self.column_spin.insert(0,3)
         self.resize()
-    '''
+    '' '
 
 
     def change_width(self):
@@ -437,7 +437,7 @@ class Statistic(ttk.Frame):
                 except:
                     value.append("")
             self.tree.insert(
-                parent='', index="end", iid=i, values=value
+                parent='' , index="end", iid=i, values=value
             )
 
         for i in range(column):
