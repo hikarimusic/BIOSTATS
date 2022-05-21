@@ -42,7 +42,7 @@ class Graph(ttk.Frame):
             row=0, column=0, padx=5, pady=0, sticky="nsew"
         )
 
-        '''
+        '' '
         self.input_list = ["", "Title", "X Label", "Y Label"]
         self.input = tk.StringVar()
         self.input.set(self.input_list[1])
@@ -54,7 +54,7 @@ class Graph(ttk.Frame):
         self.input_menu.grid(
            row=0, column=2, padx=(20,5), pady=0, sticky="nsew"
         )
-        '''
+        '' '
 
         # Figure
         self.fig = plt.Figure()
@@ -109,7 +109,7 @@ class Graph(ttk.Frame):
            row=1, column=1, padx=5, sticky="nsew"
         )
 
-        '''
+        '' '
         # Input Bar
         self.input_bar = ttk.Frame(self)
         self.input_bar.grid(
@@ -127,9 +127,9 @@ class Graph(ttk.Frame):
         self.input_menu.grid(
            row=0, column=0, padx=(5,0), pady=0, sticky="nsew"
         )
-        '''
+        '' '
 
-        '''
+        '' '
         # Treeview
         self.treeview = ttk.Frame(self)
         self.treeview.grid(
@@ -164,9 +164,9 @@ class Graph(ttk.Frame):
         self.tree.heading(1, text="", anchor="center")
 
         self.open_state = {}
-        '''
+        '' '
 
-        '''
+        '' '
         # Control Bar
         self.control_bar = ttk.Frame(self)
         self.control_bar.grid(
@@ -181,9 +181,9 @@ class Graph(ttk.Frame):
         self.notation.grid(
             row=0, column=0, padx=5, pady=5, sticky="nsew"
         )
-        '''
+        '' '
 
-        '''
+        '' '
         self.precision_label = ttk.Label(
             self.control_bar, text="Precision"
         )
@@ -199,7 +199,7 @@ class Graph(ttk.Frame):
         self.precision.grid(
             row=0, column=3, padx=(5,15), pady=5, sticky="nsew"
         )
-        '''
+        '' '
 
         # Shortcut
         self.bind("<Control-s>", lambda event: self.save())
@@ -228,7 +228,7 @@ class Graph(ttk.Frame):
         self.ax1.set_title(str(np.random.randint(100)))
         self.ax1.set_ylabel('Damped oscillation')
 
-        '''
+        '' '
         # ax2
         ax2 = self.fig.add_subplot(222)
         ax2.scatter(x1, y1, marker='o')
@@ -244,7 +244,7 @@ class Graph(ttk.Frame):
         ax4 = self.fig.add_subplot(224)
         ax4.scatter(x2, y2, marker='o')
         ax4.set_xlabel('time (s)')
-        '''
+        '' '
 
         self.canvas.draw()
 

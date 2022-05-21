@@ -27,7 +27,7 @@ class Statistic(ttk.Frame):
         )
         self.data_view.columnconfigure(index=4, weight=1)
 
-        '''
+        '' '
         # Button
         self.edit_button = ttk.Button(self.data_view, text="Edit")
         self.edit_button.config(command=lambda: self.show("edit"))
@@ -40,7 +40,7 @@ class Statistic(ttk.Frame):
         self.open_button.grid(
             row=0, column=1, pady=5, sticky="nsew"
         )
-        '''
+        '' '
 
         # Control Bar
         self.percent_label = ttk.Label(self.data_view, text="Percentile(%)")
@@ -430,7 +430,7 @@ class Statistic(ttk.Frame):
         cnt += 1
 
 
-        '''
+        '' '
         # Range
         value = []
         for i in range(column):
@@ -444,7 +444,7 @@ class Statistic(ttk.Frame):
             parent="", index="end", iid=cnt, text="Range", values=tuple(value)
         )
         cnt += 1
-        '''
+        '' '
 
 
         # Resize Column

@@ -324,7 +324,7 @@ class Data(ttk.Frame):
                 except:
                     value.append("")
             self.tree.insert(
-                parent='', index="end", iid=i, values=value
+                parent='' , index="end", iid=i, values=value
             )
 
         for i in range(column):

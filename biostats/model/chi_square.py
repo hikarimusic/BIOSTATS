@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 
-from scipy.stats import chi2_contingency
+from scipy.stats import chisquare, chi2_contingency
 
-def chi_square_test(data=None, first=None, second=None, summary=None):
+def chi_square_independence(data, first, second, summary=None):
 
     table = pd.crosstab(index=data[first], columns=data[second])
     table.index.name = None
@@ -29,7 +29,43 @@ def chi_square_test(data=None, first=None, second=None, summary=None):
         }, index=["Normal", "Corrected"]
     )
     
-    if summary == 1:
+    if summary:
+        return table
+    else:
+        return result
+
+def chi_square_fit(data, target, expected, summary=None):
+    
+    Observed = data[target].value_counts().to_numpy()
+    Index = data[target].value_counts().index
+    Expected = []
+    for var in Index:
+        Expected.append(expected[var])
+    Expected = np.array(Expected) / np.sum(np.array(Expected)) * np.sum(Observed)
+    table = pd.DataFrame(
+        {
+            "Observed": Observed,
+            "Expected": Expected
+        }, index = Index
+    ).T
+    table = table[expected.keys()]
+    columns_change = {}
+    for columns in table.columns:
+        changed = "{}({})".format(target, columns)
+        columns_change[columns] = changed
+    table = table.rename(columns=columns_change)
+
+    chi2, p = chisquare(Observed, f_exp=Expected)
+
+    result = pd.DataFrame(
+        {
+            "Chi-Square": chi2,
+            "df": Observed.size-1, 
+            "p-value": p
+        }, index=["Fit"]
+    )
+
+    if summary:
         return table
     else:
         return result
