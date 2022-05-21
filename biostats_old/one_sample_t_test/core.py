@@ -45,11 +45,11 @@ class Model:
             else:
                 self.sem.append(stats.tsem(self.data[i]))
 
-        '' '
+        '''
         self.range = []
         for i in range(len(self.group)):
             self.range.append(stats.tmax(self.data[i])-stats.tmin(self.data[i]))
-        '' '
+        '''
 
 
     def CI_cal(self, level):

@@ -83,23 +83,23 @@ class Model:
             else:
                 self.CV.append(self.std[i]/self.mean[i])
 
-        '' '
+        '''
         self.sem = []
         for i in range(len(self.group)):
             if len(self.data[i]) == 1:
                 self.sem.append("-")
             else:
                 self.sem.append(stats.tsem(self.data[i]))
-        '' '
+        '''
 
-        '' '
+        '''
         self.range = []
         for i in range(len(self.group)):
             self.range.append(stats.tmax(self.data[i])-stats.tmin(self.data[i]))
-        '' '
+        '''
 
 
-    '' '
+    '''
     def CI_cal(self, level):
         self.CI_two = []
         self.CI_one_1 = []
@@ -124,14 +124,14 @@ class Model:
 
                 CI = t.ppf(1-alpha, n-1, mean, sem)
                 self.CI_one_2.append(CI)
-    '' '
+    '''
 
     def percent_cal(self, percent):
         self.percent = []
         for i in range(len(self.group)):
             self.percent.append(np.percentile(self.data[i], percent))
 
-        '' '
+        '''
         self.per_25 = []
         for i in range(len(self.group)):
             self.per_25.append(np.percentile(self.data[i], 25))
@@ -147,7 +147,7 @@ class Model:
         self.max = []
         for i in range(len(self.group)):
             self.max.append(np.percentile(self.data[i], 100))
-        '' '
+        '''
 
 
 

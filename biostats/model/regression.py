@@ -19,7 +19,7 @@ def linear_regression(data, Y, X, test=None):
         'coef' : 'Coefficient',
         'std err' : 'Std. Error',
         't' : 't Statistic',
-        'P>\vert t\vert ' : 'p-value'
+        'P>|t|' : 'p-value'
     })
     index_change = {}
     for index in result.index:
@@ -59,7 +59,7 @@ def multiple_regression(data, Y, X, X2=[], test=None):
         'coef' : 'Coefficient',
         'std err' : 'Std. Error',
         't' : 't Statistic',
-        'P>\vert t\vert ' : 'p-value'
+        'P>|t|' : 'p-value'
     })
     index_change = {}
     for index in result.index:
@@ -109,7 +109,7 @@ def logistic_regression(data, Y, target, X, X2=[]):
         'coef' : 'Coefficient',
         'std err' : 'Std. Error',
         'z' : 'z Statistic',
-        'P>\vert z\vert ' : 'p-value'
+        'P>|z|' : 'p-value'
     })
     index_change = {}
     for index in result.index:
