@@ -1,3 +1,4 @@
+from .model.basic import *
 from .model.anova import *
 from .model.ancova import *
 from .model.chi_square import *
