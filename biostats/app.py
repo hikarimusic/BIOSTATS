@@ -25,6 +25,8 @@ class App(tk.Tk):
         # Configure
         self.columnconfigure(index=0, weight=1)
         self.rowconfigure(index=0, weight=1)
+        self.style = ttk.Style()
+        self.style.configure("Treeview", rowheight=30)
 
         # Master Frame
         master = layout.Master(self, self)
@@ -44,7 +46,9 @@ class App(tk.Tk):
         
         if darkmode == 1 :
             self.tk.call("set_theme", "dark")
+            self.style.configure("Treeview", rowheight=30)
         else:
             self.tk.call("set_theme", "light")
+            self.style.configure("Treeview", rowheight=30)
         
 

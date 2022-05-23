@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+from .data import Data
+
 class Master(ttk.Frame):
 
     def __init__(self, parent, master):
@@ -12,7 +14,7 @@ class Master(ttk.Frame):
         # Variables
         self.window = tk.IntVar(value=0)
         self.scientific = tk.IntVar(value=0)
-        self.precision = tk.StringVar(value=1)
+        self.precision = tk.IntVar(value=1)
         self.darkmode = tk.IntVar(value=0)
 
         # Setup
@@ -22,7 +24,7 @@ class Master(ttk.Frame):
 
         # Configure
         self.columnconfigure(index=1, weight=1)
-        self.rowconfigure(index=3, weight=1)
+        self.rowconfigure(index=2, weight=1)
 
         # Window
         self.window_frame = ttk.LabelFrame(self, text="Window", padding=(10,5))
@@ -38,7 +40,7 @@ class Master(ttk.Frame):
 
         # Setting
         self.setting_frame = ttk.LabelFrame(self, text="Setting", padding=(10,5))
-        self.setting_frame.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
+        self.setting_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
         self.notation = ttk.Checkbutton(self.setting_frame, style="Switch.TCheckbutton")
         self.notation.config(variable=self.scientific, offvalue=0, onvalue=1, command=self.updating)
@@ -62,9 +64,12 @@ class Master(ttk.Frame):
         self.screenmode_label = ttk.Label(self.setting_frame, text="Dark Mode")
         self.screenmode_label.grid(row=2, column=1, padx=5, pady=10, sticky="nsew")
 
+        # Data
+        self.data = Data(self, self)
+        self.data.grid(row=0, column=1, rowspan=3, padx=10, pady=10, sticky="nsew")
 
     def switch(self):
         pass
 
     def updating(self):
-        pass
+        self.data.updating()
