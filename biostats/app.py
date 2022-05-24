@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import ttk
 
-from . import layout
+from .master import Master
 
 class App(tk.Tk):
 
@@ -29,7 +29,7 @@ class App(tk.Tk):
         self.style.configure("Treeview", rowheight=30)
 
         # Master Frame
-        master = layout.Master(self, self)
+        master = Master(self, self)
         master.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
         # Sizegrip

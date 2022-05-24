@@ -1,0 +1,3 @@
+dataframe with columns of same name
+
+treeview show int and float
