@@ -1,8 +1,12 @@
+from re import S
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
+from tkinter import messagebox
+from click import command
 import pandas as pd
 
-from .widget import Tree
+from .widget import Tree, Table
 
 class Data(ttk.Frame):
 
@@ -12,6 +16,11 @@ class Data(ttk.Frame):
         ttk.Frame.__init__(self, parent)
         self.master = master
 
+        # Variable
+        self.row_num = tk.IntVar(value=10)
+        self.col_num = tk.IntVar(value=3)
+        self.cell_width = tk.IntVar(value=10)
+
         # Setup
         self.setup()
 
@@ -19,31 +28,126 @@ class Data(ttk.Frame):
 
         # Configure
         self.rowconfigure(index=3, weight=1)
-        self.columnconfigure(index=4, weight=1)
+        self.columnconfigure(index=0, weight=1)
         self.configure(padding=(10,10))
 
         # Edit, Open
-        self.edit_button = ttk.Button(self, text="Edit")
-        self.edit_button.config(command=lambda: self.switch("edit"))
-        self.edit_button.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
+        self.bar_view = ttk.Frame(self)
+        self.bar_view.grid(row=0, column=0, sticky="nsew")
+        self.bar_view.columnconfigure(index=2, weight=1)
 
-        self.open_button = ttk.Button(self, text="Open")
+        self.edit_button = ttk.Button(self.bar_view, text="Edit")
+        self.edit_button.config(command=lambda: self.switch("edit"))
+        self.edit_button.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+
+        self.open_button = ttk.Button(self.bar_view, text="Open")
         self.open_button.config(command=self.open)
-        self.open_button.grid(row=0, column=2, columnspan=2, padx=5, pady=5, sticky="nsew")
+        self.open_button.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
         # Tree
         self.tree = Tree(self, 15)
-        self.tree.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
-        self.tree.data = pd.read_csv("biostats/dataset/penguins.csv")
+        self.tree.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
-        self.updating()
+        # Table
+        self.table = Table(self, self)
+        self.table.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+        self.table.resize(self.row_num.get(), self.col_num.get())
+        self.table.change_width(self.cell_width.get())
+        
+        # Row, Column, Confirm
+        self.bar_edit = ttk.Frame(self)
+        self.bar_edit.grid(row=0, column=0, sticky="nsew")
+        self.bar_edit.columnconfigure(index=4, weight=1)
 
-    def updating(self):
+        self.row_label = ttk.Label(self.bar_edit, text="Row")
+        self.row_label.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 
-        self.tree.show(self.master.scientific.get(), self.master.precision.get())
+        self.row_spin = ttk.Spinbox(self.bar_edit, textvariable=self.row_num, from_=1, to=999, increment=1, width=6)
+        self.row_spin.config(command=lambda : self.table.resize(self.row_num.get(), self.col_num.get()))
+        self.row_spin.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
+
+        self.col_label = ttk.Label(self.bar_edit, text="Column")
+        self.col_label.grid(row=0, column=2, padx=5, pady=5, sticky="nsew")
+
+        self.col_spin = ttk.Spinbox(self.bar_edit, textvariable=self.col_num, from_=1, to=999, increment=1, width=6)
+        self.col_spin.config(command=lambda : self.table.resize(self.row_num.get(), self.col_num.get()))
+        self.col_spin.grid(row=0, column=3, padx=5, pady=5, sticky="nsew")
+        
+        self.confirm_button = ttk.Button(self.bar_edit, text="Confirm", style="Accent.TButton")
+        self.confirm_button.config(command=self.confirm)
+        self.confirm_button.grid(row=0, column=5, padx=5, pady=5, sticky="e")
+
+        # Cell Width
+        self.cell_scale = ttk.Scale(self, from_=1, to=29)
+        self.cell_scale.config(variable=self.cell_width, command=lambda e: self.table.change_width(self.cell_width.get()))
+        self.cell_scale.grid(row=2, column=0, padx=5, pady=5, sticky="e")
+
+        # Shortcut
+        self.bind("<e>", lambda event: self.switch("edit"))
+        self.bind("<o>", lambda event: self.open())
+        #self.bind("<Control-s>", lambda event: self.save())
+
+
+        self.switch("view")
 
     def switch(self, key):
-        pass
+
+        if key == "view":
+            self.bar_view.tkraise()
+            self.tree.tkraise()
+            self.cell_scale.grid_remove()
+            self.focus()
+        
+        if key == "edit":
+            self.bar_edit.tkraise()
+            self.table.tkraise()
+            self.cell_scale.grid()
+            self.table.entry[(1,1)].focus()
+
 
     def open(self):
-        pass
+
+        filename = filedialog.askopenfilename(
+            title="Open File", 
+            filetypes=[("Excel File", "*.xlsx"), ("CSV File", "*.csv"), ("All Files", "*")]
+        )
+        if filename:
+            try:
+                filename = r"{}".format(filename)
+                try:
+                    df = pd.read_excel(filename, header=0)
+                except:
+                    df = pd.read_csv(filename)
+
+                for col in df:
+                    try: 
+                        df[col] = df[col].astype('Int64')
+                    except:
+                        pass
+
+                df = df.dropna(how="all")
+                df = df.dropna(how="all", axis=1)
+
+                df.index += 1
+
+                self.master.data = df
+                self.master.changed()
+
+            except ValueError:
+                messagebox.showerror(
+                    title="Error",
+                    message="File could not be opened."
+                )
+
+            except FileNotFoundError:
+                messagebox.showerror(
+                    title="Error",
+                    message="File not found."
+                )
+
+    def confirm(self):
+        
+        self.master.data = self.table.data_save()
+        self.master.changed()
+
+        self.switch("view")
