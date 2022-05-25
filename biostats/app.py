@@ -37,9 +37,9 @@ class App(tk.Tk):
         self.sizegrip.grid(row=1, column=1, padx=5, pady=5)
 
         # Set Minimun Size
-        self.minsize(int(self.winfo_screenwidth() / 2), int(self.winfo_screenheight() * 3 / 4))
+        self.minsize(int(self.winfo_screenwidth() / 2), int(self.winfo_screenheight() * 5 / 6))
         x_coordinate = int(self.winfo_screenwidth() / 4)
-        y_coordinate = int(self.winfo_screenheight() / 8)
+        y_coordinate = int(self.winfo_screenheight() / 12)
         self.geometry("+{}+{}".format(x_coordinate, y_coordinate))
     
     def swtich_mode(self, darkmode):

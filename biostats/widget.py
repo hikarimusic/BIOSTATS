@@ -60,6 +60,11 @@ class Tree(ttk.Frame):
             self.treeview.heading(col, text=col, anchor="center")
             width[i] = max(width[i],len(col)*10)
 
+        if len(self.data.columns) == 0 :
+            self.treeview.config(columns=[1])
+            self.treeview.column(1, anchor="center", minwidth=100, width=100)
+            self.treeview.heading(1, text="", anchor="center")
+
         # Index
         index = self.data.index.tolist()
         width_id = 50
@@ -161,12 +166,12 @@ class Table(ttk.Frame):
             for j in range(1,col+1):
                 if not (i,j) in self.entry:
                     self.entry[(i,j)] = ttk.Entry(self.entry_frame, width=self.cell_width, justify="center")
+                    self.entry[(i,j)].grid(row=i, column=j)
                     self.entry[(i,j)].bind("<Up>", lambda e, target=(i-1,j): self.move_focus(target))
                     self.entry[(i,j)].bind("<Down>", lambda e, target=(i+1,j): self.move_focus(target))
                     self.entry[(i,j)].bind("<Left>", lambda e, target=(i,j-1): self.move_focus(target))
                     self.entry[(i,j)].bind("<Right>", lambda e, target=(i,j+1): self.move_focus(target))
                     self.entry[(i,j)].bind("<Return>", lambda e: self.master.confirm())
-                    self.entry[(i,j)].grid(row=i, column=j)
 
         for i in range(1,row+1):
             if not i in self.number:
@@ -176,12 +181,15 @@ class Table(ttk.Frame):
         for j in range(1,col+1):
             if not (0,j) in self.entry:
                 self.entry[(0,j)] = ttk.Entry(self.entry_frame, width=self.cell_width, justify="center")
-                self.entry[(0,j)].insert(0,"Variable "+self.group_name(j))
                 self.entry[(0,j)].grid(row=0, column=j)
                 self.entry[(0,j)].bind("<Down>", lambda e, target=(1,j): self.move_focus(target))
                 self.entry[(0,j)].bind("<Left>", lambda e, target=(0,j-1): self.move_focus(target))
                 self.entry[(0,j)].bind("<Right>", lambda e, target=(0,j+1): self.move_focus(target))
                 self.entry[(0,j)].bind("<Return>", lambda e: self.master.confirm())
+
+        for j in range(1,col+1):
+            if not self.entry[(0,j)].get():
+                self.entry[(0,j)].insert(0,"Variable "+self.group_name(j))
 
         for (i,j), entry in self.entry.items():
             if i>row or j>col:
@@ -215,6 +223,7 @@ class Table(ttk.Frame):
         df = df.dropna(how="all")
         df = df.dropna(how="all", axis=1)
 
+        df = df.reset_index(drop=True)
         df.index += 1
 
         for col in df:
@@ -229,6 +238,10 @@ class Table(ttk.Frame):
 
         row = len(data)
         col = len(data.columns)
+
+        if row == 0:
+            self.resize(10,3)
+            return
 
         self.master.row_num.set(row)
         self.master.col_num.set(col)
@@ -245,23 +258,6 @@ class Table(ttk.Frame):
                     self.entry[(i+1,j+1)].insert(0, "")
                 else:
                     self.entry[(i+1,j+1)].insert(0, data.iloc[i][j])
-
-    
-    '''
-        for entry in self.entry.values():
-            entry.delete(0,tk.END)
-        column = len(self.model.group)
-        row = 0
-        for i in range(column):
-            row = max(row, len(self.model.data[i]))
-        self.row_spin.set(row)
-        self.column_spin.set(column)
-        self.resize()
-        for j in range(column):
-            self.entry[(0,j+1)].insert(0,self.model.group[j])
-            for i in range(len(self.model.data[j])):
-                self.entry[(i+1,j+1)].insert(0,self.model.data[j][i])
-    '''
 
     def move_focus(self, target):
 
