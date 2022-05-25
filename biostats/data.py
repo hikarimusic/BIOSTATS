@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
-from click import command
 import pandas as pd
 
 from .widget import Tree, Table
@@ -45,7 +44,7 @@ class Data(ttk.Frame):
         self.open_button.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
         # Tree
-        self.tree = Tree(self, 15)
+        self.tree = Tree(self, 20)
         self.tree.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
         # Table
@@ -82,10 +81,15 @@ class Data(ttk.Frame):
         self.cell_scale.config(variable=self.cell_width, command=lambda e: self.table.change_width(self.cell_width.get()))
         self.cell_scale.grid(row=2, column=0, padx=5, pady=5, sticky="e")
 
+        # Save
+        self.save_button = ttk.Button(self, text="Save")
+        self.save_button.config(command=self.save)
+        self.save_button.grid(row=4, column=0, padx=5, pady=5, sticky="e")
+
         # Shortcut
         self.bind("<e>", lambda event: self.switch("edit"))
         self.bind("<o>", lambda event: self.open())
-        #self.bind("<Control-s>", lambda event: self.save())
+        self.bind("<Control-s>", lambda event: self.save())
 
 
         self.switch("view")
@@ -113,7 +117,7 @@ class Data(ttk.Frame):
         )
         if filename:
             try:
-                filename = r"{}".format(filename)
+                #filename = r"{}".format(filename)
                 try:
                     df = pd.read_excel(filename, header=0)
                 except:
@@ -128,6 +132,7 @@ class Data(ttk.Frame):
                 df = df.dropna(how="all")
                 df = df.dropna(how="all", axis=1)
 
+                df = df.reset_index(drop=True)
                 df.index += 1
 
                 self.master.data = df
@@ -151,3 +156,26 @@ class Data(ttk.Frame):
         self.master.changed()
 
         self.switch("view")
+
+    def save(self):
+
+        filename = filedialog.asksaveasfilename(
+            title="Save File", 
+            filetypes=[("Excel File", "*.xlsx"), ("CSV File", "*.csv"), ("All Files", "*")],
+            initialfile="Data"
+        )
+        if filename:
+            try:
+                try:
+                    df = self.tree.data
+                    df.to_excel(filename, index=False, sheet_name="Data")
+                except:
+                    df = self.tree.data
+                    df.to_csv(filename, index=False)
+
+            except:
+                messagebox.showerror(
+                    title="Error",
+                    message="File could not be saved."
+                )       
+
