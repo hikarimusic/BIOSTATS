@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
+from numpy import insert
 import pandas as pd
 
 from .data import Data
+from .test import Test
 
 class Master(ttk.Frame):
 
@@ -19,6 +21,7 @@ class Master(ttk.Frame):
         self.darkmode = tk.IntVar(value=0)
 
         self.data = pd.DataFrame()
+        self.data_col = {"num":[], "cat":[]}
 
         # Setup
         self.setup() 
@@ -38,7 +41,7 @@ class Master(ttk.Frame):
 
         for i in range(3):
             self.choose[i] = ttk.Radiobutton(self.window_frame, text=self.choose_list[i])
-            self.choose[i].configure(variable=self.window, value=i, command=lambda: self.switch(self.choose_list[i]))
+            self.choose[i].configure(variable=self.window, value=i, command=self.switch)
             self.choose[i].grid(row=i, column=0, padx=5, pady=10, sticky="nsew")
 
         # Setting
@@ -71,23 +74,41 @@ class Master(ttk.Frame):
         self.data_win = Data(self, self)
         self.data_win.grid(row=0, column=1, rowspan=3, padx=10, pady=10, sticky="nsew")
 
-        # Initial
-        self.switch("data")
+        # Test
+        self.test_win = Test(self, self)
+        self.test_win.grid(row=0, column=1, rowspan=3, padx=10, pady=10, sticky="nsew")
 
-    def switch(self, key):
-        
-        if key == "data":
+        # Initial
+        self.window.set(0)
+        self.switch()
+
+    def switch(self):
+
+        key = self.window.get()
+
+        if key == 0:
             self.data_win.tkraise()
             self.data_win.focus()
+
+        if key == 1:
+            self.test_win.tkraise()
+            self.test_win.focus()
             
 
     def updating(self):
 
         self.data_win.tree.show(self.scientific.get(), self.precision.get())
 
+        for i in range(3):
+            self.test_win.result[i].show(self.scientific.get(), self.precision.get())
+
     def changed(self):
 
         self.data_win.tree.data = self.data
         self.data_win.tree.show(self.scientific.get(), self.precision.get())
-
         self.data_win.table.data_write(self.data)
+
+        self.test_win.test_1.set("Basic")
+        self.test_win.test_2["Basic"].set("Numeral")
+        self.test_win.test_change()
+
