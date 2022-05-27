@@ -1,10 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from click import command
 import pandas as pd
-import numpy as np
 from io import StringIO
-
-from biostats import data
 
 class Tree(ttk.Frame):
 
@@ -75,19 +73,19 @@ class Tree(ttk.Frame):
             width_id = max(width_id, len(idd)*10+30)
             value = []
             for j in range(len(self.data.columns)):
+                col_type = str(self.data.dtypes[self.data.columns[j]])
                 if pd.isna(self.data.iloc[i][j]):
                     temp = ""
-                elif str(self.data.dtypes[self.data.columns[j]]) == "float64":
+                elif col_type == "float64":
                     if scientific == 1:
                         temp = format(round(self.data.iloc[i][j],precision), '.{}E'.format(precision))
                     else:
                         temp = format(round(self.data.iloc[i][j],precision), '.{}f'.format(precision))
-                elif str(self.data.dtypes[self.data.columns[j]]) == "Int64":
+                elif col_type == "Int64":
                     if scientific == 1:
                         temp = format(round(self.data.iloc[i][j],precision), '.{}E'.format(precision))
                     else:
-                        temp = str(self.data.iloc[i][j])
-                        temp = temp.replace(".0", "")
+                        temp = str(round(self.data.iloc[i][j]))
                 else:
                     temp = str(self.data.iloc[i][j])
                 value.append(temp)
@@ -97,6 +95,12 @@ class Tree(ttk.Frame):
         self.treeview.column('#0', minwidth=width_id, width=width_id, stretch="no")
         for i, col in enumerate(self.data.columns.tolist()):
             self.treeview.column(col, minwidth=width[i])
+
+        self.treeview.update()
+
+    def set(self, height):
+
+        self.treeview.config(height=height)
 
 
 class Table(ttk.Frame):
@@ -111,6 +115,7 @@ class Table(ttk.Frame):
         self.row_num = 10
         self.col_num = 3
         self.cell_width = 10
+        self.large = False
 
         self.setup()
 
@@ -132,7 +137,7 @@ class Table(ttk.Frame):
         self.scrollbar_x.grid(row=1, column=0, sticky="nsew")
 
         # Entry
-        self.entry_canvas = tk.Canvas(self.border)
+        self.entry_canvas = tk.Canvas(self.border, highlightthickness=0)
         self.entry_canvas.grid(row=0, column=0, sticky="nsew")
 
         self.entry_frame = ttk.Frame(self.entry_canvas, padding=(0,10))
@@ -157,10 +162,26 @@ class Table(ttk.Frame):
         self.entry = {}
         self.number = {}
 
+        ## Too Large
+        self.too_large = ttk.Frame(self, style="Card.TFrame", padding=(2,2))
+        self.too_large.grid(row=0, column=0, sticky="nsew")
+        self.too_large.rowconfigure(index=0, weight=1)
+        self.too_large.columnconfigure(index=0, weight=1)
+        self.too_large_l = ttk.Label(self.too_large, text="The data is too large to be edited.")
+        self.too_large_l.grid(row=0, column=0)
+
     def resize(self, row, col):
         
         self.row_num = row
         self.col_num = col
+
+        if row * col > 300:
+            self.large = True
+            self.too_large.tkraise()
+            return
+        else:
+            self.large = False
+            self.border.tkraise()
 
         for i in range(1,row+1):
             for j in range(1,col+1):
@@ -203,7 +224,11 @@ class Table(ttk.Frame):
             else:
                 number.grid()
 
+
     def change_width(self, wid):
+
+        if self.large:
+            return 
 
         self.cell_width = wid
 
@@ -211,6 +236,9 @@ class Table(ttk.Frame):
             entry.configure(width=wid)
 
     def data_save(self):
+
+        if self.large:
+            return True, 0
         
         str = ""
         for i in range(self.row_num+1):
@@ -218,21 +246,9 @@ class Table(ttk.Frame):
                 str += self.entry[(i,j)].get() + ","
             str = str[:-1]
             str += '\n'
-        df = pd.read_csv(StringIO(str))
-        
-        df = df.dropna(how="all")
-        df = df.dropna(how="all", axis=1)
+        df = pd.read_csv(StringIO(str), dtype=object)
 
-        df = df.reset_index(drop=True)
-        df.index += 1
-
-        for col in df:
-            try: 
-                df[col] = df[col].astype('Int64')
-            except:
-                pass
-
-        return df
+        return False, df
 
     def data_write(self, data):
 
@@ -248,14 +264,20 @@ class Table(ttk.Frame):
 
         self.resize(row, col)
 
+        if self.large:
+            return
+
         for entry in self.entry.values():
             entry.delete(0,tk.END)
 
         for j in range(col):
             self.entry[(0,j+1)].insert(0, data.columns[j])
+            col_type = str(data.dtypes[data.columns[j]])
             for i in range(row):
                 if pd.isna(data.iloc[i][j]):
                     self.entry[(i+1,j+1)].insert(0, "")
+                elif col_type == "Int64":
+                    self.entry[(i+1,j+1)].insert(0, round(data.iloc[i][j]))
                 else:
                     self.entry[(i+1,j+1)].insert(0, data.iloc[i][j])
 
@@ -290,4 +312,122 @@ class Table(ttk.Frame):
             j = j // 26
         return s
 
+
+class Option(ttk.Frame):
+
+    def __init__(self, parent, master):
         
+        # Initialize
+        ttk.Frame.__init__(self, parent)
+        self.master = master
+
+        # Variable
+        self.option = {}
+        self.now = ""
+
+        # Setup
+        self.setup()
+
+    def setup(self):
+
+        # Configure
+        self.rowconfigure(index=0, weight=1)
+        self.columnconfigure(index=0, weight=1)
+
+        # Canvas
+        self.canvas = tk.Canvas(self, highlightthickness=0)
+        self.canvas.grid(row=0, column=0, sticky="nsew")
+
+        self.scrollbar = ttk.Scrollbar(self, orient="horizontal")
+
+        self.frame = ttk.Frame(self.canvas)
+        self.frame.grid(row=0, column=0, sticky="nsew")
+
+        self.scrollbar.configure(command=self.canvas.xview)
+        self.frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(
+                scrollregion=self.canvas.bbox("all")
+            )
+        )
+
+        self.canvas.create_window((0,0), window=self.frame, anchor="nw")
+        self.canvas.configure(xscrollcommand=self.scrollbar.set)
+
+        self.bind("<Enter>", lambda e: self.scroll_on())
+        self.bind("<Leave>", lambda e: self.scroll_off())
+        
+
+
+    def entry_one(self):
+        pass
+
+    def entry_more(self):
+        pass
+
+    def radio_one(self):
+        pass
+
+    def check_two(self):
+        pass
+
+    def check_more_set(self, opt):
+        
+        if self.now != "":
+            self.option[self.now].grid_remove()
+
+        self.now = "check_more"
+        if "check_more" not in self.option:
+            self.option["check_more"] = ttk.Frame(self.frame)
+            self.option["check_more"].grid(row=0, column=0, sticky="nsew")
+            self.check_more_item = {}
+            self.check_more_var = {}
+            self.check_more_dict = {}
+        else:
+            self.option["check_more"].grid()
+
+        for i, var in enumerate(opt):
+            if i not in self.check_more_item:
+                self.check_more_var[i] = tk.IntVar()
+                self.check_more_item[i] = ttk.Checkbutton(self.option["check_more"])
+                self.check_more_item[i].config(variable=self.check_more_var[i], onvalue=1, offvalue=0)
+                self.check_more_item[i].config(command=self.master.change)
+                self.check_more_item[i].grid(row=0, column=i, padx=5, pady=5, sticky="nsew")
+            self.check_more_item[i].config(text=var)
+            self.check_more_var[i].set(0)
+            self.check_more_dict[i] = var
+
+        for i, wid in self.check_more_item.items():
+            if i >= len(opt):
+                wid.grid_remove()
+            else:
+                wid.grid()
+
+        self.frame.update()
+        self.canvas.config(height=self.frame.winfo_height())
+
+    def check_more_get(self):
+
+        temp = []
+        for i, var in self.check_more_dict.items():
+            if self.check_more_var[i].get() == 1:
+                temp.append(var)
+        
+        return temp
+        
+
+    def scroll_on(self):
+
+        self.scrollbar.update()
+        (x,y) = self.scrollbar.get()
+        if x == 0.0 and y == 1.0:
+            return
+
+        # Linux 
+        self.canvas.bind_all('<Shift-4>', lambda e: self.canvas.xview('scroll', -1, 'units'))
+        self.canvas.bind_all('<Shift-5>', lambda e: self.canvas.xview('scroll', 1, 'units'))
+
+    def scroll_off(self):
+
+        self.canvas.unbind_all('<Shift-4>')
+        self.canvas.unbind_all('<Shift-5>')

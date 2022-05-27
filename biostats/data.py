@@ -1,4 +1,3 @@
-from re import S
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
@@ -94,6 +93,7 @@ class Data(ttk.Frame):
 
         self.switch("view")
 
+
     def switch(self, key):
 
         if key == "view":
@@ -117,26 +117,12 @@ class Data(ttk.Frame):
         )
         if filename:
             try:
-                #filename = r"{}".format(filename)
                 try:
-                    df = pd.read_excel(filename, header=0)
+                    df = pd.read_excel(filename, header=0, dtype=object)
                 except:
-                    df = pd.read_csv(filename)
+                    df = pd.read_csv(filename, dtype=object)
 
-                for col in df:
-                    try: 
-                        df[col] = df[col].astype('Int64')
-                    except:
-                        pass
-
-                df = df.dropna(how="all")
-                df = df.dropna(how="all", axis=1)
-
-                df = df.reset_index(drop=True)
-                df.index += 1
-
-                self.master.data = df
-                self.master.changed()
+                self.data_process(df)
 
             except ValueError:
                 messagebox.showerror(
@@ -151,11 +137,41 @@ class Data(ttk.Frame):
                 )
 
     def confirm(self):
-        
-        self.master.data = self.table.data_save()
-        self.master.changed()
 
+        large, df = self.table.data_save()
+        if large == False:
+            self.data_process(df)
+        
         self.switch("view")
+
+    def data_process(self, df):
+
+        df = df.dropna(how="all")
+        df = df.dropna(how="all", axis=1)
+        df = df.reset_index(drop=True)
+        df.index += 1
+
+        col_num = []
+        col_cat = []
+
+        for col in df:
+            try: 
+                df[col] = df[col].astype('Int64')
+                col_num.append(col)
+                col_cat.append(col)
+            except:
+                try: 
+                    df[col] = df[col].astype('float64')
+                    col_num.append(col)
+                except:
+                    col_cat.append(col)
+
+        self.master.data = df
+        self.master.data_col["num"] = col_num
+        self.master.data_col["cat"] = col_cat
+
+        self.master.changed()
+        
 
     def save(self):
 
