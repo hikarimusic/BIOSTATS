@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
-from numpy import insert
 import pandas as pd
 
 from .data import Data
 from .test import Test
+from .widget import Spin
 
 class Master(ttk.Frame):
 
@@ -48,8 +48,10 @@ class Master(ttk.Frame):
         self.setting_frame = ttk.LabelFrame(self, text="Setting", padding=(10,5))
         self.setting_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
-        self.decimal = ttk.Spinbox(self.setting_frame, from_=1, to=99, increment=1, width=1)
-        self.decimal.config(textvariable=self.precision, command=self.updating)
+        self.decimal = Spin(
+            self.setting_frame, from_=1, to=99, increment=1, width=1, textvariable=self.precision
+        )
+        self.decimal.set_command(self.updating)
         self.decimal.grid(row=0, column=0, padx=5, pady=10, sticky="nsew")
 
         self.decimal_label = ttk.Label(self.setting_frame, text="Precision")
@@ -96,6 +98,12 @@ class Master(ttk.Frame):
             
 
     def updating(self):
+
+        """
+        prec = self.precision.get()
+        self.decimal.delete(0, "end")
+        self.decimal.insert(0, prec)
+        """
 
         self.data_win.tree.show(self.scientific.get(), self.precision.get())
 

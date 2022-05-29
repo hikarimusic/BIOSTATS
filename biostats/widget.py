@@ -1,8 +1,30 @@
 import tkinter as tk
 from tkinter import ttk
-from click import command
 import pandas as pd
 from io import StringIO
+
+class Spin(ttk.Spinbox):
+
+    def __init__(self, parent, from_, to, increment, width, textvariable):
+        
+        ttk.Spinbox.__init__(
+            self, parent, from_=from_, to=to, increment=increment, width=width, textvariable=textvariable
+        )
+        self.par = parent
+        self.var = textvariable
+        self.config(command=self.command)
+    
+    def set_command(self, command):
+        self.com = command
+    
+    def command(self):
+
+        val = self.var.get()
+        self.delete(0, "end")
+        self.insert(0, val)
+        self.com()
+        self.par.focus()
+
 
 class Tree(ttk.Frame):
 
@@ -70,7 +92,7 @@ class Tree(ttk.Frame):
         # Data
         for i in range(len(self.data)):
             idd = str(index[i])
-            width_id = max(width_id, len(idd)*10+30)
+            width_id = max(width_id, len(idd)*7+50)
             value = []
             for j in range(len(self.data.columns)):
                 col_type = str(self.data.dtypes[self.data.columns[j]])
@@ -89,7 +111,7 @@ class Tree(ttk.Frame):
                 else:
                     temp = str(self.data.iloc[i][j])
                 value.append(temp)
-                width[j] = max(width[j],len(temp)*10)
+                width[j] = max(width[j],len(temp)*7+50)
             self.treeview.insert(parent="", index="end", text=idd, values=value)
             
         self.treeview.column('#0', minwidth=width_id, width=width_id, stretch="no")
@@ -365,8 +387,46 @@ class Option(ttk.Frame):
     def entry_more(self):
         pass
 
-    def radio_one(self):
-        pass
+    def radio_one_set(self, opt):
+
+        if self.now != "":
+            self.option[self.now].grid_remove()
+
+        self.now = "radio_one"
+        if "radio_one" not in self.option:
+            self.option["radio_one"] = ttk.Frame(self.frame)
+            self.option["radio_one"].grid(row=0, column=0, sticky="nsew")
+            self.radio_one_item = {}
+            self.radio_one_var = tk.IntVar()
+            self.radio_one_list = []
+        else:
+            self.option["radio_one"].grid()
+
+        for i, var in enumerate(opt):
+            if i not in self.radio_one_item:
+                self.radio_one_item[i] = ttk.Radiobutton(self.option["radio_one"])
+                self.radio_one_item[i].config(variable=self.radio_one_var, value=i)
+                self.radio_one_item[i].config(command=self.master.change)
+                self.radio_one_item[i].grid(row=0, column=i, padx=5, pady=5, sticky="nsew")
+            self.radio_one_item[i].config(text=var)
+        self.radio_one_var.set(0)
+        self.radio_one_list = opt
+
+        for i, wid in self.radio_one_item.items():
+            if i >= len(opt):
+                wid.grid_remove()
+            else:
+                wid.grid()
+
+        self.frame.update()
+        self.canvas.config(height=self.frame.winfo_height())
+    
+    def radio_one_get(self):
+        
+        if not self.radio_one_list:
+            return
+        i = self.radio_one_var.get()
+        return self.radio_one_list[i]
 
     def check_two(self):
         pass
@@ -382,7 +442,7 @@ class Option(ttk.Frame):
             self.option["check_more"].grid(row=0, column=0, sticky="nsew")
             self.check_more_item = {}
             self.check_more_var = {}
-            self.check_more_dict = {}
+            self.check_more_list = []
         else:
             self.option["check_more"].grid()
 
@@ -395,7 +455,7 @@ class Option(ttk.Frame):
                 self.check_more_item[i].grid(row=0, column=i, padx=5, pady=5, sticky="nsew")
             self.check_more_item[i].config(text=var)
             self.check_more_var[i].set(0)
-            self.check_more_dict[i] = var
+        self.check_more_list = opt
 
         for i, wid in self.check_more_item.items():
             if i >= len(opt):
@@ -409,7 +469,7 @@ class Option(ttk.Frame):
     def check_more_get(self):
 
         temp = []
-        for i, var in self.check_more_dict.items():
+        for i, var in enumerate(self.check_more_list):
             if self.check_more_var[i].get() == 1:
                 temp.append(var)
         
