@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+from numpy import var
+
 from .widget import Tree, Option
 from . import model
 
@@ -13,10 +15,10 @@ class Test(ttk.Frame):
         self.master = master
 
         # Variable
-        self.test_type = ["", "Basic", "t-Test"]
+        self.test_type = ["", "Basic", "ANOVA"]
         self.test_list = {
-            "Basic"  : ["", "Numeral", "Numeral (Grouped)", "Categorical"],
-            "t-Test" : ["", "One-Sample t-Test", "Two-Sample t-Test", "Paired t-Test", "Pairwise t-Test"]
+            "Basic"  : ["", "Numeral"],
+            "ANOVA"  : ["", "One-Way ANOVA"]
         }
         self.test_1 = tk.StringVar(value="Basic")
         self.test_2 = {}
@@ -143,6 +145,20 @@ class Test(ttk.Frame):
                 self.option[0].check_more_set(self.master.data_col["num"])
                 self.option[0].grid()
 
+        if kind == "ANOVA":
+
+            if test == "One-Way ANOVA":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+                self.option_label[1].config(text="Between:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+        self.change()
+
     def change(self):
 
         for wid in self.result.values():
@@ -155,13 +171,35 @@ class Test(ttk.Frame):
 
             if test == "Numeral":
                 
-                var = self.option[0].check_more_get()
-                if len(var) == 0:
+                variable = self.option[0].check_more_get()
+                if len(variable) == 0:
                     return
                 
-                result = model.numeral(self.master.data, var)
+                result = model.numeral(self.master.data, variable)
                 self.result[0].data = result
                 self.result[0].set(20)
                 self.result[0].grid()
+
+        if kind == "ANOVA":
+
+            if test == "One-Way ANOVA":
+
+                variable = self.option[0].radio_one_get()
+                between = self.option[1].radio_one_get()
+
+                if not variable:
+                    return
+                if not between:
+                    return
+
+                summary, result = model.one_way_anova(self.master.data, variable, between)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
 
         self.master.updating()

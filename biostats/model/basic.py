@@ -8,13 +8,16 @@ def CC(fun, *args):
     except:
         return np.nan
 
-def numeral(data,variable):
-
+def process(data):
     for col in data:
         try: 
             data[col] = data[col].astype('float64')
         except:
-            pass
+            pass  
+
+def numeral(data,variable):
+
+    process(data)
 
     index = ["Count", "Mean", "Median", "Geometric Mean", "Harmonic Mean", "Mode"]
     index += ["", "Variance", "Std. Deviation", "Coef. Variation", "(Population) Variance", "(Population) Std.Dev"]
@@ -52,10 +55,6 @@ def numeral(data,variable):
             CC(lambda a: st.t.ppf(0.950, a.count()-1, st.tmean(a), st.tsem(a)), data[var].dropna()) ,
         ]
 
-    for col in result:
-        try: 
-            result[col] = result[col].astype('float64')
-        except:
-            pass
+    process(result)
 
     return result

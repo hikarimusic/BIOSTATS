@@ -4,7 +4,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import pandas as pd
 
-from .widget import Tree, Table
+from .widget import Spin, Tree, Table
 
 class Data(ttk.Frame):
 
@@ -60,15 +60,19 @@ class Data(ttk.Frame):
         self.row_label = ttk.Label(self.bar_edit, text="Row")
         self.row_label.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 
-        self.row_spin = ttk.Spinbox(self.bar_edit, textvariable=self.row_num, from_=1, to=999, increment=1, width=6)
-        self.row_spin.config(command=lambda : self.table.resize(self.row_num.get(), self.col_num.get()))
+        self.row_spin = Spin(
+            self.bar_edit, from_=1, to=999, increment=1, width=6, textvariable=self.row_num
+        )
+        self.row_spin.set_command(lambda : self.table.resize(self.row_num.get(), self.col_num.get()))
         self.row_spin.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
         self.col_label = ttk.Label(self.bar_edit, text="Column")
         self.col_label.grid(row=0, column=2, padx=5, pady=5, sticky="nsew")
 
-        self.col_spin = ttk.Spinbox(self.bar_edit, textvariable=self.col_num, from_=1, to=999, increment=1, width=6)
-        self.col_spin.config(command=lambda : self.table.resize(self.row_num.get(), self.col_num.get()))
+        self.col_spin = Spin(
+            self.bar_edit, from_=1, to=999, increment=1, width=6, textvariable=self.col_num
+        )
+        self.col_spin.set_command(lambda : self.table.resize(self.row_num.get(), self.col_num.get()))
         self.col_spin.grid(row=0, column=3, padx=5, pady=5, sticky="nsew")
         
         self.confirm_button = ttk.Button(self.bar_edit, text="Confirm", style="Accent.TButton")
