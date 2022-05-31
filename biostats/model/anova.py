@@ -52,14 +52,6 @@ def one_way_anova(data, variable, between):
     summary = summary.reset_index(drop=True)
     summary.index += 1
 
-    '''
-    index_change = {}
-    for index in result2.index:
-        changed = "{}({})".format(between, index)
-        index_change[index] = changed
-    result2 = result2.rename(index_change)
-    '''
-
     formula = "Q('%s') ~ " % variable
     formula += "C(Q('%s'))" % between
     model = ols(formula, data=data).fit()

@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from click import command
 import pandas as pd
 from io import StringIO
 
@@ -474,7 +475,72 @@ class Option(ttk.Frame):
                 temp.append(var)
         
         return temp
+
+    def spin_one_set(self, from_, to, increment, initial, width):
+
+        if self.now != "":
+            self.option[self.now].grid_remove()
+
+        self.now = "spin_one"
+        if "spin_one" not in self.option:
+            self.option["spin_one"] = ttk.Frame(self.frame)
+            self.option["spin_one"].grid(row=0, column=0, sticky="nsew")
+            self.spin_one_var = tk.IntVar()
+            self.spin_one_item = ttk.Spinbox(self.option["spin_one"])
+            self.spin_one_item.config(textvariable=self.spin_one_var, command=self.spin_one_command)
+            self.spin_one_item.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+        else:
+            self.option["spin_one"].grid()
+
+        self.spin_one_var.set(initial)
+        self.spin_one_item.config(from_=from_, to=to, increment=increment, width=width)
         
+        self.frame.update()
+        self.canvas.config(height=self.frame.winfo_height())
+
+    def spin_one_command(self):
+
+        val = self.spin_one_var.get()
+        self.spin_one_item.delete(0, "end")
+        self.spin_one_item.insert(0, val)
+        self.option["spin_one"].focus()
+        self.master.change()
+
+    def spin_one_get(self):
+
+        return self.spin_one_var.get()
+
+    def entry_one_set(self, initial, width):
+ 
+        if self.now != "":
+            self.option[self.now].grid_remove()
+
+        self.now = "entry_one"
+        if "entry_one" not in self.option:
+            self.option["entry_one"] = ttk.Frame(self.frame)
+            self.option["entry_one"].grid(row=0, column=0, sticky="nsew")
+            self.entry_one_var = tk.StringVar()
+            self.entry_one_item = ttk.Entry(self.option["entry_one"])
+            self.entry_one_item.config(textvariable=self.entry_one_var)
+            self.entry_one_item.bind("<Return>", lambda e: self.entry_one_command())
+            self.entry_one_item.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+        else:
+            self.option["entry_one"].grid()
+
+        self.entry_one_var.set(initial)
+        self.entry_one_item.config(width=width)
+        
+        self.frame.update()
+        self.canvas.config(height=self.frame.winfo_height())
+
+    def entry_one_command(self):
+
+        self.option["entry_one"].focus()
+        self.master.change()
+
+    def entry_one_get(self):
+
+        return self.entry_one_var.get()
 
     def scroll_on(self):
 
