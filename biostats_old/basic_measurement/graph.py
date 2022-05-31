@@ -59,9 +59,27 @@ class Graph(ttk.Frame):
 
         # Figure
 
+        '''
         penguins = sns.load_dataset("penguins")
         g = sns.pairplot(penguins)
         self.fig = g.fig
+        '''
+
+        '''
+        data = sns.load_dataset("penguins")
+        self.fig, ax= plt.subplots()
+        sns.stripplot(x="species", y="bill_depth_mm", data=data, ax=ax)
+        '''
+
+        self.fig = plt.figure()
+
+        self.fig.clear()
+        plt.close(self.fig)
+
+        self.fig = self.test()
+
+        plt.show()
+
 
         #self.fig = plt.Figure()
         self.canvas = FigureCanvasTkAgg(self.fig, master=self) 
@@ -216,6 +234,19 @@ class Graph(ttk.Frame):
         self.save_button.grid(
             row=4, column=0, pady=(20,0), sticky="e"
         )
+
+    def test(self):
+        data = sns.load_dataset("penguins")
+        fig, ax= plt.subplots()
+        sns.stripplot(x="species", y="bill_depth_mm", data=data, ax=ax)
+
+        print(type(fig))
+        
+        #g = sns.pairplot(data)
+
+        #print(type(g.fig))
+
+        return fig
 
     def graph_update(self):
 

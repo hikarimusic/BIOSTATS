@@ -4,6 +4,7 @@ import pandas as pd
 
 from .data import Data
 from .test import Test
+from .plot import Plot
 from .widget import Spin
 
 class Master(ttk.Frame):
@@ -80,8 +81,13 @@ class Master(ttk.Frame):
         self.test_win = Test(self, self)
         self.test_win.grid(row=0, column=1, rowspan=3, padx=10, pady=10, sticky="nsew")
 
+        # Plot
+        self.plot_win = Plot(self, self)
+        self.plot_win.grid(row=0, column=1, rowspan=3, padx=10, pady=10, sticky="nsew")
+
         # Initial
         self.window.set(0)
+        self.update()
         self.switch()
 
     def switch(self):
@@ -95,6 +101,10 @@ class Master(ttk.Frame):
         if key == 1:
             self.test_win.tkraise()
             self.test_win.focus()
+
+        if key == 2:
+            self.plot_win.tkraise()
+            self.plot_win.focus()
             
 
     def updating(self):
@@ -119,4 +129,9 @@ class Master(ttk.Frame):
         self.test_win.test_1.set("Basic")
         self.test_win.test_2["Basic"].set("Numeral")
         self.test_win.test_change()
+
+        self.plot_win.plot_1.set("Distribution")
+        self.plot_win.plot_2["Distribution"].set("Histogram")
+        self.plot_win.plot_change()
+
 
