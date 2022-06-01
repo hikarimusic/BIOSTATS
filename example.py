@@ -28,6 +28,9 @@ summary, result = bs.one_way_anova(data=data, variable="Length", between="Locati
 print(summary)
 print(result)
 
+
+
+
 # ---------------------------------------------------------------
 # Distribution
 
@@ -39,4 +42,12 @@ plt.show()
 # Density Plot
 data = pd.read_csv("biostats/dataset/penguins.csv")
 fig = bs.density(data=data, x="flipper_length_mm", smooth=1, color="species")
+plt.show()
+
+# ---------------------------------------------------------------
+# Categorical
+
+# Strip Plot
+data = pd.read_csv("biostats/dataset/tips.csv")
+fig = bs.strip(data=data, x="day", y="total_bill", color="smoker")
 plt.show()

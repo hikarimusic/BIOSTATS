@@ -4,6 +4,8 @@ from click import command
 import pandas as pd
 from io import StringIO
 
+import time
+
 class Spin(ttk.Spinbox):
 
     def __init__(self, parent, from_, to, increment, width, textvariable):
@@ -13,19 +15,21 @@ class Spin(ttk.Spinbox):
         )
         self.par = parent
         self.var = textvariable
-        self.config(command=self.command)
+        self.config(command=self.command_on)
     
     def set_command(self, command):
         self.com = command
-    
-    def command(self):
 
+    def command_on(self):
+        self.bind("<Motion>", lambda e: self.command_off())
+    
+    def command_off(self):
         val = self.var.get()
         self.delete(0, "end")
         self.insert(0, val)
-        self.com()
         self.par.focus()
-
+        self.unbind("<Motion>")
+        self.com()
 
 class Tree(ttk.Frame):
 

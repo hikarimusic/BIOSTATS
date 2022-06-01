@@ -17,9 +17,10 @@ class Plot(ttk.Frame):
         self.master = master
 
         # Variable
-        self.plot_type = ["", "Distribution"]
+        self.plot_type = ["", "Distribution", "Categorical"]
         self.plot_list = {
-            "Distribution"  : ["", "Histogram", "Density Plot"],
+            "Distribution" : ["", "Histogram", "Density Plot"],
+            "Categorical"  : ["", "Strip Plot"] 
         }
         self.plot_1 = tk.StringVar(value="Distribution")
         self.plot_2 = {}
@@ -136,6 +137,24 @@ class Plot(ttk.Frame):
                 self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
                 self.option[2].grid()
 
+        if kind == "Categorical":
+
+            if plot == "Strip Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+
 
         self.change()
 
@@ -146,11 +165,11 @@ class Plot(ttk.Frame):
         plt.close()
 
         kind = self.plot_1.get()
-        test = self.plot_2[kind].get()
+        plot = self.plot_2[kind].get()
 
         if kind == "Distribution":
 
-            if test == "Histogram":
+            if plot == "Histogram":
                 x = self.option[0].radio_one_get()
                 band = self.option[1].spin_one_get()
                 color = self.option[2].radio_one_get()
@@ -165,7 +184,7 @@ class Plot(ttk.Frame):
                 else:
                     self.graph = model.histogram(self.master.data, x=x, band=band, color=color)
 
-            if test == "Density Plot":
+            if plot == "Density Plot":
                 x = self.option[0].radio_one_get()
                 smooth = self.option[1].entry_one_get()
                 color = self.option[2].radio_one_get()
@@ -186,7 +205,27 @@ class Plot(ttk.Frame):
                 else:
                     self.graph = model.density(self.master.data, x=x, smooth=smooth, color=color)
             
-            
+        if kind == "Categorical":
+
+            if plot == "Strip Plot":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.strip(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.strip(self.master.data, x=x, y=y, color=color)
+
+
+
 
 
         self.canvas = FigureCanvasTkAgg(self.graph, master=self.graph_frame)

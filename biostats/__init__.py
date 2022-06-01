@@ -7,3 +7,6 @@ from .model.linear_regression import *
 from .model.logistic_regression import *
 from .model.non_parametric import *
 from .model.distribution import *
+from .model.categorical import *
+from .model.relational import *
+from .model.multiple import *
