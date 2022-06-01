@@ -109,12 +109,6 @@ class Master(ttk.Frame):
 
     def updating(self):
 
-        """
-        prec = self.precision.get()
-        self.decimal.delete(0, "end")
-        self.decimal.insert(0, prec)
-        """
-
         self.data_win.tree.show(self.scientific.get(), self.precision.get())
 
         for i in range(3):
