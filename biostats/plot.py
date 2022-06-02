@@ -17,10 +17,11 @@ class Plot(ttk.Frame):
         self.master = master
 
         # Variable
-        self.plot_type = ["", "Distribution", "Categorical"]
+        self.plot_type = ["", "Distribution", "Categorical", "Relational"]
         self.plot_list = {
-            "Distribution" : ["", "Histogram", "Density Plot"],
-            "Categorical"  : ["", "Strip Plot"] 
+            "Distribution" : ["", "Histogram", "Density Plot", "Cumulative Plot", "2D Histogram", "2D Density Plot"],
+            "Categorical"  : ["", "Count Plot", "Strip Plot", "Swarm Plot", "Box Plot", "Boxen Plot", "Violin Plot", "Bar Plot"],
+            "Relational"   : ["", "Scatter Plot", "Line Plot", "Regression Plot"]
         }
         self.plot_1 = tk.StringVar(value="Distribution")
         self.plot_2 = {}
@@ -137,7 +138,61 @@ class Plot(ttk.Frame):
                 self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
                 self.option[2].grid()
 
+            if plot == "Cumulative Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Color:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[1].grid()
+
+            if plot == "2D Histogram":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+    
+            if plot == "2D Density Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+
         if kind == "Categorical":
+
+            if plot == "Count Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Color:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[1].grid()
 
             if plot == "Strip Plot":
                 self.option_label[0].config(text="X:")
@@ -154,6 +209,131 @@ class Plot(ttk.Frame):
                 self.option_label[2].grid()
                 self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
                 self.option[2].grid()
+
+            if plot == "Swarm Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+
+            if plot == "Box Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+
+            if plot == "Boxen Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+
+            if plot == "Violin Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+
+            if plot == "Bar Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+        
+        if kind == "Relational":
+
+            if plot == "Scatter Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+
+            if plot == "Line Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+
+            if plot == "Regression Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
 
 
         self.change()
@@ -201,11 +381,75 @@ class Plot(ttk.Frame):
                     return
 
                 if color == "None":
-                    self.graph = model.density(self.master.data, x=x, smooth=smooth)
+                    self.graph = model.density_plot(self.master.data, x=x, smooth=smooth)
                 else:
-                    self.graph = model.density(self.master.data, x=x, smooth=smooth, color=color)
-            
+                    self.graph = model.density_plot(self.master.data, x=x, smooth=smooth, color=color)
+
+            if plot == "Cumulative Plot":
+                x = self.option[0].radio_one_get()
+                color = self.option[1].radio_one_get()
+
+                if not x:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.cumulative_plot(self.master.data, x=x)
+                else:
+                    self.graph = model.cumulative_plot(self.master.data, x=x, color=color)      
+
+            if plot == "2D Histogram":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.histogram_2D(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.histogram_2D(self.master.data, x=x, y=y, color=color)
+
+            if plot == "2D Density Plot":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+                if x == y:
+                    return
+
+                if color == "None":
+                    self.graph = model.density_plot_2D(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.density_plot_2D(self.master.data, x=x, y=y, color=color)
+
         if kind == "Categorical":
+
+            if plot == "Count Plot":
+                x = self.option[0].radio_one_get()
+                color = self.option[1].radio_one_get()
+
+                if not x:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.count_plot(self.master.data, x=x)
+                else:
+                    self.graph = model.count_plot(self.master.data, x=x, color=color)
 
             if plot == "Strip Plot":
                 x = self.option[0].radio_one_get()
@@ -220,12 +464,141 @@ class Plot(ttk.Frame):
                     return
 
                 if color == "None":
-                    self.graph = model.strip(self.master.data, x=x, y=y)
+                    self.graph = model.strip_plot(self.master.data, x=x, y=y)
                 else:
-                    self.graph = model.strip(self.master.data, x=x, y=y, color=color)
+                    self.graph = model.strip_plot(self.master.data, x=x, y=y, color=color)
 
+            if plot == "Swarm Plot":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
 
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
 
+                if color == "None":
+                    self.graph = model.swarm_plot(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.swarm_plot(self.master.data, x=x, y=y, color=color)
+
+            if plot == "Box Plot":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.box_plot(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.box_plot(self.master.data, x=x, y=y, color=color)
+
+            if plot == "Boxen Plot":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.boxen_plot(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.boxen_plot(self.master.data, x=x, y=y, color=color)
+
+            if plot == "Violin Plot":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.violin_plot(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.violin_plot(self.master.data, x=x, y=y, color=color)
+
+            if plot == "Bar Plot":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.bar_plot(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.bar_plot(self.master.data, x=x, y=y, color=color)
+
+        if kind == "Relational":
+
+            if plot == "Scatter Plot":        
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.scatter_plot(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.scatter_plot(self.master.data, x=x, y=y, color=color)
+
+            if plot == "Line Plot":        
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+
+                if color == "None":
+                    self.graph = model.line_plot(self.master.data, x=x, y=y)
+                else:
+                    self.graph = model.line_plot(self.master.data, x=x, y=y, color=color)
+
+            if plot == "Regression Plot":        
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+
+                self.graph = model.regression_plot(self.master.data, x=x, y=y)
 
 
         self.canvas = FigureCanvasTkAgg(self.graph, master=self.graph_frame)
