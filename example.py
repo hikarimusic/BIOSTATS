@@ -41,13 +41,76 @@ plt.show()
 
 # Density Plot
 data = pd.read_csv("biostats/dataset/penguins.csv")
-fig = bs.density(data=data, x="flipper_length_mm", smooth=1, color="species")
+fig = bs.density_plot(data=data, x="flipper_length_mm", smooth=1, color="species")
+plt.show()
+
+# Cumulative Plot
+data = pd.read_csv("biostats/dataset/penguins.csv")
+fig = bs.cumulative_plot(data=data, x="bill_length_mm", color="species")
+plt.show()
+
+# 2D Histogram
+data = pd.read_csv("biostats/dataset/penguins.csv")
+fig = bs.histogram_2D(data=data, x="bill_depth_mm", y="body_mass_g", color="species")
+plt.show()
+
+# 2D Density Plot
+data = pd.read_csv("biostats/dataset/penguins.csv")
+fig = bs.density_plot_2D(data=data, x="bill_depth_mm", y="body_mass_g", color="species")
 plt.show()
 
 # ---------------------------------------------------------------
 # Categorical
 
+# Count Plot
+data = pd.read_csv("biostats/dataset/titanic.csv")
+fig = bs.count_plot(data=data, x="class", color="who")
+plt.show()
+
 # Strip Plot
 data = pd.read_csv("biostats/dataset/tips.csv")
-fig = bs.strip(data=data, x="day", y="total_bill", color="smoker")
+fig = bs.strip_plot(data=data, x="day", y="total_bill", color="smoker")
+plt.show()
+
+# Strip Plot
+data = pd.read_csv("biostats/dataset/tips.csv")
+fig = bs.swarm_plot(data=data, x="day", y="total_bill", color="smoker")
+plt.show()
+
+# Box Plot
+data = pd.read_csv("biostats/dataset/tips.csv")
+fig = bs.box_plot(data=data, x="day", y="total_bill", color="smoker")
+plt.show()
+
+# Boxen Plot
+data = pd.read_csv("biostats/dataset/tips.csv")
+fig = bs.boxen_plot(data=data, x="day", y="total_bill", color="smoker")
+plt.show()
+
+# Violin Plot
+data = pd.read_csv("biostats/dataset/tips.csv")
+fig = bs.violin_plot(data=data, x="day", y="total_bill", color="smoker")
+plt.show()
+
+# Bar Plot
+data = pd.read_csv("biostats/dataset/tips.csv")
+fig = bs.bar_plot(data=data, x="day", y="total_bill", color="smoker")
+plt.show()
+
+# ---------------------------------------------------------------
+# Relational
+
+# Scatter Plot
+data = pd.read_csv("biostats/dataset/tips.csv")
+fig = bs.scatter_plot(data=data, x="total_bill", y="tip", color="time")
+plt.show()
+
+# Line Plot
+data = pd.read_csv("biostats/dataset/flights.csv")
+fig = bs.line_plot(data=data, x="year", y="passengers", color="month")
+plt.show()
+
+# Regression Plot
+data = pd.read_csv("biostats/dataset/tips.csv")
+fig = bs.regression_plot(data=data, x="total_bill", y="tip")
 plt.show()

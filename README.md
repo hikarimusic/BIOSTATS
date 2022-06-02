@@ -95,7 +95,7 @@ Histogram
 
 Density Plot
 
-Culmulative Plot
+Cumulative Plot
 
 2D Histogram 
 
