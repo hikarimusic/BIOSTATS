@@ -127,7 +127,7 @@ Regression Plot
 
 ### Multiple 
 
-Overall Plot
+Ultimate Plot
 
 Pair Plot
 

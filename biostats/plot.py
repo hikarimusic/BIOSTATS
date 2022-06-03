@@ -17,11 +17,12 @@ class Plot(ttk.Frame):
         self.master = master
 
         # Variable
-        self.plot_type = ["", "Distribution", "Categorical", "Relational"]
+        self.plot_type = ["", "Distribution", "Categorical", "Relational", "Multiple"]
         self.plot_list = {
             "Distribution" : ["", "Histogram", "Density Plot", "Cumulative Plot", "2D Histogram", "2D Density Plot"],
             "Categorical"  : ["", "Count Plot", "Strip Plot", "Swarm Plot", "Box Plot", "Boxen Plot", "Violin Plot", "Bar Plot"],
-            "Relational"   : ["", "Scatter Plot", "Line Plot", "Regression Plot"]
+            "Relational"   : ["", "Scatter Plot", "Line Plot", "Regression Plot"],
+            "Multiple"     : ["", "Ultimate Plot", "Pair Plot", "Joint Plot"]
         }
         self.plot_1 = tk.StringVar(value="Distribution")
         self.plot_2 = {}
@@ -72,7 +73,7 @@ class Plot(ttk.Frame):
         # Option
         self.option_label = {}
         self.option = {}
-        for i in range(3):
+        for i in range(4):
             self.option_label[i] = ttk.Label(self.option_frame)
             self.option_label[i].grid(row=i, column=0, padx=5, pady=5, sticky="nsew")
             self.option[i] = Option(self.option_frame, self)
@@ -334,6 +335,56 @@ class Plot(ttk.Frame):
                 self.option_label[1].grid()
                 self.option[1].radio_one_set(self.master.data_col["num"])
                 self.option[1].grid()
+
+        if kind == "Multiple":
+
+            if plot == "Ultimate Plot":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data.columns.tolist())
+                self.option[0].grid()
+
+            if plot == "Pair Plot":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Color:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[1].grid()
+
+                kind_list = ["scatter", "regression", "density", "histogram"]
+
+                self.option_label[2].config(text="Kind:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(kind_list)
+                self.option[2].grid()
+
+            if plot == "Joint Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Color:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
+                self.option[2].grid()
+
+                kind_list = ["scatter", "regression", "density", "histogram", "hexagon"]
+
+                self.option_label[3].config(text="Kind:")
+                self.option_label[3].grid()
+                self.option[3].radio_one_set(kind_list)
+                self.option[3].grid()
+
 
 
         self.change()
@@ -599,6 +650,53 @@ class Plot(ttk.Frame):
                     return
 
                 self.graph = model.regression_plot(self.master.data, x=x, y=y)
+
+        if kind == "Multiple":
+
+            if plot == "Ultimate Plot":
+                variable = self.option[0].check_more_get()
+
+                if not variable:
+                    return
+
+                self.graph = model.ultimate_plot(self.master.data, variable=variable)
+
+            if plot == "Pair Plot":
+                variable = self.option[0].check_more_get()
+                color = self.option[1].radio_one_get()
+                kind = self.option[2].radio_one_get()
+
+                if not variable:
+                    return
+                if not color:
+                    return
+                if not kind:
+                    return
+
+                if color == "None":
+                    self.graph = model.pair_plot(self.master.data, variable=variable, kind=kind)
+                else:
+                    self.graph = model.pair_plot(self.master.data, variable=variable, color=color, kind=kind)
+
+            if plot == "Joint Plot":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                color = self.option[2].radio_one_get()
+                kind = self.option[3].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not color:
+                    return
+                if not kind:
+                    return
+
+                if color == "None":
+                    self.graph = model.joint_plot(self.master.data, x=x, y=y, kind=kind)
+                else:
+                    self.graph = model.joint_plot(self.master.data, x=x, y=y, color=color, kind=kind)
 
 
         self.canvas = FigureCanvasTkAgg(self.graph, master=self.graph_frame)
