@@ -14,10 +14,7 @@ def scatter_plot(data, x, y, color=None):
     process(data)
 
     fig, ax = plt.subplots()
-    if color:
-        sns.scatterplot(data=data, x=x, y=y, hue=color, ax=ax)
-    else:
-        sns.scatterplot(data=data, x=x, y=y, ax=ax)
+    sns.scatterplot(data=data, x=x, y=y, hue=color, ax=ax)
         
     return fig
 
@@ -27,10 +24,7 @@ def line_plot(data, x, y, color=None):
     process(data)
 
     fig, ax = plt.subplots()
-    if color:
-        sns.lineplot(data=data, x=x, y=y, hue=color, ax=ax)
-    else:
-        sns.lineplot(data=data, x=x, y=y, ax=ax)
+    sns.lineplot(data=data, x=x, y=y, hue=color, ax=ax)
         
     return fig
 

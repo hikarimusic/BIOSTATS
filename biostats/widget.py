@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from click import command
 import pandas as pd
 from io import StringIO
 
@@ -554,10 +553,13 @@ class Option(ttk.Frame):
             return
 
         # Linux 
+        self.canvas.bind_all('<4>', lambda e: self.canvas.xview('scroll', -1, 'units'))
+        self.canvas.bind_all('<5>', lambda e: self.canvas.xview('scroll', 1, 'units'))
         self.canvas.bind_all('<Shift-4>', lambda e: self.canvas.xview('scroll', -1, 'units'))
         self.canvas.bind_all('<Shift-5>', lambda e: self.canvas.xview('scroll', 1, 'units'))
 
     def scroll_off(self):
-
+        self.canvas.unbind_all('<4>')
+        self.canvas.unbind_all('<5>')
         self.canvas.unbind_all('<Shift-4>')
         self.canvas.unbind_all('<Shift-5>')

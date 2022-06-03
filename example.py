@@ -1,3 +1,4 @@
+from numpy import var
 import biostats as bs
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -113,4 +114,22 @@ plt.show()
 # Regression Plot
 data = pd.read_csv("biostats/dataset/tips.csv")
 fig = bs.regression_plot(data=data, x="total_bill", y="tip")
+plt.show()
+
+# ---------------------------------------------------------------
+# Multiple
+
+# Ultimate Plot
+data = pd.read_csv("biostats/dataset/penguins.csv")
+fig = bs.ultimate_plot(data=data, variable=["species", "bill_length_mm", "body_mass_g", "sex"])
+plt.show()
+
+# Pair Plot
+data = pd.read_csv("biostats/dataset/penguins.csv")
+fig = bs.pair_plot(data=data, variable=["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"], color="species", kind="scatter")
+plt.show()
+
+# Joint Plot
+data = pd.read_csv("biostats/dataset/penguins.csv")
+fig = bs.joint_plot(data=data, x="bill_length_mm", y="bill_depth_mm", color="species", kind="scatter")
 plt.show()

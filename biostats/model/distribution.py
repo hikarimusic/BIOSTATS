@@ -14,10 +14,7 @@ def histogram(data, x, band, color=None):
     process(data)
 
     fig, ax = plt.subplots()
-    if color:
-        sns.histplot(data=data, x=x, bins=band, hue=color, ax=ax)
-    else:
-        sns.histplot(data=data, x=x, bins=band, ax=ax)
+    sns.histplot(data=data, x=x, bins=band, hue=color, ax=ax)
         
     return fig
 
@@ -28,10 +25,7 @@ def density_plot(data, x, smooth, color=None):
     process(data)
 
     fig, ax = plt.subplots()
-    if color:
-        sns.kdeplot(data= data, x=x, bw_adjust=smooth, hue=color, ax=ax)
-    else:
-        sns.kdeplot(data=data, x=x, bw_adjust=smooth, ax=ax)
+    sns.kdeplot(data= data, x=x, bw_adjust=smooth, hue=color, ax=ax)
     
     return fig
 
@@ -41,10 +35,7 @@ def cumulative_plot(data, x, color=None):
     process(data)
 
     fig, ax = plt.subplots()
-    if color:
-        sns.ecdfplot(data= data, x=x, hue=color, ax=ax)
-    else:
-        sns.ecdfplot(data=data, x=x, ax=ax)
+    sns.ecdfplot(data= data, x=x, hue=color, ax=ax)
     
     return fig
 
@@ -54,10 +45,7 @@ def histogram_2D(data, x, y, color=None):
     process(data)
 
     fig, ax = plt.subplots()
-    if color:
-        sns.histplot(data=data, x=x, y=y, hue=color, ax=ax)
-    else:
-        sns.histplot(data=data, x=x, y=y, ax=ax)
+    sns.histplot(data=data, x=x, y=y, hue=color, ax=ax)
         
     return fig
 
@@ -67,10 +55,6 @@ def density_plot_2D(data, x, y, color=None):
     process(data)
 
     fig, ax = plt.subplots()
-    
-    if color:
-        sns.kdeplot(data=data, x=x, y=y, hue=color, ax=ax)
-    else:
-        sns.kdeplot(data=data, x=x, y=y, ax=ax)
+    sns.kdeplot(data=data, x=x, y=y, hue=color, ax=ax)
         
     return fig
