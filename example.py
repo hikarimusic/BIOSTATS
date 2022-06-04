@@ -29,8 +29,24 @@ summary, result = bs.one_way_anova(data=data, variable="Length", between="Locati
 print(summary)
 print(result)
 
+# ---------------------------------------------------------------
+# Exact Test
+
+# Fisher's Exact Test
+data = pd.read_csv("biostats/dataset/fisher_exact_test.csv")
+summary, result = bs.fisher_exact_test(data=data, variable_1="Frequency", variable_2="Result")
+print(summary)
+print(result)
 
 
+# ---------------------------------------------------------------
+# Chi-Square Test
+
+# Chi-Square Test
+data = pd.read_csv("biostats/dataset/chi_square_test.csv")
+summary, result = bs.chi_square_test(data=data, variable_1="Genotype", variable_2="Health")
+print(summary)
+print(result)
 
 # ---------------------------------------------------------------
 # Distribution

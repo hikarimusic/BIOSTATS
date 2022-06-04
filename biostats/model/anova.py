@@ -1,10 +1,8 @@
-import re
 import numpy as np
 import pandas as pd
 
 from statsmodels.formula.api import ols
 from statsmodels.stats.anova import anova_lm
-from scipy import stats as st
 
 def CC(fun, *args):
     try:
@@ -35,16 +33,15 @@ def one_way_anova(data, variable, between):
 
     summary = pd.DataFrame(
         {
-            "{}".format(between) : data.groupby(between, sort=False)[variable].groups.keys(),
-            "Count": data.groupby(between, sort=False)[variable].count(),
-            "Mean": data.groupby(between, sort=False)[variable].mean(),
-            #"Std. Deviation": data.groupby(between, sort=False)[variable].std(),
+            "{}".format(between) : CC(data.groupby(between, sort=False)[variable].groups.keys),
+            "Count": CC(data.groupby(between, sort=False)[variable].count),
+            "Mean": CC(data.groupby(between, sort=False)[variable].mean),
             "Std. Deviation": CC(data.groupby(between, sort=False)[variable].std,),
-            "Minimum": data.groupby(between, sort=False)[variable].min(),
-            "1st Quartile": data.groupby(between, sort=False)[variable].quantile(0.25),
-            "Median": data.groupby(between, sort=False)[variable].median(),
-            "3rd Quartile": data.groupby(between, sort=False)[variable].quantile(0.75),
-            "Maximum": data.groupby(between, sort=False)[variable].max(),
+            "Minimum": CC(data.groupby(between, sort=False)[variable].min),
+            "1st Quartile": CC(lambda: data.groupby(between, sort=False)[variable].quantile(0.25)),
+            "Median": CC(data.groupby(between, sort=False)[variable].median),
+            "3rd Quartile": CC(lambda: data.groupby(between, sort=False)[variable].quantile(0.75)),
+            "Maximum": CC(data.groupby(between, sort=False)[variable].max),
         }
     )
 

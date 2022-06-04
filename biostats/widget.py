@@ -104,9 +104,11 @@ class Tree(ttk.Frame):
                     temp = ""
                 elif col_type == "float64":
                     if scientific == 1:
-                        temp = format(round(self.data.iloc[i][j],precision), '.{}E'.format(precision))
+                        #temp = format(round(self.data.iloc[i][j],precision), '.{}E'.format(precision))
+                        temp = format(self.data.iloc[i][j], '.{}E'.format(precision))
                     else:
-                        temp = format(round(self.data.iloc[i][j],precision), '.{}f'.format(precision))
+                        #temp = format(round(self.data.iloc[i][j],precision), '.{}f'.format(precision))
+                        temp = format(self.data.iloc[i][j], '.{}f'.format(precision))
                 elif col_type == "Int64":
                     if scientific == 1:
                         temp = format(round(self.data.iloc[i][j],precision), '.{}E'.format(precision))

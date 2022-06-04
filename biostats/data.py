@@ -108,6 +108,7 @@ class Data(ttk.Frame):
         
         if key == "edit":
             self.bar_edit.tkraise()
+            self.table.data_write(self.master.data)
             self.table.tkraise()
             self.cell_scale.grid()
             self.table.entry[(1,1)].focus()
@@ -169,6 +170,9 @@ class Data(ttk.Frame):
                     col_num.append(col)
                 except:
                     col_cat.append(col)
+                    
+        df.columns = df.columns.map(str)
+        df.index = df.index.map(str)
 
         self.master.data = df
         self.master.data_col["num"] = col_num
