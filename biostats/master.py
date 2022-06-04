@@ -118,7 +118,7 @@ class Master(ttk.Frame):
 
         self.data_win.tree.data = self.data
         self.data_win.tree.show(self.scientific.get(), self.precision.get())
-        self.data_win.table.data_write(self.data)
+        #self.data_win.table.data_write(self.data)
 
         self.test_win.test_1.set("Basic")
         self.test_win.test_2["Basic"].set("Numeral")

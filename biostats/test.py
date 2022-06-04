@@ -17,11 +17,13 @@ class Test(ttk.Frame):
         self.master = master
 
         # Variable
-        self.test_type = ["", "Basic", "t-Test", "ANOVA"]
+        self.test_type = ["", "Basic", "t-Test", "ANOVA", "Exact Test", "Chi-Square Test"]
         self.test_list = {
-            "Basic"  : ["", "Numeral"],
-            "t-Test" : ["", "One-Sample t-Test"] ,
-            "ANOVA"  : ["", "One-Way ANOVA"]
+            "Basic"           : ["", "Numeral"] ,
+            "t-Test"          : ["", "One-Sample t-Test"] ,
+            "ANOVA"           : ["", "One-Way ANOVA"] ,
+            "Exact Test"      : ["", "Fisher's Exact Test"] ,
+            "Chi-Square Test" : ["", "Chi-Square Test"]
         }
         self.test_1 = tk.StringVar(value="Basic")
         self.test_2 = {}
@@ -141,10 +143,38 @@ class Test(ttk.Frame):
                 self.option_label[0].grid()
                 self.option[0].radio_one_set(self.master.data_col["num"])
                 self.option[0].grid()
+
                 self.option_label[1].config(text="Between:")
                 self.option_label[1].grid()
                 self.option[1].radio_one_set(self.master.data_col["cat"])
                 self.option[1].grid()
+
+        if kind == "Exact Test":
+
+            if test == "Fisher's Exact Test":
+                self.option_label[0].config(text="Variable 1:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Variable 2:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()   
+
+        if kind == "Chi-Square Test":
+
+            if test == "Chi-Square Test":
+                self.option_label[0].config(text="Variable 1:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Variable 2:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()   
+
 
         self.change()
 
@@ -213,6 +243,46 @@ class Test(ttk.Frame):
                     return
 
                 summary, result = model.one_way_anova(self.master.data, variable=variable, between=between)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+        
+        if kind == "Exact Test":
+
+            if test == "Fisher's Exact Test":
+                variable_1 = self.option[0].radio_one_get()
+                variable_2 = self.option[1].radio_one_get()
+
+                if not variable_1:
+                    return
+                if not variable_2:
+                    return
+
+                summary, result = model.fisher_exact_test(self.master.data, variable_1=variable_1, variable_2=variable_2)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+        if kind == "Chi-Square Test":
+
+            if test == "Chi-Square Test":
+                variable_1 = self.option[0].radio_one_get()
+                variable_2 = self.option[1].radio_one_get()
+
+                if not variable_1:
+                    return
+                if not variable_2:
+                    return
+
+                summary, result = model.chi_square_test(self.master.data, variable_1=variable_1, variable_2=variable_2)
 
                 self.result[0].data = summary
                 self.result[0].set(10)
