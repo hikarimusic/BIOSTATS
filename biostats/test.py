@@ -17,13 +17,16 @@ class Test(ttk.Frame):
         self.master = master
 
         # Variable
-        self.test_type = ["", "Basic", "t-Test", "ANOVA", "Exact Test", "Chi-Square Test"]
+        self.test_type = ["", "Basic", "t-Test", "ANOVA", "Exact Test", "Chi-Square Test", "Linear Regression", "Logistic Regression", "Nonparametric"]
         self.test_list = {
-            "Basic"           : ["", "Numeral"] ,
-            "t-Test"          : ["", "One-Sample t-Test"] ,
-            "ANOVA"           : ["", "One-Way ANOVA"] ,
-            "Exact Test"      : ["", "Fisher's Exact Test"] ,
-            "Chi-Square Test" : ["", "Chi-Square Test"]
+            "Basic"               : ["", "Numeral"] ,
+            "t-Test"              : ["", "One-Sample t-Test"] ,
+            "ANOVA"               : ["", "One-Way ANOVA"] ,
+            "Exact Test"          : ["", "Binomial Test", "Fisher's Exact Test"] ,
+            "Chi-Square Test"     : ["", "Chi-Square Test", "Chi-Square Test (Fit)"] ,
+            "Linear Regression"   : ["", "Simple Linear Regression"] ,
+            "Logistic Regression" : ["", "Simple Logistic Regression"] ,
+            "Nonparametric"       : ["", "Kruskal-Wallis Test"]
         }
         self.test_1 = tk.StringVar(value="Basic")
         self.test_2 = {}
@@ -151,6 +154,19 @@ class Test(ttk.Frame):
 
         if kind == "Exact Test":
 
+            if test == "Binomial Test":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Expect:")
+                self.option_label[1].grid()
+                self.option[1].entry_more_set([], [], 6)
+                self.option[1].grid()
+
+                self.temp = ""
+
             if test == "Fisher's Exact Test":
                 self.option_label[0].config(text="Variable 1:")
                 self.option_label[0].grid()
@@ -175,6 +191,64 @@ class Test(ttk.Frame):
                 self.option[1].radio_one_set(self.master.data_col["cat"])
                 self.option[1].grid()   
 
+            if test == "Chi-Square Test (Fit)":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Expect:")
+                self.option_label[1].grid()
+                self.option[1].entry_more_set([], [], 6)
+                self.option[1].grid()
+
+                self.temp = ""
+
+        if kind == "Linear Regression":
+
+            if test == "Simple Linear Regression":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+        if kind == "Logistic Regression":
+
+            if test == "Simple Logistic Regression":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Target:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set([])
+                self.option[2].grid()
+
+                self.temp = ""
+
+        if kind == "Nonparametric":
+
+            if test == "Kruskal-Wallis Test":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Between:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
 
         self.change()
 
@@ -253,6 +327,35 @@ class Test(ttk.Frame):
         
         if kind == "Exact Test":
 
+            if test == "Binomial Test":
+                variable = self.option[0].radio_one_get()
+
+                if not variable:
+                    return
+                
+                if variable != self.temp:
+                    opt = self.master.data[variable].dropna().unique().tolist()
+                    initial = [1 / len(opt)] * len(opt)
+                    self.option[1].entry_more_set(opt, initial, 6)
+                self.temp = variable
+
+                expect = self.option[1].entry_more_get()
+
+                try:
+                    for i in expect:
+                        expect[i] = float(expect[i])
+                except:
+                    return
+
+                summary, result = model.binomial_test(self.master.data, variable=variable, expect=expect)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
             if test == "Fisher's Exact Test":
                 variable_1 = self.option[0].radio_one_get()
                 variable_2 = self.option[1].radio_one_get()
@@ -291,5 +394,102 @@ class Test(ttk.Frame):
                 self.result[1].set(3)
                 self.result[1].grid()
 
+            if test == "Chi-Square Test (Fit)":
+                variable = self.option[0].radio_one_get()
+
+                if not variable:
+                    return
+                
+                if variable != self.temp:
+                    opt = self.master.data[variable].dropna().unique().tolist()
+                    initial = [1 / len(opt)] * len(opt)
+                    self.option[1].entry_more_set(opt, initial, 6)
+                self.temp = variable
+
+                expect = self.option[1].entry_more_get()
+
+                try:
+                    for i in expect:
+                        expect[i] = float(expect[i])
+                except:
+                    return
+
+                summary, result = model.chi_square_test_fit(self.master.data, variable=variable, expect=expect)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+        if kind == "Linear Regression":
+
+            if test == "Simple Linear Regression":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+
+                summary, result = model.simple_linear_regression(self.master.data, x=x, y=y)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+        if kind == "Logistic Regression":
+
+            if test == "Simple Logistic Regression":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                
+                if y != self.temp:
+                    self.option[2].radio_one_set(self.master.data[y].dropna().unique().tolist())
+                self.temp = y
+                
+                target = self.option[2].radio_one_get()
+
+                if not target:
+                    return
+
+                summary, result = model.simple_logistic_regression(self.master.data, x=x, y=y, target=target)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+        if kind == "Nonparametric":
+
+            if test == "Kruskal-Wallis Test":
+                variable = self.option[0].radio_one_get()
+                between = self.option[1].radio_one_get()
+
+                if not variable:
+                    return
+                if not between:
+                    return
+
+                summary, result = model.kruskal_wallis_test(self.master.data, variable=variable, between=between)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
 
         self.master.updating()

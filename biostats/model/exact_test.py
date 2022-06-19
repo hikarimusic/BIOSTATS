@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import math
-from scipy import stats as st
 
 def CC(fun, *args):
     try:
@@ -29,119 +28,214 @@ def add_p(data):
             temp[i] = "***"
     data[""] = temp
 
-def _dfs(mat, pos, r_sum, c_sum, p_0, p, cnt):
+class binom_exact:
 
-    cnt[0] += 1
-    if cnt[0] > 100000:
-        return
-    
-    (xx, yy) = pos
-    (r, c) = (len(r_sum), len(c_sum))
+    def __init__(self, table, freqency):
+        self.table = table
+        self.freq = freqency
 
-    mat_new = []
+    def calc(self):
 
-    for i in range(len(mat)):
-        temp = []
-        for j in range(len(mat[0])):
-            temp.append(mat[i][j])
-        mat_new.append(temp)
+        self.sum = sum(self.table)
 
-    if xx == -1 and yy == -1:
-        for i in range(r-1):
-            temp = r_sum[i]
-            for j in range(c-1):
-                temp -= mat_new[i][j]
-            mat_new[i][c-1] = temp
-        for j in range(c-1):
-            temp = c_sum[j]
-            for i in range(r-1):
-                temp -= mat_new[i][j]
-            mat_new[r-1][j] = temp
-        temp = r_sum[r-1]
-        for j in range(c-1):
-            temp -= mat_new[r-1][j]
-        if temp <0:
+        self.p_part = math.factorial(self.sum)
+
+        self.p_0 = self.multi_nom(self.table)
+        self.p = 0
+        self.cnt = 0
+
+        mat = [0] * len(self.table)
+        pos = 0
+
+        self.dfs(mat, pos)
+
+        if self.cnt > 1000000:
+            return np.NAN
+
+        return self.p
+
+    def dfs(self, mat, pos):
+
+        self.cnt += 1
+        if self.cnt > 1000000:
             return
-        mat_new[r-1][c-1] = temp
 
-        p_1 = 1
-        for x in r_sum:
-            p_1 *= math.factorial(x)
-        for y in c_sum:
-            p_1 *= math.factorial(y)
+        mat_new = []
+        for x in mat:
+            mat_new.append(x)
 
-        n = 0
-        for x in r_sum:
-            n += x
-        p_1 /= math.factorial(n)
+        if pos == -1:
+            temp = self.sum - sum(mat_new)
+            if temp <0:
+                return
+            mat_new[len(mat)-1] = temp
 
-        for i in range(len(mat_new)):
-            for j in range(len(mat_new[0])):
-                p_1 /= math.factorial(mat_new[i][j])
-        if p_1 <= p_0 + 0.00000001:
-            p[0] += p_1
-    else:
-        max_1 = r_sum[xx]
-        max_2 = c_sum[yy]
-        for j in range(c):
-            max_1 -= mat_new[xx][j]
-        for i in range(r):
-            max_2 -= mat_new[i][yy]
-        for k in range(min(max_1,max_2)+1):
-            mat_new[xx][yy] = k
-            if xx == r-2 and yy == c-2:
-                pos_new = (-1, -1)
-            elif xx == r-2:
-                pos_new = (0, yy+1)
-            else:
-                pos_new = (xx+1, yy)
-            _dfs(mat_new, pos_new, r_sum, c_sum, p_0, p, cnt)
+            p_1 = self.multi_nom(mat_new)
+            if p_1 <= self.p_0 + 0.000000000000000001:
+                self.p += p_1
+        else:
+            max_ = self.sum - sum(mat_new)
+            for k in range(max_+1):
+                mat_new[pos] = k
+                if pos == len(mat)-2:
+                    pos_new = -1
+                else:
+                    pos_new = pos + 1
+                self.dfs(mat_new, pos_new)
 
-
-def _fisher_exact(table):
-
-    row_sum = []
-    col_sum = []
-
-    for i in range(len(table)):
-        temp = 0
-        for j in range(len(table[0])):
-            temp += table[i][j]
-        row_sum.append(temp)
-    
-    for j in range(len(table[0])):
-        temp = 0
+    def multi_nom(self, table):
+        p = self.p_part
         for i in range(len(table)):
-            temp += table[i][j]
-        col_sum.append(temp)
+            p *= self.freq[i] ** table[i]
+        for x in table:
+            p /= math.factorial(x)
+        return p
 
-    mat = [[0] * len(col_sum)] * len(row_sum)
-    pos = (0, 0)
+def binomial_test(data, variable, expect):
+    
+    process(data)
 
-    p_0 = 1
+    cat = data.groupby(variable, sort=False)[variable].groups.keys()
+    obs = []
+    exp = []
+    for var in cat:
+        obs.append(data[variable].value_counts()[var])
+    exp_val = list(expect.values())
+    for var in cat:
+        exp.append(expect[var] / sum(exp_val))
 
-    for x in row_sum:
-        p_0 *= math.factorial(x)
-    for y in col_sum:
-        p_0 *= math.factorial(y)
+    summary = pd.DataFrame(
+        {
+            "Observe" : obs,
+            "Expect"  : exp
+        }, index=cat
+    )
 
-    n = 0
-    for x in row_sum:
-        n += x
-    p_0 /= math.factorial(n)
+    test = binom_exact(obs, exp)
+    p = test.calc()
 
-    for i in range(len(table)):
-        for j in range(len(table[0])):
-            p_0 /= math.factorial(table[i][j])
+    result = pd.DataFrame(
+        {
+            "p-value": [p]
+        }, index=["Model"]
+    )
 
-    p = [0]
-    cnt = [0]
-    _dfs(mat, pos, row_sum, col_sum, p_0, p, cnt)
+    add_p(result)
 
-    if cnt[0] > 100000:
-        return np.NAN
+    process(summary)
+    process(result)
 
-    return p[0]
+    return summary, result
+
+class fisher_exact:
+    
+    def __init__(self, table):
+        self.table = table
+
+    def calc(self):
+
+        self.row_sum = []
+        self.col_sum = []
+        self.sum = 0
+
+        for i in range(len(self.table)):
+            temp = 0
+            for j in range(len(self.table[0])):
+                temp += self.table[i][j]
+            self.row_sum.append(temp)
+        
+        for j in range(len(self.table[0])):
+            temp = 0
+            for i in range(len(self.table)):
+                temp += self.table[i][j]
+            self.col_sum.append(temp)
+        
+        for k in self.row_sum:
+            self.sum += k
+        
+        self.p_part = 1
+        for x in self.row_sum:
+            self.p_part *= math.factorial(x)
+        for y in self.col_sum:
+            self.p_part *= math.factorial(y)
+        self.p_part /= math.factorial(self.sum)
+
+        self.p_0 = self.hyper_geom(self.table)
+        self.p = 0
+        self.cnt = 0
+
+        mat = [[0] * len(self.col_sum)] * len(self.row_sum)
+        pos = (0, 0)
+
+        self.dfs(mat, pos)
+
+        if self.cnt > 1000000:
+            return np.NAN
+
+        return self.p
+
+    def dfs(self, mat, pos):
+
+        self.cnt += 1
+        if self.cnt > 1000000:
+            return
+        
+        (xx, yy) = pos
+        (rr, cc) = (len(self.row_sum), len(self.col_sum))
+
+        mat_new = []
+
+        for i in range(len(mat)):
+            temp = []
+            for j in range(len(mat[0])):
+                temp.append(mat[i][j])
+            mat_new.append(temp)
+
+        if xx == -1 and yy == -1:
+            for i in range(rr-1):
+                temp = self.row_sum[i]
+                for j in range(cc-1):
+                    temp -= mat_new[i][j]
+                mat_new[i][cc-1] = temp
+            for j in range(cc-1):
+                temp = self.col_sum[j]
+                for i in range(rr-1):
+                    temp -= mat_new[i][j]
+                mat_new[rr-1][j] = temp
+            temp = self.row_sum[rr-1]
+            for j in range(cc-1):
+                temp -= mat_new[rr-1][j]
+            if temp <0:
+                return
+            mat_new[rr-1][cc-1] = temp
+            
+            p_1 = self.hyper_geom(mat_new)
+
+            if p_1 <= self.p_0 + 0.000000000000000001:
+                self.p += p_1
+        else:
+            max_1 = self.row_sum[xx]
+            max_2 = self.col_sum[yy]
+            for j in range(cc):
+                max_1 -= mat_new[xx][j]
+            for i in range(rr):
+                max_2 -= mat_new[i][yy]
+            for k in range(min(max_1,max_2)+1):
+                mat_new[xx][yy] = k
+                if xx == rr-2 and yy == cc-2:
+                    pos_new = (-1, -1)
+                elif xx == rr-2:
+                    pos_new = (0, yy+1)
+                else:
+                    pos_new = (xx+1, yy)
+                self.dfs(mat_new, pos_new)
+
+    def hyper_geom(self, table):
+        p = self.p_part
+        for i in range(len(table)):
+            for j in range(len(table[0])):
+                p /= math.factorial(table[i][j])
+        return p
 
 def fisher_exact_test(data, variable_1, variable_2):
     
@@ -151,11 +245,13 @@ def fisher_exact_test(data, variable_1, variable_2):
     summary.index.name = None
     summary.columns.name = None
 
-    p = _fisher_exact(summary.values.tolist())
+    test = fisher_exact(summary.values.tolist())
+    p = test.calc()
+
     result = pd.DataFrame(
         {
             "p-value": [p]
-        }, index=["Normal"]
+        }, index=["Model"]
     )
     
     add_p(result)

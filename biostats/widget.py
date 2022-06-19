@@ -111,7 +111,8 @@ class Tree(ttk.Frame):
                         temp = format(self.data.iloc[i][j], '.{}f'.format(precision))
                 elif col_type == "Int64":
                     if scientific == 1:
-                        temp = format(round(self.data.iloc[i][j],precision), '.{}E'.format(precision))
+                        #temp = format(round(self.data.iloc[i][j],precision), '.{}E'.format(precision))
+                        temp = format(self.data.iloc[i][j], '.{}E'.format(precision))
                     else:
                         temp = str(round(self.data.iloc[i][j]))
                 else:
@@ -546,6 +547,59 @@ class Option(ttk.Frame):
     def entry_one_get(self):
 
         return self.entry_one_var.get()
+
+    def entry_more_set(self, opt, initial, width):
+ 
+        if self.now != "":
+            self.option[self.now].grid_remove()
+
+        self.now = "entry_more"
+        if "entry_more" not in self.option:
+            self.option["entry_more"] = ttk.Frame(self.frame)
+            self.option["entry_more"].grid(row=0, column=0, sticky="nsew")
+            self.entry_more_label = {}
+            self.entry_more_item = {}
+            self.entry_more_var = {}
+            self.entry_more_list = []
+        else:
+            self.option["entry_more"].grid()
+
+        for i, var in enumerate(opt):
+            if i not in self.entry_more_item:
+                self.entry_more_label[i] = ttk.Label(self.option["entry_more"])
+                self.entry_more_label[i].grid(row=0, column=2*i, padx=5, pady=5, sticky="nsew")
+                self.entry_more_var[i] = tk.StringVar()
+                self.entry_more_item[i] = ttk.Entry(self.option["entry_more"])
+                self.entry_more_item[i].config(textvariable=self.entry_more_var[i])
+                self.entry_more_item[i].bind("<Return>", lambda e: self.entry_more_command())
+                self.entry_more_item[i].grid(row=0, column=2*i+1, padx=5, pady=5, sticky="nsew")
+            self.entry_more_label[i].config(text=str(var)+":")
+            self.entry_more_item[i].config(width=width)
+            self.entry_more_var[i].set(initial[i])
+        self.entry_more_list = opt
+
+        for i in range(len(self.entry_more_item)):
+            if i >= len(opt):
+                self.entry_more_label[i].grid_remove()
+                self.entry_more_item[i].grid_remove()
+            else:
+                self.entry_more_label[i].grid()
+                self.entry_more_item[i].grid()
+
+        self.frame.update()
+        self.canvas.config(height=self.frame.winfo_height())
+
+    def entry_more_command(self):
+
+        self.option["entry_more"].focus()
+        self.master.change()
+
+    def entry_more_get(self):
+        
+        result = {}
+        for i, var in enumerate(self.entry_more_list):
+            result[var] = self.entry_more_var[i].get()
+        return result
 
     def scroll_on(self):
 

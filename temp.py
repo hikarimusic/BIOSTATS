@@ -212,17 +212,15 @@ def fisher_exact(table):
     p = [0]
     _dfs(mat, pos, row_sum, col_sum, p_0, p)
 
-    #print(p_0)
-    print(p[0])
     return p[0]
 
 
-#fisher_exact([[1,24],[5,20],[14,11],[11,14]])
+print(fisher_exact([[1,24],[5,20],[14,11],[11,14]]))
 #fisher_exact([[16,8],[3,18]])
 #fisher_exact([[43,2],[17,7]])
 #fisher_exact([[43,7],[44,6],[49,1]])
 #fisher_exact([[127,116],[99,67],[264,161]])
-fisher_exact([[15,8],[20,5],[14,7],[6,1]])
+#fisher_exact([[15,8],[20,5],[14,7],[6,1]])
 
 
 #fisher_exact([[3,9],[13,4]])
@@ -231,6 +229,7 @@ fisher_exact([[15,8],[20,5],[14,7],[6,1]])
 #isher_exact([[2,2],[2,2],[2,2]])
 '''
 
+'''
 data = pd.DataFrame(columns=["Frequency", "Result"])
 
 for i in range (1):
@@ -270,3 +269,98 @@ data = data.sample(frac=1).reset_index(drop=True)
 data.to_csv('ttt.csv', index=False)
 
 print(data)
+'''
+
+
+
+str = '''
+Group      Value
+Group.1      1
+Group.1      2
+Group.1      3
+Group.1      4
+Group.1      5
+Group.1      6
+Group.1      7
+Group.1      8
+Group.1      9
+Group.1     46
+Group.1     47
+Group.1     48
+Group.1     49
+Group.1     50
+Group.1     51
+Group.1     52
+Group.1     53
+Group.1    342
+Group.2     10
+Group.2     11
+Group.2     12
+Group.2     13
+Group.2     14
+Group.2     15
+Group.2     16
+Group.2     17
+Group.2     18
+Group.2     37
+Group.2     58
+Group.2     59
+Group.2     60
+Group.2     61
+Group.2     62
+Group.2     63
+Group.2     64
+Group.2    193
+Group.3     19
+Group.3     20
+Group.3     21
+Group.3     22
+Group.3     23
+Group.3     24
+Group.3     25
+Group.3     26
+Group.3     27
+Group.3     28
+Group.3     65
+Group.3     66
+Group.3     67
+Group.3     68
+Group.3     69
+Group.3     70
+Group.3     71
+Group.3     72
+'''
+
+'''
+str = str.replace("\n", "!")
+str = str.split()
+str = ",".join(str)
+str = str.replace("!", "\n")
+
+with open("test.txt", "w") as f:
+    f.write(str)
+'''
+
+
+data = pd.DataFrame(columns=["Flower"])
+
+for i in range (72):
+    aaa = pd.DataFrame({"Flower":["Purple"]})
+    data = pd.concat([data, aaa], ignore_index=True, axis=0)
+
+for i in range (38):
+    aaa = pd.DataFrame({"Flower":["Red"]})
+    data = pd.concat([data, aaa], ignore_index=True, axis=0)
+
+for i in range (20):
+    aaa = pd.DataFrame({"Flower":["Blue"]})
+    data = pd.concat([data, aaa], ignore_index=True, axis=0)
+
+for i in range (18):
+    aaa = pd.DataFrame({"Flower":["White"]})
+    data = pd.concat([data, aaa], ignore_index=True, axis=0)
+
+data = data.sample(frac=1).reset_index(drop=True)
+
+data.to_csv('ttt.csv', index=False)
+

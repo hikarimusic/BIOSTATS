@@ -104,6 +104,7 @@ class Data(ttk.Frame):
             self.bar_view.tkraise()
             self.tree.tkraise()
             self.cell_scale.grid_remove()
+            self.update()
             self.focus()
         
         if key == "edit":

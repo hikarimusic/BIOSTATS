@@ -1,4 +1,3 @@
-from numpy import var
 import biostats as bs
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -32,6 +31,12 @@ print(result)
 # ---------------------------------------------------------------
 # Exact Test
 
+# Binomial Test
+data = pd.read_csv("biostats/dataset/binomial_test.csv")
+summary, result = bs.binomial_test(data=data, variable="Flower", expect={"Purple":9, "Red":3, "Blue":3, "White":1})
+print(summary)
+print(result)
+
 # Fisher's Exact Test
 data = pd.read_csv("biostats/dataset/fisher_exact_test.csv")
 summary, result = bs.fisher_exact_test(data=data, variable_1="Frequency", variable_2="Result")
@@ -45,6 +50,39 @@ print(result)
 # Chi-Square Test
 data = pd.read_csv("biostats/dataset/chi_square_test.csv")
 summary, result = bs.chi_square_test(data=data, variable_1="Genotype", variable_2="Health")
+print(summary)
+print(result)
+
+# Chi-Square Test (Fit)
+data = pd.read_csv("biostats/dataset/chi_square_test_fit.csv")
+summary, result = bs.chi_square_test_fit(data=data, variable="Canopy", expect={"Douglas":0.54, "Ponderosa":0.40, "Grand":0.05, "Western":0.01})
+print(summary)
+print(result)
+
+# ---------------------------------------------------------------
+# Linear Regression
+
+# Simple Linear Regression
+data = pd.read_csv("biostats/dataset/simple_linear_regression.csv")
+summary, result = bs.simple_linear_regression(data=data, x="Weight", y="Eggs")
+print(summary)
+print(result)
+
+# ---------------------------------------------------------------
+# Logistic Regression
+
+# Simple Logistic Regression
+data = pd.read_csv("biostats/dataset/simple_logistic_regression.csv")
+summary, result = bs.simple_logistic_regression(data=data, x="Continuous", y="Factor", target="B")
+print(summary)
+print(result)
+
+# ---------------------------------------------------------------
+# Nonparametric
+
+# Kruskal-Wallis Test
+data = pd.read_csv("biostats/dataset/kruskal_wallis_test.csv")
+summary, result = bs.kruskal_wallis_test(data=data, variable="Value", between="Group")
 print(summary)
 print(result)
 

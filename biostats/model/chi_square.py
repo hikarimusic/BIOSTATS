@@ -36,20 +36,61 @@ def chi_square_test(data, variable_1, variable_2):
     summary.index.name = None
     summary.columns.name = None
 
-    chi2, p, df, ex = st.chi2_contingency(summary, False)
+    obs = summary.values.tolist()
+
+    rr = len(obs)
+    cc = len(obs[0])
+    r_sum = []
+    c_sum = []
+    _sum = 0
+
+    for i in range(rr):
+        temp = 0
+        for j in range(cc):
+            temp += obs[i][j]
+        r_sum.append(temp)
+    for j in range(cc):
+        temp = 0
+        for i in range(rr):
+            temp += obs[i][j]
+        c_sum.append(temp)
+    for i in range(rr):
+        _sum += r_sum[i]
+    
+    exp = []
+
+    for i in range(rr):
+        temp = []
+        for j in range(cc):
+            temp.append(r_sum[i] * c_sum[j] / _sum)
+        exp.append(temp)
+    
+    chi2 = 0
+    for i in range(rr):
+        for j in range(cc):
+            chi2 += (obs[i][j]-exp[i][j]) ** 2 / exp[i][j]
+    
+    p = CC(lambda: 1 - st.chi2.cdf(chi2, (rr-1)*(cc-1)))
+
     result = pd.DataFrame(
         {
-            "D.F.": [df],
+            "D.F.": [(rr-1)*(cc-1)],
             "Chi Square": [chi2],
             "p-value": [p]
         }, index=["Normal"]
     )
 
     if summary.shape == (2,2):
-        chi2, p, df, ex, = st.chi2_contingency(summary, True)
+        chi2 = 0
+        for i in range(rr):
+            for j in range(cc):
+                chi2 += (abs(obs[i][j]-exp[i][j])-0.5) ** 2 / exp[i][j]
+        
+        p = CC(lambda: 1 - st.chi2.cdf(chi2, (rr-1)*(cc-1)))
+
         result2 = pd.DataFrame(
             {
-            "D.F.": [df],
+            "D.F.": [(rr-1)*(cc-1)],
             "Chi Square": [chi2],
             "p-value": [p]
             }, index=["Corrected"]
@@ -63,6 +104,45 @@ def chi_square_test(data, variable_1, variable_2):
 
     return summary, result
 
+def chi_square_test_fit(data, variable, expect):
+    
+    process(data)
+
+    cat = data.groupby(variable, sort=False)[variable].groups.keys()
+    obs = []
+    exp = []
+    for var in cat:
+        obs.append(data[variable].value_counts()[var])
+    exp_val = list(expect.values())
+    for var in cat:
+        exp.append(expect[var] * sum(obs) / sum(exp_val))
+    dim = len(obs)
+
+    summary = pd.DataFrame(
+        {
+            "Observe" : obs,
+            "Expect"  : exp
+        }, index=cat
+    )
+
+    chi2 = 0
+    for i in range(dim):
+        chi2 += (obs[i]-exp[i]) * (obs[i]-exp[i]) / exp[i]
+    p = CC(lambda: 1 - st.chi2.cdf(chi2, dim-1))
+    result = pd.DataFrame(
+        {
+            "D.F.": [dim-1],
+            "Chi Square": [chi2],
+            "p-value": [p]
+        }, index=["Normal"]
+    )
+
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
 
 
 
