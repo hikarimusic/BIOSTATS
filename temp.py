@@ -342,25 +342,32 @@ with open("test.txt", "w") as f:
 '''
 
 
-data = pd.DataFrame(columns=["Flower"])
+data = pd.DataFrame(columns=["Color"])
 
-for i in range (72):
-    aaa = pd.DataFrame({"Flower":["Purple"]})
+
+for i in range (35):
+    aaa = pd.DataFrame({"Color":["Red"]})
     data = pd.concat([data, aaa], ignore_index=True, axis=0)
 
-for i in range (38):
-    aaa = pd.DataFrame({"Flower":["Red"]})
+for i in range (74):
+    aaa = pd.DataFrame({"Color":["Yellow"]})
     data = pd.concat([data, aaa], ignore_index=True, axis=0)
 
-for i in range (20):
-    aaa = pd.DataFrame({"Flower":["Blue"]})
+for i in range (22):
+    aaa = pd.DataFrame({"Color":["Green"]})
     data = pd.concat([data, aaa], ignore_index=True, axis=0)
 
-for i in range (18):
-    aaa = pd.DataFrame({"Flower":["White"]})
+for i in range (69):
+    aaa = pd.DataFrame({"Color":["Blue"]})
     data = pd.concat([data, aaa], ignore_index=True, axis=0)
 
 data = data.sample(frac=1).reset_index(drop=True)
 
-data.to_csv('ttt.csv', index=False)
+size = ["Small"] * 67 + ["Middle"] * 102 + ["Large"] * 31
+
+data["size"] = size
+
+data = data.sample(frac=1).reset_index(drop=True)
+
+data.to_csv('categorical.csv', index=False)
 
