@@ -6,7 +6,7 @@ from .model.chi_square import *
 from .model.linear_regression import *
 from .model.logistic_regression import *
 from .model.non_parametric import *
-from .model.distribution import *
-from .model.categorical import *
-from .model.relational import *
-from .model.multiple import *
+from .model.distribution_plot import *
+from .model.categorical_plot import *
+from .model.relational_plot import *
+from .model.multiple_plot import *

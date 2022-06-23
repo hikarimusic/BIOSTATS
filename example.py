@@ -10,6 +10,21 @@ data = pd.read_csv("biostats/dataset/numeral.csv")
 result = bs.numeral(data=data, variable=["Fish", "Crab", "Temperature"])
 print(result)
 
+# Numeral (Grouped)
+data = pd.read_csv("biostats/dataset/numeral_grouped.csv")
+result = bs.numeral_grouped(data=data, variable="Count", group="Animal")
+print(result)
+
+# Categorical
+data = pd.read_csv("biostats/dataset/categorical.csv")
+result = bs.categorical(data=data, variable="Color")
+print(result)
+
+# Contingency
+data = pd.read_csv("biostats/dataset/contingency.csv")
+result = bs.contingency(data=data, variable_1="Genotype", variable_2="Health", kind="Count")
+print(result)
+
 # ---------------------------------------------------------------
 # t-Test
 

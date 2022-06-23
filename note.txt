@@ -1,3 +1,11 @@
-dataframe with columns of same name
+risk difference (CI)
+risk ratio (CI)
+odds ratio (CI)
+attribute risk (CI)
 
-treeview show int and float
+accuracy
+sensitivity
+specificity
+precision
+
+ROC curve
