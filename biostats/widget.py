@@ -1,9 +1,8 @@
+from tabnanny import check
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
 from io import StringIO
-
-import time
 
 class Spin(ttk.Spinbox):
 
@@ -387,13 +386,6 @@ class Option(ttk.Frame):
         self.bind("<Leave>", lambda e: self.scroll_off())
         
 
-
-    def entry_one(self):
-        pass
-
-    def entry_more(self):
-        pass
-
     def radio_one_set(self, opt):
 
         if self.now != "":
@@ -435,9 +427,69 @@ class Option(ttk.Frame):
         i = self.radio_one_var.get()
         return self.radio_one_list[i]
 
-    def check_two(self):
-        pass
+    def check_two_set(self, opt):
+        
+        if self.now != "":
+            self.option[self.now].grid_remove()
 
+        self.now = "check_two"
+        if "check_two" not in self.option:
+            self.option["check_two"] = ttk.Frame(self.frame)
+            self.option["check_two"].grid(row=0, column=0, sticky="nsew")
+            self.check_two_item = {}
+            self.check_two_var = {}
+            self.check_two_list = []
+        else:
+            self.option["check_two"].grid()
+
+        for i, var in enumerate(opt):
+            if i not in self.check_two_item:
+                self.check_two_var[i] = tk.IntVar()
+                self.check_two_item[i] = ttk.Checkbutton(self.option["check_two"])
+                self.check_two_item[i].config(variable=self.check_two_var[i], onvalue=1, offvalue=0)
+                self.check_two_item[i].config(command=self.check_two_command)
+                self.check_two_item[i].grid(row=0, column=i, padx=5, pady=5, sticky="nsew")
+            self.check_two_item[i].config(text=var)
+            self.check_two_var[i].set(0)
+        self.check_two_list = opt
+        self.check_two_now = []
+
+        for i, wid in self.check_two_item.items():
+            if i >= len(opt):
+                wid.grid_remove()
+            else:
+                wid.grid()
+
+        self.frame.update()
+        self.canvas.config(height=self.frame.winfo_height())
+    
+    def check_two_command(self):
+
+        temp = []
+        for i, var in enumerate(self.check_two_list):
+            if self.check_two_var[i].get() == 1:
+                temp.append(i)
+
+        for i in self.check_two_now:
+            if i not in temp:
+                self.check_two_now.remove(i)
+        for i in temp:
+            if i not in self.check_two_now:
+                self.check_two_now.append(i)
+
+        if len(self.check_two_now) > 2:
+            self.check_two_var[self.check_two_now.pop(0)].set(0)
+
+        self.master.change()
+
+    def check_two_get(self):
+
+        if len(self.check_two_now) == 2:
+            temp = [self.check_two_list[self.check_two_now[i]] for i in range(2)]
+            return temp
+        else:
+            return
+        
     def check_more_set(self, opt):
         
         if self.now != "":

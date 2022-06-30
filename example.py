@@ -34,6 +34,18 @@ summary, result = bs.one_sample_t_test(data=data, variable="Angle", expect=120, 
 print(summary)
 print(result)
 
+# Two-Sample t-Test
+data = pd.read_csv("biostats/dataset/two_sample_t_test.csv")
+summary, result = bs.two_sample_t_test(data=data, variable="Value", between="Time", group=["2pm", "5pm"], kind="two-side")
+print(summary)
+print(result)
+
+# Paired t-Test
+data = pd.read_csv("biostats/dataset/paired_t_test.csv")
+summary, result = bs.paired_t_test(data=data, variable_1="Typical", variable_2="Odd", kind="two-side")
+print(summary)
+print(result)
+
 # ---------------------------------------------------------------
 # ANOVA
 
