@@ -1,5 +1,5 @@
 from .basic import numeral, numeral_grouped, categorical,contingency
-from .t_test import one_sample_t_test, two_sample_t_test, paired_t_test
+from .t_test import one_sample_t_test, two_sample_t_test, paired_t_test, pairwise_t_test
 from .anova import one_way_anova
 from .exact_test import binomial_test, fisher_exact_test
 from .chi_square import chi_square_test, chi_square_test_fit

@@ -46,6 +46,12 @@ summary, result = bs.paired_t_test(data=data, variable_1="Typical", variable_2="
 print(summary)
 print(result)
 
+# Pairwise t-Test
+data = pd.read_csv("biostats/dataset/pairwise_t_test.csv")
+summary, result = bs.pairwise_t_test(data=data, variable="Length", between="Location")
+print(summary)
+print(result)
+
 # ---------------------------------------------------------------
 # ANOVA
 

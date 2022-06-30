@@ -3,6 +3,9 @@ import numpy as np
 from scipy import stats as st
 import math
 
+from statsmodels.formula.api import ols
+from statsmodels.stats.anova import anova_lm
+
 def CC(fun, *args):
     try:
         return fun(*args)
@@ -296,3 +299,74 @@ def paired_t_test(data, variable_1, variable_2, kind="two-side"):
     process(result)
 
     return summary, result
+
+
+def pairwise_t_test(data, variable, between):
+
+    process(data)
+
+    summary = pd.DataFrame(
+        {
+            "{}".format(between) : CC(data.groupby(between, sort=False)[variable].groups.keys),
+            "Count": CC(data.groupby(between, sort=False)[variable].count),
+            "Mean": CC(data.groupby(between, sort=False)[variable].mean),
+            "Std. Deviation": CC(data.groupby(between, sort=False)[variable].std,),
+            "Minimum": CC(data.groupby(between, sort=False)[variable].min),
+            "1st Quartile": CC(lambda: data.groupby(between, sort=False)[variable].quantile(0.25)),
+            "Median": CC(data.groupby(between, sort=False)[variable].median),
+            "3rd Quartile": CC(lambda: data.groupby(between, sort=False)[variable].quantile(0.75)),
+            "Maximum": CC(data.groupby(between, sort=False)[variable].max),
+        }
+    )
+    summary.index.name = None
+    summary = summary.reset_index(drop=True)
+    summary.index += 1
+
+    result = pd.DataFrame()
+    group = data[between].dropna().unique()
+    df = len(data[[variable, between]].dropna()) - len(group)
+    corr = len(group) * (len(group) - 1) / 2
+
+    formula = "Q('%s') ~ " % variable
+    formula += "C(Q('%s'))" % between
+    model = ols(formula, data=data).fit()
+    anova = anova_lm(model)
+    s = math.sqrt(anova["mean_sq"][1])
+
+    for i in range(0, len(group)):
+        for j in range(i+1, len(group)):
+            n, mean, std = [None] * 2, [None] * 2, [None] * 2
+            for k, cat, in enumerate([group[j], group[i]]):
+                n[k]    = CC(data[data[between]==cat][variable].count)
+                mean[k] = CC(st.tmean, data[data[between]==cat][variable].dropna())
+                std[k]  = CC(st.tstd, data[data[between]==cat][variable].dropna())
+            diff = CC(lambda: mean[0]-mean[1])
+            sem = s*math.sqrt(1/n[0]+1/n[1])
+            t = CC(lambda: diff/sem)
+            p = CC(lambda: st.t.cdf(t, df))
+            p = CC(lambda a: 2*min(a, 1-a), p)
+            p = CC(lambda: p*corr)
+            if p > 1:
+                p = 1
+            temp = pd.DataFrame(
+                {
+                    "Group 1" : group[j],
+                    "Group 2" : group[i],
+                    "Differnce" : diff,
+                    "Std. Error" : sem,
+                    "t Statistic" : t,
+                    "p-value" : p
+                }, index=[0]
+            )
+            result = pd.concat([result, temp], ignore_index=True)
+
+    add_p(result)
+    result.index += 1
+
+    process(summary)
+    process(result)
+
+    return summary, result        
+
+
+
