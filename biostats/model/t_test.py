@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy import stats as st
+import math
 
 def CC(fun, *args):
     try:
@@ -14,6 +15,8 @@ def process(data):
             data[col] = data[col].astype('float64')
         except:
             pass  
+    data.columns = data.columns.map(str)
+    data.index = data.index.map(str)
 
 def add_p(data):
     temp = [np.nan] * len(data)
@@ -33,6 +36,7 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
 
     n = CC(lambda a: a.count(), data[variable].dropna())
     mean = CC(st.tmean, data[variable].dropna())
+    std = CC(st.tstd, data[variable].dropna())
     sem = CC(st.tsem, data[variable].dropna())
 
     if kind == "two-side":
@@ -40,13 +44,14 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
             {
                 "Count" : n ,
                 "Mean" : mean ,
-                "95% CI: Lower" : CC(lambda a: st.t.ppf(0.025, n-1, mean, sem), 0) ,
-                "95% CI: Upper" : CC(lambda a: st.t.ppf(0.975, n-1, mean, sem), 0) ,
+                "Std. Deviation" : std ,
+                "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n-1, mean, sem)) ,
+                "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n-1, mean, sem)) ,
                 "Expect" : expect
             }, index=[variable]
         )
-        t = CC(lambda a: (mean-expect)/sem, 0)
-        p = CC(lambda a: st.t.cdf(t, n-1), 0)
+        t = CC(lambda: (mean-expect)/sem)
+        p = CC(lambda: st.t.cdf(t, n-1))
         p = CC(lambda a: 2*min(a, 1-a), p)
         result = pd.DataFrame(
             {
@@ -60,13 +65,14 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
             {
                 "Count" : n ,
                 "Mean" : mean ,
-                "95% CI: Lower" : CC(lambda a: st.t.ppf(0.05, n-1, mean, sem), 0) ,
+                "Std. Deviation" : std ,
+                "95% CI: Lower" : CC(lambda: st.t.ppf(0.05, n-1, mean, sem)) ,
                 "95% CI: Upper" : "Inf" ,
                 "Expect" : expect
             }, index=[variable]
         )
-        t = CC(lambda a: (mean-expect)/sem, 0)
-        p = CC(lambda a: st.t.cdf(t, n-1), 0)
+        t = CC(lambda: (mean-expect)/sem)
+        p = CC(lambda: st.t.cdf(t, n-1))
         p = CC(lambda a: 1-a, p)
         result = pd.DataFrame(
             {
@@ -80,13 +86,14 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
             {
                 "Count" : n ,
                 "Mean" : mean ,
+                "Std. Deviation" : std ,
                 "95% CI: Lower" : "-Inf" ,
-                "95% CI: Upper" : CC(lambda a: st.t.ppf(0.95, n-1, mean, sem), 0) ,
+                "95% CI: Upper" : CC(lambda: st.t.ppf(0.95, n-1, mean, sem)) ,
                 "Expect" : expect
             }, index=[variable]
         )
-        t = CC(lambda a: (mean-expect)/sem, 0)
-        p = CC(lambda a: st.t.cdf(t, n-1), 0)
+        t = CC(lambda: (mean-expect)/sem)
+        p = CC(lambda: st.t.cdf(t, n-1))
         result = pd.DataFrame(
             {
                 "D.F." : n-1 ,
@@ -104,3 +111,188 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
 
     return summary, result
 
+
+def two_sample_t_test(data, variable, between, group, kind="two-side"):
+
+    process(data)
+
+    n, mean, std, sem = [None] * 2, [None] * 2, [None] * 2, [None] * 2
+    for i, cat, in enumerate(group):
+        n[i]    = CC(data[data[between]==cat][variable].count)
+        mean[i] = CC(st.tmean, data[data[between]==cat][variable].dropna())
+        std[i]  = CC(st.tstd, data[data[between]==cat][variable].dropna())
+        sem[i]  = CC(st.tsem, data[data[between]==cat][variable].dropna())
+
+    if kind == "two-side":
+        summary = pd.DataFrame(
+            {
+                "Count" : n ,
+                "Mean" : mean ,
+                "Std. Deviation" : std ,
+                "95% CI: Lower" : [CC(lambda: st.t.ppf(0.025, n[i]-1, mean[i], sem[i])) for i in range(2)] ,
+                "95% CI: Upper" : [CC(lambda: st.t.ppf(0.975, n[i]-1, mean[i], sem[i])) for i in range(2)] ,
+            }, index=group
+        )
+        s = CC(lambda: math.sqrt(((n[0]-1)*(std[0]**2)+(n[1]-1)*(std[1]**2))/(n[0]+n[1]-2)))
+        t = CC(lambda: (mean[0]-mean[1])/(s*math.sqrt(1/n[0]+1/n[1])))
+        p = CC(lambda: st.t.cdf(t, n[0]+n[1]-2))
+        p = CC(lambda a: 2*min(a, 1-a), p)
+        result = pd.DataFrame(
+            {
+                "D.F." : n[0]+n[1]-2 ,
+                "t Statistic" : t ,
+                "p-value" : p
+            }, index=[variable]
+        )
+    elif kind == "greater":
+        summary = pd.DataFrame(
+            {
+                "Count" : n ,
+                "Mean" : mean ,
+                "Std. Deviation" : std ,
+                "95% CI: Lower" : [CC(lambda: st.t.ppf(0.05, n[0]-1, mean[0], sem[0])), "-Inf"] ,
+                "95% CI: Upper" : ["Inf", CC(lambda: st.t.ppf(0.95, n[1]-1, mean[1], sem[1]))] ,
+            }, index=group
+        )
+        s = CC(lambda: math.sqrt(((n[0]-1)*(std[0]**2)+(n[1]-1)*(std[1]**2))/(n[0]+n[1]-2)))
+        t = CC(lambda: (mean[0]-mean[1])/(s*math.sqrt(1/n[0]+1/n[1])))
+        p = CC(lambda: st.t.cdf(t, n[0]+n[1]-2))
+        p = CC(lambda a: 1-a, p)
+        result = pd.DataFrame(
+            {
+                "D.F." : n[0]+n[1]-2 ,
+                "t Statistic" : t ,
+                "p-value" : p
+            }, index=[variable]
+        )
+    elif kind == "less":
+        summary = pd.DataFrame(
+            {
+                "Count" : n ,
+                "Mean" : mean ,
+                "Std. Deviation" : std ,
+                "95% CI: Lower" : ["-Inf", CC(lambda: st.t.ppf(0.05, n[1]-1, mean[1], sem[1]))] ,
+                "95% CI: Upper" : [CC(lambda: st.t.ppf(0.95, n[0]-1, mean[0], sem[0])), "Inf"] ,
+            }, index=group
+        )
+        s = CC(lambda: math.sqrt(((n[0]-1)*(std[0]**2)+(n[1]-1)*(std[1]**2))/(n[0]+n[1]-2)))
+        t = CC(lambda: (mean[0]-mean[1])/(s*math.sqrt(1/n[0]+1/n[1])))
+        p = CC(lambda: st.t.cdf(t, n[0]+n[1]-2))
+        result = pd.DataFrame(
+            {
+                "D.F." : n[0]+n[1]-2 ,
+                "t Statistic" : t ,
+                "p-value" : p
+            }, index=[variable]
+        )
+    elif kind == "unequal variances":
+        summary = pd.DataFrame(
+            {
+                "Count" : n ,
+                "Mean" : mean ,
+                "Std. Deviation" : std ,
+                "95% CI: Lower" : [CC(lambda: st.t.ppf(0.025, n[i]-1, mean[i], sem[i])) for i in range(2)] ,
+                "95% CI: Upper" : [CC(lambda: st.t.ppf(0.975, n[i]-1, mean[i], sem[i])) for i in range(2)] ,
+            }, index=group
+        )
+        t = CC(lambda: (mean[0]-mean[1])/math.sqrt(sem[0]**2+sem[1]**2))
+        df = CC(lambda: (sem[0]**2+sem[1]**2)**2/(sem[0]**4/(n[0]-1)+sem[1]**4/(n[1]-1)))
+        p = CC(lambda: st.t.cdf(t, df))
+        p = CC(lambda a: 2*min(a, 1-a), p)
+        result = pd.DataFrame(
+            {
+                "D.F." : df ,
+                "t Statistic" : t ,
+                "p-value" : p
+            }, index=[variable]
+        )
+    else:
+        return
+
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
+
+
+def paired_t_test(data, variable_1, variable_2, kind="two-side"):
+
+    process(data)
+
+    diff = (data[variable_1] - data[variable_2])
+
+    n = CC(lambda a: a.count(), diff.dropna())
+    mean = CC(st.tmean, diff.dropna())
+    std = CC(st.tstd, diff.dropna())
+    sem = CC(st.tsem, diff.dropna())
+
+    if kind == "two-side":
+        summary = pd.DataFrame(
+            {
+                "Count" : n ,
+                "Mean" : mean ,
+                "Std. Deviation" : std ,
+                "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n-1, mean, sem)) ,
+                "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n-1, mean, sem)) ,
+            }, index=["Difference"]
+        )
+        t = CC(lambda: mean/sem)
+        p = CC(lambda: st.t.cdf(t, n-1))
+        p = CC(lambda a: 2*min(a, 1-a), p)
+        result = pd.DataFrame(
+            {
+                "D.F." : n-1 ,
+                "t Statistic" : t ,
+                "p-value" : p
+            }, index=["Difference"]
+        )
+    elif kind == "greater":
+        summary = pd.DataFrame(
+            {
+                "Count" : n ,
+                "Mean" : mean ,
+                "Std. Deviation" : std ,
+                "95% CI: Lower" : CC(lambda: st.t.ppf(0.05, n-1, mean, sem)) ,
+                "95% CI: Upper" : "Inf" ,
+            }, index=["Difference"]
+        )
+        t = CC(lambda: mean/sem)
+        p = CC(lambda: st.t.cdf(t, n-1))
+        p = CC(lambda a: 1-a, p)
+        result = pd.DataFrame(
+            {
+                "D.F." : n-1 ,
+                "t Statistic" : t ,
+                "p-value" : p
+            }, index=["Difference"]
+        )
+    elif kind == "less":
+        summary = pd.DataFrame(
+            {
+                "Count" : n ,
+                "Mean" : mean ,
+                "Std. Deviation" : std ,
+                "95% CI: Lower" : "-Inf" ,
+                "95% CI: Upper" : CC(lambda: st.t.ppf(0.95, n-1, mean, sem)) ,
+            }, index=["Difference"]
+        )
+        t = CC(lambda: mean/sem)
+        p = CC(lambda: st.t.cdf(t, n-1))
+        result = pd.DataFrame(
+            {
+                "D.F." : n-1 ,
+                "t Statistic" : t ,
+                "p-value" : p
+            }, index=["Difference"]
+        )
+    else:
+        return
+
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
