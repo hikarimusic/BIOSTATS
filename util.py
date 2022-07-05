@@ -11,23 +11,43 @@ def to_csv(data, output):
         f.write(data)
 
 ss = """
- Bird   Typical  Odd
- A     -0.255   -0.324
- B     -0.213   -0.185
- C     -0.190   -0.299
- D     -0.185   -0.144
- E     -0.045   -0.027
- F     -0.025   -0.039
- G     -0.015   -0.264
- H      0.003   -0.077
- I      0.015   -0.017
- J      0.020   -0.169
- K      0.023   -0.096
- L      0.040   -0.330
- M      0.040   -0.346
- N      0.050   -0.191
- O      0.055   -0.128
- P      0.058   -0.182  
+ id Sex     Genotype  Activity
+  1 male    ff        1.884
+  2 male    ff        2.283
+  3 male    fs        2.396
+  4 female  ff        2.838  
+  5 male    fs        2.956
+  6 female  ff        4.216
+  7 female  ss        3.620
+  8 female  ff        2.889  
+  9 female  fs        3.550
+ 10 male    fs        3.105
+ 11 female  fs        4.556
+ 12 female  fs        3.087
+ 13 male    ff        4.939
+ 14 male    ff        3.486
+ 15 female  ss        3.079
+ 16 male    fs        2.649
+ 17 female  fs        1.943
+ 19 female  ff        4.198
+ 20 female  ff        2.473
+ 22 female  ff        2.033 
+ 24 female  fs        2.200
+ 25 female  fs        2.157
+ 26 male    ss        2.801
+ 28 male    ss        3.421
+ 29 female  ff        1.811
+ 30 female  fs        4.281
+ 32 female  fs        4.772
+ 34 female  ss        3.586
+ 36 female  ff        3.944
+ 38 female  ss        2.669
+ 39 female  ss        3.050
+ 41 male    ss        4.275 
+ 43 female  ss        2.963
+ 46 female  ss        3.236
+ 48 female  ss        3.673
+ 49 male    ss        3.110
 """
 
 to_csv(ss, "two_sample_t_test.csv")

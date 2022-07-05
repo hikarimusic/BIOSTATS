@@ -3,8 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-# Pairwise t-Test
-data = pd.read_csv("biostats/dataset/pairwise_t_test.csv")
-summary, result = bs.pairwise_t_test(data=data, variable="Length", between="Location")
+# Two-Way ANOVA
+data = pd.read_csv("biostats/dataset/two_way_anova.csv")
+summary, result = bs.two_way_anova(data=data, variable="Activity", between_1="Sex", between_2="Genotype")
 print(summary)
 print(result)
+
