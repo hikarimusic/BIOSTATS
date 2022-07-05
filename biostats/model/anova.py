@@ -16,6 +16,9 @@ def process(data):
             data[col] = data[col].astype('float64')
         except:
             pass  
+    data.columns = data.columns.map(str)
+    data.index = data.index.map(str)
+    
 def add_p(data):
     temp = [np.nan] * len(data)
     for i in range(len(data)):
@@ -69,6 +72,72 @@ def one_way_anova(data, variable, between):
     process(result)
 
     return summary, result
+
+
+def two_way_anova(data, variable, between_1, between_2):
+
+    process(data)
+
+    group_1 = data[between_1].dropna().unique()
+    group_2 = data[between_2].dropna().unique()
+
+    summary = pd.DataFrame()
+
+    for x in group_1:
+        for y in group_2:
+            count = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].count)
+            mean = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].mean)
+            std = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].std)
+            _min = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].min)
+            qrt_1 = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][variable].quantile(0.25))
+            med = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].median)
+            qrt_3 = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][variable].quantile(0.75))
+            _max = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].max)
+            temp = pd.DataFrame(
+                {
+                    "{}".format(between_1): x,
+                    "{}".format(between_2): y,
+                    "Count": count,
+                    "Mean": mean,
+                    "Std. Deviation": std,
+                    "Minimum": _min,
+                    "1st Quartile": qrt_1,
+                    "Median": med,
+                    "3rd Quartile": qrt_3,
+                    "Maximum": _max
+                }, index=[0]
+            )
+            summary = pd.concat([summary, temp], ignore_index=True)
+
+    summary.index += 1
+
+    formula = "Q('%s') ~ " % variable
+    formula += "C(Q('%s'), Sum) * " % between_1
+    formula += "C(Q('%s'), Sum)" % between_2
+    model = ols(formula, data=data).fit()
+    result = anova_lm(model)
+    result = result.rename(columns={
+        'df': 'D.F.',
+        'sum_sq' : 'Sum Square',
+        'mean_sq' : 'Mean Square',
+        'F' : 'F Statistic',
+        'PR(>F)' : 'p-value'
+    })
+    index_change = {}
+    for index in result.index:
+        changed = index
+        changed = changed.replace("C(Q('%s'), Sum)" % between_1, between_1)
+        changed = changed.replace("C(Q('%s'), Sum)" % between_2, between_2)
+        changed = changed.replace(":", " : ")
+        index_change[index] = changed
+    result = result.rename(index_change)
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
+
 
 
 
