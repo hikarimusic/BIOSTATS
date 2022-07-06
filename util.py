@@ -11,43 +11,55 @@ def to_csv(data, output):
         f.write(data)
 
 ss = """
- id Sex     Genotype  Activity
-  1 male    ff        1.884
-  2 male    ff        2.283
-  3 male    fs        2.396
-  4 female  ff        2.838  
-  5 male    fs        2.956
-  6 female  ff        4.216
-  7 female  ss        3.620
-  8 female  ff        2.889  
-  9 female  fs        3.550
- 10 male    fs        3.105
- 11 female  fs        4.556
- 12 female  fs        3.087
- 13 male    ff        4.939
- 14 male    ff        3.486
- 15 female  ss        3.079
- 16 male    fs        2.649
- 17 female  fs        1.943
- 19 female  ff        4.198
- 20 female  ff        2.473
- 22 female  ff        2.033 
- 24 female  fs        2.200
- 25 female  fs        2.157
- 26 male    ss        2.801
- 28 male    ss        3.421
- 29 female  ff        1.811
- 30 female  fs        4.281
- 32 female  fs        4.772
- 34 female  ss        3.586
- 36 female  ff        3.944
- 38 female  ss        2.669
- 39 female  ss        3.050
- 41 male    ss        4.275 
- 43 female  ss        2.963
- 46 female  ss        3.236
- 48 female  ss        3.673
- 49 male    ss        3.110
+Species   Temp   Pulse
+ ex       20.8   67.9
+ ex       20.8   65.1
+ ex       24     77.3
+ ex       24     78.7
+ ex       24     79.4
+ ex       24     80.4
+ ex       26.2   85.8
+ ex       26.2   86.6
+ ex       26.2   87.5
+ ex       26.2   89.1
+ ex       28.4   98.6
+ ex       29    100.8
+ ex       30.4   99.3
+ ex       30.4  101.7
+ niv      17.2   44.3
+ niv      18.3   47.2
+ niv      18.3   47.6
+ niv      18.3   49.6
+ niv      18.9   50.3
+ niv      18.9   51.8
+ niv      20.4   60
+ niv      21     58.5
+ niv      21     58.9
+ niv      22.1   60.7
+ niv      23.5   69.8
+ niv      24.2   70.9
+ niv      25.9   76.2
+ niv      26.5   76.1
+ niv      26.5   77
+ niv      26.5   77.7
+ niv      28.6   84.7
+ fake     17.2   74.3
+ fake     18.3   77.2
+ fake     18.3   77.6
+ fake     18.3   79.6
+ fake     18.9   80.3
+ fake     18.9   81.8
+ fake     20.4   90
+ fake     21     88.5
+ fake     21     88.9
+ fake     22.1   90.7
+ fake     23.5   99.8
+ fake     24.2   100.9
+ fake     25.9   106.2
+ fake     26.5   106.1
+ fake     26.5   107
+ fake     26.5   107.7
+ fake     28.6   114.7
 """
 
-to_csv(ss, "two_sample_t_test.csv")
+to_csv(ss, "ancova.csv")

@@ -3,9 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-# Two-Way ANOVA
-data = pd.read_csv("biostats/dataset/two_way_anova.csv")
-summary, result = bs.two_way_anova(data=data, variable="Activity", between_1="Sex", between_2="Genotype")
+# ANCOVA
+data = pd.read_csv("biostats/dataset/ancova.csv")
+summary, result = bs.ancova(data=data, variable="Pulse", between="Species", covariable="Temp")
 print(summary)
 print(result)
-
