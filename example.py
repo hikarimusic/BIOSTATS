@@ -67,6 +67,12 @@ summary, result = bs.two_way_anova(data=data, variable="Activity", between_1="Se
 print(summary)
 print(result)
 
+# ANCOVA
+data = pd.read_csv("biostats/dataset/ancova.csv")
+summary, result = bs.ancova(data=data, variable="Pulse", between="Species", covariable="Temp")
+print(summary)
+print(result)
+
 # ---------------------------------------------------------------
 # Exact Test
 

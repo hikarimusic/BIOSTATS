@@ -28,13 +28,11 @@ One-Way ANOVA
 
 Two-Way ANOVA
 
-Factorial ANOVA
-
 Repeated ANOVA
 
-One-Way ANCOVA
+MANOVA
 
-Two-Way ANCOVA
+ANCOVA
 
 ### Exact Test
 
@@ -149,3 +147,5 @@ McDonald, John H. _Handbook of biological statistics_. Vol. 2. Baltimore, MD: sp
 Mangiafico, S.S. _An R Companion for the Handbook of Biological Statistics_. Version 1.3.2. 2015, rcompanion.org/rcompanion/.
 
 Rosner, Bernard. _Fundamentals of biostatistics_. Cengage learning, 2015.
+
+Zach. _Statology_. 2021, www.statology.org.

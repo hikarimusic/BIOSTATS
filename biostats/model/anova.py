@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+from scipy import stats as st
+import math
 
 from statsmodels.formula.api import ols
 from statsmodels.stats.anova import anova_lm
@@ -34,22 +36,26 @@ def one_way_anova(data, variable, between):
 
     process(data)
 
-    summary = pd.DataFrame(
-        {
-            "{}".format(between) : CC(data.groupby(between, sort=False)[variable].groups.keys),
-            "Count": CC(data.groupby(between, sort=False)[variable].count),
-            "Mean": CC(data.groupby(between, sort=False)[variable].mean),
-            "Std. Deviation": CC(data.groupby(between, sort=False)[variable].std,),
-            "Minimum": CC(data.groupby(between, sort=False)[variable].min),
-            "1st Quartile": CC(lambda: data.groupby(between, sort=False)[variable].quantile(0.25)),
-            "Median": CC(data.groupby(between, sort=False)[variable].median),
-            "3rd Quartile": CC(lambda: data.groupby(between, sort=False)[variable].quantile(0.75)),
-            "Maximum": CC(data.groupby(between, sort=False)[variable].max),
-        }
-    )
+    group = data[between].dropna().unique()
 
-    summary.index.name = None
-    summary = summary.reset_index(drop=True)
+    summary = pd.DataFrame()
+
+    for x in group:
+        n = CC(data[data[between]==x][variable].dropna().count)
+        mean = CC(data[data[between]==x][variable].dropna().mean)
+        std = CC(data[data[between]==x][variable].dropna().std)
+        sem = CC(data[data[between]==x][variable].dropna().sem)
+        temp = pd.DataFrame(
+            {
+                "{}".format(between): x,
+                "Count": n,
+                "Mean": mean,
+                "Std. Deviation": std,
+                "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n-1, mean, sem)) ,
+                "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n-1, mean, sem)) ,
+            }, index=[0]
+        )
+        summary = pd.concat([summary, temp], ignore_index=True)
     summary.index += 1
 
     formula = "Q('%s') ~ " % variable
@@ -85,26 +91,19 @@ def two_way_anova(data, variable, between_1, between_2):
 
     for x in group_1:
         for y in group_2:
-            count = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].count)
-            mean = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].mean)
-            std = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].std)
-            _min = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].min)
-            qrt_1 = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][variable].quantile(0.25))
-            med = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].median)
-            qrt_3 = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][variable].quantile(0.75))
-            _max = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].max)
+            n = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().count)
+            mean = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().mean)
+            std = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().std)
+            sem = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().sem)
             temp = pd.DataFrame(
                 {
                     "{}".format(between_1): x,
                     "{}".format(between_2): y,
-                    "Count": count,
+                    "Count": n,
                     "Mean": mean,
                     "Std. Deviation": std,
-                    "Minimum": _min,
-                    "1st Quartile": qrt_1,
-                    "Median": med,
-                    "3rd Quartile": qrt_3,
-                    "Maximum": _max
+                    "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n-1, mean, sem)) ,
+                    "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n-1, mean, sem)) ,
                 }, index=[0]
             )
             summary = pd.concat([summary, temp], ignore_index=True)
@@ -139,7 +138,58 @@ def two_way_anova(data, variable, between_1, between_2):
     return summary, result
 
 
+def ancova(data, variable, between, covariable):
 
+    process(data)
+
+    group = data[between].dropna().unique()
+
+    summary = pd.DataFrame()
+
+    for x in group:
+        n = CC(data[data[between]==x][[variable, covariable]].dropna()[variable].count)
+        mean_1 = CC(data[data[between]==x][[variable, covariable]].dropna()[variable].mean)
+        std_1 = CC(data[data[between]==x][[variable, covariable]].dropna()[variable].std)
+        mean_2 = CC(data[data[between]==x][[variable, covariable]].dropna()[covariable].mean)
+        std_2 = CC(data[data[between]==x][[variable, covariable]].dropna()[covariable].std)
+        temp = pd.DataFrame(
+            {
+                "{}".format(between): x,
+                "Count": n,
+                "Mean ({})".format(variable): mean_1,
+                "Mean ({})".format(covariable): mean_2,
+                "Std. ({})".format(variable): std_1,
+                "Std. ({})".format(covariable): std_2,
+            }, index=[0]
+        )
+        summary = pd.concat([summary, temp], ignore_index=True)
+    summary.index += 1
+
+    formula = "Q('%s') ~ " % variable
+    formula += "C(Q('%s'), Sum) + " % between
+    formula += "Q('%s')" % covariable
+    model = ols(formula, data=data).fit()
+
+    result = anova_lm(model, typ=2)
+    result = result.rename(columns={
+        'df': 'D.F.',
+        'sum_sq' : 'Sum Square',
+        'F' : 'F Statistic',
+        'PR(>F)' : 'p-value'
+    })
+    index_change = {}
+    for index in result.index:
+        changed = index
+        changed = changed.replace("C(Q('%s'), Sum)" % between, between)
+        changed = changed.replace("Q('%s')" % covariable, covariable)
+        index_change[index] = changed
+    result = result.rename(index_change)
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
 
 
 
