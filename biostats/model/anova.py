@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from scipy import stats as st
-import math
 
 from statsmodels.formula.api import ols
 from statsmodels.stats.anova import anova_lm
@@ -107,7 +106,6 @@ def two_way_anova(data, variable, between_1, between_2):
                 }, index=[0]
             )
             summary = pd.concat([summary, temp], ignore_index=True)
-
     summary.index += 1
 
     formula = "Q('%s') ~ " % variable
@@ -138,7 +136,7 @@ def two_way_anova(data, variable, between_1, between_2):
     return summary, result
 
 
-def ancova(data, variable, between, covariable):
+def one_way_ancova(data, variable, between, covariable):
 
     process(data)
 
@@ -192,10 +190,134 @@ def ancova(data, variable, between, covariable):
     return summary, result
 
 
+def two_way_ancova(data, variable, between_1, between_2, covariable):
+
+    process(data)
+
+    group_1 = data[between_1].dropna().unique()
+    group_2 = data[between_2].dropna().unique()
+
+    summary = pd.DataFrame()
 
 
+    summary = pd.DataFrame()
+
+    for x in group_1:
+        for y in group_2:
+            n = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[variable].count)
+            mean_1 = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[variable].mean)
+            std_1 = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[variable].std)
+            mean_2 = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[covariable].mean)
+            std_2 = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[covariable].std)
+            temp = pd.DataFrame(
+                {
+                    "{}".format(between_1): x,
+                    "{}".format(between_2): y,
+                    "Count": n,
+                    "Mean ({})".format(variable): mean_1,
+                    "Mean ({})".format(covariable): mean_2,
+                    "Std. ({})".format(variable): std_1,
+                    "Std. ({})".format(covariable): std_2,
+                }, index=[0]
+            )
+            summary = pd.concat([summary, temp], ignore_index=True)
+    summary.index += 1
+
+    formula = "Q('%s') ~ " % variable
+    formula += "C(Q('%s'), Sum) * " % between_1
+    formula += "C(Q('%s'), Sum) + " % between_2
+    formula += "Q('%s')" % covariable
+    model = ols(formula, data=data).fit()
+
+    result = anova_lm(model, typ=2)
+    result = result.rename(columns={
+        'df': 'D.F.',
+        'sum_sq' : 'Sum Square',
+        'F' : 'F Statistic',
+        'PR(>F)' : 'p-value'
+    })
+    index_change = {}
+    for index in result.index:
+        changed = index
+        changed = changed.replace("C(Q('%s'), Sum)" % between_1, between_1)
+        changed = changed.replace("C(Q('%s'), Sum)" % between_2, between_2)
+        changed = changed.replace("Q('%s')" % covariable, covariable)
+        changed = changed.replace(":", " : ")
+        index_change[index] = changed
+    result = result.rename(index_change)
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
 
 
+def repeated_measures_anova(data, variable, between, subject):
+
+    process(data)
+
+    cross = pd.crosstab(index=data[subject], columns=data[between])
+    for col in cross:
+        cross = cross.drop(cross[cross[col] != 1].index)
+    sub = cross.index.values.tolist()
+    data = data[data[subject].isin(sub)]
+    
+    group = data[between].dropna().unique()
+
+    summary = pd.DataFrame()
+
+    for x in group:
+        n = CC(data[data[between]==x][variable].dropna().count)
+        mean = CC(data[data[between]==x][variable].dropna().mean)
+        std = CC(data[data[between]==x][variable].dropna().std)
+        sem = CC(data[data[between]==x][variable].dropna().sem)
+        temp = pd.DataFrame(
+            {
+                "{}".format(between): x,
+                "Count": n,
+                "Mean": mean,
+                "Std. Deviation": std,
+                "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n-1, mean, sem)) ,
+                "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n-1, mean, sem)) ,
+            }, index=[0]
+        )
+        summary = pd.concat([summary, temp], ignore_index=True)
+    summary.index += 1
+
+    formula = "Q('%s') ~ " % variable
+    formula += "C(Q('%s'))" % between
+    model = ols(formula, data=data).fit()
+    anova_1 = anova_lm(model)
+    formula = "Q('%s') ~ " % variable
+    formula += "C(Q('%s'))" % subject
+    model = ols(formula, data=data).fit()
+    anova_2 = anova_lm(model)
+
+    df_1 = anova_1.iloc[0][0]
+    df_2 = df_1 * anova_2.iloc[0][0]
+    SS_1 = anova_1.iloc[0][1]
+    SS_2 = anova_2.iloc[1][1] - SS_1
+    MS_1 = SS_1 / df_1
+    MS_2 = SS_2 / df_2 
+    F = MS_1 / MS_2
+    p = 1 - st.f.cdf(F, df_1, df_2)
+
+    result = pd.DataFrame(
+        {
+            "D.F." : [df_1, df_2] ,
+            "Sum Square" : [SS_1, SS_2] ,
+            "Mean Square" : [MS_1, MS_2] ,
+            "F Statistic" : [F, None] ,
+            "p-value" : [p, None]
+        }, index = [between, "Residual"]
+    )
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
 
 
 

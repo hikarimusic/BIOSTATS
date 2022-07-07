@@ -11,55 +11,39 @@ def to_csv(data, output):
         f.write(data)
 
 ss = """
-Species   Temp   Pulse
- ex       20.8   67.9
- ex       20.8   65.1
- ex       24     77.3
- ex       24     78.7
- ex       24     79.4
- ex       24     80.4
- ex       26.2   85.8
- ex       26.2   86.6
- ex       26.2   87.5
- ex       26.2   89.1
- ex       28.4   98.6
- ex       29    100.8
- ex       30.4   99.3
- ex       30.4  101.7
- niv      17.2   44.3
- niv      18.3   47.2
- niv      18.3   47.6
- niv      18.3   49.6
- niv      18.9   50.3
- niv      18.9   51.8
- niv      20.4   60
- niv      21     58.5
- niv      21     58.9
- niv      22.1   60.7
- niv      23.5   69.8
- niv      24.2   70.9
- niv      25.9   76.2
- niv      26.5   76.1
- niv      26.5   77
- niv      26.5   77.7
- niv      28.6   84.7
- fake     17.2   74.3
- fake     18.3   77.2
- fake     18.3   77.6
- fake     18.3   79.6
- fake     18.9   80.3
- fake     18.9   81.8
- fake     20.4   90
- fake     21     88.5
- fake     21     88.9
- fake     22.1   90.7
- fake     23.5   99.8
- fake     24.2   100.9
- fake     25.9   106.2
- fake     26.5   106.1
- fake     26.5   107
- fake     26.5   107.7
- fake     28.6   114.7
+ Bird    Feather   Length
+ A       Typical   -0.255
+ B       Typical   -0.213
+ C       Typical   -0.19
+ D       Typical   -0.185
+ E       Typical   -0.045
+ F       Typical   -0.025
+ G       Typical   -0.015
+ H       Typical    0.003
+ I       Typical    0.015
+ J       Typical    0.02
+ K       Typical    0.023
+ L       Typical    0.04
+ M       Typical    0.04
+ N       Typical    0.05
+ O       Typical    0.055
+ P       Typical    0.058
+ A       Odd       -0.324
+ B       Odd       -0.185
+ C       Odd       -0.299
+ D       Odd       -0.144
+ E       Odd       -0.027
+ F       Odd       -0.039
+ G       Odd       -0.264
+ H       Odd       -0.077
+ I       Odd       -0.017
+ J       Odd       -0.169
+ K       Odd       -0.096
+ L       Odd       -0.33
+ M       Odd       -0.346
+ N       Odd       -0.191
+ O       Odd       -0.128
+ P       Odd       -0.182
 """
 
-to_csv(ss, "ancova.csv")
+to_csv(ss, "repeated_anova.csv")
