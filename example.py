@@ -36,7 +36,7 @@ print(result)
 
 # Two-Sample t-Test
 data = pd.read_csv("biostats/dataset/two_sample_t_test.csv")
-summary, result = bs.two_sample_t_test(data=data, variable="Value", between="Time", group=["2pm", "5pm"], kind="two-side")
+summary, result = bs.two_sample_t_test(data=data, variable="Value", between="Time", group=["2pm", "5pm"], kind="equal variances")
 print(summary)
 print(result)
 
@@ -76,6 +76,12 @@ print(result)
 # Two-Way ANCOVA
 data = pd.read_csv("biostats/dataset/two_way_ancova.csv")
 summary, result = bs.two_way_ancova(data=data, variable="Activity", between_1="Sex", between_2="Genotype", covariable="Age")
+print(summary)
+print(result)
+
+# Multivariate ANOVA
+data = pd.read_csv("biostats/dataset/multivariate_anova.csv")
+summary, result = bs.multivariate_anova(data=data, variable=["sepal_length", "sepal_width"], between="species")
 print(summary)
 print(result)
 

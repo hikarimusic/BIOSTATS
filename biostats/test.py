@@ -17,7 +17,7 @@ class Test(ttk.Frame):
         self.test_list = {
             "Basic"               : ["", "Numeral", "Numeral (Grouped)", "Categorical", "Contingency"] ,
             "t-Test"              : ["", "One-Sample t-Test", "Two-Sample t-Test", "Paired t-Test", "Pairwise t-Test"] ,
-            "ANOVA"               : ["", "One-Way ANOVA", "Two-Way ANOVA", "One-Way ANCOVA", "Two-Way ANCOVA", "Repeated Measures ANOVA"] ,
+            "ANOVA"               : ["", "One-Way ANOVA", "Two-Way ANOVA", "One-Way ANCOVA", "Two-Way ANCOVA", "Multivariate ANOVA", "Repeated Measures ANOVA"] ,
             "Exact Test"          : ["", "Binomial Test", "Fisher's Exact Test"] ,
             "Chi-Square Test"     : ["", "Chi-Square Test", "Chi-Square Test (Fit)"] ,
             "Linear Regression"   : ["", "Simple Linear Regression"] ,
@@ -187,7 +187,7 @@ class Test(ttk.Frame):
 
                 self.option_label[3].config(text="Type:")
                 self.option_label[3].grid()
-                self.option[3].radio_one_set(["Two-Side", "Greater", "Less", "Unequal Variances"])
+                self.option[3].radio_one_set(["Equal Variances", "Unequal Variances"])
                 self.option[3].grid()
 
                 self.temp = ""
@@ -291,6 +291,17 @@ class Test(ttk.Frame):
                 self.option_label[3].grid()
                 self.option[3].radio_one_set(self.master.data_col["num"])
                 self.option[3].grid()
+
+            if test == "Multivariate ANOVA":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Between:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
 
             if test == "Repeated Measures ANOVA":
                 self.option_label[0].config(text="Variable:")
@@ -658,6 +669,24 @@ class Test(ttk.Frame):
                 self.result[0].grid()
                 self.result[1].data = result
                 self.result[1].set(4)
+                self.result[1].grid()
+
+            if test == "Multivariate ANOVA":
+                variable = self.option[0].check_more_get()
+                between = self.option[1].radio_one_get()
+
+                if len(variable) <= 1:
+                    return
+                if not between:
+                    return
+
+                summary, result = model.multivariate_anova(self.master.data, variable=variable, between=between)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
                 self.result[1].grid()
 
             if test == "Repeated Measures ANOVA":

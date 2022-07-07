@@ -1,6 +1,6 @@
 from .basic import numeral, numeral_grouped, categorical,contingency
 from .t_test import one_sample_t_test, two_sample_t_test, paired_t_test, pairwise_t_test
-from .anova import one_way_anova, two_way_anova, one_way_ancova, two_way_ancova, repeated_measures_anova
+from .anova import one_way_anova, two_way_anova, one_way_ancova, two_way_ancova, multivariate_anova, repeated_measures_anova
 from .exact_test import binomial_test, fisher_exact_test
 from .chi_square import chi_square_test, chi_square_test_fit
 from .linear_regression import simple_linear_regression
