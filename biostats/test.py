@@ -1,9 +1,5 @@
-from cmath import exp
 import tkinter as tk
 from tkinter import ttk
-from typing import Type
-
-from numpy import var
 
 from .widget import Tree, Option
 from . import model
@@ -21,7 +17,7 @@ class Test(ttk.Frame):
         self.test_list = {
             "Basic"               : ["", "Numeral", "Numeral (Grouped)", "Categorical", "Contingency"] ,
             "t-Test"              : ["", "One-Sample t-Test", "Two-Sample t-Test", "Paired t-Test", "Pairwise t-Test"] ,
-            "ANOVA"               : ["", "One-Way ANOVA", "Two-Way ANOVA", "ANCOVA"] ,
+            "ANOVA"               : ["", "One-Way ANOVA", "Two-Way ANOVA", "One-Way ANCOVA", "Two-Way ANCOVA", "Repeated Measures ANOVA"] ,
             "Exact Test"          : ["", "Binomial Test", "Fisher's Exact Test"] ,
             "Chi-Square Test"     : ["", "Chi-Square Test", "Chi-Square Test (Fit)"] ,
             "Linear Regression"   : ["", "Simple Linear Regression"] ,
@@ -197,20 +193,27 @@ class Test(ttk.Frame):
                 self.temp = ""
 
             if test == "Paired t-Test":
-                self.option_label[0].config(text="Variable_1:")
+                self.option_label[0].config(text="Variable:")
                 self.option_label[0].grid()
                 self.option[0].radio_one_set(self.master.data_col["num"])
                 self.option[0].grid()
 
-                self.option_label[1].config(text="Variable_2:")
+                self.option_label[1].config(text="Between:")
                 self.option_label[1].grid()
-                self.option[1].radio_one_set(self.master.data_col["num"])
-                self.option[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()            
 
-                self.option_label[2].config(text="Type:")
+                self.option_label[2].config(text="Group:")
                 self.option_label[2].grid()
-                self.option[2].radio_one_set(["Two-Side", "Greater", "Less"])
-                self.option[2].grid()
+                self.option[2].check_two_set([])
+                self.option[2].grid()   
+
+                self.option_label[3].config(text="Pair:")
+                self.option_label[3].grid()
+                self.option[3].radio_one_set(self.master.data_col["cat"])
+                self.option[3].grid()
+
+                self.temp = ""
             
             if test == "Pairwise t-Test":
                 self.option_label[0].config(text="Variable:")
@@ -252,7 +255,7 @@ class Test(ttk.Frame):
                 self.option[2].radio_one_set(self.master.data_col["cat"])
                 self.option[2].grid()
 
-            if test == "ANCOVA":
+            if test == "One-Way ANCOVA":
                 self.option_label[0].config(text="Variable:")
                 self.option_label[0].grid()
                 self.option[0].radio_one_set(self.master.data_col["num"])
@@ -266,6 +269,43 @@ class Test(ttk.Frame):
                 self.option_label[2].config(text="Covariable:")
                 self.option_label[2].grid()
                 self.option[2].radio_one_set(self.master.data_col["num"])
+                self.option[2].grid()
+
+            if test == "Two-Way ANCOVA":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Between 1:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+    
+                self.option_label[2].config(text="Between 2:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()
+
+                self.option_label[3].config(text="Covariable:")
+                self.option_label[3].grid()
+                self.option[3].radio_one_set(self.master.data_col["num"])
+                self.option[3].grid()
+
+            if test == "Repeated Measures ANOVA":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Between:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Subject:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
                 self.option[2].grid()
 
         if kind == "Exact Test":
@@ -486,18 +526,28 @@ class Test(ttk.Frame):
                 self.result[1].grid()
 
             if test == "Paired t-Test":
-                variable_1 = self.option[0].radio_one_get()
-                variable_2 = self.option[1].radio_one_get()
-                _kind = self.option[2].radio_one_get()
-
-                if not variable_1:
-                    return
-                if not variable_2:
-                    return
-                if not _kind:
+                variable = self.option[0].radio_one_get()
+                if not variable:
                     return
 
-                summary, result = model.paired_t_test(self.master.data, variable_1=variable_1, variable_2=variable_2, kind=_kind.lower())
+                between = self.option[1].radio_one_get()
+                if not between:
+                    return
+
+                if between != self.temp:
+                    opt = self.master.data[between].dropna().unique().tolist()
+                    self.option[2].check_two_set(opt)
+                self.temp = between
+
+                group = self.option[2].check_two_get()
+                if not group:
+                    return
+                
+                pair = self.option[3].radio_one_get()
+                if not pair:
+                    return
+
+                summary, result = model.paired_t_test(self.master.data, variable=variable, between=between, group=group, pair=pair)
                 
                 self.result[0].data = summary
                 self.result[0].set(3)
@@ -565,7 +615,7 @@ class Test(ttk.Frame):
                 self.result[1].set(4)
                 self.result[1].grid()
 
-            if test == "ANCOVA":
+            if test == "One-Way ANCOVA":
                 variable = self.option[0].radio_one_get()
                 between = self.option[1].radio_one_get()
                 covariable = self.option[2].radio_one_get()
@@ -577,13 +627,58 @@ class Test(ttk.Frame):
                 if not covariable:
                     return
 
-                summary, result = model.ancova(self.master.data, variable=variable, between=between, covariable=covariable)
+                summary, result = model.one_way_ancova(self.master.data, variable=variable, between=between, covariable=covariable)
 
                 self.result[0].data = summary
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
                 self.result[1].set(4)
+                self.result[1].grid()
+
+            if test == "Two-Way ANCOVA":
+                variable = self.option[0].radio_one_get()
+                between_1 = self.option[1].radio_one_get()
+                between_2 = self.option[2].radio_one_get()
+                covariable = self.option[3].radio_one_get()
+
+                if not variable:
+                    return
+                if not between_1:
+                    return
+                if not between_2:
+                    return
+                if not covariable:
+                    return
+                
+                summary, result = model.two_way_ancova(self.master.data, variable=variable, between_1=between_1, between_2=between_2, covariable=covariable)
+
+                self.result[0].data = summary
+                self.result[0].set(9)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(4)
+                self.result[1].grid()
+
+            if test == "Repeated Measures ANOVA":
+                variable = self.option[0].radio_one_get()
+                between = self.option[1].radio_one_get()
+                subject = self.option[2].radio_one_get()
+
+                if not variable:
+                    return
+                if not between:
+                    return
+                if not subject:
+                    return
+
+                summary, result = model.repeated_measures_anova(self.master.data, variable=variable, between=between, subject=subject)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
                 self.result[1].grid()
 
         if kind == "Exact Test":

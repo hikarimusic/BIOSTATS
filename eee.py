@@ -3,8 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-# ANCOVA
-data = pd.read_csv("biostats/dataset/ancova.csv")
-summary, result = bs.ancova(data=data, variable="Pulse", between="Species", covariable="Temp")
+# Paired t-Test
+data = pd.read_csv("biostats/dataset/paired_t_test.csv")
+summary, result = bs.paired_t_test(data=data, variable="Length", between="Feather", group=["Typical", "Odd"], pair="Bird")
 print(summary)
 print(result)

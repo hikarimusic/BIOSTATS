@@ -42,7 +42,7 @@ print(result)
 
 # Paired t-Test
 data = pd.read_csv("biostats/dataset/paired_t_test.csv")
-summary, result = bs.paired_t_test(data=data, variable_1="Typical", variable_2="Odd", kind="two-side")
+summary, result = bs.paired_t_test(data=data, variable="Length", between="Feather", group=["Typical", "Odd"], pair="Bird")
 print(summary)
 print(result)
 
@@ -67,9 +67,21 @@ summary, result = bs.two_way_anova(data=data, variable="Activity", between_1="Se
 print(summary)
 print(result)
 
-# ANCOVA
-data = pd.read_csv("biostats/dataset/ancova.csv")
-summary, result = bs.ancova(data=data, variable="Pulse", between="Species", covariable="Temp")
+# One-Way ANCOVA
+data = pd.read_csv("biostats/dataset/one_way_ancova.csv")
+summary, result = bs.one_way_ancova(data=data, variable="Pulse", between="Species", covariable="Temp")
+print(summary)
+print(result)
+
+# Two-Way ANCOVA
+data = pd.read_csv("biostats/dataset/two_way_ancova.csv")
+summary, result = bs.two_way_ancova(data=data, variable="Activity", between_1="Sex", between_2="Genotype", covariable="Age")
+print(summary)
+print(result)
+
+# Repeated Measures ANOVA
+data = pd.read_csv("biostats/dataset/repeated_measures_anova.csv")
+summary, result = bs.repeated_measures_anova(data=data, variable="response", between="drug", subject="patient")
 print(summary)
 print(result)
 

@@ -28,11 +28,13 @@ One-Way ANOVA
 
 Two-Way ANOVA
 
-Repeated ANOVA
+One-Way ANCOVA
 
-MANOVA
+Two-Way ANCOVA
 
-ANCOVA
+Multivariate ANOVA
+
+Repeated Measures ANOVA
 
 ### Exact Test
 

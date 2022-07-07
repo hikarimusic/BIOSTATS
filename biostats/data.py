@@ -129,6 +129,7 @@ class Data(ttk.Frame):
                     df = pd.read_csv(filename, dtype=object)
 
                 self.data_process(df)
+                self.switch("view")
 
             except ValueError:
                 messagebox.showerror(
@@ -162,16 +163,17 @@ class Data(ttk.Frame):
 
         for col in df:
             try: 
-                df[col] = df[col].astype('Int64')
+                df[col] = df[col].astype('float64')
                 col_num.append(col)
-                col_cat.append(col)
-            except:
                 try: 
-                    df[col] = df[col].astype('float64')
-                    col_num.append(col)
-                except:
+                    df[col] = df[col].astype('Int64')
                     col_cat.append(col)
-                    
+                except:
+                    pass
+            except:
+                col_cat.append(col)
+
+
         df.columns = df.columns.map(str)
         df.index = df.index.map(str)
 
