@@ -108,13 +108,13 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
     return summary, result
 
 
-def two_sample_t_test(data, variable, between, group, kind="two-side"):
+def two_sample_t_test(data, variable, between, group, kind="equal variances"):
 
     process(data)
 
     n, mean, std, sem = [None] * 2, [None] * 2, [None] * 2, [None] * 2
     for i, cat, in enumerate(group):
-        n[i]    = CC(data[data[between]==cat][variable].count)
+        n[i]    = CC(data[data[between]==cat][variable].dropna().count)
         mean[i] = CC(st.tmean, data[data[between]==cat][variable].dropna())
         std[i]  = CC(st.tstd, data[data[between]==cat][variable].dropna())
         sem[i]  = CC(st.tsem, data[data[between]==cat][variable].dropna())
@@ -128,66 +128,19 @@ def two_sample_t_test(data, variable, between, group, kind="two-side"):
         }, index=group
     )
 
-    if kind == "two-side":
-        s = CC(lambda: math.sqrt(((n[0]-1)*(std[0]**2)+(n[1]-1)*(std[1]**2))/(n[0]+n[1]-2)))
-        se = s*math.sqrt(1/n[0]+1/n[1])
-        t = CC(lambda: (mean[0]-mean[1])/se)
+    if kind == "equal variances":
+        _mean = mean[0]-mean[1]
+        _sem = CC(lambda: math.sqrt(((n[0]-1)*(std[0]**2)+(n[1]-1)*(std[1]**2))*(1/n[0]+1/n[1])/(n[0]+n[1]-2)))
+        t = CC(lambda: _mean/_sem)
         p = CC(lambda: st.t.cdf(t, n[0]+n[1]-2))
         p = CC(lambda a: 2*min(a, 1-a), p)
 
         diff = pd.DataFrame(
             {
-                "Estimate" : mean[0]-mean[1] ,
-                "Std. Error" : se ,
-                "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n[0]+n[1]-2, mean[0]-mean[1], se)) ,
-                "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n[0]+n[1]-2, mean[0]-mean[1], se)) ,
-            }, index=["Difference"]
-        )
-        summary = pd.concat([summary, diff])
-
-        result = pd.DataFrame(
-            {
-                "D.F." : n[0]+n[1]-2 ,
-                "t Statistic" : t ,
-                "p-value" : p
-            }, index=[variable]
-        )
-    elif kind == "greater":
-        s = CC(lambda: math.sqrt(((n[0]-1)*(std[0]**2)+(n[1]-1)*(std[1]**2))/(n[0]+n[1]-2)))
-        se = s*math.sqrt(1/n[0]+1/n[1])
-        t = CC(lambda: (mean[0]-mean[1])/se)
-        p = CC(lambda: st.t.cdf(t, n[0]+n[1]-2))
-        p = CC(lambda a: 1-a, p)
-
-        diff = pd.DataFrame(
-            {
-                "Estimate" : mean[0]-mean[1] ,
-                "Std. Error" : se ,
-                "95% CI: Lower" : CC(lambda: st.t.ppf(0.05, n[0]+n[1]-2, mean[0]-mean[1], se)) ,
-                "95% CI: Upper" : "Inf" ,
-            }, index=["Difference"]
-        )
-        summary = pd.concat([summary, diff])
-
-        result = pd.DataFrame(
-            {
-                "D.F." : n[0]+n[1]-2 ,
-                "t Statistic" : t ,
-                "p-value" : p
-            }, index=[variable]
-        )
-    elif kind == "less":
-        s = CC(lambda: math.sqrt(((n[0]-1)*(std[0]**2)+(n[1]-1)*(std[1]**2))/(n[0]+n[1]-2)))
-        se = s*math.sqrt(1/n[0]+1/n[1])
-        t = CC(lambda: (mean[0]-mean[1])/se)
-        p = CC(lambda: st.t.cdf(t, n[0]+n[1]-2))
-
-        diff = pd.DataFrame(
-            {
-                "Estimate" : mean[0]-mean[1] ,
-                "Std. Error" : se ,
-                "95% CI: Lower" : "-Inf" ,
-                "95% CI: Upper" : CC(lambda: st.t.ppf(0.95, n[0]+n[1]-2, mean[0]-mean[1], se)) ,
+                "Estimate" : _mean ,
+                "Std. Error" : _sem ,
+                "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n[0]+n[1]-2, _mean, _sem)) ,
+                "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n[0]+n[1]-2, _mean, _sem)) ,
             }, index=["Difference"]
         )
         summary = pd.concat([summary, diff])
@@ -200,18 +153,19 @@ def two_sample_t_test(data, variable, between, group, kind="two-side"):
             }, index=[variable]
         )
     elif kind == "unequal variances":
-        se = math.sqrt(sem[0]**2+sem[1]**2)
-        t = CC(lambda: (mean[0]-mean[1])/se)
+        _mean = mean[0]-mean[1]
+        _sem = math.sqrt(sem[0]**2+sem[1]**2)
+        t = CC(lambda: _mean/_sem)
         df = CC(lambda: (sem[0]**2+sem[1]**2)**2/(sem[0]**4/(n[0]-1)+sem[1]**4/(n[1]-1)))
         p = CC(lambda: st.t.cdf(t, df))
         p = CC(lambda a: 2*min(a, 1-a), p)
 
         diff = pd.DataFrame(
             {
-                "Estimate" : mean[0]-mean[1] ,
-                "Std. Error" : se ,
-                "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n[0]+n[1]-2, mean[0]-mean[1], se)) ,
-                "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n[0]+n[1]-2, mean[0]-mean[1], se)) ,
+                "Estimate" : _mean ,
+                "Std. Error" : _sem ,
+                "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n[0]+n[1]-2, _mean, _sem)) ,
+                "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n[0]+n[1]-2, _mean, _sem)) ,
             }, index=["Difference"]
         )
         summary = pd.concat([summary, diff])
@@ -247,7 +201,7 @@ def paired_t_test(data, variable, between, group, pair):
 
     n, mean, std, sem = [None] * 2, [None] * 2, [None] * 2, [None] * 2
     for i, cat, in enumerate(group):
-        n[i]    = CC(data[data[between]==cat][variable].count)
+        n[i]    = CC(data[data[between]==cat][variable].dropna().count)
         mean[i] = CC(st.tmean, data[data[between]==cat][variable].dropna())
         std[i]  = CC(st.tstd, data[data[between]==cat][variable].dropna())
         sem[i]  = CC(st.tsem, data[data[between]==cat][variable].dropna())
@@ -268,30 +222,29 @@ def paired_t_test(data, variable, between, group, pair):
         }
     )
 
-    diff = (data_wide["var_1"] - data_wide["var_2"])
+    diff = data_wide["var_1"] - data_wide["var_2"]
     diff = diff.dropna()
 
-    n = CC(lambda a: a.count(), diff.dropna())
-    mean = CC(st.tmean, diff.dropna())
-    std = CC(st.tstd, diff.dropna())
-    sem = CC(st.tsem, diff.dropna())
+    _n = CC(lambda a: a.count(), diff.dropna())
+    _mean = CC(st.tmean, diff.dropna())
+    _sem = CC(st.tsem, diff.dropna())
 
     diff = pd.DataFrame(
         {
-            "Estimate" : mean ,
-            "Std. Error" : sem ,
-            "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n-1, mean, sem)) ,
-            "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n-1, mean, sem)) ,
+            "Estimate" : _mean ,
+            "Std. Error" : _sem ,
+            "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, _n-1, _mean, _sem)) ,
+            "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, _n-1, _mean, _sem)) ,
         }, index=["Difference"]
     )
     summary = pd.concat([summary, diff])
 
-    t = CC(lambda: mean/sem)
-    p = CC(lambda: st.t.cdf(t, n-1))
+    t = CC(lambda: _mean/_sem)
+    p = CC(lambda: st.t.cdf(t, _n-1))
     p = CC(lambda a: 2*min(a, 1-a), p)
     result = pd.DataFrame(
         {
-            "D.F." : n-1 ,
+            "D.F." : _n-1 ,
             "t Statistic" : t ,
             "p-value" : p
         }, index=[variable]

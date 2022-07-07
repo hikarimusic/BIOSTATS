@@ -4,6 +4,7 @@ from scipy import stats as st
 
 from statsmodels.formula.api import ols
 from statsmodels.stats.anova import anova_lm
+from statsmodels.multivariate.manova import MANOVA
 
 def CC(fun, *args):
     try:
@@ -155,8 +156,8 @@ def one_way_ancova(data, variable, between, covariable):
                 "{}".format(between): x,
                 "Count": n,
                 "Mean ({})".format(variable): mean_1,
-                "Mean ({})".format(covariable): mean_2,
                 "Std. ({})".format(variable): std_1,
+                "Mean ({})".format(covariable): mean_2,
                 "Std. ({})".format(covariable): std_2,
             }, index=[0]
         )
@@ -215,8 +216,8 @@ def two_way_ancova(data, variable, between_1, between_2, covariable):
                     "{}".format(between_2): y,
                     "Count": n,
                     "Mean ({})".format(variable): mean_1,
-                    "Mean ({})".format(covariable): mean_2,
                     "Std. ({})".format(variable): std_1,
+                    "Mean ({})".format(covariable): mean_2,
                     "Std. ({})".format(covariable): std_2,
                 }, index=[0]
             )
@@ -252,6 +253,44 @@ def two_way_ancova(data, variable, between_1, between_2, covariable):
 
     return summary, result
 
+def multivariate_anova(data, variable, between):
+
+    process(data)
+
+    group = data[between].dropna().unique().tolist()
+
+    summary = pd.DataFrame({between:group})
+    for var in variable:
+        mean = []
+        std = []
+        for x in group:
+            mean.append(CC(data[data[between]==x][var].dropna().mean))
+            std.append(CC(data[data[between]==x][var].dropna().std))
+        summary["Mean ({})".format(var)] = mean
+        summary["Std. ({})".format(var)] = std  
+    summary.index += 1 
+
+    formula = ""
+    for var in variable:
+        formula += "{} + ".format(var)
+    formula = formula[:-3]
+    formula += " ~ {}".format(between)
+    fit = MANOVA.from_formula(formula, data=data)
+    table = pd.DataFrame((fit.mv_test().results[between]['stat']))
+    result = pd.DataFrame(
+        {
+            "D.F." : len(group)-1 ,
+            "Pillai's Trace" : table.iloc[1][0] ,
+            "F Statistic" : table.iloc[1][3] ,
+            "p-value" : table.iloc[1][4]
+        }, index=[between]
+    )
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
 
 def repeated_measures_anova(data, variable, between, subject):
 
