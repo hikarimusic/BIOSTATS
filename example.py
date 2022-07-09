@@ -106,6 +106,11 @@ summary, result = bs.fisher_exact_test(data=data, variable_1="Frequency", variab
 print(summary)
 print(result)
 
+# McNemar's Exact Test
+data = pd.read_csv("biostats/dataset/mcnemars_exact_test.csv")
+summary, result = bs.mcnemars_exact_test(data=data, variable_1="Treatment", variable_2="Result", pair="ID")
+print(summary)
+print(result)
 
 # ---------------------------------------------------------------
 # Chi-Square Test
@@ -122,8 +127,31 @@ summary, result = bs.chi_square_test_fit(data=data, variable="Canopy", expect={"
 print(summary)
 print(result)
 
+# McNemar's Test
+data = pd.read_csv("biostats/dataset/mcnemars_test.csv")
+summary, result = bs.mcnemars_test(data=data, variable_1="Treatment", variable_2="Result", pair="ID")
+print(summary)
+print(result)
+
+# Mantel-Haenszel Test
+data = pd.read_csv("biostats/dataset/mantel_haenszel_test.csv")
+summary, result = bs.mantel_haenszel_test(data=data, variable_1="Treatment", variable_2="Revascularization", stratum="Study")
+print(summary)
+print(result)
+
 # ---------------------------------------------------------------
 # Linear Regression
+
+# Correlation
+data = pd.read_csv("biostats/dataset/correlation.csv")
+summary, result = bs.correlation(data=data, x="Latitude", y="Species")
+print(summary)
+print(result)
+
+# Correlation Matrix
+data = pd.read_csv("biostats/dataset/correlation_matrix.csv")
+summary = bs.correlation_matrix(data=data, variable=["Stream","Longnose","Acerage","DO2","Maxdepth","NO3","SO4","Temp"])
+print(summary)
 
 # Simple Linear Regression
 data = pd.read_csv("biostats/dataset/simple_linear_regression.csv")

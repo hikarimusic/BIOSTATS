@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+from scipy import stats as st
+import math
 
 from statsmodels.formula.api import ols
 
@@ -28,6 +30,52 @@ def add_p(data):
         if data['p-value'][i] <= 0.001:
             temp[i] = "***"
     data[""] = temp
+
+def correlation(data, x, y):
+
+    process(data)
+
+    data = data[[x,y]].dropna()
+    r = data.corr().iloc[0][1]
+    n = len(data)
+
+    summary = pd.DataFrame(
+        {
+            "Coefficient": r
+        }, index=["Correlation"]
+    )
+
+    t = r * math.sqrt((n - 2) / (1 - r * r))
+    p = CC(lambda: st.t.cdf(t, n-2))
+    p = CC(lambda a: 2*min(a, 1-a), p)
+
+    result = pd.DataFrame(
+        {
+            "D.F." : n-2 ,
+            "t Statistic" : t ,
+            "p-value" : p
+        }, index=["Model"]
+    )
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
+
+def correlation_matrix(data, variable):
+
+    process(data)
+
+    data = data[variable]
+
+    result = data.corr()
+
+    return result
+
+
+
+
 
 def simple_linear_regression(data, x, y):
 

@@ -58,6 +58,8 @@ Mantel-Haenszel Test
 
 Correlation
 
+Correlation Matrix
+
 Simple Linear Regression
 
 Multiple Linear Regression

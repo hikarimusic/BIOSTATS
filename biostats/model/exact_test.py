@@ -260,3 +260,63 @@ def fisher_exact_test(data, variable_1, variable_2):
     process(result)
 
     return summary, result
+
+def mcnemars_exact_test(data, variable_1, variable_2, pair):
+
+    process(data)
+
+    grp_1 = data[variable_1].value_counts()[:2].index.tolist()
+    grp_2 = data[variable_2].value_counts()[:2].index.tolist()
+
+    data = data[data[variable_1].isin(grp_1)]
+    data = data[data[variable_2].isin(grp_2)]
+
+    cross = pd.crosstab(index=data[pair], columns=data[variable_1])
+    for col in cross:
+        cross = cross.drop(cross[cross[col] != 1].index)
+    sub = cross.index.values.tolist()
+    data = data[data[pair].isin(sub)]
+
+    _dat = pd.DataFrame(
+        {
+            "fst" : data[data[variable_1]==grp_1[0]].sort_values(by=[pair])[variable_2].tolist() ,
+            "snd" : data[data[variable_1]==grp_1[1]].sort_values(by=[pair])[variable_2].tolist()
+        }
+    )
+
+    a = CC(_dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[0])]["fst"].count)
+    b = CC(_dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[1])]["fst"].count)
+    c = CC(_dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[0])]["fst"].count)
+    d = CC(_dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[1])]["fst"].count)
+
+    summary = pd.DataFrame(
+        {
+            "{} : {}".format(grp_1[1], grp_2[0]) : [a, c] ,
+            "{} : {}".format(grp_1[1], grp_2[1]) : [b, d] ,
+        }, index=["{} : {}".format(grp_1[0], grp_2[0]), "{} : {}".format(grp_1[0], grp_2[1])]
+    )
+
+    p = 0
+    n = b + c
+    if b < c:
+        for x in range(0, b+1):
+            p += math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n)
+        p *= 2
+    elif b > c:
+        for x in range(b, n+1):
+            p += math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n)
+        p *= 2
+    else: 
+        p = 1
+
+    result = pd.DataFrame(
+        {
+            "p-value": [p]
+        }, index=["Model"]
+    )
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
