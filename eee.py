@@ -3,10 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-# Multivariate ANOVA
-data = pd.read_csv("biostats/dataset/multivariate_anova.csv")
-summary, result = bs.multivariate_anova(data=data, variable=["sepal_length", "sepal_width"], between="species")
+# Correlation Matrix
+data = pd.read_csv("biostats/dataset/correlation_matrix.csv")
+summary = bs.correlation_matrix(data=data, variable=["Stream","Longnose","Acerage","DO2","Maxdepth","NO3","SO4","Temp"])
 print(summary)
-print(result)
-
-

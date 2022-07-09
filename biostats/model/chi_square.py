@@ -144,75 +144,106 @@ def chi_square_test_fit(data, variable, expect):
 
     return summary, result
 
+def mcnemars_test(data, variable_1, variable_2, pair):
 
+    process(data)
 
-"""
-from scipy.stats import chisquare, chi2_contingency
+    grp_1 = data[variable_1].value_counts()[:2].index.tolist()
+    grp_2 = data[variable_2].value_counts()[:2].index.tolist()
 
-def chi_square_independence(data, first, second, summary=None):
+    data = data[data[variable_1].isin(grp_1)]
+    data = data[data[variable_2].isin(grp_2)]
 
-    table = pd.crosstab(index=data[first], columns=data[second])
-    table.index.name = None
-    index_change = {}
-    for index in table.index:
-        changed = "{}({})".format(first, index)
-        index_change[index] = changed
-    table =  table.rename(index=index_change)
-    table.columns.name = None
-    columns_change = {}
-    for columns in table.columns:
-        changed = "{}({})".format(second, columns)
-        columns_change[columns] = changed
-    table =  table.rename(columns=columns_change)
+    cross = pd.crosstab(index=data[pair], columns=data[variable_1])
+    for col in cross:
+        cross = cross.drop(cross[cross[col] != 1].index)
+    sub = cross.index.values.tolist()
+    data = data[data[pair].isin(sub)]
 
-    chi2, p, df, ex = chi2_contingency(table, False)
-    chi2_, p_, df_, ex_, = chi2_contingency(table, True)
+    _dat = pd.DataFrame(
+        {
+            "fst" : data[data[variable_1]==grp_1[0]].sort_values(by=[pair])[variable_2].tolist() ,
+            "snd" : data[data[variable_1]==grp_1[1]].sort_values(by=[pair])[variable_2].tolist()
+        }
+    )
+
+    a = CC(_dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[0])]["fst"].count)
+    b = CC(_dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[1])]["fst"].count)
+    c = CC(_dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[0])]["fst"].count)
+    d = CC(_dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[1])]["fst"].count)
+
+    summary = pd.DataFrame(
+        {
+            "{} : {}".format(grp_1[1], grp_2[0]) : [a, c] ,
+            "{} : {}".format(grp_1[1], grp_2[1]) : [b, d] ,
+        }, index=["{} : {}".format(grp_1[0], grp_2[0]), "{} : {}".format(grp_1[0], grp_2[1])]
+    )
+
+    chi2 = (b - c) ** 2 / (b + c)
+    chi2_ = (abs(b-c) - 1) ** 2 / (b + c)
+    p = CC(lambda: 1 - st.chi2.cdf(chi2, 1))
+    p_ = CC(lambda: 1 - st.chi2.cdf(chi2_, 1))
+
     result = pd.DataFrame(
         {
-            "Chi_Square": [chi2, chi2_],
-            "df": [df, df_],
-            "p-value": [p, p_]
+            "D.F." : [1, 1] ,
+            "Chi Square" : [chi2, chi2_] ,
+            "p-value" : [p, p_]
         }, index=["Normal", "Corrected"]
     )
-    
-    if summary:
-        return table
-    else:
-        return result
+    add_p(result)
 
-def chi_square_fit(data, target, expected, summary=None):
-    
-    Observed = data[target].value_counts().to_numpy()
-    Index = data[target].value_counts().index
-    Expected = []
-    for var in Index:
-        Expected.append(expected[var])
-    Expected = np.array(Expected) / np.sum(np.array(Expected)) * np.sum(Observed)
-    table = pd.DataFrame(
-        {
-            "Observed": Observed,
-            "Expected": Expected
-        }, index = Index
-    ).T
-    table = table[expected.keys()]
-    columns_change = {}
-    for columns in table.columns:
-        changed = "{}({})".format(target, columns)
-        columns_change[columns] = changed
-    table = table.rename(columns=columns_change)
+    process(summary)
+    process(result)
 
-    chi2, p = chisquare(Observed, f_exp=Expected)
+    return summary, result
+
+
+def mantel_haenszel_test(data, variable_1, variable_2, stratum):
+    
+    process(data)
+
+    study = data[stratum].dropna().unique()
+    grp_1 = data[variable_1].value_counts()[:2].index.tolist()
+    grp_2 = data[variable_2].value_counts()[:2].index.tolist()
+
+    summary = pd.DataFrame(columns=["", grp_2[0], grp_2[1]])
+
+    O, V, E = 0, 0 ,0
+
+    for stu in study:
+        part = data.loc[data[stratum]==stu]
+        a = CC(part[(part[variable_1]==grp_1[0]) & (part[variable_2]==grp_2[0])][stratum].count)
+        b = CC(part[(part[variable_1]==grp_1[0]) & (part[variable_2]==grp_2[1])][stratum].count)
+        c = CC(part[(part[variable_1]==grp_1[1]) & (part[variable_2]==grp_2[0])][stratum].count)
+        d = CC(part[(part[variable_1]==grp_1[1]) & (part[variable_2]==grp_2[1])][stratum].count)
+        n = a + b + c + d
+        temp = pd.DataFrame(
+            {
+                "" : [grp_1[0], grp_1[1], ""] ,
+                grp_2[0] : [a, c, np.nan] ,
+                grp_2[1] : [b, d, np.nan]
+            }, index=[stu, "", ""]
+        )
+        summary = pd.concat([summary, temp])
+
+        O += a
+        E += (a + b) * (a + c) / n
+        V += (a + b) * (c + d) * (a + c) * (b + d) / (n**3 - n**2)
+    
+    chi2 = (abs(O-E) - 0.5) ** 2 / V
+    p = CC(lambda: 1 - st.chi2.cdf(chi2, 1))
 
     result = pd.DataFrame(
         {
-            "Chi-Square": chi2,
-            "df": Observed.size-1, 
-            "p-value": p
-        }, index=["Fit"]
+            "D.F.": [1],
+            "Chi Square": [chi2],
+            "p-value": [p]
+        }, index=["Normal"]
     )
+    add_p(result)
 
-    if summary:
-        return table
-    else:
-        return result
-"""
+    process(summary)
+    process(result)
+
+    return summary, result

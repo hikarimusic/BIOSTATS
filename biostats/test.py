@@ -18,9 +18,9 @@ class Test(ttk.Frame):
             "Basic"               : ["", "Numeral", "Numeral (Grouped)", "Categorical", "Contingency"] ,
             "t-Test"              : ["", "One-Sample t-Test", "Two-Sample t-Test", "Paired t-Test", "Pairwise t-Test"] ,
             "ANOVA"               : ["", "One-Way ANOVA", "Two-Way ANOVA", "One-Way ANCOVA", "Two-Way ANCOVA", "Multivariate ANOVA", "Repeated Measures ANOVA"] ,
-            "Exact Test"          : ["", "Binomial Test", "Fisher's Exact Test"] ,
-            "Chi-Square Test"     : ["", "Chi-Square Test", "Chi-Square Test (Fit)"] ,
-            "Linear Regression"   : ["", "Simple Linear Regression"] ,
+            "Exact Test"          : ["", "Binomial Test", "Fisher's Exact Test", "McNemar's Exact Test"] ,
+            "Chi-Square Test"     : ["", "Chi-Square Test", "Chi-Square Test (Fit)", "McNemar's Test", "Mantel-Haenszel Test"] ,
+            "Linear Regression"   : ["", "Correlation", "Correlation Matrix", "Simple Linear Regression"] ,
             "Logistic Regression" : ["", "Simple Logistic Regression"] ,
             "Nonparametric"       : ["", "Kruskal-Wallis Test"]
         }
@@ -345,6 +345,22 @@ class Test(ttk.Frame):
                 self.option[1].radio_one_set(self.master.data_col["cat"])
                 self.option[1].grid()   
 
+            if test == "McNemar's Exact Test":
+                self.option_label[0].config(text="Variable 1:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Variable 2:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Pair:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()
+
         if kind == "Chi-Square Test":
 
             if test == "Chi-Square Test":
@@ -370,8 +386,57 @@ class Test(ttk.Frame):
                 self.option[1].grid()
 
                 self.temp = ""
+            
+            if test == "McNemar's Test":
+                self.option_label[0].config(text="Variable 1:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Variable 2:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Pair:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()
+
+            if test == "Mantel-Haenszel Test":
+                self.option_label[0].config(text="Variable 1:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Variable 2:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Stratum:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()   
 
         if kind == "Linear Regression":
+
+            if test == "Correlation":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+            if test == "Correlation Matrix":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
 
             if test == "Simple Linear Regression":
                 self.option_label[0].config(text="X:")
@@ -759,6 +824,27 @@ class Test(ttk.Frame):
                 self.result[1].set(3)
                 self.result[1].grid()
 
+            if test == "McNemar's Exact Test":
+                variable_1 = self.option[0].radio_one_get()
+                variable_2 = self.option[1].radio_one_get()
+                pair = self.option[2].radio_one_get()
+
+                if not variable_1:
+                    return
+                if not variable_2:
+                    return
+                if not pair:
+                    return
+
+                summary, result = model.mcnemars_exact_test(self.master.data, variable_1=variable_1, variable_2=variable_2, pair=pair)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
         if kind == "Chi-Square Test":
 
             if test == "Chi-Square Test":
@@ -808,7 +894,78 @@ class Test(ttk.Frame):
                 self.result[1].set(3)
                 self.result[1].grid()
 
+            if test == "McNemar's Test":
+                variable_1 = self.option[0].radio_one_get()
+                variable_2 = self.option[1].radio_one_get()
+                pair = self.option[2].radio_one_get()
+
+                if not variable_1:
+                    return
+                if not variable_2:
+                    return
+                if not pair:
+                    return
+
+                summary, result = model.mcnemars_test(self.master.data, variable_1=variable_1, variable_2=variable_2, pair=pair)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+            if test == "Mantel-Haenszel Test":
+                variable_1 = self.option[0].radio_one_get()
+                variable_2 = self.option[1].radio_one_get()
+                stratum = self.option[2].radio_one_get()
+
+                if not variable_1:
+                    return
+                if not variable_2:
+                    return
+                if not stratum:
+                    return
+
+                summary, result = model.mantel_haenszel_test(self.master.data, variable_1=variable_1, variable_2=variable_2, stratum=stratum)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
         if kind == "Linear Regression":
+
+            if test == "Correlation":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+
+                summary, result = model.correlation(self.master.data, x=x, y=y)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+            if test == "Correlation Matrix":
+                variable = self.option[0].check_more_get()
+
+                if len(variable) == 0:
+                    return
+                
+                result = model.correlation_matrix(self.master.data, variable=variable)
+                self.result[0].data = result
+                self.result[0].set(20)
+                self.result[0].grid()
 
             if test == "Simple Linear Regression":
                 x = self.option[0].radio_one_get()
