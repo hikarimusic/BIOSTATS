@@ -261,7 +261,7 @@ def fisher_exact_test(data, variable_1, variable_2):
 
     return summary, result
 
-def mcnemars_exact_test(data, variable_1, variable_2, pair):
+def mcnemar_exact_test(data, variable_1, variable_2, pair):
 
     process(data)
 

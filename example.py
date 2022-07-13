@@ -107,8 +107,8 @@ print(summary)
 print(result)
 
 # McNemar's Exact Test
-data = pd.read_csv("biostats/dataset/mcnemars_exact_test.csv")
-summary, result = bs.mcnemars_exact_test(data=data, variable_1="Treatment", variable_2="Result", pair="ID")
+data = pd.read_csv("biostats/dataset/mcnemar_exact_test.csv")
+summary, result = bs.mcnemar_exact_test(data=data, variable_1="Treatment", variable_2="Result", pair="ID")
 print(summary)
 print(result)
 
@@ -128,8 +128,8 @@ print(summary)
 print(result)
 
 # McNemar's Test
-data = pd.read_csv("biostats/dataset/mcnemars_test.csv")
-summary, result = bs.mcnemars_test(data=data, variable_1="Treatment", variable_2="Result", pair="ID")
+data = pd.read_csv("biostats/dataset/mcnemar_test.csv")
+summary, result = bs.mcnemar_test(data=data, variable_1="Treatment", variable_2="Result", pair="ID")
 print(summary)
 print(result)
 
@@ -159,6 +159,12 @@ summary, result = bs.simple_linear_regression(data=data, x="Weight", y="Eggs")
 print(summary)
 print(result)
 
+# Multiple Linear Regression
+data = pd.read_csv("biostats/dataset/multiple_linear_regression.csv")
+summary, result = bs.multiple_linear_regression(data=data, x_nominal=["Acerage", "Maxdepth", "NO3"], x_categorical=[], y="Longnose")
+print(summary)
+print(result)
+
 # ---------------------------------------------------------------
 # Logistic Regression
 
@@ -168,14 +174,67 @@ summary, result = bs.simple_logistic_regression(data=data, x="Continuous", y="Fa
 print(summary)
 print(result)
 
+# Multiple Logistic Regression
+data = pd.read_csv("biostats/dataset/multiple_logistic_regression.csv")
+summary, result = bs.multiple_logistic_regression(data=data, x_nominal=["Upland", "Migr", "Mass", "Indiv", "Insect", "Wood"], x_categorical=[], y="Status", target=1)
+print(summary)
+print(result)
+
 # ---------------------------------------------------------------
 # Nonparametric
+
+# Median Test
+data = pd.read_csv("biostats/dataset/median_test.csv")
+summary, result = bs.median_test(data=data, variable="Value", expect=3)
+print(summary)
+print(result)
+
+# Sign Test
+data = pd.read_csv("biostats/dataset/sign_test.csv")
+summary, result = bs.sign_test(data=data, variable="Concentration", between="Month", group=["August", "November"], pair="Clone")
+print(summary)
+print(result)
+
+# Wilcoxon Signed-Rank Test
+data = pd.read_csv("biostats/dataset/wilcoxon_signed_rank_test.csv")
+summary, result = bs.wilcoxon_signed_rank_test(data=data, variable="Concentration", between="Month", group=["August", "November"], pair="Clone")
+print(summary)
+print(result)
+
+# Wilcoxon Rank-Sum Test
+data = pd.read_csv("biostats/dataset/two_sample_t_test.csv")
+summary, result = bs.wilcoxon_rank_sum_test(data=data, variable="Value", between="Time", group=["2pm", "5pm"])
+print(summary)
+print(result)
 
 # Kruskal-Wallis Test
 data = pd.read_csv("biostats/dataset/kruskal_wallis_test.csv")
 summary, result = bs.kruskal_wallis_test(data=data, variable="Value", between="Group")
 print(summary)
 print(result)
+
+# Friedman Test
+data = pd.read_csv("biostats/dataset/friedman_test.csv")
+summary, result = bs.friedman_test(data=data, variable="response", between="drug", subject="patient")
+print(summary)
+print(result)
+
+# Spearman's Rank Correlation
+data = pd.read_csv("biostats/dataset/spearman_rank_correlation.csv")
+summary, result = bs.spearman_rank_correlation(data=data, x="Volume", y="Pitch")
+print(summary)
+print(result)
+
+# ---------------------------------------------------------------
+# Others
+
+# Linear Discriminant Analysis
+data = pd.read_csv("biostats/dataset/linear_discriminant_analysis.csv")
+summary, result, prediction = bs.linear_discriminant_analysis(data=data, x=["sepal_length", "sepal_width", "petal_length" ,"petal_width"], y="species", 
+    predict={"sepal_length": 5.7, "sepal_width": 2.7, "petal_length": 4.0 ,"petal_width":1.4})
+print(summary)
+print(result)
+print(prediction)
 
 # ---------------------------------------------------------------
 # Distribution

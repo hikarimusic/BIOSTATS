@@ -1,7 +1,11 @@
+
+
 risk difference (CI)
 risk ratio (CI)
 odds ratio (CI)
 attribute risk (CI)
+
+Contingency(Test)
 
 accuracy
 sensitivity
@@ -9,3 +13,28 @@ specificity
 precision
 
 ROC curve
+
+
+
+check:
+
+exception
+input validation 
+table size
+example correct
+index name
+example set
+
+
+
+
+repeated measures logistic regression
+factorial logistic regression
+
+
+
+multinomial logistic
+ordered logistic
+
+
+hsb2

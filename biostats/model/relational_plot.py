@@ -7,6 +7,8 @@ def process(data):
             data[col] = data[col].astype('float64')
         except:
             pass  
+    data.columns = data.columns.map(str)
+    data.index = data.index.map(str)
 
 def scatter_plot(data, x, y, color=None):
 

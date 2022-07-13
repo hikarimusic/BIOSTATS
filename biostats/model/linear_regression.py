@@ -74,9 +74,6 @@ def correlation_matrix(data, variable):
     return result
 
 
-
-
-
 def simple_linear_regression(data, x, y):
 
     process(data)
@@ -116,6 +113,54 @@ def simple_linear_regression(data, x, y):
 
     return summary, result
 
+def multiple_linear_regression(data, x_nominal, x_categorical, y):
+
+    process(data)
+
+    formula = "Q('%s') ~ " % y
+    for var in x_nominal:
+        formula += "Q('%s') + " % var
+    for var in x_categorical:
+        formula += "C(Q('%s')) + " % var
+    formula = formula[:-3]
+    model = ols(formula, data=data).fit()
+
+    summary = pd.DataFrame(
+        {
+            "Coefficient" : model.params,
+            "Std. Error"  : model.bse,
+            "t Statistic" : model.tvalues,
+            "p-value"     : model.pvalues
+        }
+    )
+    index_change = {}
+    for index in summary.index:
+        changed = index
+        for var in x_nominal:
+            changed = changed.replace("Q('%s')" % var, var)
+        for var in x_categorical:
+            changed = changed.replace("C(Q('%s'))" % var, var)
+            changed = changed.replace('[T.', ' (')
+            changed = changed.replace(']', ')')
+        index_change[index] = changed
+    summary = summary.rename(index_change)
+
+    result = pd.DataFrame(
+        {
+            "R-Squared": model.rsquared,
+            "Adj. R-Squared": model.rsquared_adj,
+            "F Statistic": model.fvalue,
+            "p-value": model.f_pvalue
+        }, index=["Model"]
+    )
+
+    add_p(summary)
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
 
 
 '''
