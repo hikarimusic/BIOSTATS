@@ -144,7 +144,7 @@ def chi_square_test_fit(data, variable, expect):
 
     return summary, result
 
-def mcnemars_test(data, variable_1, variable_2, pair):
+def mcnemar_test(data, variable_1, variable_2, pair):
 
     process(data)
 

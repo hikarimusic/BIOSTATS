@@ -64,8 +64,6 @@ Simple Linear Regression
 
 Multiple Linear Regression
 
-Multivariate Multiple Regression
-
 ### Logistic Regression
 
 Simple Logistic Regression
@@ -80,11 +78,15 @@ Factorial Logistic Regression
 
 Sign Test
 
-Wilcoxon Rank-Sum Test
+Median Test
 
 Wilcoxon Signed-Rank Test
 
+Wilcoxon Rank-Sum Test
+
 Kruskal-Wallis Test
+
+Friedman Test
 
 Spearman's Rank Correlation
 
@@ -93,6 +95,14 @@ Spearman's Rank Correlation
 Screening Test
 
 Epidemiologic Study
+
+Factor analysis
+
+Principal Component Analysis
+
+Linear Discriminant Analysis
+
+Quadratic Discriminant Analysis
 
 
 ## Plot
@@ -141,7 +151,13 @@ Pair Plot
 
 Joint Plot
 
+### Others
 
+ROC Curve
+
+Principal Component Analysis
+
+Linear Discriminant Analysis
 
 
 ### Reference
@@ -153,3 +169,5 @@ Mangiafico, S.S. _An R Companion for the Handbook of Biological Statistics_. Ver
 Rosner, Bernard. _Fundamentals of biostatistics_. Cengage learning, 2015.
 
 Zach. _Statology_. 2021, www.statology.org.
+
+UCLA. _Statistical Methods and Data Analytics_. 2021, stats.oarc.ucla.edu.

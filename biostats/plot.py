@@ -17,12 +17,13 @@ class Plot(ttk.Frame):
         self.master = master
 
         # Variable
-        self.plot_type = ["", "Distribution", "Categorical", "Relational", "Multiple"]
+        self.plot_type = ["", "Distribution", "Categorical", "Relational", "Multiple", "Others"]
         self.plot_list = {
             "Distribution" : ["", "Histogram", "Density Plot", "Cumulative Plot", "2D Histogram", "2D Density Plot"],
             "Categorical"  : ["", "Count Plot", "Strip Plot", "Swarm Plot", "Box Plot", "Boxen Plot", "Violin Plot", "Bar Plot"],
             "Relational"   : ["", "Scatter Plot", "Line Plot", "Regression Plot"],
-            "Multiple"     : ["", "Ultimate Plot", "Pair Plot", "Joint Plot"]
+            "Multiple"     : ["", "Ultimate Plot", "Pair Plot", "Joint Plot"],
+            "Others"       : ["", "LDA Plot"]
         }
         self.plot_1 = tk.StringVar(value="Distribution")
         self.plot_2 = {}
@@ -385,6 +386,18 @@ class Plot(ttk.Frame):
                 self.option[3].radio_one_set(kind_list)
                 self.option[3].grid()
 
+        if kind == "Others":
+
+            if plot == "LDA Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
 
 
         self.change()
@@ -697,6 +710,20 @@ class Plot(ttk.Frame):
                     self.graph = model.joint_plot(self.master.data, x=x, y=y, kind=kind)
                 else:
                     self.graph = model.joint_plot(self.master.data, x=x, y=y, color=color, kind=kind)
+
+        if kind == "Others":
+
+            if plot == "LDA Plot":
+                x = self.option[0].check_more_get()
+                y = self.option[1].radio_one_get()
+
+                if len(x) ==0:
+                    return
+                if not y:
+                    return
+                
+                self.graph = model.lda_plot(self.master.data, x=x, y=y)
+
 
 
         self.canvas = FigureCanvasTkAgg(self.graph, master=self.graph_frame)

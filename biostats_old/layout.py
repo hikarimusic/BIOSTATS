@@ -13,7 +13,7 @@ class Master(ttk.Frame):
         ttk.Frame.__init__(self, parent)
 
         # Setup
-        self.setup() ;
+        self.setup() 
 
     def setup(self):
 

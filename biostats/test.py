@@ -13,16 +13,17 @@ class Test(ttk.Frame):
         self.master = master
 
         # Variable
-        self.test_type = ["", "Basic", "t-Test", "ANOVA", "Exact Test", "Chi-Square Test", "Linear Regression", "Logistic Regression", "Nonparametric"]
+        self.test_type = ["", "Basic", "t-Test", "ANOVA", "Exact Test", "Chi-Square Test", "Linear Regression", "Logistic Regression", "Nonparametric", "Others"]
         self.test_list = {
             "Basic"               : ["", "Numeral", "Numeral (Grouped)", "Categorical", "Contingency"] ,
             "t-Test"              : ["", "One-Sample t-Test", "Two-Sample t-Test", "Paired t-Test", "Pairwise t-Test"] ,
             "ANOVA"               : ["", "One-Way ANOVA", "Two-Way ANOVA", "One-Way ANCOVA", "Two-Way ANCOVA", "Multivariate ANOVA", "Repeated Measures ANOVA"] ,
             "Exact Test"          : ["", "Binomial Test", "Fisher's Exact Test", "McNemar's Exact Test"] ,
             "Chi-Square Test"     : ["", "Chi-Square Test", "Chi-Square Test (Fit)", "McNemar's Test", "Mantel-Haenszel Test"] ,
-            "Linear Regression"   : ["", "Correlation", "Correlation Matrix", "Simple Linear Regression"] ,
-            "Logistic Regression" : ["", "Simple Logistic Regression"] ,
-            "Nonparametric"       : ["", "Kruskal-Wallis Test"]
+            "Linear Regression"   : ["", "Correlation", "Correlation Matrix", "Simple Linear Regression", "Multiple Linear Regression"] ,
+            "Logistic Regression" : ["", "Simple Logistic Regression", "Multiple Logistic Regression"] ,
+            "Nonparametric"       : ["", "Median Test", "Sign Test", "Wilcoxon Signed-Rank Test", "Wilcoxon Rank-Sum Test", "Kruskal-Wallis Test", "Friedman Test", "Spearman's Rank Correlation"] ,
+            "Others"              : ["", "Linear Discriminant Analysis"]
         }
         self.test_1 = tk.StringVar(value="Basic")
         self.test_2 = {}
@@ -167,7 +168,6 @@ class Test(ttk.Frame):
                 self.option_label[2].grid()
                 self.option[2].radio_one_set(["Two-Side", "Greater", "Less"])
                 self.option[2].grid()
-
             
             if test == "Two-Sample t-Test":
                 self.option_label[0].config(text="Variable:")
@@ -449,6 +449,22 @@ class Test(ttk.Frame):
                 self.option[1].radio_one_set(self.master.data_col["num"])
                 self.option[1].grid()
 
+            if test == "Multiple Linear Regression":
+                self.option_label[0].config(text="X (nominal):")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="X (categorical):")
+                self.option_label[1].grid()
+                self.option[1].check_more_set(self.master.data_col["cat"])
+                self.option[1].grid()
+            
+                self.option_label[2].config(text="Y:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["num"])
+                self.option[2].grid()
+
         if kind == "Logistic Regression":
 
             if test == "Simple Logistic Regression":
@@ -469,7 +485,105 @@ class Test(ttk.Frame):
 
                 self.temp = ""
 
+            if test == "Multiple Logistic Regression":
+                self.option_label[0].config(text="X (nominal):")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="X (categorical):")
+                self.option_label[1].grid()
+                self.option[1].check_more_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Y:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()
+
+                self.option_label[3].config(text="Target:")
+                self.option_label[3].grid()
+                self.option[3].radio_one_set([])
+                self.option[3].grid()
+
+                self.temp = ""
+
         if kind == "Nonparametric":
+
+            if test == "Median Test":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Expect:")
+                self.option_label[1].grid()
+                self.option[1].entry_one_set(0, 6)
+                self.option[1].grid()
+
+            if test == "Sign Test":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Between:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()            
+
+                self.option_label[2].config(text="Group:")
+                self.option_label[2].grid()
+                self.option[2].check_two_set([])
+                self.option[2].grid()   
+
+                self.option_label[3].config(text="Pair:")
+                self.option_label[3].grid()
+                self.option[3].radio_one_set(self.master.data_col["cat"])
+                self.option[3].grid()
+
+                self.temp = ""
+
+            if test == "Wilcoxon Signed-Rank Test":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Between:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()            
+
+                self.option_label[2].config(text="Group:")
+                self.option_label[2].grid()
+                self.option[2].check_two_set([])
+                self.option[2].grid()   
+
+                self.option_label[3].config(text="Pair:")
+                self.option_label[3].grid()
+                self.option[3].radio_one_set(self.master.data_col["cat"])
+                self.option[3].grid()
+
+                self.temp = ""
+
+            if test == "Wilcoxon Rank-Sum Test":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Between:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()            
+
+                self.option_label[2].config(text="Group:")
+                self.option_label[2].grid()
+                self.option[2].check_two_set([])
+                self.option[2].grid()      
+
+                self.temp = ""
 
             if test == "Kruskal-Wallis Test":
                 self.option_label[0].config(text="Variable:")
@@ -481,6 +595,53 @@ class Test(ttk.Frame):
                 self.option_label[1].grid()
                 self.option[1].radio_one_set(self.master.data_col["cat"])
                 self.option[1].grid()
+            
+            if test == "Friedman Test":
+                self.option_label[0].config(text="Variable:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Between:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Subject:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()
+
+            if test == "Spearman's Rank Correlation":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["num"])
+                self.option[1].grid()
+
+        if kind == "Others":
+
+            if test == "Linear Discriminant Analysis":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+    
+                self.option_label[2].config(text="Predict:")
+                self.option_label[2].grid()
+                self.option[2].entry_more_set([], [], 6)
+                self.option[2].grid()
+
+                self.temp = ""
 
         self.change()
 
@@ -836,7 +997,7 @@ class Test(ttk.Frame):
                 if not pair:
                     return
 
-                summary, result = model.mcnemars_exact_test(self.master.data, variable_1=variable_1, variable_2=variable_2, pair=pair)
+                summary, result = model.mcnemar_exact_test(self.master.data, variable_1=variable_1, variable_2=variable_2, pair=pair)
 
                 self.result[0].data = summary
                 self.result[0].set(10)
@@ -906,7 +1067,7 @@ class Test(ttk.Frame):
                 if not pair:
                     return
 
-                summary, result = model.mcnemars_test(self.master.data, variable_1=variable_1, variable_2=variable_2, pair=pair)
+                summary, result = model.mcnemar_test(self.master.data, variable_1=variable_1, variable_2=variable_2, pair=pair)
 
                 self.result[0].data = summary
                 self.result[0].set(10)
@@ -985,6 +1146,25 @@ class Test(ttk.Frame):
                 self.result[1].set(3)
                 self.result[1].grid()
 
+            if test == "Multiple Linear Regression":
+                x_nomianl = self.option[0].check_more_get()
+                x_categorical = self.option[1].check_more_get()
+                y = self.option[2].radio_one_get()
+
+                if len(x_nomianl) == 0 and len(x_categorical) == 0:
+                    return
+                if not y:
+                    return
+
+                summary, result = model.multiple_linear_regression(self.master.data, x_nominal=x_nomianl, x_categorical=x_categorical, y=y)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
         if kind == "Logistic Regression":
 
             if test == "Simple Logistic Regression":
@@ -1014,8 +1194,145 @@ class Test(ttk.Frame):
                 self.result[1].set(3)
                 self.result[1].grid()
 
+            if test == "Multiple Logistic Regression":
+                x_nomianl = self.option[0].check_more_get()
+                x_categorical = self.option[1].check_more_get()
+                y = self.option[2].radio_one_get()
+
+                if len(x_nomianl) == 0 and len(x_categorical) == 0:
+                    return
+                if not y:
+                    return
+                
+                if y != self.temp:
+                    self.option[3].radio_one_set(self.master.data[y].dropna().unique().tolist())
+                self.temp = y
+                
+                target = self.option[3].radio_one_get()
+
+                if not target:
+                    return
+
+                summary, result = model.multiple_logistic_regression(self.master.data, x_nominal=x_nomianl, x_categorical=x_categorical, y=y, target=target)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
         if kind == "Nonparametric":
 
+            if test == "Median Test":
+                variable = self.option[0].radio_one_get()
+                expect = self.option[1].entry_one_get()
+
+                if not variable:
+                    return
+                try:
+                    expect = float(expect)
+                except:
+                    return
+
+                summary, result = model.median_test(self.master.data, variable=variable, expect=expect)
+                
+                self.result[0].data = summary
+                self.result[0].set(3)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+            if test == "Sign Test":
+                variable = self.option[0].radio_one_get()
+                if not variable:
+                    return
+
+                between = self.option[1].radio_one_get()
+                if not between:
+                    return
+
+                if between != self.temp:
+                    opt = self.master.data[between].dropna().unique().tolist()
+                    self.option[2].check_two_set(opt)
+                self.temp = between
+
+                group = self.option[2].check_two_get()
+                if not group:
+                    return
+                
+                pair = self.option[3].radio_one_get()
+                if not pair:
+                    return
+
+                summary, result = model.sign_test(self.master.data, variable=variable, between=between, group=group, pair=pair)
+                
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+            if test == "Wilcoxon Signed-Rank Test":
+                variable = self.option[0].radio_one_get()
+                if not variable:
+                    return
+
+                between = self.option[1].radio_one_get()
+                if not between:
+                    return
+
+                if between != self.temp:
+                    opt = self.master.data[between].dropna().unique().tolist()
+                    self.option[2].check_two_set(opt)
+                self.temp = between
+
+                group = self.option[2].check_two_get()
+                if not group:
+                    return
+                
+                pair = self.option[3].radio_one_get()
+                if not pair:
+                    return
+
+                summary, result = model.wilcoxon_signed_rank_test(self.master.data, variable=variable, between=between, group=group, pair=pair)
+                
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+            if test == "Wilcoxon Rank-Sum Test":
+                variable = self.option[0].radio_one_get()
+                if not variable:
+                    return
+
+                between = self.option[1].radio_one_get()
+                if not between:
+                    return
+
+                if between != self.temp:
+                    opt = self.master.data[between].dropna().unique().tolist()
+                    self.option[2].check_two_set(opt)
+                self.temp = between
+
+                group = self.option[2].check_two_get()
+                if not group:
+                    return
+
+                summary, result = model.wilcoxon_rank_sum_test(self.master.data, variable=variable, between=between, group=group)
+                
+                self.result[0].data = summary
+                self.result[0].set(3)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+        
             if test == "Kruskal-Wallis Test":
                 variable = self.option[0].radio_one_get()
                 between = self.option[1].radio_one_get()
@@ -1033,5 +1350,82 @@ class Test(ttk.Frame):
                 self.result[1].data = result
                 self.result[1].set(3)
                 self.result[1].grid()
+
+            if test == "Friedman Test":
+                variable = self.option[0].radio_one_get()
+                between = self.option[1].radio_one_get()
+                subject = self.option[2].radio_one_get()
+
+                if not variable:
+                    return
+                if not between:
+                    return
+                if not subject:
+                    return
+
+                summary, result = model.friedman_test(self.master.data, variable=variable, between=between, subject=subject)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+            if test == "Spearman's Rank Correlation":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+
+                summary, result = model.spearman_rank_correlation(self.master.data, x=x, y=y)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+        if kind == "Others":
+
+            if test == "Linear Discriminant Analysis":
+                x = self.option[0].check_more_get()
+                y = self.option[1].radio_one_get()
+
+                if len(x) ==0 :
+                    return
+                if not y:
+                    return
+
+                if x != self.temp:
+                    self.temp = x
+                    self.option[2].entry_more_set(x, [""]*len(x), 6)
+                
+                predict = self.option[2].entry_more_get()
+
+                try:
+                    for i in predict:
+                        predict[i] = float(predict[i])
+                except:
+                    predict = None
+                
+                summary, result, prediction = model.linear_discriminant_analysis(self.master.data, x=x, y=y, predict=predict)
+                
+                self.result[0].data = summary
+                self.result[0].set(7)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(2)
+                self.result[1].grid()
+                self.result[2].data = prediction
+                self.result[2].set(2)
+                self.result[2].grid()
+
+
+
 
         self.master.updating()
