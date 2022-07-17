@@ -180,6 +180,19 @@ summary, result = bs.multiple_logistic_regression(data=data, x_nominal=["Upland"
 print(summary)
 print(result)
 
+# Ordered Logistic Regression
+data = pd.read_csv("biostats/dataset/ordered_logistic_regression.csv")
+summary, result = bs.ordered_logistic_regression(data=data, x_nominal=["pared", "public", "gpa"], x_categorical=[], y="apply", 
+    order={"unlikely":1, "somewhat likely":2, "very likely":3})
+print(summary)
+print(result)
+
+# Multinomial Logistic Regression
+data = pd.read_csv("biostats/dataset/multinomial_logistic_regression.csv")
+summary, result = bs.multinomial_logistic_regression(data=data, x_nominal=["write"], x_categorical=["ses"], y="prog", baseline="academic")
+print(summary)
+print(result)
+
 # ---------------------------------------------------------------
 # Nonparametric
 
@@ -235,6 +248,14 @@ summary, result, prediction = bs.linear_discriminant_analysis(data=data, x=["sep
 print(summary)
 print(result)
 print(prediction)
+
+# Principal Component Analysis
+data = pd.read_csv("biostats/dataset/principal_component_analysis.csv")
+summary, result, transformation = bs.principal_component_analysis(data=data, x=["Murder", "Assault", "UrbanPop", "Rape"], 
+    transform={"Murder":10.2, "Assault":211, "UrbanPop":67, "Rape":32.3})
+print(summary)
+print(result)
+print(transformation)
 
 # ---------------------------------------------------------------
 # Distribution
@@ -336,4 +357,17 @@ plt.show()
 # Joint Plot
 data = pd.read_csv("biostats/dataset/penguins.csv")
 fig = bs.joint_plot(data=data, x="bill_length_mm", y="bill_depth_mm", color="species", kind="scatter")
+plt.show()
+
+# ---------------------------------------------------------------
+# Others
+
+# PCA Plot
+data = pd.read_csv("biostats/dataset/iris.csv")
+fig = bs.pca_plot(data=data, x=["sepal_length", "sepal_width", "petal_length" ,"petal_width"], color="species")
+plt.show()
+
+# LDA Plot
+data = pd.read_csv("biostats/dataset/iris.csv")
+fig = bs.lda_plot(data=data, x=["sepal_length", "sepal_width", "petal_length" ,"petal_width"], y="species")
 plt.show()

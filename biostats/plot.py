@@ -23,7 +23,7 @@ class Plot(ttk.Frame):
             "Categorical"  : ["", "Count Plot", "Strip Plot", "Swarm Plot", "Box Plot", "Boxen Plot", "Violin Plot", "Bar Plot"],
             "Relational"   : ["", "Scatter Plot", "Line Plot", "Regression Plot"],
             "Multiple"     : ["", "Ultimate Plot", "Pair Plot", "Joint Plot"],
-            "Others"       : ["", "LDA Plot"]
+            "Others"       : ["", "PCA Plot", "LDA Plot"]
         }
         self.plot_1 = tk.StringVar(value="Distribution")
         self.plot_2 = {}
@@ -388,6 +388,17 @@ class Plot(ttk.Frame):
 
         if kind == "Others":
 
+            if plot == "PCA Plot":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Color:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
             if plot == "LDA Plot":
                 self.option_label[0].config(text="X:")
                 self.option_label[0].grid()
@@ -712,6 +723,20 @@ class Plot(ttk.Frame):
                     self.graph = model.joint_plot(self.master.data, x=x, y=y, color=color, kind=kind)
 
         if kind == "Others":
+
+            if plot == "PCA Plot":
+                x = self.option[0].check_more_get()
+                color = self.option[1].radio_one_get()
+
+                if len(x) ==0:
+                    return
+                if not color:
+                    return
+                
+                if color == "None":
+                    self.graph = model.pca_plot(self.master.data, x=x)
+                else:
+                    self.graph = model.pca_plot(self.master.data, x=x, color=color)
 
             if plot == "LDA Plot":
                 x = self.option[0].check_more_get()

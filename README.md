@@ -68,11 +68,11 @@ Multiple Linear Regression
 
 Simple Logistic Regression
 
-Ordered Logistic Regression
-
 Multiple Logistic Regression
 
-Factorial Logistic Regression
+Ordered Logistic Regression
+
+Multinomial Logistic Regression
 
 ### Nonparametric
 
@@ -101,8 +101,6 @@ Factor analysis
 Principal Component Analysis
 
 Linear Discriminant Analysis
-
-Quadratic Discriminant Analysis
 
 
 ## Plot
@@ -155,9 +153,9 @@ Joint Plot
 
 ROC Curve
 
-Principal Component Analysis
+PCA Plot
 
-Linear Discriminant Analysis
+LDA Plot
 
 
 ### Reference

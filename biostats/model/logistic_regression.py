@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 
 from statsmodels.formula.api import logit
+from statsmodels.miscmodels.ordinal_model import OrderedModel
+from statsmodels.discrete.discrete_model import MNLogit
 
 def CC(fun, *args):
     try:
@@ -122,3 +124,129 @@ def multiple_logistic_regression(data, x_nominal, x_categorical, y, target):
     process(result)
 
     return summary, result
+
+
+def ordered_logistic_regression(data, x_nominal, x_categorical, y, order):
+    
+    process(data)
+
+    data[y] = data[y].astype(pd.CategoricalDtype(categories=[x[0] for x in sorted(order.items(), key=lambda item: item[1])], ordered=True))
+
+    formula = "%s ~ " % y
+    for var in x_nominal:
+        formula += "%s + " % var
+    for var in x_categorical:
+        formula += "C(%s) + " % var
+    formula = formula[:-3]
+
+    model = OrderedModel.from_formula(formula, data=data, distr="logit").fit(disp=False)
+
+    summary = pd.DataFrame(
+        {
+            "Coefficient" : model.params,
+            "Std. Error"  : model.bse,
+            "z Statistic" : model.tvalues,
+            "p-value"     : model.pvalues
+        }
+    )
+    index_change = {}
+    for index in summary.index:
+        changed = index.replace("/", " / ")
+        for var in x_categorical:
+            changed = changed.replace("C(%s)" % var, var)
+            changed = changed.replace('[T.', ' (')
+            changed = changed.replace(']', ')')
+        index_change[index] = changed
+    summary = summary.rename(index_change)
+
+    result = pd.DataFrame(
+        {
+            "Pseudo R-Squared": model.prsquared,
+            "p-value": model.llr_pvalue
+        }, index=["Model"]
+    )
+
+    add_p(summary)
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
+
+
+def multinomial_logistic_regression(data, x_nominal, x_categorical, y, baseline):
+    
+    process(data)
+
+    group = data[y].dropna().unique().tolist()
+    group.remove(baseline)
+
+    data2 = data[x_nominal+x_categorical].copy()
+    data2[y] = 0
+    for i, cat in enumerate(group):
+        data2.loc[data[y]==cat, y] = i+1
+
+    formula = "%s ~ " % y
+    for var in x_nominal:
+        formula += "%s + " % var
+    for var in x_categorical:
+        formula += "C(%s) + " % var
+    formula = formula[:-3]
+
+    model = MNLogit.from_formula(formula, data=data2).fit(disp=False)
+
+    summary = pd.DataFrame(columns=["Coefficient", "Std. Error", "z Statistic", "p-value"])
+
+    for i, cat in enumerate(group):        
+        temp_1 = pd.DataFrame(
+            {
+                "Coefficient" : np.nan ,
+                "Std. Error"  : np.nan ,
+                "z Statistic" : np.nan ,
+                "p-value"     : np.nan ,
+            }, index=[cat]
+        )
+        temp_2 = pd.DataFrame(
+            {
+                "Coefficient" : model.params[i],
+                "Std. Error"  : model.bse[i],
+                "z Statistic" : model.tvalues[i],
+                "p-value"     : model.pvalues[i]
+            }
+        )
+        temp_3 = pd.DataFrame(
+            {
+                "Coefficient" : np.nan ,
+                "Std. Error"  : np.nan ,
+                "z Statistic" : np.nan ,
+                "p-value"     : np.nan ,
+            }, index=[""]
+        )
+        summary = pd.concat([summary, temp_1, temp_2, temp_3])
+    index_change = {}
+    for index in summary.index:
+        changed = index.replace("/", " / ")
+        for var in x_categorical:
+            changed = changed.replace("C(%s)" % var, var)
+            changed = changed.replace('[T.', ' (')
+            changed = changed.replace(']', ')')
+        index_change[index] = changed
+    summary = summary.rename(index_change)
+
+    result = pd.DataFrame(
+        {
+            "Pseudo R-Squared": model.prsquared,
+            "p-value": model.llr_pvalue
+        }, index=["Model"]
+    )
+
+    add_p(summary)
+    add_p(result)
+
+    process(summary)
+    process(result)
+
+    return summary, result
+
+

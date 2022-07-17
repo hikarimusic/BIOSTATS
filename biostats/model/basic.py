@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy import stats as st
 import math
+from statsmodels.stats.proportion import proportion_confint
 
 def CC(fun, *args):
     try:
@@ -122,10 +123,15 @@ def categorical(data, variable):
     n = sum(cnt)
     for x in cnt:
         prop.append(CC(lambda: x / n))
+        (ci_1, ci_2) = proportion_confint(x, n, method="wilson")
+        CI_low.append(ci_1)
+        CI_high.append(ci_2)
+        '''
         p = x / n
         ser = math.sqrt(p * (1 - p) / n)
         CI_low.append(CC(lambda: p + st.norm.ppf(0.025) * ser))
-        CI_high.append(CC(lambda: p + st.norm.ppf(0.975) * ser))
+        CI_high.append(CC(lambda: p + st.norm.ppf(0.975) * ser))        
+        '''
 
     result = pd.DataFrame(
         {
