@@ -21,9 +21,9 @@ class Test(ttk.Frame):
             "Exact Test"          : ["", "Binomial Test", "Fisher's Exact Test", "McNemar's Exact Test"] ,
             "Chi-Square Test"     : ["", "Chi-Square Test", "Chi-Square Test (Fit)", "McNemar's Test", "Mantel-Haenszel Test"] ,
             "Linear Regression"   : ["", "Correlation", "Correlation Matrix", "Simple Linear Regression", "Multiple Linear Regression"] ,
-            "Logistic Regression" : ["", "Simple Logistic Regression", "Multiple Logistic Regression"] ,
+            "Logistic Regression" : ["", "Simple Logistic Regression", "Multiple Logistic Regression", "Ordered Logistic Regression", "Multinomial Logistic Regression"] ,
             "Nonparametric"       : ["", "Median Test", "Sign Test", "Wilcoxon Signed-Rank Test", "Wilcoxon Rank-Sum Test", "Kruskal-Wallis Test", "Friedman Test", "Spearman's Rank Correlation"] ,
-            "Others"              : ["", "Linear Discriminant Analysis"]
+            "Others"              : ["", "Principal Component Analysis", "Linear Discriminant Analysis"]
         }
         self.test_1 = tk.StringVar(value="Basic")
         self.test_2 = {}
@@ -507,6 +507,52 @@ class Test(ttk.Frame):
                 self.option[3].grid()
 
                 self.temp = ""
+            
+            if test == "Ordered Logistic Regression":
+                self.option_label[0].config(text="X (nominal):")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="X (categorical):")
+                self.option_label[1].grid()
+                self.option[1].check_more_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Y:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()
+
+                self.option_label[3].config(text="Order:")
+                self.option_label[3].grid()
+                self.option[3].entry_more_set([], [], 6)
+                self.option[3].grid()
+
+                self.temp = ""
+            
+            if test == "Multinomial Logistic Regression":
+                self.option_label[0].config(text="X (nominal):")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="X (categorical):")
+                self.option_label[1].grid()
+                self.option[1].check_more_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Y:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()
+
+                self.option_label[3].config(text="Baseline:")
+                self.option_label[3].grid()
+                self.option[3].radio_one_set([])
+                self.option[3].grid()
+
+                self.temp = ""
 
         if kind == "Nonparametric":
 
@@ -625,6 +671,19 @@ class Test(ttk.Frame):
 
         if kind == "Others":
 
+            if test == "Principal Component Analysis":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+    
+                self.option_label[1].config(text="Transform:")
+                self.option_label[1].grid()
+                self.option[1].entry_more_set([], [], 6)
+                self.option[1].grid()
+
+                self.temp = ""
+                
             if test == "Linear Discriminant Analysis":
                 self.option_label[0].config(text="X:")
                 self.option_label[0].grid()
@@ -642,6 +701,7 @@ class Test(ttk.Frame):
                 self.option[2].grid()
 
                 self.temp = ""
+
 
         self.change()
 
@@ -1222,6 +1282,66 @@ class Test(ttk.Frame):
                 self.result[1].set(3)
                 self.result[1].grid()
 
+            if test == "Ordered Logistic Regression":
+                x_nomianl = self.option[0].check_more_get()
+                x_categorical = self.option[1].check_more_get()
+                y = self.option[2].radio_one_get()
+
+                if len(x_nomianl) == 0 and len(x_categorical) == 0:
+                    return
+                if not y:
+                    return
+                
+                if y != self.temp:
+                    opt = self.master.data[y].dropna().unique().tolist()
+                    self.option[3].entry_more_set(opt, [""]*len(opt), 6)
+                self.temp = y
+
+                order = self.option[3].entry_more_get()
+
+                try:
+                    for i in order:
+                        order[i] = float(order[i])
+                except:
+                    return
+
+                summary, result = model.ordered_logistic_regression(self.master.data, x_nominal=x_nomianl, x_categorical=x_categorical, y=y, order=order)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
+            if test == "Multinomial Logistic Regression":
+                x_nomianl = self.option[0].check_more_get()
+                x_categorical = self.option[1].check_more_get()
+                y = self.option[2].radio_one_get()
+
+                if len(x_nomianl) == 0 and len(x_categorical) == 0:
+                    return
+                if not y:
+                    return
+                
+                if y != self.temp:
+                    self.option[3].radio_one_set(self.master.data[y].dropna().unique().tolist())
+                self.temp = y
+                
+                baseline = self.option[3].radio_one_get()
+
+                if not baseline:
+                    return
+
+                summary, result = model.multinomial_logistic_regression(self.master.data, x_nominal=x_nomianl, x_categorical=x_categorical, y=y, baseline=baseline)
+
+                self.result[0].data = summary
+                self.result[0].set(10)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(3)
+                self.result[1].grid()
+
         if kind == "Nonparametric":
 
             if test == "Median Test":
@@ -1391,6 +1511,36 @@ class Test(ttk.Frame):
                 self.result[1].grid()
 
         if kind == "Others":
+
+            if test == "Principal Component Analysis":
+                x = self.option[0].check_more_get()
+
+                if len(x) ==0 :
+                    return
+
+                if x != self.temp:
+                    self.temp = x
+                    self.option[1].entry_more_set(x, [""]*len(x), 6)
+                
+                transform = self.option[1].entry_more_get()
+
+                try:
+                    for i in transform:
+                        transform[i] = float(transform[i])
+                except:
+                    transform = None
+                
+                summary, result, transformation = model.principal_component_analysis(self.master.data, x=x, transform=transform)
+                
+                self.result[0].data = summary
+                self.result[0].set(7)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(2)
+                self.result[1].grid()
+                self.result[2].data = transformation
+                self.result[2].set(2)
+                self.result[2].grid()
 
             if test == "Linear Discriminant Analysis":
                 x = self.option[0].check_more_get()

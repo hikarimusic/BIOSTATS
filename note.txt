@@ -22,6 +22,7 @@ exception
 input validation 
 table size
 example correct
+example data columns delete
 index name
 example set
 
