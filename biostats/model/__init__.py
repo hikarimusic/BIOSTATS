@@ -6,9 +6,9 @@ from .chi_square import chi_square_test, chi_square_test_fit, mcnemar_test, mant
 from .linear_regression import correlation, correlation_matrix, simple_linear_regression, multiple_linear_regression
 from .logistic_regression import simple_logistic_regression, multiple_logistic_regression, ordered_logistic_regression, multinomial_logistic_regression
 from .non_parametric import median_test, sign_test, wilcoxon_signed_rank_test, wilcoxon_rank_sum_test, kruskal_wallis_test, friedman_test, spearman_rank_correlation
-from .others_test import linear_discriminant_analysis, principal_component_analysis
+from .others_test import factor_analysis, principal_component_analysis, linear_discriminant_analysis
 from .distribution_plot import histogram, density_plot, cumulative_plot, histogram_2D, density_plot_2D
 from .categorical_plot import count_plot, strip_plot, swarm_plot, box_plot, boxen_plot, violin_plot, bar_plot
 from .relational_plot import scatter_plot, line_plot, regression_plot
 from .multiple_plot import ultimate_plot, pair_plot, joint_plot
-from .others_plot import pca_plot, lda_plot
+from .others_plot import fa_plot, pca_plot, lda_plot
