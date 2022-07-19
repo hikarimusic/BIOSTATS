@@ -241,13 +241,13 @@ print(result)
 # ---------------------------------------------------------------
 # Others
 
-# Linear Discriminant Analysis
-data = pd.read_csv("biostats/dataset/linear_discriminant_analysis.csv")
-summary, result, prediction = bs.linear_discriminant_analysis(data=data, x=["sepal_length", "sepal_width", "petal_length" ,"petal_width"], y="species", 
-    predict={"sepal_length": 5.7, "sepal_width": 2.7, "petal_length": 4.0 ,"petal_width":1.4})
+# Factor Analysis
+data = pd.read_csv("biostats/dataset/factor_analysis.csv")
+summary, result, analysis = bs.factor_analysis(data=data, x=["Oil", "Density", "Crispy", "Fracture", "Hardness"], factors=2, 
+    analyze={"Oil":17.2, "Density":2830, "Crispy":12, "Fracture":19, "Hardness":121})
 print(summary)
 print(result)
-print(prediction)
+print(analysis)
 
 # Principal Component Analysis
 data = pd.read_csv("biostats/dataset/principal_component_analysis.csv")
@@ -256,6 +256,15 @@ summary, result, transformation = bs.principal_component_analysis(data=data, x=[
 print(summary)
 print(result)
 print(transformation)
+
+# Linear Discriminant Analysis
+data = pd.read_csv("biostats/dataset/linear_discriminant_analysis.csv")
+summary, result, prediction = bs.linear_discriminant_analysis(data=data, x=["sepal_length", "sepal_width", "petal_length" ,"petal_width"], y="species", 
+    predict={"sepal_length": 5.7, "sepal_width": 2.7, "petal_length": 4.0 ,"petal_width":1.4})
+print(summary)
+print(result)
+print(prediction)
+
 
 # ---------------------------------------------------------------
 # Distribution
@@ -361,6 +370,11 @@ plt.show()
 
 # ---------------------------------------------------------------
 # Others
+
+# FA Plot
+data = pd.read_csv("biostats/dataset/iris.csv")
+fig = bs.fa_plot(data=data, x=["sepal_length", "sepal_width", "petal_length" ,"petal_width"], factors=2, color="species")
+plt.show()
 
 # PCA Plot
 data = pd.read_csv("biostats/dataset/iris.csv")

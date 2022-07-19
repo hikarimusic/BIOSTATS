@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy import stats as st
+from factor_analyzer import FactorAnalyzer
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
@@ -18,6 +19,45 @@ def process(data):
             pass  
     data.columns = data.columns.map(str)
     data.index = data.index.map(str)
+
+
+def factor_analysis(data, x, factors, analyze):
+
+    process(data)
+
+    fa = FactorAnalyzer(n_factors=factors, rotation='varimax')
+    fa.fit(data[x])
+
+    summary = pd.DataFrame(np.expand_dims(fa.get_uniquenesses(), axis=0))
+    summary.index = ["Uniqueness"]
+    summary.columns = x
+
+    loadings = pd.DataFrame(fa.loadings_)
+    loadings.index = x
+    loadings.columns = ["Factor {}".format(i+1) for i in range(factors)]
+
+    blank = pd.DataFrame([[np.nan]*factors])
+    blank.index = [""]
+    blank.columns = ["Factor {}".format(i+1) for i in range(factors)]
+
+    var = pd.DataFrame(np.array(fa.get_factor_variance()))
+    var.index = ["SS Loadings", "Proportion Var.", "Cumulative Var."]
+    var.columns = ["Factor {}".format(i+1) for i in range(factors)]
+
+    result = pd.concat([loadings, blank, var])
+
+    if analyze:
+        analysis = pd.DataFrame(fa.transform(pd.DataFrame(analyze, index=[0])))
+        analysis.columns = ["Factor {}".format(i+1) for i in range(factors)]
+        analysis.index = ["Analysis"]
+    else:
+        analysis = pd.DataFrame()
+
+    process(summary)
+    process(result)
+    process(analysis)
+
+    return summary, result, analysis
 
 
 def principal_component_analysis(data, x, transform=None):

@@ -23,7 +23,7 @@ class Test(ttk.Frame):
             "Linear Regression"   : ["", "Correlation", "Correlation Matrix", "Simple Linear Regression", "Multiple Linear Regression"] ,
             "Logistic Regression" : ["", "Simple Logistic Regression", "Multiple Logistic Regression", "Ordered Logistic Regression", "Multinomial Logistic Regression"] ,
             "Nonparametric"       : ["", "Median Test", "Sign Test", "Wilcoxon Signed-Rank Test", "Wilcoxon Rank-Sum Test", "Kruskal-Wallis Test", "Friedman Test", "Spearman's Rank Correlation"] ,
-            "Others"              : ["", "Principal Component Analysis", "Linear Discriminant Analysis"]
+            "Others"              : ["", "Factor Analysis", "Principal Component Analysis", "Linear Discriminant Analysis"]
         }
         self.test_1 = tk.StringVar(value="Basic")
         self.test_2 = {}
@@ -87,12 +87,8 @@ class Test(ttk.Frame):
             self.result[i].grid(row=i, column=0, padx=5, pady=5, sticky="nsew")
 
 
-
         self.test_change()
 
-
-    def save(self):
-        pass
 
     def test_change(self):
 
@@ -670,6 +666,24 @@ class Test(ttk.Frame):
                 self.option[1].grid()
 
         if kind == "Others":
+
+            if test == "Factor Analysis":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].check_more_set(self.master.data_col["num"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Factors:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set([])
+                self.option[1].grid()
+    
+                self.option_label[2].config(text="Analyze:")
+                self.option_label[2].grid()
+                self.option[2].entry_more_set([], [], 6)
+                self.option[2].grid()
+
+                self.temp = ""
 
             if test == "Principal Component Analysis":
                 self.option_label[0].config(text="X:")
@@ -1512,6 +1526,41 @@ class Test(ttk.Frame):
 
         if kind == "Others":
 
+            if test == "Factor Analysis":
+                x = self.option[0].check_more_get()
+
+                if len(x) ==0 :
+                    return
+
+                if x != self.temp:
+                    self.temp = x
+                    self.option[1].radio_one_set([i+1 for i in range(len(x))])
+                    self.option[2].entry_more_set(x, [""]*len(x), 6)
+                
+                factors = self.option[1].radio_one_get()
+                analyze = self.option[2].entry_more_get()
+
+                if not factors:
+                    return
+
+                try:
+                    for i in analyze:
+                        analyze[i] = float(analyze[i])
+                except:
+                    analyze = None
+
+                summary, result, analysis = model.factor_analysis(self.master.data, x=x, factors=factors, analyze=analyze)
+                
+                self.result[0].data = summary
+                self.result[0].set(1)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(9)
+                self.result[1].grid()
+                self.result[2].data = analysis
+                self.result[2].set(1)
+                self.result[2].grid()
+
             if test == "Principal Component Analysis":
                 x = self.option[0].check_more_get()
 
@@ -1533,10 +1582,10 @@ class Test(ttk.Frame):
                 summary, result, transformation = model.principal_component_analysis(self.master.data, x=x, transform=transform)
                 
                 self.result[0].data = summary
-                self.result[0].set(7)
+                self.result[0].set(5)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(2)
+                self.result[1].set(5)
                 self.result[1].grid()
                 self.result[2].data = transformation
                 self.result[2].set(2)
@@ -1566,16 +1615,18 @@ class Test(ttk.Frame):
                 summary, result, prediction = model.linear_discriminant_analysis(self.master.data, x=x, y=y, predict=predict)
                 
                 self.result[0].data = summary
-                self.result[0].set(7)
+                self.result[0].set(4)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(2)
+                self.result[1].set(5)
                 self.result[1].grid()
                 self.result[2].data = prediction
                 self.result[2].set(2)
                 self.result[2].grid()
 
 
-
-
         self.master.updating()
+
+    def save(self):
+
+        pass

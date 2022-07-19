@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import numpy as np
+from factor_analyzer import FactorAnalyzer
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
@@ -15,32 +16,36 @@ def process(data):
     data.index = data.index.map(str)
 
 
-def lda_plot(data, x, y):
+def fa_plot(data, x, factors, color=None):
 
     sns.set_theme()
     process(data)
 
     data = data.dropna()
 
-    clf = LinearDiscriminantAnalysis()
-    clf.fit(data[x], data[y])
+    #for var in x:
+    #    data[var] = (data[var] - data[var].mean()) / data[var].std()
 
-    lda = clf.transform(data[x])
+    clf = FactorAnalyzer(n_factors=factors, rotation='varimax')
+    clf.fit(data[x])
+
+    fa = clf.transform(data[x])
     
-    if lda.shape[1] < 2:
-        data["ld_1"] = lda[:,0]
+    if fa.shape[1] < 2:
+        data["f_1"] = fa[:,0]
         fig, ax = plt.subplots()
-        sns.stripplot(data=data, x="ld_1", y=y, hue=y, ax=ax)
-        ax.set(xlabel="LD 1")
+        sns.stripplot(data=data, x="f_1", y=color, hue=color, ax=ax)
+        ax.set(xlabel="Factor 1")
     else:
-        data["ld_1"] = lda[:,0]
-        data["ld_2"] = lda[:,1]
+        data["f_1"] = fa[:,0]
+        data["f_2"] = fa[:,1]
         fig, ax = plt.subplots()
-        sns.scatterplot(data=data, x="ld_1", y="ld_2", hue=y, ax=ax)
-        ax.set(xlabel="LD 1 ({}%)".format(round(clf.explained_variance_ratio_[0]*100,1)))
-        ax.set(ylabel="LD 2 ({}%)".format(round(clf.explained_variance_ratio_[1]*100,1)))
+        sns.scatterplot(data=data, x="f_1", y="f_2", hue=color, ax=ax)
+        ax.set(xlabel="Factor 1")
+        ax.set(ylabel="Factor 2")
         
     return fig
+
 
 def pca_plot(data, x, color=None):
 
@@ -69,5 +74,33 @@ def pca_plot(data, x, color=None):
         sns.scatterplot(data=data, x="pc_1", y="pc_2", hue=color, ax=ax)
         ax.set(xlabel="PC 1 ({}%)".format(round(clf.explained_variance_ratio_[0]*100,1)))
         ax.set(ylabel="PC 2 ({}%)".format(round(clf.explained_variance_ratio_[1]*100,1)))
+        
+    return fig
+
+
+def lda_plot(data, x, y):
+
+    sns.set_theme()
+    process(data)
+
+    data = data.dropna()
+
+    clf = LinearDiscriminantAnalysis()
+    clf.fit(data[x], data[y])
+
+    lda = clf.transform(data[x])
+    
+    if lda.shape[1] < 2:
+        data["ld_1"] = lda[:,0]
+        fig, ax = plt.subplots()
+        sns.stripplot(data=data, x="ld_1", y=y, hue=y, ax=ax)
+        ax.set(xlabel="LD 1")
+    else:
+        data["ld_1"] = lda[:,0]
+        data["ld_2"] = lda[:,1]
+        fig, ax = plt.subplots()
+        sns.scatterplot(data=data, x="ld_1", y="ld_2", hue=y, ax=ax)
+        ax.set(xlabel="LD 1 ({}%)".format(round(clf.explained_variance_ratio_[0]*100,1)))
+        ax.set(ylabel="LD 2 ({}%)".format(round(clf.explained_variance_ratio_[1]*100,1)))
         
     return fig
