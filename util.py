@@ -115,7 +115,43 @@ ss = """
 "Wyoming",6.8,161,60,15.6
 """
 
+'''
 ss = ss.replace('"', "")
 
 with open("principal_component_analysis.csv", "w") as f:
     f.write(ss)
+'''
+
+'''
+
+ss = "Disease,Test\n"
+
+for i in range(92):
+    ss += "Present,Positive\n"
+for i in range(27):
+    ss += "Absent,Positive\n"
+for i in range(92):
+    ss += "Prsent,Negative\n"
+for i in range(92):
+    ss += "Absent,Negative\n"
+
+with open("screening_test.csv", "w") as f:
+    f.write(ss)
+'''
+
+ss = "Diabetes,MI\n"
+
+for i in range(48):
+    ss += "Yes,Occur\n"
+for i in range(210):
+    ss += "No,Occur\n"
+for i in range(183):
+    ss += "Yes,Not occur\n"
+for i in range(2557):
+    ss += "No,Not occur\n"
+
+with open("epidemiologic_study.csv", "w") as f:
+    f.write(ss)
+
+data = pd.read_csv("epidemiologic_study.csv")
+data.sample(frac=1).to_csv("epidemiologic_study.csv", index=False)

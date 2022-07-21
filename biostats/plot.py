@@ -23,7 +23,7 @@ class Plot(ttk.Frame):
             "Categorical"  : ["", "Count Plot", "Strip Plot", "Swarm Plot", "Box Plot", "Boxen Plot", "Violin Plot", "Bar Plot"],
             "Relational"   : ["", "Scatter Plot", "Line Plot", "Regression Plot"],
             "Multiple"     : ["", "Ultimate Plot", "Pair Plot", "Joint Plot"],
-            "Others"       : ["", "FA Plot", "PCA Plot", "LDA Plot"]
+            "Others"       : ["", "Heatmap", "FA Plot", "PCA Plot", "LDA Plot"]
         }
         self.plot_1 = tk.StringVar(value="Distribution")
         self.plot_2 = {}
@@ -388,6 +388,22 @@ class Plot(ttk.Frame):
 
         if kind == "Others":
 
+            if plot == "Heatmap":
+                self.option_label[0].config(text="X:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+            
+                self.option_label[1].config(text="Y:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Value:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["num"])
+                self.option[2].grid()
+
             if plot == "FA Plot":
                 self.option_label[0].config(text="X:")
                 self.option_label[0].grid()
@@ -741,6 +757,20 @@ class Plot(ttk.Frame):
                     self.graph = model.joint_plot(self.master.data, x=x, y=y, color=color, kind=kind)
 
         if kind == "Others":
+
+            if plot == "Heatmap":
+                x = self.option[0].radio_one_get()
+                y = self.option[1].radio_one_get()
+                value = self.option[2].radio_one_get()
+
+                if not x:
+                    return
+                if not y:
+                    return
+                if not value:
+                    return
+
+                self.graph = model.heatmap(self.master.data, x=x, y=y, value=value)
 
             if plot == "FA Plot":
                 x = self.option[0].check_more_get()

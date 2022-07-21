@@ -22,6 +22,11 @@ def process(data):
 def numeral(data, variable):
 
     process(data)
+    data = data[list(set(variable))].dropna(how='all')
+
+    for var in variable:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
 
     index = ["Count", "Mean", "Median", "Geometric Mean", "Harmonic Mean", "Mode"]
     index += ["", "Variance", "Std. Deviation", "Coef. Variation", "(Population) Variance", "(Population) Std.Dev"]
@@ -67,6 +72,12 @@ def numeral(data, variable):
 def numeral_grouped(data, variable, group):
 
     process(data)
+    data = data[list({variable, group})].dropna()
+
+    if str(data[variable].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(variable))
+    if data[group].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(group))
 
     index = ["Count", "Mean", "Median", "Geometric Mean", "Harmonic Mean", "Mode"]
     index += ["", "Variance", "Std. Deviation", "Coef. Variation", "(Population) Variance", "(Population) Std.Dev"]
@@ -112,6 +123,10 @@ def numeral_grouped(data, variable, group):
 def categorical(data, variable):
 
     process(data)
+    data = data[[variable]].dropna()
+
+    if data[variable].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable))
 
     cat = data.groupby(variable, sort=False)[variable].groups.keys()
     cnt = []
@@ -120,10 +135,10 @@ def categorical(data, variable):
     CI_high = []
     for var in cat:
         cnt.append(CC(lambda: data[variable].value_counts()[var]))
-    n = sum(cnt)
+    n = CC(lambda: sum(cnt))
     for x in cnt:
         prop.append(CC(lambda: x / n))
-        (ci_1, ci_2) = proportion_confint(x, n, method="wilson")
+        (ci_1, ci_2) = CC(lambda: proportion_confint(x, n, method="wilson"))
         CI_low.append(ci_1)
         CI_high.append(ci_2)
         '''
@@ -135,10 +150,10 @@ def categorical(data, variable):
 
     result = pd.DataFrame(
         {
-            "Count" : cnt, 
-            "Proportion"  : prop,
-            "95% CI: Lower" : CI_low,
-            "95% CI: Upper" : CI_high
+            "Count" : CC(lambda: cnt), 
+            "Proportion"  : CC(lambda: prop),
+            "95% CI: Lower" : CC(lambda: CI_low),
+            "95% CI: Upper" : CC(lambda: CI_high)
         }, index=cat
     )
 
@@ -150,28 +165,34 @@ def categorical(data, variable):
 def contingency(data, variable_1, variable_2, kind="Count"):
 
     process(data)
+    data = data[list({variable_1, variable_2})].dropna()
 
+    if data[variable_1].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
+    if data[variable_2].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_2))
+        
     result = pd.crosstab(index=data[variable_1], columns=data[variable_2])
     result.index.name = None
     result.columns.name = None
 
     if kind == "Vertical":
-        col_sum = result.sum(axis=0)
+        col_sum = CC(lambda: result.sum(axis=0))
         for i in range(result.shape[0]):
             for j in range(result.shape[1]):
-                result.iat[i,j] /= col_sum[j]
+                result.iat[i,j] = CC(lambda: result.iat[i,j] / col_sum[j])
 
     if kind == "Horizontal":
-        col_sum = result.sum(axis=1)
+        col_sum = CC(lambda: result.sum(axis=1))
         for i in range(result.shape[0]):
             for j in range(result.shape[1]):
-                result.iat[i,j] /= col_sum[i]
+                result.iat[i,j] = CC(lambda: result.iat[i,j] / col_sum[i])
 
     if kind == "Overall":
-        _sum = result.to_numpy().sum()
+        _sum = CC(lambda: result.to_numpy().sum())
         for i in range(result.shape[0]):
             for j in range(result.shape[1]):
-                result.iat[i,j] /= _sum
+                result.iat[i,j] = CC(lambda: result.iat[i,j] / _sum)
 
     process(result)
 

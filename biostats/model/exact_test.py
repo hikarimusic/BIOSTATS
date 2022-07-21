@@ -42,23 +42,23 @@ class binom_exact:
 
         self.p_0 = self.multi_nom(self.table)
         self.p = 0
-        self.cnt = 0
+        #self.cnt = 0
 
         mat = [0] * len(self.table)
         pos = 0
 
         self.dfs(mat, pos)
 
-        if self.cnt > 1000000:
-            return np.NAN
+        #if self.cnt > 1000000:
+        #    return np.NAN
 
         return self.p
 
     def dfs(self, mat, pos):
 
-        self.cnt += 1
-        if self.cnt > 1000000:
-            return
+        #self.cnt += 1
+        #if self.cnt > 1000000:
+        #    return
 
         mat_new = []
         for x in mat:
@@ -94,29 +94,35 @@ class binom_exact:
 def binomial_test(data, variable, expect):
     
     process(data)
+    data = data[[variable]].dropna()
+
+    if data[variable].nunique() > 10:
+        raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable))
+    if len(data) > 500:
+        raise Warning("The length of data cannot > 500.")
 
     cat = data.groupby(variable, sort=False)[variable].groups.keys()
     obs = []
     exp = []
     for var in cat:
-        obs.append(data[variable].value_counts()[var])
+        CC(lambda: obs.append(data[variable].value_counts()[var]))
     exp_val = list(expect.values())
     for var in cat:
-        exp.append(expect[var] / sum(exp_val))
+        CC(lambda: exp.append(expect[var] / sum(exp_val)))
 
     summary = pd.DataFrame(
         {
-            "Observe" : obs,
-            "Expect"  : exp
+            "Observe" : CC(lambda: obs),
+            "Expect"  : CC(lambda: exp)
         }, index=cat
     )
 
     test = binom_exact(obs, exp)
-    p = test.calc()
+    p = CC(lambda: test.calc())
 
     result = pd.DataFrame(
         {
-            "p-value": [p]
+            "p-value": CC(lambda: p)
         }, index=["Model"]
     )
 
@@ -162,23 +168,23 @@ class fisher_exact:
 
         self.p_0 = self.hyper_geom(self.table)
         self.p = 0
-        self.cnt = 0
+        #self.cnt = 0
 
         mat = [[0] * len(self.col_sum)] * len(self.row_sum)
         pos = (0, 0)
 
         self.dfs(mat, pos)
 
-        if self.cnt > 1000000:
-            return np.NAN
+        #if self.cnt > 1000000:
+        #    return np.NAN
 
         return self.p
 
     def dfs(self, mat, pos):
 
-        self.cnt += 1
-        if self.cnt > 1000000:
-            return
+        #self.cnt += 1
+        #if self.cnt > 1000000:
+        #    return
         
         (xx, yy) = pos
         (rr, cc) = (len(self.row_sum), len(self.col_sum))
@@ -240,17 +246,25 @@ class fisher_exact:
 def fisher_exact_test(data, variable_1, variable_2):
     
     process(data)
+    data = data[list({variable_1, variable_2})].dropna()
+
+    if data[variable_1].nunique() > 10:
+        raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_1))
+    if data[variable_2].nunique() > 10:
+        raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_2))
+    if data[variable_2].nunique() > 10:
+        raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_2))
 
     summary = pd.crosstab(index=data[variable_1], columns=data[variable_2])
     summary.index.name = None
     summary.columns.name = None
 
     test = fisher_exact(summary.values.tolist())
-    p = test.calc()
+    p = CC(lambda: test.calc())
 
     result = pd.DataFrame(
         {
-            "p-value": [p]
+            "p-value": CC(lambda: p)
         }, index=["Model"]
     )
     
@@ -264,6 +278,14 @@ def fisher_exact_test(data, variable_1, variable_2):
 def mcnemar_exact_test(data, variable_1, variable_2, pair):
 
     process(data)
+    data = data[list({variable_1, variable_2, pair})].dropna()
+
+    if data[variable_1].nunique() > 10:
+        raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_1))
+    if data[variable_2].nunique() > 10:
+        raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_2))
+    if data[pair].nunique() > 1000:
+        raise Warning("The nmuber of classes in column '{}' cannot > 1000.".format(pair))
 
     grp_1 = data[variable_1].value_counts()[:2].index.tolist()
     grp_2 = data[variable_2].value_counts()[:2].index.tolist()
@@ -284,10 +306,10 @@ def mcnemar_exact_test(data, variable_1, variable_2, pair):
         }
     )
 
-    a = CC(_dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[0])]["fst"].count)
-    b = CC(_dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[1])]["fst"].count)
-    c = CC(_dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[0])]["fst"].count)
-    d = CC(_dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[1])]["fst"].count)
+    a = CC(lambda: _dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[0])]["fst"].count())
+    b = CC(lambda: _dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[1])]["fst"].count())
+    c = CC(lambda: _dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[0])]["fst"].count())
+    d = CC(lambda: _dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[1])]["fst"].count())
 
     summary = pd.DataFrame(
         {
@@ -296,22 +318,22 @@ def mcnemar_exact_test(data, variable_1, variable_2, pair):
         }, index=["{} : {}".format(grp_1[0], grp_2[0]), "{} : {}".format(grp_1[0], grp_2[1])]
     )
 
-    p = 0
-    n = b + c
+    p = CC(lambda: 0)
+    n = CC(lambda: b + c)
     if b < c:
         for x in range(0, b+1):
-            p += math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n)
-        p *= 2
+            p = CC(lambda: p + math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n))
+        p = CC(lambda: p * 2)
     elif b > c:
         for x in range(b, n+1):
-            p += math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n)
-        p *= 2
+            p = CC(lambda: p + math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n))
+        p = CC(lambda: p * 2)
     else: 
-        p = 1
+        p = CC(lambda: 1)
 
     result = pd.DataFrame(
         {
-            "p-value": [p]
+            "p-value": CC(lambda: p)
         }, index=["Model"]
     )
     add_p(result)

@@ -96,7 +96,7 @@ Screening Test
 
 Epidemiologic Study
 
-Factor analysis
+Factor Analysis
 
 Principal Component Analysis
 

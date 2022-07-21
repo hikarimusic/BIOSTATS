@@ -1,23 +1,7 @@
 
-
-risk difference (CI)
-risk ratio (CI)
-odds ratio (CI)
-attribute risk (CI)
-
-Contingency(Test)
-
-accuracy
-sensitivity
-specificity
-precision
-
-ROC curve
-
-
-
 check:
 
+dropna
 exception
 input validation 
 table size
@@ -29,13 +13,31 @@ example set
 
 
 
+
 repeated measures logistic regression
 factorial logistic regression
 
 
+piosson
+bootstrap CI
 
-multinomial logistic
-ordered logistic
+z test
+F Test
+kappa statistic
+
+permutation test
 
 
-hsb2
+prediction (linear)
+prediction (logistic)
+
+meta analysis
+
+
+poisson test (CI)
+
+incidence rate test (one sample .two sample)
+
+survival probability
+
+log-rank test

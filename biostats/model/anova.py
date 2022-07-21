@@ -35,22 +35,28 @@ def add_p(data):
 def one_way_anova(data, variable, between):
 
     process(data)
+    data = data[list({variable, between})].dropna()
+
+    if str(data[variable].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(variable))
+    if data[between].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(between))
 
     group = data[between].dropna().unique()
 
     summary = pd.DataFrame()
 
     for x in group:
-        n = CC(data[data[between]==x][variable].dropna().count)
-        mean = CC(data[data[between]==x][variable].dropna().mean)
-        std = CC(data[data[between]==x][variable].dropna().std)
-        sem = CC(data[data[between]==x][variable].dropna().sem)
+        n = CC(lambda: data[data[between]==x][variable].dropna().count())
+        mean = CC(lambda: data[data[between]==x][variable].dropna().mean())
+        std = CC(lambda: data[data[between]==x][variable].dropna().std())
+        sem = CC(lambda: data[data[between]==x][variable].dropna().sem())
         temp = pd.DataFrame(
             {
-                "{}".format(between): x,
-                "Count": n,
-                "Mean": mean,
-                "Std. Deviation": std,
+                "{}".format(between): CC(lambda: x),
+                "Count": CC(lambda: n),
+                "Mean": CC(lambda: mean),
+                "Std. Deviation": CC(lambda: std),
                 "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n-1, mean, sem)) ,
                 "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n-1, mean, sem)) ,
             }, index=[0]
@@ -83,6 +89,14 @@ def one_way_anova(data, variable, between):
 def two_way_anova(data, variable, between_1, between_2):
 
     process(data)
+    data = data[list({variable, between_1, between_2})].dropna()
+
+    if str(data[variable].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(variable))
+    if data[between_1].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(between_1))
+    if data[between_2].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(between_2))
 
     group_1 = data[between_1].dropna().unique()
     group_2 = data[between_2].dropna().unique()
@@ -91,17 +105,17 @@ def two_way_anova(data, variable, between_1, between_2):
 
     for x in group_1:
         for y in group_2:
-            n = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().count)
-            mean = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().mean)
-            std = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().std)
-            sem = CC(data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().sem)
+            n = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().count())
+            mean = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().mean())
+            std = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().std())
+            sem = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][variable].dropna().sem())
             temp = pd.DataFrame(
                 {
-                    "{}".format(between_1): x,
-                    "{}".format(between_2): y,
-                    "Count": n,
-                    "Mean": mean,
-                    "Std. Deviation": std,
+                    "{}".format(between_1): CC(lambda: x),
+                    "{}".format(between_2): CC(lambda: y),
+                    "Count": CC(lambda: n),
+                    "Mean": CC(lambda: mean),
+                    "Std. Deviation": CC(lambda: std),
                     "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n-1, mean, sem)) ,
                     "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n-1, mean, sem)) ,
                 }, index=[0]
@@ -140,25 +154,33 @@ def two_way_anova(data, variable, between_1, between_2):
 def one_way_ancova(data, variable, between, covariable):
 
     process(data)
+    data = data[list({variable, between, covariable})].dropna()
+
+    if str(data[variable].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(variable))
+    if data[between].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(between))
+    if str(data[covariable].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(covariable))
 
     group = data[between].dropna().unique()
 
     summary = pd.DataFrame()
 
     for x in group:
-        n = CC(data[data[between]==x][[variable, covariable]].dropna()[variable].count)
-        mean_1 = CC(data[data[between]==x][[variable, covariable]].dropna()[variable].mean)
-        std_1 = CC(data[data[between]==x][[variable, covariable]].dropna()[variable].std)
-        mean_2 = CC(data[data[between]==x][[variable, covariable]].dropna()[covariable].mean)
-        std_2 = CC(data[data[between]==x][[variable, covariable]].dropna()[covariable].std)
+        n = CC(lambda: data[data[between]==x][[variable, covariable]].dropna()[variable].count())
+        mean_1 = CC(lambda: data[data[between]==x][[variable, covariable]].dropna()[variable].mean())
+        std_1 = CC(lambda: data[data[between]==x][[variable, covariable]].dropna()[variable].std())
+        mean_2 = CC(lambda: data[data[between]==x][[variable, covariable]].dropna()[covariable].mean())
+        std_2 = CC(lambda: data[data[between]==x][[variable, covariable]].dropna()[covariable].std())
         temp = pd.DataFrame(
             {
                 "{}".format(between): x,
                 "Count": n,
-                "Mean ({})".format(variable): mean_1,
-                "Std. ({})".format(variable): std_1,
-                "Mean ({})".format(covariable): mean_2,
-                "Std. ({})".format(covariable): std_2,
+                "Mean ({})".format(variable): CC(lambda: mean_1),
+                "Std. ({})".format(variable): CC(lambda: std_1),
+                "Mean ({})".format(covariable): CC(lambda: mean_2),
+                "Std. ({})".format(covariable): CC(lambda: std_2),
             }, index=[0]
         )
         summary = pd.concat([summary, temp], ignore_index=True)
@@ -194,6 +216,16 @@ def one_way_ancova(data, variable, between, covariable):
 def two_way_ancova(data, variable, between_1, between_2, covariable):
 
     process(data)
+    data = data[list({variable, between_1, between_2, covariable})].dropna()
+
+    if str(data[variable].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(variable))
+    if data[between_1].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(between_1))
+    if data[between_2].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(between_2))
+    if str(data[covariable].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(covariable))
 
     group_1 = data[between_1].dropna().unique()
     group_2 = data[between_2].dropna().unique()
@@ -205,20 +237,20 @@ def two_way_ancova(data, variable, between_1, between_2, covariable):
 
     for x in group_1:
         for y in group_2:
-            n = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[variable].count)
-            mean_1 = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[variable].mean)
-            std_1 = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[variable].std)
-            mean_2 = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[covariable].mean)
-            std_2 = CC(data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[covariable].std)
+            n = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[variable].count())
+            mean_1 = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[variable].mean())
+            std_1 = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[variable].std())
+            mean_2 = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[covariable].mean())
+            std_2 = CC(lambda: data[(data[between_1]==x) & (data[between_2]==y)][[variable, covariable]].dropna()[covariable].std())
             temp = pd.DataFrame(
                 {
-                    "{}".format(between_1): x,
-                    "{}".format(between_2): y,
-                    "Count": n,
-                    "Mean ({})".format(variable): mean_1,
-                    "Std. ({})".format(variable): std_1,
-                    "Mean ({})".format(covariable): mean_2,
-                    "Std. ({})".format(covariable): std_2,
+                    "{}".format(between_1): CC(lambda: x),
+                    "{}".format(between_2): CC(lambda: y),
+                    "Count": CC(lambda: n),
+                    "Mean ({})".format(variable): CC(lambda: mean_1),
+                    "Std. ({})".format(variable): CC(lambda: std_1),
+                    "Mean ({})".format(covariable): CC(lambda: mean_2),
+                    "Std. ({})".format(covariable): CC(lambda: std_2),
                 }, index=[0]
             )
             summary = pd.concat([summary, temp], ignore_index=True)
@@ -256,6 +288,13 @@ def two_way_ancova(data, variable, between_1, between_2, covariable):
 def multivariate_anova(data, variable, between):
 
     process(data)
+    data = data[list(set(variable + [between]))].dropna()
+
+    for var in variable:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
+    if data[between].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(between))
 
     group = data[between].dropna().unique().tolist()
 
@@ -264,8 +303,8 @@ def multivariate_anova(data, variable, between):
         mean = []
         std = []
         for x in group:
-            mean.append(CC(data[data[between]==x][var].dropna().mean))
-            std.append(CC(data[data[between]==x][var].dropna().std))
+            mean.append(CC(lambda: data[data[between]==x][var].dropna().mean()))
+            std.append(CC(lambda: data[data[between]==x][var].dropna().std()))
         summary["Mean ({})".format(var)] = mean
         summary["Std. ({})".format(var)] = std  
     summary.index += 1 
@@ -279,10 +318,10 @@ def multivariate_anova(data, variable, between):
     table = pd.DataFrame((fit.mv_test().results[between]['stat']))
     result = pd.DataFrame(
         {
-            "D.F." : len(group)-1 ,
-            "Pillai's Trace" : table.iloc[1][0] ,
-            "F Statistic" : table.iloc[1][3] ,
-            "p-value" : table.iloc[1][4]
+            "D.F." : CC(lambda: len(group)-1) ,
+            "Pillai's Trace" : CC(lambda: table.iloc[1][0]) ,
+            "F Statistic" : CC(lambda: table.iloc[1][3]) ,
+            "p-value" : CC(lambda: table.iloc[1][4])
         }, index=[between]
     )
     add_p(result)
@@ -295,6 +334,14 @@ def multivariate_anova(data, variable, between):
 def repeated_measures_anova(data, variable, between, subject):
 
     process(data)
+    data = data[list({variable, between, subject})].dropna()
+
+    if str(data[variable].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(variable))
+    if data[between].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(between))
+    if data[subject].nunique() > 2000:
+        raise Warning("The nmuber of classes in column '{}' cannot > 2000.".format(subject))
 
     cross = pd.crosstab(index=data[subject], columns=data[between])
     for col in cross:
@@ -307,16 +354,16 @@ def repeated_measures_anova(data, variable, between, subject):
     summary = pd.DataFrame()
 
     for x in group:
-        n = CC(data[data[between]==x][variable].dropna().count)
-        mean = CC(data[data[between]==x][variable].dropna().mean)
-        std = CC(data[data[between]==x][variable].dropna().std)
-        sem = CC(data[data[between]==x][variable].dropna().sem)
+        n = CC(lambda: data[data[between]==x][variable].dropna().count())
+        mean = CC(lambda: data[data[between]==x][variable].dropna().mean())
+        std = CC(lambda: data[data[between]==x][variable].dropna().std())
+        sem = CC(lambda: data[data[between]==x][variable].dropna().sem())
         temp = pd.DataFrame(
             {
-                "{}".format(between): x,
-                "Count": n,
-                "Mean": mean,
-                "Std. Deviation": std,
+                "{}".format(between): CC(lambda: x),
+                "Count": CC(lambda: n),
+                "Mean": CC(lambda: mean),
+                "Std. Deviation": CC(lambda: std),
                 "95% CI: Lower" : CC(lambda: st.t.ppf(0.025, n-1, mean, sem)) ,
                 "95% CI: Upper" : CC(lambda: st.t.ppf(0.975, n-1, mean, sem)) ,
             }, index=[0]
@@ -333,14 +380,14 @@ def repeated_measures_anova(data, variable, between, subject):
     model = ols(formula, data=data).fit()
     anova_2 = anova_lm(model)
 
-    df_1 = anova_1.iloc[0][0]
-    df_2 = df_1 * anova_2.iloc[0][0]
-    SS_1 = anova_1.iloc[0][1]
-    SS_2 = anova_2.iloc[1][1] - SS_1
-    MS_1 = SS_1 / df_1
-    MS_2 = SS_2 / df_2 
-    F = MS_1 / MS_2
-    p = 1 - st.f.cdf(F, df_1, df_2)
+    df_1 = CC(lambda: anova_1.iloc[0][0])
+    df_2 = CC(lambda: df_1 * anova_2.iloc[0][0])
+    SS_1 = CC(lambda: anova_1.iloc[0][1])
+    SS_2 = CC(lambda: anova_2.iloc[1][1] - SS_1)
+    MS_1 = CC(lambda: SS_1 / df_1)
+    MS_2 = CC(lambda: SS_2 / df_2)
+    F = CC(lambda: MS_1 / MS_2)
+    p = CC(lambda: 1 - st.f.cdf(F, df_1, df_2))
 
     result = pd.DataFrame(
         {
