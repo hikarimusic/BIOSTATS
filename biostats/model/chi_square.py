@@ -31,6 +31,12 @@ def add_p(data):
 def chi_square_test(data, variable_1, variable_2):
     
     process(data)
+    data = data[list({variable_1, variable_2})].dropna()
+
+    if data[variable_1].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
+    if data[variable_2].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_2))
 
     summary = pd.crosstab(index=data[variable_1], columns=data[variable_2])
     summary.index.name = None
@@ -38,8 +44,8 @@ def chi_square_test(data, variable_1, variable_2):
 
     obs = summary.values.tolist()
 
-    rr = len(obs)
-    cc = len(obs[0])
+    rr = CC(lambda: len(obs))
+    cc = CC(lambda: len(obs[0]))
     r_sum = []
     c_sum = []
     _sum = 0
@@ -47,36 +53,36 @@ def chi_square_test(data, variable_1, variable_2):
     for i in range(rr):
         temp = 0
         for j in range(cc):
-            temp += obs[i][j]
+            temp = CC(lambda: temp + obs[i][j])
         r_sum.append(temp)
     for j in range(cc):
         temp = 0
         for i in range(rr):
-            temp += obs[i][j]
+            temp = CC(lambda: temp + obs[i][j])
         c_sum.append(temp)
     for i in range(rr):
-        _sum += r_sum[i]
+        _sum = CC(lambda: _sum + r_sum[i])
     
     exp = []
 
     for i in range(rr):
         temp = []
         for j in range(cc):
-            temp.append(r_sum[i] * c_sum[j] / _sum)
+            temp.append(CC(lambda: r_sum[i] * c_sum[j] / _sum))
         exp.append(temp)
     
     chi2 = 0
     for i in range(rr):
         for j in range(cc):
-            chi2 += (obs[i][j]-exp[i][j]) ** 2 / exp[i][j]
+            chi2 = CC(lambda: chi2 + (obs[i][j]-exp[i][j]) ** 2 / exp[i][j])
     
     p = CC(lambda: 1 - st.chi2.cdf(chi2, (rr-1)*(cc-1)))
 
     result = pd.DataFrame(
         {
-            "D.F.": [(rr-1)*(cc-1)],
-            "Chi Square": [chi2],
-            "p-value": [p]
+            "D.F.": CC(lambda: (rr-1)*(cc-1)),
+            "Chi Square": CC(lambda: chi2),
+            "p-value": CC(lambda: p)
         }, index=["Normal"]
     )
 
@@ -84,15 +90,15 @@ def chi_square_test(data, variable_1, variable_2):
         chi2 = 0
         for i in range(rr):
             for j in range(cc):
-                chi2 += (abs(obs[i][j]-exp[i][j])-0.5) ** 2 / exp[i][j]
+                chi2 = CC(lambda: chi2 + (abs(obs[i][j]-exp[i][j])-0.5) ** 2 / exp[i][j])
         
         p = CC(lambda: 1 - st.chi2.cdf(chi2, (rr-1)*(cc-1)))
 
         result2 = pd.DataFrame(
             {
-            "D.F.": [(rr-1)*(cc-1)],
-            "Chi Square": [chi2],
-            "p-value": [p]
+            "D.F.": CC(lambda: (rr-1)*(cc-1)),
+            "Chi Square": CC(lambda: chi2),
+            "p-value": CC(lambda: p)
             }, index=["Corrected"]
         )
         result = pd.concat([result, result2], axis=0)
@@ -107,33 +113,37 @@ def chi_square_test(data, variable_1, variable_2):
 def chi_square_test_fit(data, variable, expect):
     
     process(data)
+    data = data[[variable]].dropna()
+
+    if data[variable].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable))
 
     cat = data.groupby(variable, sort=False)[variable].groups.keys()
     obs = []
     exp = []
     for var in cat:
-        obs.append(data[variable].value_counts()[var])
+        obs.append(CC(lambda: data[variable].value_counts()[var]))
     exp_val = list(expect.values())
     for var in cat:
-        exp.append(expect[var] * sum(obs) / sum(exp_val))
-    dim = len(obs)
+        exp.append(CC(lambda: expect[var] * sum(obs) / sum(exp_val)))
+    dim = CC(lambda: len(obs))
 
     summary = pd.DataFrame(
         {
-            "Observe" : obs,
-            "Expect"  : exp
+            "Observe" : CC(lambda: obs),
+            "Expect"  : CC(lambda: exp)
         }, index=cat
     )
 
     chi2 = 0
     for i in range(dim):
-        chi2 += (obs[i]-exp[i]) * (obs[i]-exp[i]) / exp[i]
+        chi2 = CC(lambda: chi2 + (obs[i]-exp[i]) * (obs[i]-exp[i]) / exp[i])
     p = CC(lambda: 1 - st.chi2.cdf(chi2, dim-1))
     result = pd.DataFrame(
         {
-            "D.F.": [dim-1],
-            "Chi Square": [chi2],
-            "p-value": [p]
+            "D.F.": CC(lambda: dim-1),
+            "Chi Square": CC(lambda: chi2),
+            "p-value": CC(lambda: p)
         }, index=["Normal"]
     )
 
@@ -147,6 +157,14 @@ def chi_square_test_fit(data, variable, expect):
 def mcnemar_test(data, variable_1, variable_2, pair):
 
     process(data)
+    data = data[list({variable_1, variable_2, pair})].dropna()
+
+    if data[variable_1].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
+    if data[variable_2].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_2))
+    if data[pair].nunique() > 2000:
+        raise Warning("The nmuber of classes in column '{}' cannot > 2000.".format(pair))
 
     grp_1 = data[variable_1].value_counts()[:2].index.tolist()
     grp_2 = data[variable_2].value_counts()[:2].index.tolist()
@@ -167,10 +185,10 @@ def mcnemar_test(data, variable_1, variable_2, pair):
         }
     )
 
-    a = CC(_dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[0])]["fst"].count)
-    b = CC(_dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[1])]["fst"].count)
-    c = CC(_dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[0])]["fst"].count)
-    d = CC(_dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[1])]["fst"].count)
+    a = CC(lambda: _dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[0])]["fst"].count())
+    b = CC(lambda: _dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[1])]["fst"].count())
+    c = CC(lambda: _dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[0])]["fst"].count())
+    d = CC(lambda: _dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[1])]["fst"].count())
 
     summary = pd.DataFrame(
         {
@@ -179,8 +197,8 @@ def mcnemar_test(data, variable_1, variable_2, pair):
         }, index=["{} : {}".format(grp_1[0], grp_2[0]), "{} : {}".format(grp_1[0], grp_2[1])]
     )
 
-    chi2 = (b - c) ** 2 / (b + c)
-    chi2_ = (abs(b-c) - 1) ** 2 / (b + c)
+    chi2 = CC(lambda: (b - c) ** 2 / (b + c))
+    chi2_ = CC(lambda: (abs(b-c) - 1) ** 2 / (b + c))
     p = CC(lambda: 1 - st.chi2.cdf(chi2, 1))
     p_ = CC(lambda: 1 - st.chi2.cdf(chi2_, 1))
 
@@ -202,6 +220,14 @@ def mcnemar_test(data, variable_1, variable_2, pair):
 def mantel_haenszel_test(data, variable_1, variable_2, stratum):
     
     process(data)
+    data = data[list({variable_1, variable_2, stratum})].dropna()
+
+    if data[variable_1].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
+    if data[variable_2].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_2))
+    if data[stratum].nunique() > 30:
+        raise Warning("The nmuber of classes in column '{}' cannot > 30.".format(stratum))
 
     study = data[stratum].dropna().unique()
     grp_1 = data[variable_1].value_counts()[:2].index.tolist()
@@ -213,11 +239,11 @@ def mantel_haenszel_test(data, variable_1, variable_2, stratum):
 
     for stu in study:
         part = data.loc[data[stratum]==stu]
-        a = CC(part[(part[variable_1]==grp_1[0]) & (part[variable_2]==grp_2[0])][stratum].count)
-        b = CC(part[(part[variable_1]==grp_1[0]) & (part[variable_2]==grp_2[1])][stratum].count)
-        c = CC(part[(part[variable_1]==grp_1[1]) & (part[variable_2]==grp_2[0])][stratum].count)
-        d = CC(part[(part[variable_1]==grp_1[1]) & (part[variable_2]==grp_2[1])][stratum].count)
-        n = a + b + c + d
+        a = CC(lambda: part[(part[variable_1]==grp_1[0]) & (part[variable_2]==grp_2[0])][stratum].count())
+        b = CC(lambda: part[(part[variable_1]==grp_1[0]) & (part[variable_2]==grp_2[1])][stratum].count())
+        c = CC(lambda: part[(part[variable_1]==grp_1[1]) & (part[variable_2]==grp_2[0])][stratum].count())
+        d = CC(lambda: part[(part[variable_1]==grp_1[1]) & (part[variable_2]==grp_2[1])][stratum].count())
+        n = CC(lambda: a + b + c + d)
         temp = pd.DataFrame(
             {
                 "" : [grp_1[0], grp_1[1], ""] ,
@@ -227,18 +253,18 @@ def mantel_haenszel_test(data, variable_1, variable_2, stratum):
         )
         summary = pd.concat([summary, temp])
 
-        O += a
-        E += (a + b) * (a + c) / n
-        V += (a + b) * (c + d) * (a + c) * (b + d) / (n**3 - n**2)
+        O = CC(lambda: O + a)
+        E = CC(lambda: E + (a + b) * (a + c) / n)
+        V = CC(lambda: V + (a + b) * (c + d) * (a + c) * (b + d) / (n**3 - n**2))
     
-    chi2 = (abs(O-E) - 0.5) ** 2 / V
+    chi2 = CC(lambda: (abs(O-E) - 0.5) ** 2 / V)
     p = CC(lambda: 1 - st.chi2.cdf(chi2, 1))
 
     result = pd.DataFrame(
         {
-            "D.F.": [1],
-            "Chi Square": [chi2],
-            "p-value": [p]
+            "D.F.": 1,
+            "Chi Square": CC(lambda: chi2),
+            "p-value": CC(lambda: p)
         }, index=["Normal"]
     )
     add_p(result)

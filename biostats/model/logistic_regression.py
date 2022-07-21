@@ -35,6 +35,12 @@ def add_p(data):
 def simple_logistic_regression(data, x, y, target):
     
     process(data)
+    data = data[list({x, y})].dropna()
+
+    if str(data[x].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(x))
+    if data[y].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
 
     data2 = data[[x]].copy()
     data2[y] = 0
@@ -46,10 +52,12 @@ def simple_logistic_regression(data, x, y, target):
     
     summary = pd.DataFrame(
         {
-            "Coefficient" : model.params,
-            "Std. Error"  : model.bse,
-            "z Statistic" : model.tvalues,
-            "p-value"     : model.pvalues
+            "Coefficient"   : CC(lambda: model.params),
+            "95% CI: Lower" : CC(lambda: model.conf_int()[0]) ,
+            "95% CI: Upper" : CC(lambda: model.conf_int()[1]) ,
+            "Std. Error"    : CC(lambda: model.bse),
+            "z Statistic"   : CC(lambda: model.tvalues),
+            "p-value"       : CC(lambda: model.pvalues)
         }
     )
     index_change = {}
@@ -60,8 +68,8 @@ def simple_logistic_regression(data, x, y, target):
 
     result = pd.DataFrame(
         {
-            "Pseudo R-Squared": model.prsquared,
-            "p-value": model.llr_pvalue
+            "Pseudo R-Squared": CC(lambda: model.prsquared),
+            "p-value": CC(lambda: model.llr_pvalue)
         }, index=["Model"]
     )
 
@@ -77,6 +85,16 @@ def simple_logistic_regression(data, x, y, target):
 def multiple_logistic_regression(data, x_nominal, x_categorical, y, target):
     
     process(data)
+    data = data[list(set(x_nominal+x_categorical+[y]))].dropna()
+
+    for var in x_nominal:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
+    for var in x_categorical:
+        if data[var].nunique() > 20:
+            raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(var))
+    if data[y].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
 
     data2 = data[x_nominal+x_categorical].copy()
     data2[y] = 0
@@ -92,10 +110,12 @@ def multiple_logistic_regression(data, x_nominal, x_categorical, y, target):
     
     summary = pd.DataFrame(
         {
-            "Coefficient" : model.params,
-            "Std. Error"  : model.bse,
-            "z Statistic" : model.tvalues,
-            "p-value"     : model.pvalues
+            "Coefficient"   : CC(lambda: model.params),
+            "95% CI: Lower" : CC(lambda: model.conf_int()[0]) ,
+            "95% CI: Upper" : CC(lambda: model.conf_int()[1]) ,
+            "Std. Error"    : CC(lambda: model.bse),
+            "z Statistic"   : CC(lambda: model.tvalues),
+            "p-value"       : CC(lambda: model.pvalues)
         }
     )
     index_change = {}
@@ -112,8 +132,8 @@ def multiple_logistic_regression(data, x_nominal, x_categorical, y, target):
 
     result = pd.DataFrame(
         {
-            "Pseudo R-Squared": model.prsquared,
-            "p-value": model.llr_pvalue
+            "Pseudo R-Squared": CC(lambda: model.prsquared),
+            "p-value": CC(lambda: model.llr_pvalue)
         }, index=["Model"]
     )
 
@@ -129,6 +149,16 @@ def multiple_logistic_regression(data, x_nominal, x_categorical, y, target):
 def ordered_logistic_regression(data, x_nominal, x_categorical, y, order):
     
     process(data)
+    data = data[list(set(x_nominal+x_categorical+[y]))].dropna()
+
+    for var in x_nominal:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
+    for var in x_categorical:
+        if data[var].nunique() > 20:
+            raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(var))
+    if data[y].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
 
     data[y] = data[y].astype(pd.CategoricalDtype(categories=[x[0] for x in sorted(order.items(), key=lambda item: item[1])], ordered=True))
 
@@ -143,10 +173,12 @@ def ordered_logistic_regression(data, x_nominal, x_categorical, y, order):
 
     summary = pd.DataFrame(
         {
-            "Coefficient" : model.params,
-            "Std. Error"  : model.bse,
-            "z Statistic" : model.tvalues,
-            "p-value"     : model.pvalues
+            "Coefficient"   : CC(lambda: model.params),
+            "95% CI: Lower" : CC(lambda: model.conf_int()[0]) ,
+            "95% CI: Upper" : CC(lambda: model.conf_int()[1]) ,
+            "Std. Error"    : CC(lambda: model.bse),
+            "z Statistic"   : CC(lambda: model.tvalues),
+            "p-value"       : CC(lambda: model.pvalues)
         }
     )
     index_change = {}
@@ -161,8 +193,8 @@ def ordered_logistic_regression(data, x_nominal, x_categorical, y, order):
 
     result = pd.DataFrame(
         {
-            "Pseudo R-Squared": model.prsquared,
-            "p-value": model.llr_pvalue
+            "Pseudo R-Squared": CC(lambda: model.prsquared) ,
+            "p-value": CC(lambda: model.llr_pvalue)
         }, index=["Model"]
     )
 
@@ -178,6 +210,16 @@ def ordered_logistic_regression(data, x_nominal, x_categorical, y, order):
 def multinomial_logistic_regression(data, x_nominal, x_categorical, y, baseline):
     
     process(data)
+    data = data[list(set(x_nominal+x_categorical+[y]))].dropna()
+
+    for var in x_nominal:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
+    for var in x_categorical:
+        if data[var].nunique() > 20:
+            raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(var))
+    if data[y].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
 
     group = data[y].dropna().unique().tolist()
     group.remove(baseline)
@@ -196,12 +238,14 @@ def multinomial_logistic_regression(data, x_nominal, x_categorical, y, baseline)
 
     model = MNLogit.from_formula(formula, data=data2).fit(disp=False)
 
-    summary = pd.DataFrame(columns=["Coefficient", "Std. Error", "z Statistic", "p-value"])
+    summary = pd.DataFrame(columns=["Coefficient", "95% CI: Lower", "95% CI: Upper", "Std. Error", "z Statistic", "p-value"])
 
     for i, cat in enumerate(group):        
         temp_1 = pd.DataFrame(
             {
                 "Coefficient" : np.nan ,
+                "95% CI: Lower" : np.nan ,
+                "95% CI: Upper" : np.nan ,
                 "Std. Error"  : np.nan ,
                 "z Statistic" : np.nan ,
                 "p-value"     : np.nan ,
@@ -209,15 +253,19 @@ def multinomial_logistic_regression(data, x_nominal, x_categorical, y, baseline)
         )
         temp_2 = pd.DataFrame(
             {
-                "Coefficient" : model.params[i],
-                "Std. Error"  : model.bse[i],
-                "z Statistic" : model.tvalues[i],
-                "p-value"     : model.pvalues[i]
+                "Coefficient" : CC(lambda: model.params[i]),
+                "95% CI: Lower" : CC(lambda: model.conf_int().xs(str(i+1), level=0)["lower"]) ,
+                "95% CI: Upper" : CC(lambda: model.conf_int().xs(str(i+1), level=0)["upper"]) ,
+                "Std. Error"  : CC(lambda: model.bse[i]),
+                "z Statistic" : CC(lambda: model.tvalues[i]),
+                "p-value"     : CC(lambda: model.pvalues[i])
             }
         )
         temp_3 = pd.DataFrame(
             {
                 "Coefficient" : np.nan ,
+                "95% CI: Lower" : np.nan ,
+                "95% CI: Upper" : np.nan ,
                 "Std. Error"  : np.nan ,
                 "z Statistic" : np.nan ,
                 "p-value"     : np.nan ,
@@ -236,8 +284,8 @@ def multinomial_logistic_regression(data, x_nominal, x_categorical, y, baseline)
 
     result = pd.DataFrame(
         {
-            "Pseudo R-Squared": model.prsquared,
-            "p-value": model.llr_pvalue
+            "Pseudo R-Squared": CC(lambda: model.prsquared),
+            "p-value": CC(lambda: model.llr_pvalue)
         }, index=["Model"]
     )
 

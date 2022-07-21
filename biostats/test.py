@@ -23,7 +23,7 @@ class Test(ttk.Frame):
             "Linear Regression"   : ["", "Correlation", "Correlation Matrix", "Simple Linear Regression", "Multiple Linear Regression"] ,
             "Logistic Regression" : ["", "Simple Logistic Regression", "Multiple Logistic Regression", "Ordered Logistic Regression", "Multinomial Logistic Regression"] ,
             "Nonparametric"       : ["", "Median Test", "Sign Test", "Wilcoxon Signed-Rank Test", "Wilcoxon Rank-Sum Test", "Kruskal-Wallis Test", "Friedman Test", "Spearman's Rank Correlation"] ,
-            "Others"              : ["", "Factor Analysis", "Principal Component Analysis", "Linear Discriminant Analysis"]
+            "Others"              : ["", "Screening Test", "Epidemiologic Study", "Factor Analysis", "Principal Component Analysis", "Linear Discriminant Analysis"]
         }
         self.test_1 = tk.StringVar(value="Basic")
         self.test_2 = {}
@@ -666,6 +666,54 @@ class Test(ttk.Frame):
                 self.option[1].grid()
 
         if kind == "Others":
+
+            if test == "Screening Test":
+                self.option_label[0].config(text="Disease:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Disease Target:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set([])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Test:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()
+
+                self.option_label[3].config(text="Test Target:")
+                self.option_label[3].grid()
+                self.option[3].radio_one_set([])
+                self.option[3].grid()
+
+                self.temp_1 = ""
+                self.temp_2 = ""
+            
+            if test == "Epidemiologic Study":
+                self.option_label[0].config(text="Disease:")
+                self.option_label[0].grid()
+                self.option[0].radio_one_set(self.master.data_col["cat"])
+                self.option[0].grid()
+
+                self.option_label[1].config(text="Disease Target:")
+                self.option_label[1].grid()
+                self.option[1].radio_one_set([])
+                self.option[1].grid()
+
+                self.option_label[2].config(text="Factor:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].grid()
+
+                self.option_label[3].config(text="Factor Target:")
+                self.option_label[3].grid()
+                self.option[3].radio_one_set([])
+                self.option[3].grid()
+
+                self.temp_1 = ""
+                self.temp_2 = ""
 
             if test == "Factor Analysis":
                 self.option_label[0].config(text="X:")
@@ -1525,6 +1573,78 @@ class Test(ttk.Frame):
                 self.result[1].grid()
 
         if kind == "Others":
+            
+            if test == "Screening Test":
+                disease = self.option[0].radio_one_get()
+                if not disease:
+                    return
+                
+                if disease != self.temp_1:
+                    self.temp_1 = disease
+                    opt = self.master.data[disease].dropna().unique().tolist()
+                    self.option[1].radio_one_set(opt)
+                
+                disease_target = self.option[1].radio_one_get()
+                if not disease_target:
+                    return
+
+                test = self.option[2].radio_one_get()
+                if not test:
+                    return
+                
+                if test != self.temp_2:
+                    self.temp_2 = test
+                    opt = self.master.data[test].dropna().unique().tolist()
+                    self.option[3].radio_one_set(opt)
+                
+                test_target = self.option[3].radio_one_get()
+                if not test_target:
+                    return
+
+                summary, result = model.screening_test(self.master.data, disease=disease, disease_target=disease_target, test=test, test_target=test_target)
+
+                self.result[0].data = summary
+                self.result[0].set(2)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(10)
+                self.result[1].grid()
+
+            if test == "Epidemiologic Study":
+                disease = self.option[0].radio_one_get()
+                if not disease:
+                    return
+                
+                if disease != self.temp_1:
+                    self.temp_1 = disease
+                    opt = self.master.data[disease].dropna().unique().tolist()
+                    self.option[1].radio_one_set(opt)
+                
+                disease_target = self.option[1].radio_one_get()
+                if not disease_target:
+                    return
+
+                factor = self.option[2].radio_one_get()
+                if not factor:
+                    return
+                
+                if factor != self.temp_2:
+                    self.temp_2 = factor
+                    opt = self.master.data[factor].dropna().unique().tolist()
+                    self.option[3].radio_one_set(opt)
+                
+                factor_target = self.option[3].radio_one_get()
+                if not factor_target:
+                    return
+
+                summary, result = model.epidemiologic_study(self.master.data, disease=disease, disease_target=disease_target, factor=factor, factor_target=factor_target)
+
+                self.result[0].data = summary
+                self.result[0].set(2)
+                self.result[0].grid()
+                self.result[1].data = result
+                self.result[1].set(10)
+                self.result[1].grid()
 
             if test == "Factor Analysis":
                 x = self.option[0].check_more_get()

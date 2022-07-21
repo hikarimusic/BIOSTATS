@@ -15,6 +15,15 @@ def process(data):
     data.columns = data.columns.map(str)
     data.index = data.index.map(str)
 
+def heatmap(data, x, y, value=None):
+
+    sns.set_theme()
+    process(data)
+
+    fig, ax = plt.subplots()
+    sns.heatmap(data.pivot(y, x, value), ax=ax)
+        
+    return fig
 
 def fa_plot(data, x, factors, color=None):
 

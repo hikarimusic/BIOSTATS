@@ -16,8 +16,8 @@ def process(data):
 
 
 '''
-data = pd.read_csv("biostats/dataset/one_way_anova.csv", dtype=object)
-#data = pd.read_csv("biostats/dataset/penguins.csv", dtype=object)
+data = bs.dataset("one_way_anova.csv", dtype=object)
+#data = bs.dataset("penguins.csv", dtype=object)
 process(data)
 
 sns.set_theme()
@@ -52,7 +52,7 @@ fig.subplots_adjust(wspace=0.02, hspace=0.02)
 
 plt.show()
 
-data = pd.read_csv("biostats/dataset/one_way_anova.csv", dtype=object)
+data = bs.dataset("one_way_anova.csv", dtype=object)
 process(data)
 col = data["Length"].to_numpy() * 100 + np.random.normal(20, 20, len(data))
 
