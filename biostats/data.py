@@ -1,7 +1,9 @@
+from operator import index
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
+from numpy import dtype
 import pandas as pd
 
 from .widget import Spin, Tree, Table
@@ -119,14 +121,30 @@ class Data(ttk.Frame):
 
         filename = filedialog.askopenfilename(
             title="Open File", 
-            filetypes=[("Excel File", "*.xlsx"), ("CSV File", "*.csv"), ("All Files", "*")]
+            filetypes=[
+                ("Excel File", "*.xlsx"), 
+                ("CSV File", "*.csv"), 
+                ("JSON File", "*.json"),
+                ("SAS File", "*.sas7bdat"),
+                ("Stata File", "*.dta"),
+                ("SPSS File", "*.sav"),
+                ("All Files", "*")
+            ]
         )
         if filename:
             try:
-                try:
-                    df = pd.read_excel(filename, header=0, dtype=object)
-                except:
+                if ".xlsx" in filename:
+                    df = pd.read_excel(filename, dtype=object)
+                elif ".csv" in filename:
                     df = pd.read_csv(filename, dtype=object)
+                elif ".json" in filename:
+                    df = pd.read_json(filename, dtype=object)
+                elif ".sas7bdat" in filename:
+                    df = pd.read_sas(filename)
+                elif ".dta" in filename:
+                    df = pd.read_stata(filename)
+                elif ".sav" in filename:
+                    df = pd.read_spss(filename)
 
                 self.data_process(df)
                 self.switch("view")
@@ -188,18 +206,39 @@ class Data(ttk.Frame):
 
         filename = filedialog.asksaveasfilename(
             title="Save File", 
-            filetypes=[("Excel File", "*.xlsx"), ("CSV File", "*.csv"), ("All Files", "*")],
+            filetypes=[
+                ("Excel File", "*.xlsx"), 
+                ("CSV File", "*.csv"), 
+                ("JSON File", "*.json"),
+                ("Stata File", "*.dta"),
+                ("LaTex File", "*.tex"),
+                ("Markdown FIle", "*.md"),
+                ("Text File", "*.txt"),
+                ("All Files", "*")
+            ],
             initialfile="Data"
         )
         if filename:
             try:
-                try:
-                    df = self.tree.data
-                    df.to_excel(filename, index=False, sheet_name="Data")
-                except:
-                    df = self.tree.data
+                df = self.tree.data
+                if ".xlsx" in filename:
+                    df.to_excel(filename, index=False)
+                elif ".csv" in filename:
                     df.to_csv(filename, index=False)
-
+                elif ".json" in filename:
+                    with open(filename, 'w') as f:
+                        f.write(df.to_json())
+                elif ".dta" in filename:
+                    df.to_stata(filename)
+                elif ".tex" in filename:
+                    with open(filename, 'w') as f:
+                        f.write(df.to_latex(index=False))
+                elif ".md" in filename:
+                    with open(filename, 'w') as f:
+                        f.write(df.to_markdown(index=False))
+                else:
+                    with open(filename, 'w') as f:
+                        f.write(df.to_string(index=False))
             except:
                 messagebox.showerror(
                     title="Error",

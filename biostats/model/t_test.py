@@ -62,7 +62,7 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
                 "D.F." : CC(lambda: n-1) ,
                 "t Statistic" : CC(lambda: t) ,
                 "p-value" : CC(lambda: p)
-            }, index=[variable]
+            }, index=["Model"]
         )
     elif kind == "greater":
         summary = pd.DataFrame(
@@ -81,7 +81,7 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
                 "D.F." : CC(lambda: n-1) ,
                 "t Statistic" : CC(lambda: t) ,
                 "p-value" : CC(lambda: p)
-            }, index=[variable]
+            }, index=["Model"]
         )
     elif kind == "less":
         summary = pd.DataFrame(
@@ -99,7 +99,7 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
                 "D.F." : CC(lambda: n-1) ,
                 "t Statistic" : CC(lambda: t) ,
                 "p-value" : CC(lambda: p)
-            }, index=[variable]
+            }, index=["Model"]
         )
     else:
         return
@@ -160,7 +160,7 @@ def two_sample_t_test(data, variable, between, group, kind="equal variances"):
                 "D.F." : CC(lambda: n[0]+n[1]-2) ,
                 "t Statistic" : CC(lambda: t) ,
                 "p-value" : CC(lambda: p)
-            }, index=[variable]
+            }, index=["Model"]
         )
     elif kind == "unequal variances":
         _mean = CC(lambda: mean[0]-mean[1])
@@ -185,7 +185,7 @@ def two_sample_t_test(data, variable, between, group, kind="equal variances"):
                 "D.F." : CC(lambda: df) ,
                 "t Statistic" : CC(lambda: t) ,
                 "p-value" : CC(lambda: p)
-            }, index=[variable]
+            }, index=["Model"]
         )
     else:
         return
@@ -265,7 +265,7 @@ def paired_t_test(data, variable, between, group, pair):
             "D.F." : CC(lambda: _n-1) ,
             "t Statistic" : CC(lambda: t) ,
             "p-value" : CC(lambda: p)
-        }, index=[variable]
+        }, index=["Model"]
     )
     add_p(result)
 

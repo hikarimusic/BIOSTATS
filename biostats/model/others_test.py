@@ -26,8 +26,12 @@ def process(data):
 def screening_test(data, disease, disease_target, test, test_target):
 
     process(data)
+    data = data[list({disease, test})].dropna()
 
-    data = data[[disease, test]].dropna()
+    if data[disease].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(disease))
+    if data[test].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(test))
 
     TP = CC(data[(data[disease]==disease_target) & (data[test]==test_target)][disease].count)
     TN = CC(data[(data[disease]!=disease_target) & (data[test]!=test_target)][disease].count)
@@ -70,6 +74,12 @@ def screening_test(data, disease, disease_target, test, test_target):
 def epidemiologic_study(data, disease, disease_target, factor, factor_target):
 
     process(data)
+    data = data[list({disease, factor})].dropna()
+
+    if data[disease].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(disease))
+    if data[factor].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(factor))
 
     data = data[[disease, factor]].dropna()
 
@@ -83,32 +93,32 @@ def epidemiologic_study(data, disease, disease_target, factor, factor_target):
     summary.index = ["{} (+)".format(factor), "{} (-)".format(factor)]
     summary.columns = ["{} (+)".format(disease), "{} (-)".format(disease)]
 
-    n_1 = a + b
-    n_2 = c + d
-    p_1 = a / n_1
-    p_2 = c / n_2
-    p = n_1 / (n_1 + n_2)
+    n_1 = CC(lambda: a + b)
+    n_2 = CC(lambda: c + d)
+    p_1 = CC(lambda: a / n_1)
+    p_2 = CC(lambda: c / n_2)
+    p = CC(lambda: n_1 / (n_1 + n_2))
 
-    RD = p_1 - p_2
+    RD = CC(lambda: p_1 - p_2)
     RD_l = CC(lambda: st.norm.ppf(0.025, RD, math.sqrt(p_1*(1-p_1)/n_1+p_2*(1-p_2)/n_2)))
     RD_h = CC(lambda: st.norm.ppf(0.975, RD, math.sqrt(p_1*(1-p_1)/n_1+p_2*(1-p_2)/n_2)))
 
-    RR = p_1 / p_2
-    RR_s = math.sqrt(b/(a*n_1)+d/(c*n_2))
-    RR_l = math.exp(st.norm.ppf(0.025, math.log(RR), RR_s))
-    RR_h = math.exp(st.norm.ppf(0.975, math.log(RR), RR_s))
+    RR = CC(lambda: p_1 / p_2)
+    RR_s = CC(lambda: math.sqrt(b/(a*n_1)+d/(c*n_2)))
+    RR_l = CC(lambda: math.exp(st.norm.ppf(0.025, math.log(RR), RR_s)))
+    RR_h = CC(lambda: math.exp(st.norm.ppf(0.975, math.log(RR), RR_s)))
 
-    OR = (a * d) / (b * c)
-    OR_s = math.sqrt(1/a+1/b+1/c+1/d)
-    OR_l = math.exp(st.norm.ppf(0.025, math.log(OR), OR_s))
-    OR_h = math.exp(st.norm.ppf(0.975, math.log(OR), OR_s))
+    OR = CC(lambda: (a * d) / (b * c))
+    OR_s = CC(lambda: math.sqrt(1/a+1/b+1/c+1/d))
+    OR_l = CC(lambda: math.exp(st.norm.ppf(0.025, math.log(OR), OR_s)))
+    OR_h = CC(lambda: math.exp(st.norm.ppf(0.975, math.log(OR), OR_s)))
 
-    AR = (RR-1) * p / ((RR-1) * p + 1)
-    AR_s = (RR / abs(RR-1)) * math.sqrt(b/(a*n_1)+d/(c*n_2))
-    AR_c1 = st.norm.ppf(0.025, math.log(AR/(1-AR)), AR_s)
-    AR_c2 = st.norm.ppf(0.975, math.log(AR/(1-AR)), AR_s)
-    AR_l = math.exp(AR_c1) / (1 + math.exp(AR_c1))
-    AR_h = math.exp(AR_c2) / (1 + math.exp(AR_c2))
+    AR = CC(lambda: (RR-1) * p / ((RR-1) * p + 1))
+    AR_s = CC(lambda: (RR / abs(RR-1)) * math.sqrt(b/(a*n_1)+d/(c*n_2)))
+    AR_c1 = CC(lambda: st.norm.ppf(0.025, math.log(AR/(1-AR)), AR_s))
+    AR_c2 = CC(lambda: st.norm.ppf(0.975, math.log(AR/(1-AR)), AR_s))
+    AR_l = CC(lambda: math.exp(AR_c1) / (1 + math.exp(AR_c1)))
+    AR_h = CC(lambda: math.exp(AR_c2) / (1 + math.exp(AR_c2)))
 
     table = []
     table.append([RD, RD_l, RD_h])
@@ -129,6 +139,11 @@ def epidemiologic_study(data, disease, disease_target, factor, factor_target):
 def factor_analysis(data, x, factors, analyze):
 
     process(data)
+    data = data[list(set(x))].dropna()
+
+    for var in x:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
 
     fa = FactorAnalyzer(n_factors=factors, rotation='varimax')
     fa.fit(data[x])
@@ -168,8 +183,11 @@ def factor_analysis(data, x, factors, analyze):
 def principal_component_analysis(data, x, transform=None):
 
     process(data)
+    data = data[list(set(x))].dropna()
 
-    data = data.dropna()
+    for var in x:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
 
     summary = pd.DataFrame(
         {
@@ -212,8 +230,13 @@ def principal_component_analysis(data, x, transform=None):
 def linear_discriminant_analysis(data, x, y, predict=None):
 
     process(data)
+    data = data[list(set(x+[y]))].dropna()
 
-    data = data.dropna()
+    for var in x:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
+    if data[y].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
 
     clf = LinearDiscriminantAnalysis()
     clf.fit(data[x], data[y])

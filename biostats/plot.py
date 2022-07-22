@@ -85,6 +85,8 @@ class Plot(ttk.Frame):
         self.canvas = FigureCanvasTkAgg(self.graph, master=self.graph_frame) 
         self.canvas.get_tk_widget().grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
 
+        # Shortcut
+        self.bind("<Control-s>", lambda event: self.save())
 
         self.plot_change()
 
@@ -824,6 +826,8 @@ class Plot(ttk.Frame):
 
         self.canvas = FigureCanvasTkAgg(self.graph, master=self.graph_frame)
         self.canvas.get_tk_widget().grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+        self.update()
+        self.focus()
 
     def save(self):
 

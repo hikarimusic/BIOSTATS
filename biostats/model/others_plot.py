@@ -20,6 +20,13 @@ def heatmap(data, x, y, value=None):
     sns.set_theme()
     process(data)
 
+    if data[x].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
+    if data[y].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_2))
+    if str(data[value].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(value))
+
     fig, ax = plt.subplots()
     sns.heatmap(data.pivot(y, x, value), ax=ax)
         
@@ -30,7 +37,12 @@ def fa_plot(data, x, factors, color=None):
     sns.set_theme()
     process(data)
 
-    data = data.dropna()
+    for var in x:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
+    if color:
+        if data[color].nunique() > 20:
+            raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(color))
 
     #for var in x:
     #    data[var] = (data[var] - data[var].mean()) / data[var].std()
@@ -61,8 +73,13 @@ def pca_plot(data, x, color=None):
     sns.set_theme()
     process(data)
 
-    data = data.dropna()
-
+    for var in x:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
+    if color:
+        if data[color].nunique() > 20:
+            raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(color))
+            
     #for var in x:
     #    data[var] = (data[var] - data[var].mean()) / data[var].std()
 
@@ -92,7 +109,11 @@ def lda_plot(data, x, y):
     sns.set_theme()
     process(data)
 
-    data = data.dropna()
+    for var in x:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
+    if data[y].nunique() > 20:
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
 
     clf = LinearDiscriminantAnalysis()
     clf.fit(data[x], data[y])
