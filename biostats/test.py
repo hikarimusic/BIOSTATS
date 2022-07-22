@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
+from tkinter import messagebox
+import pandas as pd
 
 from .widget import Tree, Option
 from . import model
@@ -86,7 +89,10 @@ class Test(ttk.Frame):
             self.result[i] = Tree(self.result_frame, 1)
             self.result[i].grid(row=i, column=0, padx=5, pady=5, sticky="nsew")
 
+        # Shortcut
+        self.bind("<Control-s>", lambda event: self.save())
 
+        
         self.test_change()
 
 
@@ -771,6 +777,7 @@ class Test(ttk.Frame):
 
         for wid in self.result.values():
             wid.grid_remove()
+            wid.data = pd.DataFrame()
 
         kind = self.test_1.get()
         test = self.test_2[kind].get()
@@ -1746,7 +1753,51 @@ class Test(ttk.Frame):
 
 
         self.master.updating()
+        self.focus()
 
     def save(self):
 
-        pass
+        filename = filedialog.asksaveasfilename(
+            title="Save File", 
+            filetypes=[
+                ("Excel File", "*.xlsx"), 
+                ("Markdown FIle", "*.md"),
+                ("Text File", "*.txt"),
+                ("All Files", "*")
+            ],
+            initialfile="Test"
+        )
+        if filename:
+            try:
+                if ".xlsx" in filename:
+                    pd.DataFrame().to_excel(filename, sheet_name="Sheet1" )
+                    with pd.ExcelWriter(filename, mode='a', if_sheet_exists='overlay') as writer:
+                        row = 0
+                        for i in self.result:
+                            if len(self.result[i].data) == 0:
+                                continue
+                            self.result[i].data.to_excel(writer, startrow=row)
+                            row += len(self.result[i].data) + 2
+                elif ".md" in filename:
+                    result = ""
+                    for i in self.result:
+                        if len(self.result[i].data) == 0:
+                            continue
+                        result += self.result[i].data.to_markdown()
+                        result += "\n\n"
+                    with open(filename, 'w') as f:
+                        f.write(result)
+                else:
+                    result = ""
+                    for i in self.result:
+                        if len(self.result[i].data) == 0:
+                            continue
+                        result += self.result[i].data.to_string()
+                        result += "\n\n"
+                    with open(filename, 'w') as f:
+                        f.write(result)
+            except:
+                messagebox.showerror(
+                    title="Error",
+                    message="File could not be saved."
+                )  

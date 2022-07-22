@@ -15,6 +15,11 @@ def ultimate_plot(data, variable):
     sns.set_theme()
     process(data)
 
+    for var in variable:
+        if str(data[var].dtypes) != "float64":
+            if data[var].nunique() > 20:
+                raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(var))
+
     n = len(variable)
     kind = {}
 
@@ -99,6 +104,13 @@ def pair_plot(data, variable, color=None, kind="scatter"):
     sns.set_theme()
     process(data)
 
+    for var in variable:
+        if str(data[var].dtypes) != "float64":
+            raise Warning("The column '{}' must be numeric".format(var))
+    if color:
+        if data[color].nunique() > 20:
+            raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(color))
+
     if kind == "scatter":
         g = sns.pairplot(data=data, vars=variable, hue=color)
     elif kind == "regression":
@@ -115,6 +127,14 @@ def joint_plot(data, x, y, color=None, kind="scatter"):
     sns.set_theme()
     process(data)
 
+    if str(data[x].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(x))
+    if str(data[y].dtypes) != "float64":
+        raise Warning("The column '{}' must be numeric".format(y))
+    if color:
+        if data[color].nunique() > 20:
+            raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(color))
+            
     if kind == "scatter":
         g = sns.jointplot(data=data, x=x, y=y, hue=color)
     elif kind == "regression":

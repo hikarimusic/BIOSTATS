@@ -2,3 +2,5 @@
 # scipy, statsmodel
 # matplotlib, seaborn
 # openyml, lxml
+# tabulate
+# pyreadstat

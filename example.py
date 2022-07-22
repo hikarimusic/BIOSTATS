@@ -150,7 +150,7 @@ print(result)
 
 # Correlation Matrix
 data = bs.dataset("correlation_matrix.csv")
-summary = bs.correlation_matrix(data=data, variable=["Stream","Longnose","Acerage","DO2","Maxdepth","NO3","SO4","Temp"])
+summary = bs.correlation_matrix(data=data, variable=["Longnose","Acerage","DO2","Maxdepth","NO3","SO4","Temp"])
 print(summary)
 
 # Simple Linear Regression
@@ -319,7 +319,7 @@ data = bs.dataset("tips.csv")
 fig = bs.strip_plot(data=data, x="day", y="total_bill", color="smoker")
 plt.show()
 
-# Strip Plot
+# Swarm Plot
 data = bs.dataset("tips.csv")
 fig = bs.swarm_plot(data=data, x="day", y="total_bill", color="smoker")
 plt.show()

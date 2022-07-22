@@ -6,6 +6,8 @@ from .data import Data
 from .test import Test
 from .plot import Plot
 from .widget import Spin
+from .help import Example, Manual
+
 
 class Master(ttk.Frame):
 
@@ -31,7 +33,7 @@ class Master(ttk.Frame):
 
         # Configure
         self.columnconfigure(index=1, weight=1)
-        self.rowconfigure(index=2, weight=1)
+        self.rowconfigure(index=3, weight=1)
 
         # Window
         self.window_frame = ttk.LabelFrame(self, text="Window", padding=(10,5))
@@ -73,17 +75,29 @@ class Master(ttk.Frame):
         self.screenmode_label = ttk.Label(self.setting_frame, text="Dark Mode")
         self.screenmode_label.grid(row=2, column=1, padx=5, pady=10, sticky="nsew")
 
+        # Help
+        self.help_frame = ttk.LabelFrame(self, text="Help", padding=(10,5))
+        self.help_frame.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
+
+        self.help_frame.columnconfigure(index=0, weight=1)
+
+        self.example_menu = Example(self.help_frame, self, text="Examples", width=9)
+        self.example_menu.grid(row=0, column=0, padx=5, pady=10, sticky="n")
+
+        self.manual_menu = Manual(self.help_frame, self, text="Manual", width=9)
+        self.manual_menu.grid(row=1, column=0, padx=5, pady=10, sticky="n")
+
         # Data
         self.data_win = Data(self, self)
-        self.data_win.grid(row=0, column=1, rowspan=3, padx=10, pady=10, sticky="nsew")
+        self.data_win.grid(row=0, column=1, rowspan=4, padx=10, pady=10, sticky="nsew")
 
         # Test
         self.test_win = Test(self, self)
-        self.test_win.grid(row=0, column=1, rowspan=3, padx=10, pady=10, sticky="nsew")
+        self.test_win.grid(row=0, column=1, rowspan=4, padx=10, pady=10, sticky="nsew")
 
         # Plot
         self.plot_win = Plot(self, self)
-        self.plot_win.grid(row=0, column=1, rowspan=3, padx=10, pady=10, sticky="nsew")
+        self.plot_win.grid(row=0, column=1, rowspan=4, padx=10, pady=10, sticky="nsew")
 
         # Initial
         self.window.set(0)
