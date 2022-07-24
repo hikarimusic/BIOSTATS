@@ -214,7 +214,8 @@ class Data(ttk.Frame):
                 ("Text File", "*.txt"),
                 ("All Files", "*")
             ],
-            initialfile="Data"
+            initialfile="Data",
+            defaultextension="*.*"
         )
         if filename:
             try:

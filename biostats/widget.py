@@ -323,12 +323,21 @@ class Table(ttk.Frame):
         self.entry_canvas.bind_all('<Shift-4>', lambda e: self.entry_canvas.xview('scroll', -1, 'units'))
         self.entry_canvas.bind_all('<Shift-5>', lambda e: self.entry_canvas.xview('scroll', 1, 'units'))
 
+        # Windows
+        self.entry_canvas.bind_all("<MouseWheel>", lambda e: self.entry_canvas.yview('scroll', int(-1*(e.delta/120)), 'units'))
+        self.entry_canvas.bind_all("<Shift-MouseWheel>", lambda e: self.entry_canvas.xview('scroll', int(-1*(e.delta/120)), 'units'))
+
     def scroll_off(self):
 
+        # Linux 
         self.entry_canvas.unbind_all('<4>')
         self.entry_canvas.unbind_all('<5>')
         self.entry_canvas.unbind_all('<Shift-4>')
         self.entry_canvas.unbind_all('<Shift-5>')
+
+        # Windows
+        self.entry_canvas.unbind_all("<MouseWheel>")
+        self.entry_canvas.unbind_all("<Shift-MouseWheel>")
 
     def group_name(self, j):
 
@@ -667,8 +676,19 @@ class Option(ttk.Frame):
         self.canvas.bind_all('<Shift-4>', lambda e: self.canvas.xview('scroll', -1, 'units'))
         self.canvas.bind_all('<Shift-5>', lambda e: self.canvas.xview('scroll', 1, 'units'))
 
+        # Windows
+        self.canvas.bind_all("<MouseWheel>", lambda e: self.canvas.xview('scroll', int(-1*(e.delta/120)), 'units'))
+        self.canvas.bind_all("<Shift-MouseWheel>", lambda e: self.canvas.xview('scroll', int(-1*(e.delta/120)), 'units'))
+
+
     def scroll_off(self):
+
+        # Linux 
         self.canvas.unbind_all('<4>')
         self.canvas.unbind_all('<5>')
         self.canvas.unbind_all('<Shift-4>')
         self.canvas.unbind_all('<Shift-5>')
+
+        # Windows
+        self.canvas.unbind_all("<MouseWheel>")
+        self.canvas.unbind_all("<Shift-MouseWheel>")
