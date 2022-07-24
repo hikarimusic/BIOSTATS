@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 from scipy import stats as st
-import math
 from statsmodels.stats.proportion import proportion_confint
 
 def CC(fun, *args):

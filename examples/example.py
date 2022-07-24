@@ -215,7 +215,7 @@ print(summary)
 print(result)
 
 # Wilcoxon Rank-Sum Test
-data = bs.dataset("two_sample_t_test.csv")
+data = bs.dataset("wilcoxon_rank_sum_test.csv")
 summary, result = bs.wilcoxon_rank_sum_test(data=data, variable="Value", between="Time", group=["2pm", "5pm"])
 print(summary)
 print(result)

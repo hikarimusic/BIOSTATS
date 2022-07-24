@@ -1,2 +1,2 @@
-from .model import *
-from .datasets import dataset
+from biostats.model import *
+from biostats.datasets import dataset

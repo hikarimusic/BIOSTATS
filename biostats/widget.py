@@ -1,4 +1,3 @@
-from tabnanny import check
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
@@ -408,7 +407,7 @@ class Option(ttk.Frame):
                 self.radio_one_item[i].config(command=self.master.change)
                 self.radio_one_item[i].grid(row=0, column=i, padx=5, pady=5, sticky="nsew")
             self.radio_one_item[i].config(text=var)
-        self.radio_one_var.set(0)
+        self.radio_one_var.set(-1)
         self.radio_one_list = opt
 
         for i, wid in self.radio_one_item.items():
@@ -425,6 +424,8 @@ class Option(ttk.Frame):
         if not self.radio_one_list:
             return
         i = self.radio_one_var.get()
+        if i == -1:
+            return
         return self.radio_one_list[i]
 
     def check_two_set(self, opt):

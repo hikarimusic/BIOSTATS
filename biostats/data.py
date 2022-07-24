@@ -1,12 +1,10 @@
-from operator import index
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
-from numpy import dtype
 import pandas as pd
 
-from .widget import Spin, Tree, Table
+from biostats.widget import Spin, Tree, Table
 
 class Data(ttk.Frame):
 
@@ -122,13 +120,13 @@ class Data(ttk.Frame):
         filename = filedialog.askopenfilename(
             title="Open File", 
             filetypes=[
+                ("All Files", "*"),
                 ("Excel File", "*.xlsx"), 
                 ("CSV File", "*.csv"), 
                 ("JSON File", "*.json"),
                 ("SAS File", "*.sas7bdat"),
                 ("Stata File", "*.dta"),
-                ("SPSS File", "*.sav"),
-                ("All Files", "*")
+                ("SPSS File", "*.sav")
             ]
         )
         if filename:

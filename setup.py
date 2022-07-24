@@ -1,6 +1,2 @@
-# tkinter, numpy, pandas
-# scipy, statsmodel
-# matplotlib, seaborn
-# openyml, lxml
-# tabulate
-# pyreadstat
+import setuptools
+setuptools.setup()
