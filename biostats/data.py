@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 import pandas as pd
+import sys
 
 from biostats.widget import Spin, Tree, Table
 
@@ -202,6 +203,12 @@ class Data(ttk.Frame):
 
     def save(self):
 
+        platform = sys.platform
+        if platform == "linux":
+            ext = None
+        elif platform == "win32":
+            ext = "*.*"
+
         filename = filedialog.asksaveasfilename(
             title="Save File", 
             filetypes=[
@@ -215,7 +222,7 @@ class Data(ttk.Frame):
                 ("All Files", "*")
             ],
             initialfile="Data",
-            defaultextension="*.*"
+            defaultextension=ext
         )
         if filename:
             try:

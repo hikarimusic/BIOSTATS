@@ -4,6 +4,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import sys
 
 from biostats.widget import Option
 from biostats import model
@@ -831,6 +832,12 @@ class Plot(ttk.Frame):
 
     def save(self):
 
+        platform = sys.platform
+        if platform == "linux":
+            ext = None
+        elif platform == "win32":
+            ext = "*.*"
+
         filename = filedialog.asksaveasfilename(
             title="Save File", 
             filetypes=[
@@ -843,7 +850,7 @@ class Plot(ttk.Frame):
                 ("All Files", "*")
             ],
             initialfile="Plot",
-            defaultextension="*.*"
+            defaultextension=ext
         )
         if filename:
             try:
