@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 import pandas as pd
 
-from .data import Data
-from .test import Test
-from .plot import Plot
-from .widget import Spin
-from .help import Example, Manual
+from biostats.data import Data
+from biostats.test import Test
+from biostats.plot import Plot
+from biostats.widget import Spin
+from biostats.help import Example, Manual
 
 
 class Master(ttk.Frame):

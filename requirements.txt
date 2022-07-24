@@ -1,0 +1,11 @@
+factor_analyzer
+matplotlib
+numpy
+openpyxl
+pandas
+pyreadstat
+scikit-learn
+scipy
+seaborn
+statsmodels
+tabulate

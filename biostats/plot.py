@@ -5,8 +5,8 @@ from tkinter import messagebox
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from .widget import Option
-from . import model
+from biostats.widget import Option
+from biostats import model
 
 class Plot(ttk.Frame):
 

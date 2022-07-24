@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import ttk
 
-from .master import Master
+from biostats.master import Master
 
 class App(tk.Tk):
 

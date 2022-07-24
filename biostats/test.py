@@ -4,8 +4,8 @@ from tkinter import filedialog
 from tkinter import messagebox
 import pandas as pd
 
-from .widget import Tree, Option
-from . import model
+from biostats.widget import Tree, Option
+from biostats import model
 
 class Test(ttk.Frame):
 
@@ -791,7 +791,7 @@ class Test(ttk.Frame):
                 
                 result = model.numeral(self.master.data, variable=variable)
                 self.result[0].data = result
-                self.result[0].set(20)
+                self.result[0].set(19)
                 self.result[0].grid()
             
             if test == "Numeral (Grouped)":
@@ -815,7 +815,7 @@ class Test(ttk.Frame):
                 
                 result = model.categorical(self.master.data, variable=variable)
                 self.result[0].data = result
-                self.result[0].set(20)
+                self.result[0].set(19)
                 self.result[0].grid()
             
             if test == "Contingency":
@@ -854,10 +854,10 @@ class Test(ttk.Frame):
                 summary, result = model.one_sample_t_test(self.master.data, variable=variable, expect=expect, kind=_kind.lower())
                 
                 self.result[0].data = summary
-                self.result[0].set(3)
+                self.result[0].set(1)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
         
             if test == "Two-Sample t-Test":
@@ -888,7 +888,7 @@ class Test(ttk.Frame):
                 self.result[0].set(3)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Paired t-Test":
@@ -919,7 +919,7 @@ class Test(ttk.Frame):
                 self.result[0].set(3)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
             
             if test == "Pairwise t-Test":
@@ -957,7 +957,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(2)
                 self.result[1].grid()
 
             if test == "Two-Way ANOVA":
@@ -999,7 +999,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(4)
+                self.result[1].set(3)
                 self.result[1].grid()
 
             if test == "Two-Way ANCOVA":
@@ -1041,7 +1041,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Repeated Measures ANOVA":
@@ -1062,7 +1062,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(2)
                 self.result[1].grid()
 
         if kind == "Exact Test":
@@ -1093,7 +1093,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Fisher's Exact Test":
@@ -1111,7 +1111,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "McNemar's Exact Test":
@@ -1129,10 +1129,10 @@ class Test(ttk.Frame):
                 summary, result = model.mcnemar_exact_test(self.master.data, variable_1=variable_1, variable_2=variable_2, pair=pair)
 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(2)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
         if kind == "Chi-Square Test":
@@ -1152,7 +1152,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(2)
                 self.result[1].grid()
 
             if test == "Chi-Square Test (Fit)":
@@ -1181,7 +1181,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "McNemar's Test":
@@ -1199,10 +1199,10 @@ class Test(ttk.Frame):
                 summary, result = model.mcnemar_test(self.master.data, variable_1=variable_1, variable_2=variable_2, pair=pair)
 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(2)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(2)
                 self.result[1].grid()
 
             if test == "Mantel-Haenszel Test":
@@ -1220,10 +1220,10 @@ class Test(ttk.Frame):
                 summary, result = model.mantel_haenszel_test(self.master.data, variable_1=variable_1, variable_2=variable_2, stratum=stratum)
 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(13)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
         if kind == "Linear Regression":
@@ -1240,10 +1240,10 @@ class Test(ttk.Frame):
                 summary, result = model.correlation(self.master.data, x=x, y=y)
 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(1)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Correlation Matrix":
@@ -1254,7 +1254,7 @@ class Test(ttk.Frame):
                 
                 result = model.correlation_matrix(self.master.data, variable=variable)
                 self.result[0].data = result
-                self.result[0].set(20)
+                self.result[0].set(19)
                 self.result[0].grid()
 
             if test == "Simple Linear Regression":
@@ -1269,10 +1269,10 @@ class Test(ttk.Frame):
                 summary, result = model.simple_linear_regression(self.master.data, x=x, y=y)
 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(2)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Multiple Linear Regression":
@@ -1291,7 +1291,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
         if kind == "Logistic Regression":
@@ -1317,10 +1317,10 @@ class Test(ttk.Frame):
                 summary, result = model.simple_logistic_regression(self.master.data, x=x, y=y, target=target)
 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(2)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Multiple Logistic Regression":
@@ -1348,7 +1348,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Ordered Logistic Regression":
@@ -1380,7 +1380,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Multinomial Logistic Regression":
@@ -1405,10 +1405,10 @@ class Test(ttk.Frame):
                 summary, result = model.multinomial_logistic_regression(self.master.data, x_nominal=x_nomianl, x_categorical=x_categorical, y=y, baseline=baseline)
 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(11)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
         if kind == "Nonparametric":
@@ -1427,10 +1427,10 @@ class Test(ttk.Frame):
                 summary, result = model.median_test(self.master.data, variable=variable, expect=expect)
                 
                 self.result[0].data = summary
-                self.result[0].set(3)
+                self.result[0].set(1)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(2)
                 self.result[1].grid()
 
             if test == "Sign Test":
@@ -1458,10 +1458,10 @@ class Test(ttk.Frame):
                 summary, result = model.sign_test(self.master.data, variable=variable, between=between, group=group, pair=pair)
                 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(2)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(2)
                 self.result[1].grid()
 
             if test == "Wilcoxon Signed-Rank Test":
@@ -1489,10 +1489,10 @@ class Test(ttk.Frame):
                 summary, result = model.wilcoxon_signed_rank_test(self.master.data, variable=variable, between=between, group=group, pair=pair)
                 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(2)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(2)
                 self.result[1].grid()
 
             if test == "Wilcoxon Rank-Sum Test":
@@ -1516,10 +1516,10 @@ class Test(ttk.Frame):
                 summary, result = model.wilcoxon_rank_sum_test(self.master.data, variable=variable, between=between, group=group)
                 
                 self.result[0].data = summary
-                self.result[0].set(3)
+                self.result[0].set(2)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(2)
                 self.result[1].grid()
         
             if test == "Kruskal-Wallis Test":
@@ -1537,7 +1537,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Friedman Test":
@@ -1558,7 +1558,7 @@ class Test(ttk.Frame):
                 self.result[0].set(10)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
             if test == "Spearman's Rank Correlation":
@@ -1573,10 +1573,10 @@ class Test(ttk.Frame):
                 summary, result = model.spearman_rank_correlation(self.master.data, x=x, y=y)
 
                 self.result[0].data = summary
-                self.result[0].set(10)
+                self.result[0].set(1)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(3)
+                self.result[1].set(1)
                 self.result[1].grid()
 
         if kind == "Others":
@@ -1614,7 +1614,7 @@ class Test(ttk.Frame):
                 self.result[0].set(2)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(10)
+                self.result[1].set(6)
                 self.result[1].grid()
 
             if test == "Epidemiologic Study":
@@ -1650,7 +1650,7 @@ class Test(ttk.Frame):
                 self.result[0].set(2)
                 self.result[0].grid()
                 self.result[1].data = result
-                self.result[1].set(10)
+                self.result[1].set(4)
                 self.result[1].grid()
 
             if test == "Factor Analysis":
@@ -1715,7 +1715,7 @@ class Test(ttk.Frame):
                 self.result[1].set(5)
                 self.result[1].grid()
                 self.result[2].data = transformation
-                self.result[2].set(2)
+                self.result[2].set(1)
                 self.result[2].grid()
 
             if test == "Linear Discriminant Analysis":
@@ -1742,13 +1742,13 @@ class Test(ttk.Frame):
                 summary, result, prediction = model.linear_discriminant_analysis(self.master.data, x=x, y=y, predict=predict)
                 
                 self.result[0].data = summary
-                self.result[0].set(4)
+                self.result[0].set(5)
                 self.result[0].grid()
                 self.result[1].data = result
                 self.result[1].set(5)
                 self.result[1].grid()
                 self.result[2].data = prediction
-                self.result[2].set(2)
+                self.result[2].set(1)
                 self.result[2].grid()
 
 
