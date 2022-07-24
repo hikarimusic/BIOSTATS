@@ -836,11 +836,14 @@ class Plot(ttk.Frame):
             filetypes=[
                 ("PNG File", "*.png"), 
                 ("JPEG File", "*.jpg"), 
-                ("PDF File", "*.pdf"), 
+                ("PDF File", "*.pdf"),
+                ("SVG File", "*.svg"),
                 ("EPS File", "*.eps"),
+                ("PS File", "*.ps"),
                 ("All Files", "*")
             ],
-            initialfile="Plot"
+            initialfile="Plot",
+            defaultextension="*.*"
         )
         if filename:
             try:
