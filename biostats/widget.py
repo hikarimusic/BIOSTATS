@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import pandas as pd
 from io import StringIO
+import sys
 
 class Spin(ttk.Spinbox):
 
@@ -59,6 +60,7 @@ class Tree(ttk.Frame):
         self.scrollbar_y.config(command=self.treeview.yview)
         self.treeview.config(xscrollcommand=self.scrollbar_x.set)
         self.scrollbar_x.config(command=self.treeview.xview)
+
 
     def show(self, scientific, precision):
 
@@ -143,6 +145,8 @@ class Table(ttk.Frame):
         self.col_num = 3
         self.cell_width = 10
         self.large = False
+
+        self.sys = sys.platform
 
         self.setup()
 
@@ -318,26 +322,30 @@ class Table(ttk.Frame):
     def scroll_on(self):
 
         # Linux 
-        self.entry_canvas.bind_all('<4>', lambda e: self.entry_canvas.yview('scroll', -1, 'units'))
-        self.entry_canvas.bind_all('<5>', lambda e: self.entry_canvas.yview('scroll', 1, 'units'))
-        self.entry_canvas.bind_all('<Shift-4>', lambda e: self.entry_canvas.xview('scroll', -1, 'units'))
-        self.entry_canvas.bind_all('<Shift-5>', lambda e: self.entry_canvas.xview('scroll', 1, 'units'))
+        if self.sys == "linux":
+            self.entry_canvas.bind_all('<4>', lambda e: self.entry_canvas.yview('scroll', -1, 'units'))
+            self.entry_canvas.bind_all('<5>', lambda e: self.entry_canvas.yview('scroll', 1, 'units'))
+            self.entry_canvas.bind_all('<Shift-4>', lambda e: self.entry_canvas.xview('scroll', -1, 'units'))
+            self.entry_canvas.bind_all('<Shift-5>', lambda e: self.entry_canvas.xview('scroll', 1, 'units'))
 
         # Windows
-        self.entry_canvas.bind_all("<MouseWheel>", lambda e: self.entry_canvas.yview('scroll', int(-1*(e.delta/120)), 'units'))
-        self.entry_canvas.bind_all("<Shift-MouseWheel>", lambda e: self.entry_canvas.xview('scroll', int(-1*(e.delta/120)), 'units'))
+        if self.sys == "win32":
+            self.entry_canvas.bind_all("<MouseWheel>", lambda e: self.entry_canvas.yview('scroll', int(-1*(e.delta/120)), 'units'))
+            self.entry_canvas.bind_all("<Shift-MouseWheel>", lambda e: self.entry_canvas.xview('scroll', int(-1*(e.delta/120)), 'units'))
 
     def scroll_off(self):
 
         # Linux 
-        self.entry_canvas.unbind_all('<4>')
-        self.entry_canvas.unbind_all('<5>')
-        self.entry_canvas.unbind_all('<Shift-4>')
-        self.entry_canvas.unbind_all('<Shift-5>')
+        if self.sys == "linux":
+            self.entry_canvas.unbind_all('<4>')
+            self.entry_canvas.unbind_all('<5>')
+            self.entry_canvas.unbind_all('<Shift-4>')
+            self.entry_canvas.unbind_all('<Shift-5>')
 
         # Windows
-        self.entry_canvas.unbind_all("<MouseWheel>")
-        self.entry_canvas.unbind_all("<Shift-MouseWheel>")
+        if self.sys == "win32":
+            self.entry_canvas.unbind_all("<MouseWheel>")
+            self.entry_canvas.unbind_all("<Shift-MouseWheel>")
 
     def group_name(self, j):
 
@@ -360,6 +368,8 @@ class Option(ttk.Frame):
         # Variable
         self.option = {}
         self.now = ""
+
+        self.sys = sys.platform
 
         # Setup
         self.setup()
@@ -671,24 +681,28 @@ class Option(ttk.Frame):
             return
 
         # Linux 
-        self.canvas.bind_all('<4>', lambda e: self.canvas.xview('scroll', -1, 'units'))
-        self.canvas.bind_all('<5>', lambda e: self.canvas.xview('scroll', 1, 'units'))
-        self.canvas.bind_all('<Shift-4>', lambda e: self.canvas.xview('scroll', -1, 'units'))
-        self.canvas.bind_all('<Shift-5>', lambda e: self.canvas.xview('scroll', 1, 'units'))
+        if self.sys == "linux":
+            self.canvas.bind_all('<4>', lambda e: self.canvas.xview('scroll', -1, 'units'))
+            self.canvas.bind_all('<5>', lambda e: self.canvas.xview('scroll', 1, 'units'))
+            self.canvas.bind_all('<Shift-4>', lambda e: self.canvas.xview('scroll', -1, 'units'))
+            self.canvas.bind_all('<Shift-5>', lambda e: self.canvas.xview('scroll', 1, 'units'))
 
         # Windows
-        self.canvas.bind_all("<MouseWheel>", lambda e: self.canvas.xview('scroll', int(-1*(e.delta/120)), 'units'))
-        self.canvas.bind_all("<Shift-MouseWheel>", lambda e: self.canvas.xview('scroll', int(-1*(e.delta/120)), 'units'))
+        if self.sys == "win32":
+            self.canvas.bind_all("<MouseWheel>", lambda e: self.canvas.xview('scroll', int(-1*(e.delta/120)), 'units'))
+            self.canvas.bind_all("<Shift-MouseWheel>", lambda e: self.canvas.xview('scroll', int(-1*(e.delta/120)), 'units'))
 
 
     def scroll_off(self):
 
         # Linux 
-        self.canvas.unbind_all('<4>')
-        self.canvas.unbind_all('<5>')
-        self.canvas.unbind_all('<Shift-4>')
-        self.canvas.unbind_all('<Shift-5>')
+        if self.sys == "linux":
+            self.canvas.unbind_all('<4>')
+            self.canvas.unbind_all('<5>')
+            self.canvas.unbind_all('<Shift-4>')
+            self.canvas.unbind_all('<Shift-5>')
 
         # Windows
-        self.canvas.unbind_all("<MouseWheel>")
-        self.canvas.unbind_all("<Shift-MouseWheel>")
+        if self.sys == "win32":
+            self.canvas.unbind_all("<MouseWheel>")
+            self.canvas.unbind_all("<Shift-MouseWheel>")
