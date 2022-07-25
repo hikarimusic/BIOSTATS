@@ -3,7 +3,7 @@ import PyInstaller.__main__
 PyInstaller.__main__.run([
     'launch.py',
     '--onefile',
-    '--console',
+    '--windowed',
     '--collect-data=biostats',
     '--collect-binaries=biostats',
     '--hidden-import=openpyxl',
