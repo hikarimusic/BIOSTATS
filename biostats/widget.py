@@ -564,8 +564,10 @@ class Option(ttk.Frame):
             self.option["spin_one"] = ttk.Frame(self.frame)
             self.option["spin_one"].grid(row=0, column=0, sticky="nsew")
             self.spin_one_var = tk.IntVar()
-            self.spin_one_item = ttk.Spinbox(self.option["spin_one"])
-            self.spin_one_item.config(textvariable=self.spin_one_var, command=self.spin_one_command)
+            #self.spin_one_item = ttk.Spinbox(self.option["spin_one"])
+            #self.spin_one_item.config(textvariable=self.spin_one_var, command=self.spin_one_command)
+            self.spin_one_item = Spin(self.option["spin_one"], from_=from_, to=to, increment=increment, width=width, textvariable=self.spin_one_var)
+            self.spin_one_item.set_command(self.spin_one_command)
             self.spin_one_item.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
         else:
             self.option["spin_one"].grid()
@@ -578,10 +580,10 @@ class Option(ttk.Frame):
 
     def spin_one_command(self):
 
-        val = self.spin_one_var.get()
-        self.spin_one_item.delete(0, "end")
-        self.spin_one_item.insert(0, val)
-        self.option["spin_one"].focus()
+        #val = self.spin_one_var.get()
+        #self.spin_one_item.delete(0, "end")
+        #self.spin_one_item.insert(0, val)
+        #self.option["spin_one"].focus()
         self.master.change()
 
     def spin_one_get(self):
