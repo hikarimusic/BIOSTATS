@@ -6,7 +6,7 @@ PyInstaller.__main__.run([
     '--windowed',
     '--collect-data=biostats',
     '--collect-binaries=biostats',
-    '--add-binary=assets/cover.png:assets',
+    '--add-binary=assets/cover.png;assets',
     '--hidden-import=openpyxl',
     '--hidden-import=pyreadstat',
     '--hidden-import=tabulate',
