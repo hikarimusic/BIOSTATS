@@ -859,4 +859,5 @@ class Plot(ttk.Frame):
                 messagebox.showerror(
                     title="Error",
                     message="File could not be saved."
-                )  
+                )              
+
