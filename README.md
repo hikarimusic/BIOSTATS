@@ -4,8 +4,6 @@
 [![PyPI Version](https://img.shields.io/pypi/v/biostatistics)](https://pypi.org/project/biostatistics/)
 [![License](https://img.shields.io/pypi/l/biostatistics)](https://github.com/hikarimusic/BIOSTATS/blob/main/LICENSE)
 
-<br>
-
 # __What is BIOSTATS__
 
 * BIOSTATS is an intuitive app for statistical analysis.
@@ -16,19 +14,19 @@
 
 _t-Test_
 
-<img src="assets/t_test.png" width=400>
+<img src="assets/t_test.png" width=500>
 
 _ANOVA_
 
-<img src="assets/anova.png" width=400>
+<img src="assets/anova.png" width=500>
 
 _Chi-Square Test_
 
-<img src="assets/chi_square_test.png" width=400>
+<img src="assets/chi_square_test.png" width=500>
 
 _Regression_
 
-<img src="assets/regression.png" width=400>
+<img src="assets/regression.png" width=500>
 
 <br>
 
@@ -36,19 +34,19 @@ _Regression_
 
 _Histogram_
 
-<img src="assets/histogram.png" width=400>
+<img src="assets/histogram.png" width=500>
 
 _Box Plot_
 
-<img src="assets/box_plot.png" width=400>
+<img src="assets/box_plot.png" width=500>
 
 _Regression Plot_
 
-<img src="assets/regression_plot.png" width=400>
+<img src="assets/regression_plot.png" width=500>
 
 _Multiple Plot_
 
-<img src="assets/multiple_plot.png" width=400>
+<img src="assets/multiple_plot.png" width=500>
 
 <br>
 
@@ -98,4 +96,10 @@ _Windows_ : https://github.com/hikarimusic/BIOSTATS/releases/download/cd6da0c/BI
 
 _Linux_ : https://github.com/hikarimusic/BIOSTATS/releases/download/cd6da0c/BIOSTATS
 
-_(Your computer )_
+_(Your computer may warn you not to run BIOSTATS.exe for security concerns. Please ingore it and run it anyway. There is definitely no virus in BIOSTATS because I don't know how to write a virus :D)_
+
+_(It might take about 10 seconds to open the program. Please give BIOSTATS some time!)_
+
+_(In Linux, you may need to permit execution first by `chmod +x BIOSTATS` before running the program.)_
+
+### __Examples__
