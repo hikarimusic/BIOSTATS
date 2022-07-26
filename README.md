@@ -28,8 +28,6 @@ _Regression_
 
 <img src="assets/regression.png" width=500>
 
-<br>
-
 ### __You can visualize plots with a few clicks__
 
 _Histogram_
@@ -47,8 +45,6 @@ _Regression Plot_
 _Multiple Plot_
 
 <img src="assets/multiple_plot.png" width=500>
-
-<br>
 
 ### __BIOSTATS includes these tests and plots:__
 
