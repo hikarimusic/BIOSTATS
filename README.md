@@ -60,6 +60,8 @@ _Tests_
 |  |  | Multivariate ANOVA |  |  |
 |  |  | Repeated Measures ANOVA |  |  |
 
+---
+
 | Linear Regression | Logistic Regression | Nonparametric | Others |
 |---|---|---|---|
 | Correlation | Simple Logistic Regression | Sign Test | Screening Test |
