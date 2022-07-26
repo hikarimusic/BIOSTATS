@@ -1,171 +1,101 @@
-# BIOSTATS
+<img src="assets/banner.svg"><br>
 
-## Test
 
-### Basic
+[![PyPI Version](https://img.shields.io/pypi/v/biostatistics)](https://pypi.org/project/biostatistics/)
+[![License](https://img.shields.io/pypi/l/biostatistics)](https://github.com/hikarimusic/BIOSTATS/blob/main/LICENSE)
 
-Numeral
+<br>
 
-Numeral (Grouped)
+# __What is BIOSTATS__
 
-Categorical
+* BIOSTATS is an intuitive app for statistical analysis.
+* It is free and open-source.
+* It works on _Windows_ / _Linux_.
 
-Contingency
+### __You can preform tests with a few clicks__
 
-### t-Test
+_t-Test_
 
-One-Sample t-Test
+<img src="assets/t_test.png" width=400>
 
-Two-Sample t-Test
+_ANOVA_
 
-Paired t-Test
+<img src="assets/anova.png" width=400>
 
-Pairwise t-Test
+_Chi-Square Test_
 
-### ANOVA
+<img src="assets/chi_square_test.png" width=400>
 
-One-Way ANOVA
+_Regression_
 
-Two-Way ANOVA
+<img src="assets/regression.png" width=400>
 
-One-Way ANCOVA
+<br>
 
-Two-Way ANCOVA
+### __You can visualize plots with a few clicks__
 
-Multivariate ANOVA
+_Histogram_
 
-Repeated Measures ANOVA
+<img src="assets/histogram.png" width=400>
 
-### Exact Test
+_Box Plot_
 
-Binomial Test
+<img src="assets/box_plot.png" width=400>
 
-Fisher's Exact Test
+_Regression Plot_
 
-McNemar's Exact Test
+<img src="assets/regression_plot.png" width=400>
 
-### Chi-Square Test
+_Multiple Plot_
 
-Chi-Square Test
+<img src="assets/multiple_plot.png" width=400>
 
-Chi-Square Test (Fit)
+<br>
 
-McNemar's Test
+### __BIOSTATS includes these tests and plots:__
 
-Mantel-Haenszel Test
 
-### Linear Regression
+_Tests_
 
-Correlation
+| Basic | t-Test | ANOVA | Exact Test | Chi-Square Test |
+|---|---|---|---|---|
+| Numeral | One-Sample t-Test | One-Way ANOVA | Binomial Test | Chi-Square Test |
+| Numeral (Grouped) | Two-Sample t-Test | Two-Way ANOVA | Fisher's Exact Test | Chi-Square Test (Fit) |
+| Categorical | Paired t-Test | One-Way ANCOVA | McNemar's Exact Test | McNemar's Test |
+| Contingency | Pairwise t-Test | Two-Way ANCOVA |  | Mantel-Haenszel Test |
+|  |  | Multivariate ANOVA |  |  |
+|  |  | Repeated Measures ANOVA |  |  |
 
-Correlation Matrix
+| Linear Regression | Logistic Regression | Nonparametric | Others |
+|---|---|---|---|
+| Correlation | Simple Logistic Regression | Sign Test | Screening Test |
+| Correlation Matrix | Multiple Logistic Regression | Median Test | Epidemiologic Study |
+| Simple Linear Regression | Ordered Logistic Regression | Wilcoxon Signed-Rank Test | Factor Analysis |
+| Multiple Linear Regression | Multinomial Logistic Regression | Wilcoxon Rank-Sum Test | Principal Component Analysis |
+|  |  | Kruskal-Wallis Test | Linear Discriminant Analysis |
+|  |  | Friedman Test |  |
+|  |  | Spearman's Rank Correlation |  |
 
-Simple Linear Regression
+_Plots_
 
-Multiple Linear Regression
+| Distribution | Categorical | Relational | Multiple | Others |
+|---|---|---|---|---|
+| Histogram | Count Plot | Scatter Plot | Ultimate Plot | Heatmap |
+| Density Plot | Strip Plot | Line Plot | Pair Plot | FA Plot |
+| Cumulative Plot | Swarm Plot | Regression Plot | Joint Plot | PCA Plot |
+| 2D Histogram | Box Plot |  |  | LDA Plot |
+| 2D Density Plot | Boxen Plot |  |  |  |
+|  | Violin Plot |  |  |  |
+|  | Bar Plot |  |  |  |
 
-### Logistic Regression
+# __Quick Start__
 
-Simple Logistic Regression
+### __Downloads__
 
-Multiple Logistic Regression
+The application can be download from the links below:
 
-Ordered Logistic Regression
+_Windows_ : https://github.com/hikarimusic/BIOSTATS/releases/download/cd6da0c/BIOSTATS.exe
 
-Multinomial Logistic Regression
+_Linux_ : https://github.com/hikarimusic/BIOSTATS/releases/download/cd6da0c/BIOSTATS
 
-### Nonparametric
-
-Sign Test
-
-Median Test
-
-Wilcoxon Signed-Rank Test
-
-Wilcoxon Rank-Sum Test
-
-Kruskal-Wallis Test
-
-Friedman Test
-
-Spearman's Rank Correlation
-
-### Others
-
-Screening Test
-
-Epidemiologic Study
-
-Factor Analysis
-
-Principal Component Analysis
-
-Linear Discriminant Analysis
-
-
-## Plot
-
-### Distribution
-
-Histogram
-
-Density Plot
-
-Cumulative Plot
-
-2D Histogram 
-
-2D Density Plot
-
-### Categorical
-
-Count Plot
-
-Strip Plot
-
-Swarm Plot
-
-Box Plot
-
-Boxen Plot
-
-Violin Plot
-
-Bar Plot
-
-### Relational
-
-Scatter Plot
-
-Line Plot
-
-Regression Plot
-
-### Multiple 
-
-Ultimate Plot
-
-Pair Plot
-
-Joint Plot
-
-### Others
-
-ROC Curve
-
-PCA Plot
-
-LDA Plot
-
-
-### Reference
-
-McDonald, John H. _Handbook of biological statistics_. Vol. 2. Baltimore, MD: sparky house publishing, 2009.
-
-Mangiafico, S.S. _An R Companion for the Handbook of Biological Statistics_. Version 1.3.2. 2015, rcompanion.org/rcompanion/.
-
-Rosner, Bernard. _Fundamentals of biostatistics_. Cengage learning, 2015.
-
-Zach. _Statology_. 2021, www.statology.org.
-
-UCLA. _Statistical Methods and Data Analytics_. 2021, stats.oarc.ucla.edu.
+_(Your computer )_
