@@ -46,10 +46,7 @@ _Multiple Plot_
 
 <img src="assets/multiple_plot.png" width=500>
 
-### __BIOSTATS includes these tests and plots:__
-
-
-_Tests_
+### __BIOSTATS includes these tests:__
 
 | Basic | t-Test | ANOVA | Exact Test | Chi-Square Test |
 |---|---|---|---|---|
@@ -72,7 +69,7 @@ _Tests_
 |  |  | Friedman Test |  |
 |  |  | Spearman's Rank Correlation |  |
 
-_Plots_
+### __BIOSTATS includes these plots:__
 
 | Distribution | Categorical | Relational | Multiple | Others |
 |---|---|---|---|---|
