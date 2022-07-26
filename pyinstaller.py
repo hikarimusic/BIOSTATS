@@ -6,10 +6,11 @@ PyInstaller.__main__.run([
     '--windowed',
     '--collect-data=biostats',
     '--collect-binaries=biostats',
+    '--add-binary=assets/cover.png:assets',
     '--hidden-import=openpyxl',
     '--hidden-import=pyreadstat',
     '--hidden-import=tabulate',
-    '--icon=assets\icon.ico',
+    '--icon=assets/icon.ico',
     # bug fix
     '--hidden-import=PIL._tkinter_finder', 
     '--hidden-import=pyreadstat._readstat_writer',
