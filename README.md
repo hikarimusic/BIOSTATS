@@ -1,4 +1,4 @@
-<img src="assets/banner.svg"><br>
+<img src="assets/banner2.svg"><br>
 
 
 [![PyPI Version](https://img.shields.io/pypi/v/biostatistics)](https://pypi.org/project/biostatistics/)
