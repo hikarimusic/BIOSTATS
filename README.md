@@ -100,6 +100,58 @@ _(Your computer may warn you not to run BIOSTATS.exe for security concerns. Plea
 
 _(It might take about 10 seconds to open the program. Please give BIOSTATS some time!)_
 
-_(In Linux, you may need to permit execution first by `chmod +x BIOSTATS` before running the program.)_
+_(In Linux, you may need to permit the execution by `chmod +x BIOSTATS` before running the program.)_
 
 ### __Examples__
+
+You can open examples from _Help > Examples_. Sample datasets will be imported, and all the options will be automatically set.
+
+<img src="assets/examples.png" width=500>
+
+### __Install Package__
+
+For programmers, you can install the package from pip:
+
+```sh
+pip install biostatistics
+```
+
+The main window can be called directly:
+
+```sh
+biostats
+```
+
+You can also import _biostats_ and use the functions:
+
+```sh
+:~$ python3
+>>> import biostats as bs
+>>> data = bs.dataset("one_way_anova.csv")
+>>> summary, result = bs.one_way_anova(data=data, variable="Length", between="Location")
+>>> summary
+     Location  Count      Mean  Std. Deviation  95% CI: Lower  95% CI: Upper
+1   Tillamook   10.0  0.080200        0.011963       0.071642       0.088758
+2     Newport    8.0  0.074800        0.008597       0.067613       0.081987
+3  Petersburg    7.0  0.103443        0.016209       0.088452       0.118434
+4     Magadan    8.0  0.078012        0.012945       0.067190       0.088835
+5   Tvarminne    6.0  0.095700        0.012962       0.082098       0.109302
+>>> result
+          D.F.  Sum Square  Mean Square  F Statistic   p-value     
+Location   4.0    0.004520     0.001130     7.121019  0.000281  ***
+Residual  34.0    0.005395     0.000159          NaN       NaN  NaN
+```
+
+# __More__
+
+More information can be found on the official website.
+
+If you have any suggestion or find any bug, please contach me. We need your help!
+
+If you use BIOSTATS in your research, it's a good idea to cite the paper of BIOSTATS.
+
+* Website: https://hikarimusic.github.io/BIOSTATS
+
+* Contact me: hikarimusic.tm@gmail.com
+
+* Citation: _working_
