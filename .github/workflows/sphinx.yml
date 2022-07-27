@@ -11,7 +11,7 @@ jobs:
           pip install pydata-sphinx-theme
       - name: Sphinx build
         run: |
-          make html
+          sphinx-build -b html docs docs/_build/html
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
