@@ -1,0 +1,843 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Test &#8212; BIOSTATS 0.0.4 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="biostats.numeral" href="api/biostats.numeral.html" />
+    <link rel="prev" title="API Reference" href="index.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    <img src="../_static/banner_tall.svg" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/banner_tall.svg" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../guide/index.html">
+  <strong>
+   User Guide
+  </strong>
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  <strong>
+   API Reference
+  </strong>
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../download/index.html">
+  <strong>
+   Download
+  </strong>
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/hikarimusic/BIOSTATS" rel="noopener" target="_blank" title="GitHub"><span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="current reference internal" href="#">
+   <strong>
+    Test
+   </strong>
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.numeral.html">
+     biostats.numeral
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.numeral_grouped.html">
+     biostats.numeral_grouped
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.categorical.html">
+     biostats.categorical
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.contingency.html">
+     biostats.contingency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.one_sample_t_test.html">
+     biostats.one_sample_t_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.two_sample_t_test.html">
+     biostats.two_sample_t_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.paired_t_test.html">
+     biostats.paired_t_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.pairwise_t_test.html">
+     biostats.pairwise_t_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.one_way_anova.html">
+     biostats.one_way_anova
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.two_way_anova.html">
+     biostats.two_way_anova
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.one_way_ancova.html">
+     biostats.one_way_ancova
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.two_way_ancova.html">
+     biostats.two_way_ancova
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.multivariate_anova.html">
+     biostats.multivariate_anova
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.repeated_measures_anova.html">
+     biostats.repeated_measures_anova
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.binomial_test.html">
+     biostats.binomial_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.fisher_exact_test.html">
+     biostats.fisher_exact_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.mcnemar_exact_test.html">
+     biostats.mcnemar_exact_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.chi_square_test.html">
+     biostats.chi_square_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.chi_square_test_fit.html">
+     biostats.chi_square_test_fit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.mcnemar_test.html">
+     biostats.mcnemar_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.mantel_haenszel_test.html">
+     biostats.mantel_haenszel_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.correlation.html">
+     biostats.correlation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.correlation_matrix.html">
+     biostats.correlation_matrix
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.simple_linear_regression.html">
+     biostats.simple_linear_regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.multiple_linear_regression.html">
+     biostats.multiple_linear_regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.simple_logistic_regression.html">
+     biostats.simple_logistic_regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.multiple_logistic_regression.html">
+     biostats.multiple_logistic_regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.ordered_logistic_regression.html">
+     biostats.ordered_logistic_regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.multinomial_logistic_regression.html">
+     biostats.multinomial_logistic_regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.median_test.html">
+     biostats.median_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.sign_test.html">
+     biostats.sign_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.wilcoxon_signed_rank_test.html">
+     biostats.wilcoxon_signed_rank_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.wilcoxon_rank_sum_test.html">
+     biostats.wilcoxon_rank_sum_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.kruskal_wallis_test.html">
+     biostats.kruskal_wallis_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.friedman_test.html">
+     biostats.friedman_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.spearman_rank_correlation.html">
+     biostats.spearman_rank_correlation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.screening_test.html">
+     biostats.screening_test
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.epidemiologic_study.html">
+     biostats.epidemiologic_study
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.factor_analysis.html">
+     biostats.factor_analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.principal_component_analysis.html">
+     biostats.principal_component_analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.linear_discriminant_analysis.html">
+     biostats.linear_discriminant_analysis
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="plot.html">
+   <strong>
+    Plot
+   </strong>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.histogram.html">
+     biostats.histogram
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.density_plot.html">
+     biostats.density_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.cumulative_plot.html">
+     biostats.cumulative_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.histogram_2D.html">
+     biostats.histogram_2D
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.density_plot_2D.html">
+     biostats.density_plot_2D
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.count_plot.html">
+     biostats.count_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.strip_plot.html">
+     biostats.strip_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.swarm_plot.html">
+     biostats.swarm_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.box_plot.html">
+     biostats.box_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.boxen_plot.html">
+     biostats.boxen_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.violin_plot.html">
+     biostats.violin_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.bar_plot.html">
+     biostats.bar_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.scatter_plot.html">
+     biostats.scatter_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.line_plot.html">
+     biostats.line_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.regression_plot.html">
+     biostats.regression_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.ultimate_plot.html">
+     biostats.ultimate_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.pair_plot.html">
+     biostats.pair_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.joint_plot.html">
+     biostats.joint_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.heatmap.html">
+     biostats.heatmap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.fa_plot.html">
+     biostats.fa_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.pca_plot.html">
+     biostats.pca_plot
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.lda_plot.html">
+     biostats.lda_plot
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="other.html">
+   <strong>
+    Other
+   </strong>
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/biostats.dataset.html">
+     biostats.dataset
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic">
+   Basic
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#t-test">
+   t-Test
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#anova">
+   ANOVA
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exact-test">
+   Exact Test
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chi-square-test">
+   Chi-Square Test
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression">
+   Linear Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#logistic-regression">
+   Logistic Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#nonparametric">
+   Nonparametric
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#others">
+   Others
+  </a>
+ </li>
+</ul>
+
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="test">
+<h1><strong>Test</strong><a class="headerlink" href="#test" title="Permalink to this heading">#</a></h1>
+<section id="basic">
+<h2>Basic<a class="headerlink" href="#basic" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.numeral.html#biostats.numeral" title="biostats.numeral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeral</span></code></a>(data, variable)</p></td>
+<td><p>Return a list of random ingredients as strings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.numeral_grouped.html#biostats.numeral_grouped" title="biostats.numeral_grouped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeral_grouped</span></code></a>(data, variable, group)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.categorical.html#biostats.categorical" title="biostats.categorical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">categorical</span></code></a>(data, variable)</p></td>
+<td><p>Return a list of random ingredients as strings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.contingency.html#biostats.contingency" title="biostats.contingency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contingency</span></code></a>(data, variable_1, variable_2[, kind])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="t-test">
+<h2>t-Test<a class="headerlink" href="#t-test" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.one_sample_t_test.html#biostats.one_sample_t_test" title="biostats.one_sample_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_sample_t_test</span></code></a>(data, variable, expect[, kind])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.two_sample_t_test.html#biostats.two_sample_t_test" title="biostats.two_sample_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_sample_t_test</span></code></a>(data, variable, between, group)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.paired_t_test.html#biostats.paired_t_test" title="biostats.paired_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">paired_t_test</span></code></a>(data, variable, between, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.pairwise_t_test.html#biostats.pairwise_t_test" title="biostats.pairwise_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_t_test</span></code></a>(data, variable, between)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="anova">
+<h2>ANOVA<a class="headerlink" href="#anova" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.one_way_anova.html#biostats.one_way_anova" title="biostats.one_way_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_way_anova</span></code></a>(data, variable, between)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.two_way_anova.html#biostats.two_way_anova" title="biostats.two_way_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_way_anova</span></code></a>(data, variable, between_1, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.one_way_ancova.html#biostats.one_way_ancova" title="biostats.one_way_ancova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_way_ancova</span></code></a>(data, variable, between, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.two_way_ancova.html#biostats.two_way_ancova" title="biostats.two_way_ancova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_way_ancova</span></code></a>(data, variable, between_1, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.multivariate_anova.html#biostats.multivariate_anova" title="biostats.multivariate_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multivariate_anova</span></code></a>(data, variable, between)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.repeated_measures_anova.html#biostats.repeated_measures_anova" title="biostats.repeated_measures_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeated_measures_anova</span></code></a>(data, variable, ...)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exact-test">
+<h2>Exact Test<a class="headerlink" href="#exact-test" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.binomial_test.html#biostats.binomial_test" title="biostats.binomial_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">binomial_test</span></code></a>(data, variable, expect)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.fisher_exact_test.html#biostats.fisher_exact_test" title="biostats.fisher_exact_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fisher_exact_test</span></code></a>(data, variable_1, variable_2)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.mcnemar_exact_test.html#biostats.mcnemar_exact_test" title="biostats.mcnemar_exact_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mcnemar_exact_test</span></code></a>(data, variable_1, ...)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="chi-square-test">
+<h2>Chi-Square Test<a class="headerlink" href="#chi-square-test" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.chi_square_test.html#biostats.chi_square_test" title="biostats.chi_square_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chi_square_test</span></code></a>(data, variable_1, variable_2)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.chi_square_test_fit.html#biostats.chi_square_test_fit" title="biostats.chi_square_test_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chi_square_test_fit</span></code></a>(data, variable, expect)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.mcnemar_test.html#biostats.mcnemar_test" title="biostats.mcnemar_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mcnemar_test</span></code></a>(data, variable_1, variable_2, pair)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.mantel_haenszel_test.html#biostats.mantel_haenszel_test" title="biostats.mantel_haenszel_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mantel_haenszel_test</span></code></a>(data, variable_1, ...)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linear-regression">
+<h2>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.correlation.html#biostats.correlation" title="biostats.correlation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation</span></code></a>(data, x, y)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.correlation_matrix.html#biostats.correlation_matrix" title="biostats.correlation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation_matrix</span></code></a>(data, variable)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.simple_linear_regression.html#biostats.simple_linear_regression" title="biostats.simple_linear_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_linear_regression</span></code></a>(data, x, y)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.multiple_linear_regression.html#biostats.multiple_linear_regression" title="biostats.multiple_linear_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_linear_regression</span></code></a>(data, x_nominal, ...)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="logistic-regression">
+<h2>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.simple_logistic_regression.html#biostats.simple_logistic_regression" title="biostats.simple_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_logistic_regression</span></code></a>(data, x, y, target)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.multiple_logistic_regression.html#biostats.multiple_logistic_regression" title="biostats.multiple_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_logistic_regression</span></code></a>(data, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.ordered_logistic_regression.html#biostats.ordered_logistic_regression" title="biostats.ordered_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ordered_logistic_regression</span></code></a>(data, x_nominal, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.multinomial_logistic_regression.html#biostats.multinomial_logistic_regression" title="biostats.multinomial_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multinomial_logistic_regression</span></code></a>(data, ...)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nonparametric">
+<h2>Nonparametric<a class="headerlink" href="#nonparametric" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.median_test.html#biostats.median_test" title="biostats.median_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">median_test</span></code></a>(data, variable, expect)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.sign_test.html#biostats.sign_test" title="biostats.sign_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sign_test</span></code></a>(data, variable, between, group, pair)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.wilcoxon_signed_rank_test.html#biostats.wilcoxon_signed_rank_test" title="biostats.wilcoxon_signed_rank_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wilcoxon_signed_rank_test</span></code></a>(data, variable, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.wilcoxon_rank_sum_test.html#biostats.wilcoxon_rank_sum_test" title="biostats.wilcoxon_rank_sum_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wilcoxon_rank_sum_test</span></code></a>(data, variable, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.kruskal_wallis_test.html#biostats.kruskal_wallis_test" title="biostats.kruskal_wallis_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kruskal_wallis_test</span></code></a>(data, variable, between)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.friedman_test.html#biostats.friedman_test" title="biostats.friedman_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">friedman_test</span></code></a>(data, variable, between, subject)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.spearman_rank_correlation.html#biostats.spearman_rank_correlation" title="biostats.spearman_rank_correlation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spearman_rank_correlation</span></code></a>(data, x, y)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="others">
+<h2>Others<a class="headerlink" href="#others" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.screening_test.html#biostats.screening_test" title="biostats.screening_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">screening_test</span></code></a>(data, disease, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.epidemiologic_study.html#biostats.epidemiologic_study" title="biostats.epidemiologic_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epidemiologic_study</span></code></a>(data, disease, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.factor_analysis.html#biostats.factor_analysis" title="biostats.factor_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">factor_analysis</span></code></a>(data, x, factors, analyze)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/biostats.principal_component_analysis.html#biostats.principal_component_analysis" title="biostats.principal_component_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">principal_component_analysis</span></code></a>(data, x[, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.linear_discriminant_analysis.html#biostats.linear_discriminant_analysis" title="biostats.linear_discriminant_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_discriminant_analysis</span></code></a>(data, x, y[, ...])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="index.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title"><strong>API Reference</strong></p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="api/biostats.numeral.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">biostats.numeral</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, Yeu-Guang Tung.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

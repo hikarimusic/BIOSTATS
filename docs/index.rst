@@ -198,15 +198,17 @@ You can also import *biostats* and use the functions:
    Location   4.0    0.004520     0.001130     7.121019  0.000281  ***
    Residual  34.0    0.005395     0.000159          NaN       NaN  NaN
 
-**More**
-========
+**More Info**
+=============
 
 For more information, check out these pages:
 
 .. toctree::
-
-   guide
-   api
+   :maxdepth: 2
+   
+   guide/index
+   reference/index
+   download/index
 
 .. note::
 

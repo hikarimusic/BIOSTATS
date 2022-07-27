@@ -19,6 +19,16 @@ def process(data):
     data.index = data.index.map(str)
 
 def numeral(data, variable):
+    """
+    Return a list of random ingredients as strings.
+
+    :param kind: Optional "kind" of ingredients.
+    :type kind: list[str] or None
+    :raise lumache.InvalidKindError: If the kind is invalid.
+    :return: The ingredients list.
+    :rtype: list[str]
+
+    """
 
     process(data)
     data = data[list(set(variable))].dropna(how='all')
@@ -120,7 +130,17 @@ def numeral_grouped(data, variable, group):
 
 
 def categorical(data, variable):
+    """
+    Return a list of random ingredients as strings.
 
+    :param kind: Optional "kind" of ingredients.
+    :type kind: list[str] or None
+    :raise lumache.InvalidKindError: If the kind is invalid.
+    :return: The ingredients list.
+    :rtype: list[str]
+
+    """
+    
     process(data)
     data = data[[variable]].dropna()
 
@@ -140,12 +160,6 @@ def categorical(data, variable):
         (ci_1, ci_2) = CC(lambda: proportion_confint(x, n, method="wilson"))
         CI_low.append(ci_1)
         CI_high.append(ci_2)
-        '''
-        p = x / n
-        ser = math.sqrt(p * (1 - p) / n)
-        CI_low.append(CC(lambda: p + st.norm.ppf(0.025) * ser))
-        CI_high.append(CC(lambda: p + st.norm.ppf(0.975) * ser))        
-        '''
 
     result = pd.DataFrame(
         {

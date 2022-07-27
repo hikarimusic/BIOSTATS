@@ -1,4 +1,0 @@
-User Guide
-==========
-
-test3
