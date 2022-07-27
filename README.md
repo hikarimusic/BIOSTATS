@@ -145,7 +145,7 @@ If you have any suggestion or find any bug, please contach me. We need your help
 
 If you use BIOSTATS in your research, it's a good idea to cite the paper of BIOSTATS.
 
-* Website: https://hikarimusic.github.io/BIOSTATS
+* Website: https://hikarimusic.github.io/BIOSTATS/
 
 * Contact me: hikarimusic.tm@gmail.com
 
