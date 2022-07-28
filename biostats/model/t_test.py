@@ -34,6 +34,68 @@ def add_p(data):
 
 
 def one_sample_t_test(data, variable, expect, kind="two-side"):
+    '''
+    Test whether the mean value of a variable is defferent from the expected value.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must Contain at least one numeric column. 
+    variable : :py:class:`str`
+        The name of *variable* column. The mean of values in *variable* column is our target.
+    expect : :py:class:`float` or :py:class:`int`
+        The expected value.
+    kind : :py:class:`str`
+        * "two-side" : Test whether the mean value is defferent from the expected value.
+        * "greater" : Test whether the mean value is greater than the expected value.
+        * "less" : Test whether the mean value is less than the expected value.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The estimation, standard error, and confidence interval of the mean value.
+    result : :py:class:`pandas.DataFrame`
+        The degree of freedom, t statistic, and p-value of the test.
+
+    See also
+    --------
+    two_sample_t_test : Compare the mean values between two groups.
+    paired_t_test : Compare the mean values between two paired groups.
+    median_test : The non-parametric alternative to one-sample t-test.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("one_sample_t_test.csv")
+    >>> data
+       Angle
+    0  120.6
+    1  116.4
+    2  117.2
+    3  118.1
+    4  114.1
+    5  116.9
+    6  113.3
+    7  121.1
+    8  116.9
+    9  117.0
+
+    We want to test whether the mean value of *Angle* is different from 120.
+
+    >>> summary, result = bs.one_sample_t_test(data=data, variable="Angle", expect=120, kind="two-side")
+    >>> summary
+           Estimate  Std. Error  95% CI: Lower  95% CI: Upper
+    Angle    117.16    0.769155      115.42005      118.89995
+
+    The mean value of *Angle* and its 95% confidence interval are given.
+
+    >>> result
+           D.F.  t Statistic   p-value    
+    Model   9.0    -3.692362  0.004979  **
+
+    The p-value < 0.01, so the mean value of *Angle* is significantly different from the expected value.
+
+    '''
 
     process(data)
     data = data[[variable]].dropna()

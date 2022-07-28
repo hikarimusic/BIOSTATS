@@ -82,12 +82,12 @@ def simple_logistic_regression(data, x, y, target):
     return summary, result
 
 
-def multiple_logistic_regression(data, x_nominal, x_categorical, y, target):
+def multiple_logistic_regression(data, x_numeric, x_categorical, y, target):
     
     process(data)
-    data = data[list(set(x_nominal+x_categorical+[y]))].dropna()
+    data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
 
-    for var in x_nominal:
+    for var in x_numeric:
         if str(data[var].dtypes) != "float64":
             raise Warning("The column '{}' must be numeric".format(var))
     for var in x_categorical:
@@ -96,12 +96,12 @@ def multiple_logistic_regression(data, x_nominal, x_categorical, y, target):
     if data[y].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
 
-    data2 = data[x_nominal+x_categorical].copy()
+    data2 = data[x_numeric+x_categorical].copy()
     data2[y] = 0
     data2.loc[data[y]==target, y] = 1
 
     formula = "Q('%s') ~ " % y
-    for var in x_nominal:
+    for var in x_numeric:
         formula += "Q('%s') + " % var
     for var in x_categorical:
         formula += "C(Q('%s')) + " % var
@@ -121,7 +121,7 @@ def multiple_logistic_regression(data, x_nominal, x_categorical, y, target):
     index_change = {}
     for index in summary.index:
         changed = index
-        for var in x_nominal:
+        for var in x_numeric:
             changed = changed.replace("Q('%s')" % var, var)
         for var in x_categorical:
             changed = changed.replace("C(Q('%s'))" % var, var)
@@ -146,12 +146,12 @@ def multiple_logistic_regression(data, x_nominal, x_categorical, y, target):
     return summary, result
 
 
-def ordered_logistic_regression(data, x_nominal, x_categorical, y, order):
+def ordered_logistic_regression(data, x_numeric, x_categorical, y, order):
     
     process(data)
-    data = data[list(set(x_nominal+x_categorical+[y]))].dropna()
+    data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
 
-    for var in x_nominal:
+    for var in x_numeric:
         if str(data[var].dtypes) != "float64":
             raise Warning("The column '{}' must be numeric".format(var))
     for var in x_categorical:
@@ -163,7 +163,7 @@ def ordered_logistic_regression(data, x_nominal, x_categorical, y, order):
     data[y] = data[y].astype(pd.CategoricalDtype(categories=[x[0] for x in sorted(order.items(), key=lambda item: item[1])], ordered=True))
 
     formula = "%s ~ " % y
-    for var in x_nominal:
+    for var in x_numeric:
         formula += "%s + " % var
     for var in x_categorical:
         formula += "C(%s) + " % var
@@ -207,12 +207,12 @@ def ordered_logistic_regression(data, x_nominal, x_categorical, y, order):
     return summary, result
 
 
-def multinomial_logistic_regression(data, x_nominal, x_categorical, y, baseline):
+def multinomial_logistic_regression(data, x_numeric, x_categorical, y, baseline):
     
     process(data)
-    data = data[list(set(x_nominal+x_categorical+[y]))].dropna()
+    data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
 
-    for var in x_nominal:
+    for var in x_numeric:
         if str(data[var].dtypes) != "float64":
             raise Warning("The column '{}' must be numeric".format(var))
     for var in x_categorical:
@@ -224,13 +224,13 @@ def multinomial_logistic_regression(data, x_nominal, x_categorical, y, baseline)
     group = data[y].dropna().unique().tolist()
     group.remove(baseline)
 
-    data2 = data[x_nominal+x_categorical].copy()
+    data2 = data[x_numeric+x_categorical].copy()
     data2[y] = 0
     for i, cat in enumerate(group):
         data2.loc[data[y]==cat, y] = i+1
 
     formula = "%s ~ " % y
-    for var in x_nominal:
+    for var in x_numeric:
         formula += "%s + " % var
     for var in x_categorical:
         formula += "C(%s) + " % var

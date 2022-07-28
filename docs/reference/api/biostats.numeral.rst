@@ -1,6 +1,6 @@
-﻿biostats.numeral
+﻿biostats.numeric
 ================
 
 .. currentmodule:: biostats
 
-.. autofunction:: numeral
+.. autofunction:: numeric

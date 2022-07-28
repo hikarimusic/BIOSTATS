@@ -28,7 +28,22 @@ def add_p(data):
             temp[i] = "***"
     data[""] = temp
 
-def chi_square_test(data, variable_1, variable_2):
+def chi_square_test(data, variable_1, variable_2, kind="count"):
+    '''
+    Test whether there is an association between two categorical variables.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must Contain at least two categorical columns.
+    variable_1 : :py:class:`str`
+        The name of the first categorical column.
+    variable_2 : :py:class:`str`
+        The name of the second categorical column. Switching the two variables will not change the result of chi-square test.
+    kind : :py:class:`str`
+        * "count" : 
+
+    '''
     
     process(data)
     data = data[list({variable_1, variable_2})].dropna()
@@ -43,6 +58,24 @@ def chi_square_test(data, variable_1, variable_2):
     summary.columns.name = None
 
     obs = summary.values.tolist()
+
+    if kind == "vertical":
+        col_sum = CC(lambda: summary.sum(axis=0))
+        for i in range(summary.shape[0]):
+            for j in range(summary.shape[1]):
+                summary.iat[i,j] = CC(lambda: summary.iat[i,j] / col_sum[j])
+
+    if kind == "horizontal":
+        col_sum = CC(lambda: summary.sum(axis=1))
+        for i in range(summary.shape[0]):
+            for j in range(summary.shape[1]):
+                summary.iat[i,j] = CC(lambda: summary.iat[i,j] / col_sum[i])
+
+    if kind == "overall":
+        _sum = CC(lambda: summary.to_numpy().sum())
+        for i in range(summary.shape[0]):
+            for j in range(summary.shape[1]):
+                summary.iat[i,j] = CC(lambda: summary.iat[i,j] / _sum)
 
     rr = CC(lambda: len(obs))
     cc = CC(lambda: len(obs[0]))

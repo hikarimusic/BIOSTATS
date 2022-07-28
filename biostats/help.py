@@ -14,7 +14,7 @@ class Example(ttk.Menubutton):
         # Variable
         self.test_type = ["Basic", "t-Test", "ANOVA", "Exact Test", "Chi-Square Test", "Linear Regression", "Logistic Regression", "Nonparametric", "Others"]
         self.test_list = {
-            "Basic"               : ["Numeral", "Numeral (Grouped)", "Categorical", "Contingency"] ,
+            "Basic"               : ["Numeric", "Numeric (Grouped)", "Categorical", "Contingency"] ,
             "t-Test"              : ["One-Sample t-Test", "Two-Sample t-Test", "Paired t-Test", "Pairwise t-Test"] ,
             "ANOVA"               : ["One-Way ANOVA", "Two-Way ANOVA", "One-Way ANCOVA", "Two-Way ANCOVA", "Multivariate ANOVA", "Repeated Measures ANOVA"] ,
             "Exact Test"          : ["Binomial Test", "Fisher's Exact Test", "McNemar's Exact Test"] ,
@@ -62,24 +62,24 @@ class Example(ttk.Menubutton):
 
         which = self.which.get()
 
-        if which == "Numeral":
-            self.master.data_win.data_process(dataset("numeral.csv"))
+        if which == "Numeric":
+            self.master.data_win.data_process(dataset("numeric.csv"))
             self.master.window.set(1)
             self.master.switch()
             self.master.test_win.test_1.set("Basic")
-            self.master.test_win.test_2["Basic"].set("Numeral")
+            self.master.test_win.test_2["Basic"].set("Numeric")
             self.master.test_win.test_change()
             self.master.test_win.option[0].check_more_var[0].set(1)
             self.master.test_win.option[0].check_more_var[1].set(1)
             self.master.test_win.option[0].check_more_var[2].set(1)
             self.master.test_win.change()
         
-        if which == "Numeral (Grouped)":
-            self.master.data_win.data_process(dataset("numeral_grouped.csv"))
+        if which == "Numeric (Grouped)":
+            self.master.data_win.data_process(dataset("numeric_grouped.csv"))
             self.master.window.set(1)
             self.master.switch()
             self.master.test_win.test_1.set("Basic")
-            self.master.test_win.test_2["Basic"].set("Numeral (Grouped)")
+            self.master.test_win.test_2["Basic"].set("Numeric (Grouped)")
             self.master.test_win.test_change()
             self.master.test_win.option[0].radio_one_var.set(0)
             self.master.test_win.change()
@@ -308,6 +308,8 @@ class Example(ttk.Menubutton):
             self.master.test_win.option[0].radio_one_var.set(0)
             self.master.test_win.change()
             self.master.test_win.option[1].radio_one_var.set(1)
+            self.master.test_win.change()
+            self.master.test_win.option[2].radio_one_var.set(2)
             self.master.test_win.change()
 
         if which == "Chi-Square Test (Fit)":

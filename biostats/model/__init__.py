@@ -1,4 +1,4 @@
-from biostats.model.basic import numeral, numeral_grouped, categorical,contingency
+from biostats.model.basic import numeric, numeric_grouped, categorical,contingency
 from biostats.model.t_test import one_sample_t_test, two_sample_t_test, paired_t_test, pairwise_t_test
 from biostats.model.anova import one_way_anova, two_way_anova, one_way_ancova, two_way_ancova, multivariate_anova, repeated_measures_anova
 from biostats.model.exact_test import binomial_test, fisher_exact_test, mcnemar_exact_test

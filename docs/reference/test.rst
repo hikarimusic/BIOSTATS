@@ -9,8 +9,8 @@ Basic
 .. autosummary::
     :toctree: api/
 
-    numeral
-    numeral_grouped
+    numeric
+    numeric_grouped
     categorical
     contingency
 

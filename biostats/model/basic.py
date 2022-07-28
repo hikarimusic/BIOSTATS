@@ -18,17 +18,7 @@ def process(data):
     data.columns = data.columns.map(str)
     data.index = data.index.map(str)
 
-def numeral(data, variable):
-    """
-    Return a list of random ingredients as strings.
-
-    :param kind: Optional "kind" of ingredients.
-    :type kind: list[str] or None
-    :raise lumache.InvalidKindError: If the kind is invalid.
-    :return: The ingredients list.
-    :rtype: list[str]
-
-    """
+def numeric(data, variable):
 
     process(data)
     data = data[list(set(variable))].dropna(how='all')
@@ -78,7 +68,7 @@ def numeral(data, variable):
     return result
 
 
-def numeral_grouped(data, variable, group):
+def numeric_grouped(data, variable, group):
 
     process(data)
     data = data[list({variable, group})].dropna()
@@ -130,16 +120,6 @@ def numeral_grouped(data, variable, group):
 
 
 def categorical(data, variable):
-    """
-    Return a list of random ingredients as strings.
-
-    :param kind: Optional "kind" of ingredients.
-    :type kind: list[str] or None
-    :raise lumache.InvalidKindError: If the kind is invalid.
-    :return: The ingredients list.
-    :rtype: list[str]
-
-    """
     
     process(data)
     data = data[[variable]].dropna()
@@ -175,7 +155,7 @@ def categorical(data, variable):
     return result
 
 
-def contingency(data, variable_1, variable_2, kind="Count"):
+def contingency(data, variable_1, variable_2, kind="count"):
 
     process(data)
     data = data[list({variable_1, variable_2})].dropna()
@@ -189,19 +169,19 @@ def contingency(data, variable_1, variable_2, kind="Count"):
     result.index.name = None
     result.columns.name = None
 
-    if kind == "Vertical":
+    if kind == "vertical":
         col_sum = CC(lambda: result.sum(axis=0))
         for i in range(result.shape[0]):
             for j in range(result.shape[1]):
                 result.iat[i,j] = CC(lambda: result.iat[i,j] / col_sum[j])
 
-    if kind == "Horizontal":
+    if kind == "horizontal":
         col_sum = CC(lambda: result.sum(axis=1))
         for i in range(result.shape[0]):
             for j in range(result.shape[1]):
                 result.iat[i,j] = CC(lambda: result.iat[i,j] / col_sum[i])
 
-    if kind == "Overall":
+    if kind == "overall":
         _sum = CC(lambda: result.to_numpy().sum())
         for i in range(result.shape[0]):
             for j in range(result.shape[1]):

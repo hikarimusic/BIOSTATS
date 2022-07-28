@@ -3,6 +3,7 @@
 
 [![PyPI Version](https://img.shields.io/pypi/v/biostatistics)](https://pypi.org/project/biostatistics/)
 [![License](https://img.shields.io/pypi/l/biostatistics)](https://github.com/hikarimusic/BIOSTATS/blob/main/LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/hikarimusic/BIOSTATS/total.svg)](https://github.com/hikarimusic/BIOSTATS/releases)
 
 # __What is BIOSTATS__
 
@@ -50,8 +51,8 @@ _Multiple Plot_
 
 | Basic | t-Test | ANOVA | Exact Test | Chi-Square Test |
 |---|---|---|---|---|
-| Numeral | One-Sample t-Test | One-Way ANOVA | Binomial Test | Chi-Square Test |
-| Numeral (Grouped) | Two-Sample t-Test | Two-Way ANOVA | Fisher's Exact Test | Chi-Square Test (Fit) |
+| Numeric | One-Sample t-Test | One-Way ANOVA | Binomial Test | Chi-Square Test |
+| Numeric (Grouped) | Two-Sample t-Test | Two-Way ANOVA | Fisher's Exact Test | Chi-Square Test (Fit) |
 | Categorical | Paired t-Test | One-Way ANCOVA | McNemar's Exact Test | McNemar's Test |
 | Contingency | Pairwise t-Test | Two-Way ANCOVA |  | Mantel-Haenszel Test |
 |  |  | Multivariate ANOVA |  |  |

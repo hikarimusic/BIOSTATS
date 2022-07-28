@@ -1,6 +1,6 @@
-﻿biostats.numeral\_grouped
+﻿biostats.numeric\_grouped
 =========================
 
 .. currentmodule:: biostats
 
-.. autofunction:: numeral_grouped
+.. autofunction:: numeric_grouped

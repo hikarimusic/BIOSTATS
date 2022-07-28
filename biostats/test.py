@@ -19,7 +19,7 @@ class Test(ttk.Frame):
         # Variable
         self.test_type = ["", "Basic", "t-Test", "ANOVA", "Exact Test", "Chi-Square Test", "Linear Regression", "Logistic Regression", "Nonparametric", "Others"]
         self.test_list = {
-            "Basic"               : ["", "Numeral", "Numeral (Grouped)", "Categorical", "Contingency"] ,
+            "Basic"               : ["", "Numeric", "Numeric (Grouped)", "Categorical", "Contingency"] ,
             "t-Test"              : ["", "One-Sample t-Test", "Two-Sample t-Test", "Paired t-Test", "Pairwise t-Test"] ,
             "ANOVA"               : ["", "One-Way ANOVA", "Two-Way ANOVA", "One-Way ANCOVA", "Two-Way ANCOVA", "Multivariate ANOVA", "Repeated Measures ANOVA"] ,
             "Exact Test"          : ["", "Binomial Test", "Fisher's Exact Test", "McNemar's Exact Test"] ,
@@ -115,13 +115,13 @@ class Test(ttk.Frame):
 
         if kind == "Basic":
 
-            if test == "Numeral":
+            if test == "Numeric":
                 self.option_label[0].config(text="Variable:")
                 self.option_label[0].grid()
                 self.option[0].check_more_set(self.master.data_col["num"])
                 self.option[0].grid()
             
-            if test == "Numeral (Grouped)":
+            if test == "Numeric (Grouped)":
                 self.option_label[0].config(text="Variable:")
                 self.option_label[0].grid()
                 self.option[0].radio_one_set(self.master.data_col["num"])
@@ -377,6 +377,11 @@ class Test(ttk.Frame):
                 self.option[1].radio_one_set(self.master.data_col["cat"])
                 self.option[1].grid()   
 
+                self.option_label[2].config(text="Kind:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["Count", "Vertical", "Horizontal", "Overall"])
+                self.option[2].grid()
+
             if test == "Chi-Square Test (Fit)":
                 self.option_label[0].config(text="Variable:")
                 self.option_label[0].grid()
@@ -389,7 +394,7 @@ class Test(ttk.Frame):
                 self.option[1].grid()
 
                 self.temp = ""
-            
+
             if test == "McNemar's Test":
                 self.option_label[0].config(text="Variable 1:")
                 self.option_label[0].grid()
@@ -453,7 +458,7 @@ class Test(ttk.Frame):
                 self.option[1].grid()
 
             if test == "Multiple Linear Regression":
-                self.option_label[0].config(text="X (nominal):")
+                self.option_label[0].config(text="X (numeric):")
                 self.option_label[0].grid()
                 self.option[0].check_more_set(self.master.data_col["num"])
                 self.option[0].grid()
@@ -489,7 +494,7 @@ class Test(ttk.Frame):
                 self.temp = ""
 
             if test == "Multiple Logistic Regression":
-                self.option_label[0].config(text="X (nominal):")
+                self.option_label[0].config(text="X (numeric):")
                 self.option_label[0].grid()
                 self.option[0].check_more_set(self.master.data_col["num"])
                 self.option[0].grid()
@@ -512,7 +517,7 @@ class Test(ttk.Frame):
                 self.temp = ""
             
             if test == "Ordered Logistic Regression":
-                self.option_label[0].config(text="X (nominal):")
+                self.option_label[0].config(text="X (numeric):")
                 self.option_label[0].grid()
                 self.option[0].check_more_set(self.master.data_col["num"])
                 self.option[0].grid()
@@ -535,7 +540,7 @@ class Test(ttk.Frame):
                 self.temp = ""
             
             if test == "Multinomial Logistic Regression":
-                self.option_label[0].config(text="X (nominal):")
+                self.option_label[0].config(text="X (numeric):")
                 self.option_label[0].grid()
                 self.option[0].check_more_set(self.master.data_col["num"])
                 self.option[0].grid()
@@ -785,17 +790,17 @@ class Test(ttk.Frame):
 
         if kind == "Basic":
 
-            if test == "Numeral":
+            if test == "Numeric":
                 variable = self.option[0].check_more_get()
                 if len(variable) == 0:
                     return
                 
-                result = model.numeral(self.master.data, variable=variable)
+                result = model.numeric(self.master.data, variable=variable)
                 self.result[0].data = result
                 self.result[0].set(19)
                 self.result[0].grid()
             
-            if test == "Numeral (Grouped)":
+            if test == "Numeric (Grouped)":
                 variable = self.option[0].radio_one_get()
                 group = self.option[1].radio_one_get()
 
@@ -804,7 +809,7 @@ class Test(ttk.Frame):
                 if not group:
                     return
                 
-                result = model.numeral_grouped(self.master.data, variable=variable, group=group)
+                result = model.numeric_grouped(self.master.data, variable=variable, group=group)
                 self.result[0].data = result
                 self.result[0].set(18)
                 self.result[0].grid()  
@@ -1141,13 +1146,16 @@ class Test(ttk.Frame):
             if test == "Chi-Square Test":
                 variable_1 = self.option[0].radio_one_get()
                 variable_2 = self.option[1].radio_one_get()
+                kind = self.option[2].radio_one_get()
 
                 if not variable_1:
                     return
                 if not variable_2:
                     return
+                if not kind:
+                    return
 
-                summary, result = model.chi_square_test(self.master.data, variable_1=variable_1, variable_2=variable_2)
+                summary, result = model.chi_square_test(self.master.data, variable_1=variable_1, variable_2=variable_2, kind=kind)
 
                 self.result[0].data = summary
                 self.result[0].set(10)
@@ -1286,7 +1294,7 @@ class Test(ttk.Frame):
                 if not y:
                     return
 
-                summary, result = model.multiple_linear_regression(self.master.data, x_nominal=x_nomianl, x_categorical=x_categorical, y=y)
+                summary, result = model.multiple_linear_regression(self.master.data, x_numeric=x_nomianl, x_categorical=x_categorical, y=y)
 
                 self.result[0].data = summary
                 self.result[0].set(10)
@@ -1343,7 +1351,7 @@ class Test(ttk.Frame):
                 if not target:
                     return
 
-                summary, result = model.multiple_logistic_regression(self.master.data, x_nominal=x_nomianl, x_categorical=x_categorical, y=y, target=target)
+                summary, result = model.multiple_logistic_regression(self.master.data, x_numeric=x_nomianl, x_categorical=x_categorical, y=y, target=target)
 
                 self.result[0].data = summary
                 self.result[0].set(10)
@@ -1375,7 +1383,7 @@ class Test(ttk.Frame):
                 except:
                     return
 
-                summary, result = model.ordered_logistic_regression(self.master.data, x_nominal=x_nomianl, x_categorical=x_categorical, y=y, order=order)
+                summary, result = model.ordered_logistic_regression(self.master.data, x_numeric=x_nomianl, x_categorical=x_categorical, y=y, order=order)
 
                 self.result[0].data = summary
                 self.result[0].set(10)
@@ -1403,7 +1411,7 @@ class Test(ttk.Frame):
                 if not baseline:
                     return
 
-                summary, result = model.multinomial_logistic_regression(self.master.data, x_nominal=x_nomianl, x_categorical=x_categorical, y=y, baseline=baseline)
+                summary, result = model.multinomial_logistic_regression(self.master.data, x_numeric=x_nomianl, x_categorical=x_categorical, y=y, baseline=baseline)
 
                 self.result[0].data = summary
                 self.result[0].set(11)

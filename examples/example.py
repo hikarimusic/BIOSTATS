@@ -5,14 +5,14 @@ import matplotlib.pyplot as plt
 # ---------------------------------------------------------------
 # Basic
 
-# Numeral
-data = bs.dataset("numeral.csv")
-result = bs.numeral(data=data, variable=["Fish", "Crab", "Temperature"])
+# Numeric
+data = bs.dataset("numeric.csv")
+result = bs.numeric(data=data, variable=["Fish", "Crab", "Temperature"])
 print(result)
 
-# Numeral (Grouped)
-data = bs.dataset("numeral_grouped.csv")
-result = bs.numeral_grouped(data=data, variable="Count", group="Animal")
+# Numeric (Grouped)
+data = bs.dataset("numeric_grouped.csv")
+result = bs.numeric_grouped(data=data, variable="Count", group="Animal")
 print(result)
 
 # Categorical
@@ -22,7 +22,7 @@ print(result)
 
 # Contingency
 data = bs.dataset("contingency.csv")
-result = bs.contingency(data=data, variable_1="Genotype", variable_2="Health", kind="Count")
+result = bs.contingency(data=data, variable_1="Genotype", variable_2="Health", kind="count")
 print(result)
 
 # ---------------------------------------------------------------
@@ -117,7 +117,7 @@ print(result)
 
 # Chi-Square Test
 data = bs.dataset("chi_square_test.csv")
-summary, result = bs.chi_square_test(data=data, variable_1="Genotype", variable_2="Health")
+summary, result = bs.chi_square_test(data=data, variable_1="Genotype", variable_2="Health", kind="horizontal")
 print(summary)
 print(result)
 
@@ -161,7 +161,7 @@ print(result)
 
 # Multiple Linear Regression
 data = bs.dataset("multiple_linear_regression.csv")
-summary, result = bs.multiple_linear_regression(data=data, x_nominal=["Acerage", "Maxdepth", "NO3"], x_categorical=[], y="Longnose")
+summary, result = bs.multiple_linear_regression(data=data, x_numeric=["Acerage", "Maxdepth", "NO3"], x_categorical=[], y="Longnose")
 print(summary)
 print(result)
 
@@ -176,20 +176,20 @@ print(result)
 
 # Multiple Logistic Regression
 data = bs.dataset("multiple_logistic_regression.csv")
-summary, result = bs.multiple_logistic_regression(data=data, x_nominal=["Upland", "Migr", "Mass", "Indiv", "Insect", "Wood"], x_categorical=[], y="Status", target=1)
+summary, result = bs.multiple_logistic_regression(data=data, x_numeric=["Upland", "Migr", "Mass", "Indiv", "Insect", "Wood"], x_categorical=[], y="Status", target=1)
 print(summary)
 print(result)
 
 # Ordered Logistic Regression
 data = bs.dataset("ordered_logistic_regression.csv")
-summary, result = bs.ordered_logistic_regression(data=data, x_nominal=["pared", "public", "gpa"], x_categorical=[], y="apply", 
+summary, result = bs.ordered_logistic_regression(data=data, x_numeric=["pared", "public", "gpa"], x_categorical=[], y="apply", 
     order={"unlikely":1, "somewhat likely":2, "very likely":3})
 print(summary)
 print(result)
 
 # Multinomial Logistic Regression
 data = bs.dataset("multinomial_logistic_regression.csv")
-summary, result = bs.multinomial_logistic_regression(data=data, x_nominal=["write"], x_categorical=["ses"], y="prog", baseline="academic")
+summary, result = bs.multinomial_logistic_regression(data=data, x_numeric=["write"], x_categorical=["ses"], y="prog", baseline="academic")
 print(summary)
 print(result)
 

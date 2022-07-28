@@ -137,12 +137,12 @@ def simple_linear_regression(data, x, y):
 
     return summary, result
 
-def multiple_linear_regression(data, x_nominal, x_categorical, y):
+def multiple_linear_regression(data, x_numeric, x_categorical, y):
 
     process(data)
-    data = data[list(set(x_nominal+x_categorical+[y]))].dropna()
+    data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
 
-    for var in x_nominal:
+    for var in x_numeric:
         if str(data[var].dtypes) != "float64":
             raise Warning("The column '{}' must be numeric".format(var))
     for var in x_categorical:
@@ -152,7 +152,7 @@ def multiple_linear_regression(data, x_nominal, x_categorical, y):
         raise Warning("The column '{}' must be numeric".format(y))
 
     formula = "Q('%s') ~ " % y
-    for var in x_nominal:
+    for var in x_numeric:
         formula += "Q('%s') + " % var
     for var in x_categorical:
         formula += "C(Q('%s')) + " % var
@@ -172,7 +172,7 @@ def multiple_linear_regression(data, x_nominal, x_categorical, y):
     index_change = {}
     for index in summary.index:
         changed = index
-        for var in x_nominal:
+        for var in x_numeric:
             changed = changed.replace("Q('%s')" % var, var)
         for var in x_categorical:
             changed = changed.replace("C(Q('%s'))" % var, var)

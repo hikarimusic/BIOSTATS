@@ -135,7 +135,7 @@ class Master(ttk.Frame):
         #self.data_win.table.data_write(self.data)
 
         self.test_win.test_1.set("Basic")
-        self.test_win.test_2["Basic"].set("Numeral")
+        self.test_win.test_2["Basic"].set("Numeric")
         self.test_win.test_change()
 
         self.plot_win.plot_1.set("Distribution")

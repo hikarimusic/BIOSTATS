@@ -11,6 +11,9 @@
 .. image:: https://img.shields.io/pypi/l/biostatistics
    :target: https://github.com/hikarimusic/BIOSTATS/blob/main/LICENSE
 
+.. image:: https://img.shields.io/github/downloads/hikarimusic/BIOSTATS/total.svg
+   :target: https://github.com/hikarimusic/BIOSTATS/releases
+
 |
 
 **What is BIOSTATS**
@@ -73,9 +76,9 @@ BIOSTATS includes these tests:
 +--------------------+--------------------+--------------------------+----------------------+------------------------+
 | Basic              | t-Test             | ANOVA                    | Exact Test           | Chi-Square Test        |
 +====================+====================+==========================+======================+========================+
-| Numeral            | One-Sample t-Test  | One-Way ANOVA            | Binomial Test        | Chi-Square Test        |
+| Numeric            | One-Sample t-Test  | One-Way ANOVA            | Binomial Test        | Chi-Square Test        |
 +--------------------+--------------------+--------------------------+----------------------+------------------------+
-| Numeral (Grouped)  | Two-Sample t-Test  | Two-Way ANOVA            | Fisher's Exact Test  | Chi-Square Test (Fit)  |
+| Numeric (Grouped)  | Two-Sample t-Test  | Two-Way ANOVA            | Fisher's Exact Test  | Chi-Square Test (Fit)  |
 +--------------------+--------------------+--------------------------+----------------------+------------------------+
 | Categorical        | Paired t-Test      | One-Way ANCOVA           | McNemar's Exact Test | McNemar's Test         |
 +--------------------+--------------------+--------------------------+----------------------+------------------------+
@@ -212,7 +215,7 @@ For more information, check out these pages:
 
 .. note::
 
-   If you have any suggestion or find any bug, please contach me. We need
+   If you have any suggestion or find any bug, please contact me. We need
    your help! 
 
    -  Contact me: hikarimusic.tm@gmail.com   
