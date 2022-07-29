@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="845.42731mm"
-   height="195.27704mm"
-   viewBox="0 0 845.42731 195.27704"
+   width="873.15582mm"
+   height="221.59247mm"
+   viewBox="0 0 873.15582 221.59247"
    version="1.1"
    id="svg5"
    xml:space="preserve"
@@ -103,7 +103,13 @@
          height="299.4975"
          id="rect4164" /></clipPath></defs><g
      id="layer1"
-     transform="translate(-177.2865,-418.55921)"><text
+     transform="translate(-163.42204,-403.4076)"><rect
+       style="opacity:1;fill:none;stroke-width:0.143751"
+       id="rect2412"
+       width="873.15588"
+       height="221.59242"
+       x="163.42206"
+       y="403.40759" /><text
        xml:space="preserve"
        style="font-weight:bold;font-size:4.23333px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Bold';fill:#000080;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:round"
        x="173.58302"

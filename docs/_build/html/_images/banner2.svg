@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="845.427mm"
-   height="129.99998mm"
-   viewBox="0 0 845.427 129.99998"
+   width="873.15582mm"
+   height="221.59247mm"
+   viewBox="0 0 873.15582 221.59247"
    version="1.1"
    id="svg5"
    xml:space="preserve"
@@ -103,24 +103,30 @@
          height="299.4975"
          id="rect4164" /></clipPath></defs><g
      id="layer1"
-     transform="translate(-40.236004,-88.557206)"><text
+     transform="translate(-163.42204,-403.4076)"><rect
+       style="opacity:1;fill:none;stroke-width:0.143751"
+       id="rect2412"
+       width="873.15588"
+       height="221.59242"
+       x="163.42206"
+       y="403.40759" /><text
        xml:space="preserve"
        style="font-weight:bold;font-size:4.23333px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Bold';fill:#000080;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:round"
-       x="36.532524"
-       y="211.90855"
+       x="173.58302"
+       y="541.91052"
        id="text63"><tspan
          id="tspan61"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:176.389px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000080;stroke-width:0.264583"
-         x="36.532524"
-         y="211.90855">BIOSTATS</tspan></text><circle
+         x="173.58302"
+         y="541.91052">BIOSTATS</tspan></text><circle
        style="opacity:1;fill:#000080;stroke-width:0.311644"
        id="path1105"
-       cx="291.27197"
-       cy="153.55721"
+       cx="428.32248"
+       cy="483.5592"
        r="65" /><g
        id="figure_1"
        clip-path="url(#clipPath8161)"
-       transform="matrix(0.4,0,0,0.4,211.75791,88.303421)"><g
+       transform="matrix(0.4,0,0,0.4,348.80843,418.30542)"><g
          id="patch_1"><path
            d="M 0,360 H 360 V 0 H 0 Z"
            style="fill:#ffffff"
@@ -534,4 +540,13 @@
            id="patch_14"><path
              d="M 49.59,312.4575 H 347.04"
              style="fill:none;stroke:#ffffff;stroke-width:1.25;stroke-linecap:square;stroke-linejoin:miter"
-             id="path4159" /></g></g></g></g></svg>
+             id="path4159" /></g></g></g><text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:172.995px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Bold';fill:#5555ff;stroke-width:0.259492;stroke-linecap:butt;stroke-linejoin:round"
+       x="176.89728"
+       y="603.0835"
+       id="text1267"><tspan
+         id="tspan1265"
+         x="176.89728"
+         y="603.0835"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:49.8226px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#5555ff;stroke-width:0.259492">An Intuitive App for Statistical Analysis</tspan></text></g></svg>
