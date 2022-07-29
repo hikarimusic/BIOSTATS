@@ -1,5 +1,4 @@
 import biostats as bs
-import pandas as pd
 import matplotlib.pyplot as plt
 
 # ---------------------------------------------------------------
@@ -102,7 +101,7 @@ print(result)
 
 # Fisher's Exact Test
 data = bs.dataset("fisher_exact_test.csv")
-summary, result = bs.fisher_exact_test(data=data, variable_1="Frequency", variable_2="Result")
+summary, result = bs.fisher_exact_test(data=data, variable_1="Frequency", variable_2="Result", kind="horizontal")
 print(summary)
 print(result)
 

@@ -41,16 +41,16 @@ def one_way_anova(data, variable, between):
     data : :py:class:`pandas.DataFrame`
         The input data. Must Contain at least one numeric column and one categorical column.
     variable : :py:class:`str`
-        The name of *variable* column. The means of values in *variable* column are our targets.
+        The name of the *variable* column. The means of values in the *variable* column are our targets.
     between : :py:class:`str`
-        The name of *between* column. Values in *between* column indicate which group a sample belongs to.
+        The name of the *between* column. Values in the *between* column indicate which group a sample belongs to.
 
     Returns
     -------
     summary : :py:class:`pandas.DataFrame`
         The counts, mean values, standard deviations, and confidence intervals of each group.
     result : :py:class:`pandas.DataFrame`
-        The degrees of freedom, sum squares, mean squares, F statistics, and p-values of the test.
+        The degree of freedom, chi square statistic, and p-value of the test.
 
     See also
     --------

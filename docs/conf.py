@@ -101,3 +101,9 @@ def linkcode_resolve(domain, info):
     fn = os.path.relpath(fn, start=os.path.dirname(biostats.__file__))
 
     return f"https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/{fn}{linespec}"
+
+
+
+plot_include_source = True
+plot_html_show_formats = False
+plot_html_show_source_link = False

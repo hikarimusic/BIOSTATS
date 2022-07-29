@@ -35,14 +35,14 @@ def add_p(data):
 
 def one_sample_t_test(data, variable, expect, kind="two-side"):
     '''
-    Test whether the mean value of a variable is defferent from the expected value.
+    Test whether the mean value of a variable is different from the expected value.
 
     Parameters
     ----------
     data : :py:class:`pandas.DataFrame`
-        The input data. Must Contain at least one numeric column. 
+        The input data. Must contain at least one numeric column. 
     variable : :py:class:`str`
-        The name of *variable* column. The mean of values in *variable* column is our target.
+        The numeric variable that we want to calculate the mean value of.
     expect : :py:class:`float` or :py:class:`int`
         The expected value.
     kind : :py:class:`str`
@@ -61,7 +61,7 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
     --------
     two_sample_t_test : Compare the mean values between two groups.
     paired_t_test : Compare the mean values between two paired groups.
-    median_test : The non-parametric alternative to one-sample t-test.
+    median_test : The non-parametric version of one-sample t-test.
 
     Examples
     --------
@@ -175,6 +175,96 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
 
 
 def two_sample_t_test(data, variable, between, group, kind="equal variances"):
+    '''
+    Test whether the mean values of a variable are different in two groups.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least one numeric column and one categorical column.
+    variable : :py:class:`str`
+        The numeric variable that we want to calculate mean values of.
+    between : :py:class:`str`
+        The categorical variable that specifies which group the samples belong to.
+    group : :py:class:`list`
+        List of the two groups to be compared. 
+    kind : :py:class:`str`
+        * "equal variances" : The normal two-sample t-test which assumes variances of the two groups are equal.
+        * "unequal variances" : The variant model in which variances of the two groups can be unequal. Also called Welch's t-test.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The estimations, standard errors, and confidence intervals of the mean values in the two groups, as well as the difference between them.
+    result : :py:class:`pandas.DataFrame`
+        The degree of freedom, t statistic, and p-value of the test.
+
+    See also
+    --------
+    paired_t_test : Compare the mean values between two paired groups.
+    one_way_anova : Compare the mean values between more than two groups.
+    wilcoxon_rank_sum_test : The non-parametric version of two-sample t-test.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("two_sample_t_test.csv")
+    >>> data
+        Value Time
+    0    69.0  2pm
+    1    70.0  2pm
+    2    66.0  2pm
+    3    63.0  2pm
+    4    68.0  2pm
+    5    70.0  2pm
+    6    69.0  2pm
+    7    67.0  2pm
+    8    62.0  2pm
+    9    63.0  2pm
+    10   76.0  2pm
+    11   59.0  2pm
+    12   62.0  2pm
+    13   62.0  2pm
+    14   75.0  2pm
+    15   62.0  2pm
+    16   72.0  2pm
+    17   63.0  2pm
+    18   68.0  5pm
+    19   62.0  5pm
+    20   67.0  5pm
+    21   68.0  5pm
+    22   69.0  5pm
+    23   67.0  5pm
+    24   61.0  5pm
+    25   59.0  5pm
+    26   62.0  5pm
+    27   61.0  5pm
+    28   69.0  5pm
+    29   66.0  5pm
+    30   62.0  5pm
+    31   62.0  5pm
+    32   61.0  5pm
+    33   70.0  5pm
+
+    We want to test whether *value* is different between *2pm* and *5pm*.
+
+    >>> summary, result = bs.two_sample_t_test(data=data, variable="Value", between="Time", group=["2pm", "5pm"], kind="equal variances")
+    >>> summary
+                 Estimate  Std. Error  95% CI: Lower  95% CI: Upper
+    2pm         66.555556    1.152497      64.123999      68.987112
+    5pm         64.625000    0.916856      62.670768      66.579232
+    Difference   1.930556    1.497923      -1.120613       4.981725
+
+    The mean values of the two groups and the difference between them are given.
+
+    >>> result
+           D.F.  t Statistic  p-value    
+    Model  32.0     1.288822   0.2067 NaN
+
+    The p-value > 0.05, so there is no significant difference between the two groups.
+
+
+    '''
 
     process(data)
     data = data[list({variable, between})].dropna()
@@ -261,6 +351,91 @@ def two_sample_t_test(data, variable, between, group, kind="equal variances"):
 
 
 def paired_t_test(data, variable, between, group, pair):
+    '''
+    Test whether the mean values of a variable are different in two paired groups.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least one numeric column and one categorical column, as well as a column specifying the pairs.
+    variable : :py:class:`str`
+        The numeric variable that we want to calculate mean values of.
+    between : :py:class:`str`
+        The categorical variable that specifies which group the samples belong to.
+    group : :py:class:`list`
+        List of the two groups to be compared.
+    pair : :py:class:`list`
+        The column that specifies the pair ID. Samples in the same pair should have the same ID.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The estimations, standard errors, and confidence intervals of the mean values in the two groups, as well as the difference between them.
+    result : :py:class:`pandas.DataFrame`
+        The degree of freedom, t statistic, and p-value of the test.
+
+    See also
+    --------
+    two_sample_t_test : Compare the mean values between two independent groups.
+    wilcoxon_signed_rank_test : The non-parametric version of paired t-test.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("paired_t_test.csv")
+    >>> data
+        Length  Feather Bird
+    0   -0.255  Typical    A
+    1   -0.213  Typical    B
+    2   -0.190  Typical    C
+    3   -0.185  Typical    D
+    4   -0.045  Typical    E
+    5   -0.025  Typical    F
+    6   -0.015  Typical    G
+    7    0.003  Typical    H
+    8    0.015  Typical    I
+    9    0.020  Typical    J
+    10   0.023  Typical    K
+    11   0.040  Typical    L
+    12   0.040  Typical    M
+    13   0.050  Typical    N
+    14   0.055  Typical    O
+    15   0.058  Typical    P
+    16  -0.324      Odd    A
+    17  -0.185      Odd    B
+    18  -0.299      Odd    C
+    19  -0.144      Odd    D
+    20  -0.027      Odd    E
+    21  -0.039      Odd    F
+    22  -0.264      Odd    G
+    23  -0.077      Odd    H
+    24  -0.017      Odd    I
+    25  -0.169      Odd    J
+    26  -0.096      Odd    K
+    27  -0.330      Odd    L
+    28  -0.346      Odd    M
+    29  -0.191      Odd    N
+    30  -0.128      Odd    O
+    31  -0.182      Odd    P
+
+    We want to test that for a *Bird*, whether the *Length* of *Typical Feather* is different from the *Length* of *Odd Feather*.
+
+    >>> summary, result = bs.paired_t_test(data=data, variable="Length", between="Feather", group=["Typical", "Odd"], pair="Bird")
+    >>> summary
+                Estimate  Std. Error  95% CI: Lower  95% CI: Upper
+    Typical    -0.039000    0.026810      -0.096145       0.018145
+    Odd        -0.176125    0.027656      -0.235072      -0.117178
+    Difference  0.137125    0.033736       0.065218       0.209032
+
+    The mean values of the two groups and the difference between them are given.
+
+    >>> result
+           D.F.  t Statistic   p-value    
+    Model  15.0     4.064653  0.001017  **
+
+    The p-value < 0.01, so there is a significant difference between *Length* of the two kinds of *Feather*.
+
+    '''
 
     process(data)
     data = data[list({variable, between, pair})].dropna()

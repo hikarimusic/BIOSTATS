@@ -554,8 +554,97 @@
 <h1>biostats.paired_t_test<a class="headerlink" href="#biostats-paired-t-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.paired_t_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">paired_t_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/t_test.py#L263-L337"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.paired_t_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">paired_t_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/t_test.py#L353-L512"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.paired_t_test" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether the mean values of a variable are different in two paired groups.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one numeric column and one categorical column, as well as a column specifying the pairs.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The numeric variable that we want to calculate mean values of.</p>
+</dd>
+<dt><strong>between</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that specifies which group the samples belong to.</p>
+</dd>
+<dt><strong>group</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>List of the two groups to be compared.</p>
+</dd>
+<dt><strong>pair</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>The column that specifies the pair ID. Samples in the same pair should have the same ID.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The estimations, standard errors, and confidence intervals of the mean values in the two groups, as well as the difference between them.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, t statistic, and p-value of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.two_sample_t_test.html#biostats.two_sample_t_test" title="biostats.two_sample_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_sample_t_test</span></code></a></dt><dd><p>Compare the mean values between two independent groups.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.wilcoxon_signed_rank_test.html#biostats.wilcoxon_signed_rank_test" title="biostats.wilcoxon_signed_rank_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wilcoxon_signed_rank_test</span></code></a></dt><dd><p>The non-parametric version of paired t-test.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;paired_t_test.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Length  Feather Bird</span>
+<span class="go">0   -0.255  Typical    A</span>
+<span class="go">1   -0.213  Typical    B</span>
+<span class="go">2   -0.190  Typical    C</span>
+<span class="go">3   -0.185  Typical    D</span>
+<span class="go">4   -0.045  Typical    E</span>
+<span class="go">5   -0.025  Typical    F</span>
+<span class="go">6   -0.015  Typical    G</span>
+<span class="go">7    0.003  Typical    H</span>
+<span class="go">8    0.015  Typical    I</span>
+<span class="go">9    0.020  Typical    J</span>
+<span class="go">10   0.023  Typical    K</span>
+<span class="go">11   0.040  Typical    L</span>
+<span class="go">12   0.040  Typical    M</span>
+<span class="go">13   0.050  Typical    N</span>
+<span class="go">14   0.055  Typical    O</span>
+<span class="go">15   0.058  Typical    P</span>
+<span class="go">16  -0.324      Odd    A</span>
+<span class="go">17  -0.185      Odd    B</span>
+<span class="go">18  -0.299      Odd    C</span>
+<span class="go">19  -0.144      Odd    D</span>
+<span class="go">20  -0.027      Odd    E</span>
+<span class="go">21  -0.039      Odd    F</span>
+<span class="go">22  -0.264      Odd    G</span>
+<span class="go">23  -0.077      Odd    H</span>
+<span class="go">24  -0.017      Odd    I</span>
+<span class="go">25  -0.169      Odd    J</span>
+<span class="go">26  -0.096      Odd    K</span>
+<span class="go">27  -0.330      Odd    L</span>
+<span class="go">28  -0.346      Odd    M</span>
+<span class="go">29  -0.191      Odd    N</span>
+<span class="go">30  -0.128      Odd    O</span>
+<span class="go">31  -0.182      Odd    P</span>
+</pre></div>
+</div>
+<p>We want to test that for a <em>Bird</em>, whether the <em>Length</em> of <em>Typical Feather</em> is different from the <em>Length</em> of <em>Odd Feather</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">paired_t_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Length&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;Feather&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Typical&quot;</span><span class="p">,</span> <span class="s2">&quot;Odd&quot;</span><span class="p">],</span> <span class="n">pair</span><span class="o">=</span><span class="s2">&quot;Bird&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">            Estimate  Std. Error  95% CI: Lower  95% CI: Upper</span>
+<span class="go">Typical    -0.039000    0.026810      -0.096145       0.018145</span>
+<span class="go">Odd        -0.176125    0.027656      -0.235072      -0.117178</span>
+<span class="go">Difference  0.137125    0.033736       0.065218       0.209032</span>
+</pre></div>
+</div>
+<p>The mean values of the two groups and the difference between them are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">       D.F.  t Statistic   p-value    </span>
+<span class="go">Model  15.0     4.064653  0.001017  **</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.01, so there is a significant difference between <em>Length</em> of the two kinds of <em>Feather</em>.</p>
+</dd></dl>
 
 </section>
 

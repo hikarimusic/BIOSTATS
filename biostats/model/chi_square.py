@@ -41,7 +41,58 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
     variable_2 : :py:class:`str`
         The name of the second categorical column. Switching the two variables will not change the result of chi-square test.
     kind : :py:class:`str`
-        * "count" : 
+        The way to summarize the contingency table.
+        * "count" : Count the appearance.
+        * "vertical" : Calculate the proportion vertically, so that the sum of each column equals 1.
+        * "horizontal" : Calculate the proportion horizontally, so that the sum of each row equals 1.
+        * "overall" : Calculate the overall proportion, so that the sum of the whole table equals 1.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The contingency table of the two categorical columns.
+    result : :py:class:`pandas.DataFrame`
+        The degree of freedom, t statistic, and p-value of the test.
+
+    See also
+    --------
+    fisher_exact_test : The exact version of chi-square test.
+    mantel_haenszel_test : Test the association between two categorical variables in stratified data.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("chi_square_test.csv")
+    >>> data
+         Genotype      Health
+    0     ins-del     disease
+    1     ins-ins     disease
+    2     ins-del     disease
+    3     ins-ins     disease
+    4     ins-del  no_disease
+    ...       ...         ...
+    2254  ins-ins  no_disease
+    2255  ins-del     disease
+    2256  ins-del     disease
+    2257  ins-ins     disease
+    2258  ins-ins  no_disease
+
+    We want to test whether there is an association between *Genotype* and *Health*.
+
+    >>> summary, result = bs.chi_square_test(data=data, variable_1="Genotype", variable_2="Health", kind="horizontal")
+    >>> summary
+              disease  no_disease
+    del-del  0.814159    0.185841
+    ins-del  0.792276    0.207724
+    ins-ins  0.750698    0.249302
+
+    The proportion of *disease* in different *Genotype*.
+
+    >>> result
+            D.F.  Chi Square   p-value   
+    Normal   2.0    7.259386  0.026524  *
+
+    The p-value < 0.05, so there is a significant association between *Genotype* and *Health*. That is, the proportions of *disease* are different between the three *Genotype*.
 
     '''
     

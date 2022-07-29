@@ -283,6 +283,8 @@ class Example(ttk.Menubutton):
             self.master.test_win.change()
             self.master.test_win.option[1].radio_one_var.set(1)
             self.master.test_win.change()
+            self.master.test_win.option[2].radio_one_var.set(2)
+            self.master.test_win.change()
 
         if which == "McNemar's Exact Test":
             self.master.data_win.data_process(dataset("mcnemar_exact_test.csv"))

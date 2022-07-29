@@ -243,7 +243,7 @@ class fisher_exact:
                 p /= math.factorial(table[i][j])
         return p
 
-def fisher_exact_test(data, variable_1, variable_2):
+def fisher_exact_test(data, variable_1, variable_2, kind="count"):
     
     process(data)
     data = data[list({variable_1, variable_2})].dropna()
@@ -259,7 +259,27 @@ def fisher_exact_test(data, variable_1, variable_2):
     summary.index.name = None
     summary.columns.name = None
 
-    test = fisher_exact(summary.values.tolist())
+    obs = summary.values.tolist()
+
+    if kind == "vertical":
+        col_sum = CC(lambda: summary.sum(axis=0))
+        for i in range(summary.shape[0]):
+            for j in range(summary.shape[1]):
+                summary.iat[i,j] = CC(lambda: summary.iat[i,j] / col_sum[j])
+
+    if kind == "horizontal":
+        col_sum = CC(lambda: summary.sum(axis=1))
+        for i in range(summary.shape[0]):
+            for j in range(summary.shape[1]):
+                summary.iat[i,j] = CC(lambda: summary.iat[i,j] / col_sum[i])
+
+    if kind == "overall":
+        _sum = CC(lambda: summary.to_numpy().sum())
+        for i in range(summary.shape[0]):
+            for j in range(summary.shape[1]):
+                summary.iat[i,j] = CC(lambda: summary.iat[i,j] / _sum)
+
+    test = fisher_exact(obs)
     p = CC(lambda: test.calc())
 
     result = pd.DataFrame(

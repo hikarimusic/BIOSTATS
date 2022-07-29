@@ -348,6 +348,11 @@ class Test(ttk.Frame):
                 self.option[1].radio_one_set(self.master.data_col["cat"])
                 self.option[1].grid()   
 
+                self.option_label[2].config(text="Kind:")
+                self.option_label[2].grid()
+                self.option[2].radio_one_set(["Count", "Vertical", "Horizontal", "Overall"])
+                self.option[2].grid()
+                
             if test == "McNemar's Exact Test":
                 self.option_label[0].config(text="Variable 1:")
                 self.option_label[0].grid()
@@ -827,16 +832,16 @@ class Test(ttk.Frame):
             if test == "Contingency":
                 variable_1 = self.option[0].radio_one_get()
                 variable_2 = self.option[1].radio_one_get()
-                kind = self.option[2].radio_one_get()
+                _kind = self.option[2].radio_one_get()
 
                 if not variable_1:
                     return
                 if not variable_2:
                     return
-                if not kind:
+                if not _kind:
                     return
 
-                result = model.contingency(self.master.data, variable_1=variable_1, variable_2=variable_2, kind=kind)
+                result = model.contingency(self.master.data, variable_1=variable_1, variable_2=variable_2, kind=_kind.lower())
                 self.result[0].data = result
                 self.result[0].set(17)
                 self.result[0].grid()
@@ -1105,13 +1110,16 @@ class Test(ttk.Frame):
             if test == "Fisher's Exact Test":
                 variable_1 = self.option[0].radio_one_get()
                 variable_2 = self.option[1].radio_one_get()
+                _kind = self.option[2].radio_one_get()
 
                 if not variable_1:
                     return
                 if not variable_2:
                     return
+                if not _kind:
+                    return
 
-                summary, result = model.fisher_exact_test(self.master.data, variable_1=variable_1, variable_2=variable_2)
+                summary, result = model.fisher_exact_test(self.master.data, variable_1=variable_1, variable_2=variable_2, kind=_kind.lower())
 
                 self.result[0].data = summary
                 self.result[0].set(10)
@@ -1146,16 +1154,16 @@ class Test(ttk.Frame):
             if test == "Chi-Square Test":
                 variable_1 = self.option[0].radio_one_get()
                 variable_2 = self.option[1].radio_one_get()
-                kind = self.option[2].radio_one_get()
+                _kind = self.option[2].radio_one_get()
 
                 if not variable_1:
                     return
                 if not variable_2:
                     return
-                if not kind:
+                if not _kind:
                     return
 
-                summary, result = model.chi_square_test(self.master.data, variable_1=variable_1, variable_2=variable_2, kind=kind)
+                summary, result = model.chi_square_test(self.master.data, variable_1=variable_1, variable_2=variable_2, kind=_kind.lower())
 
                 self.result[0].data = summary
                 self.result[0].set(10)

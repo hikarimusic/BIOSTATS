@@ -554,8 +554,76 @@
 <h1>biostats.multiple_linear_regression<a class="headerlink" href="#biostats-multiple-linear-regression" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.multiple_linear_regression">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multiple_linear_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L140-L199"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multiple_linear_regression" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multiple_linear_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L140-L264"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multiple_linear_regression" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit an equation that can predict a numeric variable from other variables.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must Contain at least one numeric column and several other variables (can be either numeric or categorical).</p>
+</dd>
+<dt><strong>x_numeric</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>The list of predictor variables that are numeric.</p>
+</dd>
+<dt><strong>x_categorical</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>The list of predictor variables that are categorical.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The response variable. Must be numeric.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The coefficients of the fitted equation, along with the confidence intervals, standard errors, t statistics, and p-values.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The R-squared, adjusted R-squared, F statistic, and p-value of the fitting model.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.simple_linear_regression.html#biostats.simple_linear_regression" title="biostats.simple_linear_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_linear_regression</span></code></a></dt><dd><p>Fit an equation that can predict a numeric variable from another numeric variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.multinomial_logistic_regression.html#biostats.multinomial_logistic_regression" title="biostats.multinomial_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multinomial_logistic_regression</span></code></a></dt><dd><p>Fit an equation that can predict a categorical variable from other variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;multiple_linear_regression.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Acerage  Maxdepth   NO3  Longnose</span>
+<span class="go">0    2528.0      80.0  2.28      13.0</span>
+<span class="go">1    3333.0      83.0  5.34      12.0</span>
+<span class="go">2   19611.0      96.0  0.99      54.0</span>
+<span class="go">3    3570.0      56.0  5.44      19.0</span>
+<span class="go">4    1722.0      43.0  5.66      37.0</span>
+<span class="go">..      ...       ...   ...       ...</span>
+<span class="go">63   6311.0      46.0  0.64       2.0</span>
+<span class="go">64   1450.0      60.0  2.96      26.0</span>
+<span class="go">65   4106.0      96.0  2.62      20.0</span>
+<span class="go">66  10274.0      90.0  5.45      38.0</span>
+<span class="go">67    510.0      82.0  5.25      19.0</span>
+</pre></div>
+</div>
+<p>[68 rows x 4 columns]</p>
+<p>We want to fit an equation to predict <em>Longnose</em> from <em>Acerage</em>, <em>Maxdepth</em>, and <em>NO3</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">multiple_linear_regression</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x_numeric</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Acerage&quot;</span><span class="p">,</span> <span class="s2">&quot;Maxdepth&quot;</span><span class="p">,</span> <span class="s2">&quot;NO3&quot;</span><span class="p">],</span> <span class="n">x_categorical</span><span class="o">=</span><span class="p">[],</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Longnose&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">           Coefficient  95% CI: Lower  95% CI: Upper  Std. Error  t Statistic   p-value     </span>
+<span class="go">Intercept   -23.829067     -54.342374       6.684240   15.273992    -1.560107  0.123666  NaN</span>
+<span class="go">Acerage       0.001988       0.000641       0.003334    0.000674     2.947947  0.004461   **</span>
+<span class="go">Maxdepth      0.336605      -0.018134       0.691344    0.177571     1.895610  0.062529  NaN</span>
+<span class="go">NO3           8.673044       3.132716      14.213372    2.773312     3.127323  0.002654   **</span>
+</pre></div>
+</div>
+<p>The coefficients of the fitted equation, along with confidence intervals and p-values.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">       R-Squared  Adj. R-Squared  F Statistic   p-value     </span>
+<span class="go">Model   0.279826        0.246068     8.289157  0.000097  ***</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.001, which means there is a significant relation between the predictor and response variables. The R-Squared &lt; 0.3, which indicates the equation did not fit the data very well.</p>
+</dd></dl>
 
 </section>
 
