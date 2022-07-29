@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import webbrowser
 
 from biostats.datasets import dataset
 
@@ -985,4 +986,7 @@ class Manual(ttk.Menubutton):
 
     def setup(self):
 
-        pass
+        self.menu_0 = tk.Menu(self)
+        self.config(menu=self.menu_0)
+
+        self.menu_0.add_command(label="Official Site", command=lambda: webbrowser.open("https://hikarimusic.github.io/BIOSTATS/"))

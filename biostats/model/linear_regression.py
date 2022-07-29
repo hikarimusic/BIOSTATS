@@ -182,8 +182,6 @@ def multiple_linear_regression(data, x_numeric, x_categorical, y):
     66  10274.0      90.0  5.45      38.0
     67    510.0      82.0  5.25      19.0
 
-    [68 rows x 4 columns]
-
     We want to fit an equation to predict *Longnose* from *Acerage*, *Maxdepth*, and *NO3*.
 
     >>> summary, result = bs.multiple_linear_regression(data=data, x_numeric=["Acerage", "Maxdepth", "NO3"], x_categorical=[], y="Longnose")

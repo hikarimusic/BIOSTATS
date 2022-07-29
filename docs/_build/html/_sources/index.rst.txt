@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: ../assets/banner2.svg
+.. image:: ../assets/banner2.png
 
 .. image:: https://img.shields.io/pypi/v/biostatistics
    :target: https://pypi.org/project/biostatistics/

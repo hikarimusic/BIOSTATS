@@ -35,7 +35,7 @@
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <link rel="shortcut icon" href="../../_static/icon.svg"/>
+    <link rel="shortcut icon" href="../../_static/icon.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="biostats.simple_logistic_regression" href="biostats.simple_logistic_regression.html" />
@@ -65,8 +65,8 @@
   
   
   
-    <img src="../../_static/banner_tall.svg" class="logo__image only-light" alt="Logo image">
-    <img src="../../_static/banner_tall.svg" class="logo__image only-dark" alt="Logo image">
+    <img src="../../_static/banner_tall.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/banner_tall.png" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
@@ -554,7 +554,7 @@
 <h1>biostats.multiple_linear_regression<a class="headerlink" href="#biostats-multiple-linear-regression" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.multiple_linear_regression">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multiple_linear_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L140-L264"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multiple_linear_regression" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multiple_linear_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L140-L262"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multiple_linear_regression" title="Permalink to this definition">#</a></dt>
 <dd><p>Fit an equation that can predict a numeric variable from other variables.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -605,7 +605,6 @@
 <span class="go">67    510.0      82.0  5.25      19.0</span>
 </pre></div>
 </div>
-<p>[68 rows x 4 columns]</p>
 <p>We want to fit an equation to predict <em>Longnose</em> from <em>Acerage</em>, <em>Maxdepth</em>, and <em>NO3</em>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">multiple_linear_regression</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x_numeric</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Acerage&quot;</span><span class="p">,</span> <span class="s2">&quot;Maxdepth&quot;</span><span class="p">,</span> <span class="s2">&quot;NO3&quot;</span><span class="p">],</span> <span class="n">x_categorical</span><span class="o">=</span><span class="p">[],</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Longnose&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
