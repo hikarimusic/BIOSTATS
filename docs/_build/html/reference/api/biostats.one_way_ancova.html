@@ -554,8 +554,113 @@
 <h1>biostats.one_way_ancova<a class="headerlink" href="#biostats-one-way-ancova" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.one_way_ancova">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">one_way_ancova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L246-L305"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.one_way_ancova" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">one_way_ancova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L339-L499"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.one_way_ancova" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether the mean values of a variable are different between several groups, when another variable is controlled.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must Contain at least two numeric columns and one categorical column.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The numeric variable that we want to calculate mean values of.</p>
+</dd>
+<dt><strong>between</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that specifies which group the samples belong to.</p>
+</dd>
+<dt><strong>covariable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>Another numeric variable that we want to control.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The counts, mean values and standard deviations of the variable, and that of the covariable in each group.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The sums of squares, degrees of freedom, F statistics, and p-values of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.one_way_anova.html#biostats.one_way_anova" title="biostats.one_way_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_way_anova</span></code></a></dt><dd><p>Test whether the mean values are different between groups.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.two_way_ancova.html#biostats.two_way_ancova" title="biostats.two_way_ancova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_way_ancova</span></code></a></dt><dd><p>Test whether the mean values are different between groups classified in two ways, when another variable is controlled.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;one_way_ancova.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Pulse Species  Temp</span>
+<span class="go">0    67.9      ex  20.8</span>
+<span class="go">1    65.1      ex  20.8</span>
+<span class="go">2    77.3      ex  24.0</span>
+<span class="go">3    78.7      ex  24.0</span>
+<span class="go">4    79.4      ex  24.0</span>
+<span class="go">5    80.4      ex  24.0</span>
+<span class="go">6    85.8      ex  26.2</span>
+<span class="go">7    86.6      ex  26.2</span>
+<span class="go">8    87.5      ex  26.2</span>
+<span class="go">9    89.1      ex  26.2</span>
+<span class="go">10   98.6      ex  28.4</span>
+<span class="go">11  100.8      ex  29.0</span>
+<span class="go">12   99.3      ex  30.4</span>
+<span class="go">13  101.7      ex  30.4</span>
+<span class="go">14   44.3     niv  17.2</span>
+<span class="go">15   47.2     niv  18.3</span>
+<span class="go">16   47.6     niv  18.3</span>
+<span class="go">17   49.6     niv  18.3</span>
+<span class="go">18   50.3     niv  18.9</span>
+<span class="go">19   51.8     niv  18.9</span>
+<span class="go">20   60.0     niv  20.4</span>
+<span class="go">21   58.5     niv  21.0</span>
+<span class="go">22   58.9     niv  21.0</span>
+<span class="go">23   60.7     niv  22.1</span>
+<span class="go">24   69.8     niv  23.5</span>
+<span class="go">25   70.9     niv  24.2</span>
+<span class="go">26   76.2     niv  25.9</span>
+<span class="go">27   76.1     niv  26.5</span>
+<span class="go">28   77.0     niv  26.5</span>
+<span class="go">29   77.7     niv  26.5</span>
+<span class="go">30   84.7     niv  28.6</span>
+<span class="go">31   74.3    fake  17.2</span>
+<span class="go">32   77.2    fake  18.3</span>
+<span class="go">33   77.6    fake  18.3</span>
+<span class="go">34   79.6    fake  18.3</span>
+<span class="go">35   80.3    fake  18.9</span>
+<span class="go">36   81.8    fake  18.9</span>
+<span class="go">37   90.0    fake  20.4</span>
+<span class="go">38   88.5    fake  21.0</span>
+<span class="go">39   88.9    fake  21.0</span>
+<span class="go">40   90.7    fake  22.1</span>
+<span class="go">41   99.8    fake  23.5</span>
+<span class="go">42  100.9    fake  24.2</span>
+<span class="go">43  106.2    fake  25.9</span>
+<span class="go">44  106.1    fake  26.5</span>
+<span class="go">45  107.0    fake  26.5</span>
+<span class="go">46  107.7    fake  26.5</span>
+<span class="go">47  114.7    fake  28.6</span>
+</pre></div>
+</div>
+<p>We want to test whether the mean values of <em>Pulse</em> ar different between the three <em>Species</em>, with <em>Temp</em> being controlled.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">one_way_ancova</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Pulse&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;Species&quot;</span><span class="p">,</span> <span class="n">covariable</span><span class="o">=</span><span class="s2">&quot;Temp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">  Species  Count  Mean (Pulse)  Std. (Pulse)  Mean (Temp)  Std. (Temp)</span>
+<span class="go">1      ex   14.0     85.585714      11.69930    25.757143     3.074639</span>
+<span class="go">2     niv   17.0     62.429412      12.95684    22.123529     3.659325</span>
+<span class="go">3    fake   17.0     92.429412      12.95684    22.123529     3.659325</span>
+</pre></div>
+</div>
+<p>The mean values of <em>Pulse</em> and <em>Temp</em> in each group are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">           Sum Square  D.F.  F Statistic       p-value     </span>
+<span class="go">Species   7835.737962   2.0  1372.995165  2.252680e-40  ***</span>
+<span class="go">Temp      7025.952857   1.0  2462.205692  2.877499e-40  ***</span>
+<span class="go">Residual   125.554874  44.0          NaN           NaN  NaN</span>
+</pre></div>
+</div>
+<p>The p-value of <em>Species</em> &lt; 0.05, so the mean values of <em>Pulse</em> are different between the three <em>Species</em>, even after <em>Temp</em> being controlled.</p>
+</dd></dl>
 
 </section>
 

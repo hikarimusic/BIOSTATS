@@ -104,20 +104,26 @@ def binomial_test(data, variable, expect):
     cat = data.groupby(variable, sort=False)[variable].groups.keys()
     obs = []
     exp = []
+    pro_o = []
+    pro_e = []
+    exp_sum = sum(list(expect.values()))
     for var in cat:
-        CC(lambda: obs.append(data[variable].value_counts()[var]))
-    exp_val = list(expect.values())
-    for var in cat:
-        CC(lambda: exp.append(expect[var] / sum(exp_val)))
+        obs_val = CC(lambda: data[variable].value_counts()[var])
+        obs.append(CC(lambda: obs_val))
+        pro_o.append(CC(lambda: obs_val / len(data)))
+        exp.append(CC(lambda: expect[var] * len(data) / exp_sum))
+        pro_e.append(CC(lambda: expect[var] / exp_sum))
 
     summary = pd.DataFrame(
         {
             "Observe" : CC(lambda: obs),
-            "Expect"  : CC(lambda: exp)
+            "Prop.(Obs.)" : CC(lambda: pro_o),
+            "Expect"  : CC(lambda: exp),
+            "Prop.(Exp.)" : CC(lambda: pro_e),
         }, index=cat
     )
 
-    test = binom_exact(obs, exp)
+    test = binom_exact(obs, pro_e)
     p = CC(lambda: test.calc())
 
     result = pd.DataFrame(

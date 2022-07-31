@@ -555,15 +555,15 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.one_way_anova">
 <span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">one_way_anova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L35-L178"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.one_way_anova" title="Permalink to this definition">#</a></dt>
-<dd><p>Test whether the mean values of a variable are defferent in several groups.</p>
+<dd><p>Test whether the mean values of a variable are different between several groups.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
 <dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must Contain at least one numeric column and one categorical column.</p>
 </dd>
-<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The name of the <em>variable</em> column. The means of values in the <em>variable</em> column are our targets.</p>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The numeric variable that we want to calculate mean values of.</p>
 </dd>
-<dt><strong>between</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The name of the <em>between</em> column. Values in the <em>between</em> column indicate which group a sample belongs to.</p>
+<dt><strong>between</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that specifies which group the samples belong to.</p>
 </dd>
 </dl>
 </dd>
@@ -571,7 +571,7 @@
 <dd class="field-even"><dl>
 <dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The counts, mean values, standard deviations, and confidence intervals of each group.</p>
 </dd>
-<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, chi square statistic, and p-value of the test.</p>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, sum of squares, mean of squares, F statistic, and p-value of the test.</p>
 </dd>
 </dl>
 </dd>
@@ -579,11 +579,11 @@
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference internal" href="biostats.two_way_anova.html#biostats.two_way_anova" title="biostats.two_way_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_way_anova</span></code></a></dt><dd><p>Test whether the mean values are different in groups, classified in two ways.</p>
+<dt><a class="reference internal" href="biostats.one_way_ancova.html#biostats.one_way_ancova" title="biostats.one_way_ancova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_way_ancova</span></code></a></dt><dd><p>Test whether the mean values are different between groups, when another variable is controlled.</p>
 </dd>
-<dt><a class="reference internal" href="biostats.one_way_ancova.html#biostats.one_way_ancova" title="biostats.one_way_ancova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_way_ancova</span></code></a></dt><dd><p>Test whether the mean values are different in groups, when another variable is controlled.</p>
+<dt><a class="reference internal" href="biostats.two_way_anova.html#biostats.two_way_anova" title="biostats.two_way_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_way_anova</span></code></a></dt><dd><p>Test whether the mean values are different between groups, when classified in two ways.</p>
 </dd>
-<dt><a class="reference internal" href="biostats.kruskal_wallis_test.html#biostats.kruskal_wallis_test" title="biostats.kruskal_wallis_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kruskal_wallis_test</span></code></a></dt><dd><p>The non-parametric alternative to one-way ANOVA.</p>
+<dt><a class="reference internal" href="biostats.kruskal_wallis_test.html#biostats.kruskal_wallis_test" title="biostats.kruskal_wallis_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kruskal_wallis_test</span></code></a></dt><dd><p>The non-parametric version of one-way ANOVA.</p>
 </dd>
 </dl>
 </div>

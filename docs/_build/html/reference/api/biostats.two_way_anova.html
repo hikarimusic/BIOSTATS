@@ -554,8 +554,105 @@
 <h1>biostats.two_way_anova<a class="headerlink" href="#biostats-two-way-anova" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.two_way_anova">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">two_way_anova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between_2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L181-L243"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.two_way_anova" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">two_way_anova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between_2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L181-L336"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.two_way_anova" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether the mean values of a variable are different between several groups, when the groups are classified in two ways.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must Contain at least one numeric column and two categorical columns.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The numeric variable that we want to calculate mean values of.</p>
+</dd>
+<dt><strong>between_1</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The first categorical variable that specifies the groups of the samples.</p>
+</dd>
+<dt><strong>between_2</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The second categorical variable that specifies the groups of the samples.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The counts, mean values, standard deviations, and confidence intervals of each combination of groups.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degrees of freedom, sums of squares, means of squares, F statistics, and p-values of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.two_way_ancova.html#biostats.two_way_ancova" title="biostats.two_way_ancova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">two_way_ancova</span></code></a></dt><dd><p>Two-way ANOVA with another variable being controlled.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.one_way_anova.html#biostats.one_way_anova" title="biostats.one_way_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_way_anova</span></code></a></dt><dd><p>Test whether the mean values are different between groups.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;two_way_anova.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Activity     Sex Genotype</span>
+<span class="go">0      1.884    male       ff</span>
+<span class="go">1      2.283    male       ff</span>
+<span class="go">2      2.396    male       fs</span>
+<span class="go">3      2.838  female       ff</span>
+<span class="go">4      2.956    male       fs</span>
+<span class="go">5      4.216  female       ff</span>
+<span class="go">6      3.620  female       ss</span>
+<span class="go">7      2.889  female       ff</span>
+<span class="go">8      3.550  female       fs</span>
+<span class="go">9      3.105    male       fs</span>
+<span class="go">10     4.556  female       fs</span>
+<span class="go">11     3.087  female       fs</span>
+<span class="go">12     4.939    male       ff</span>
+<span class="go">13     3.486    male       ff</span>
+<span class="go">14     3.079  female       ss</span>
+<span class="go">15     2.649    male       fs</span>
+<span class="go">16     1.943  female       fs</span>
+<span class="go">17     4.198  female       ff</span>
+<span class="go">18     2.473  female       ff</span>
+<span class="go">19     2.033  female       ff</span>
+<span class="go">20     2.200  female       fs</span>
+<span class="go">21     2.157  female       fs</span>
+<span class="go">22     2.801    male       ss</span>
+<span class="go">23     3.421    male       ss</span>
+<span class="go">24     1.811  female       ff</span>
+<span class="go">25     4.281  female       fs</span>
+<span class="go">26     4.772  female       fs</span>
+<span class="go">27     3.586  female       ss</span>
+<span class="go">28     3.944  female       ff</span>
+<span class="go">29     2.669  female       ss</span>
+<span class="go">30     3.050  female       ss</span>
+<span class="go">31     4.275    male       ss</span>
+<span class="go">32     2.963  female       ss</span>
+<span class="go">33     3.236  female       ss</span>
+<span class="go">34     3.673  female       ss</span>
+<span class="go">35     3.110    male       ss</span>
+</pre></div>
+</div>
+<p>We want to test that whether the mean values of <em>Activity</em> are different between <em>male</em> and <em>female</em>, and between <em>ff</em>, <em>fs</em> and <em>ss</em>. We also want to test that whether there is an interaction between <em>Sex</em> and <em>Genotype</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">two_way_anova</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Activity&quot;</span><span class="p">,</span> <span class="n">between_1</span><span class="o">=</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="n">between_2</span><span class="o">=</span><span class="s2">&quot;Genotype&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">      Sex Genotype  Count     Mean  Std. Deviation  95% CI: Lower  95% CI: Upper</span>
+<span class="go">1    male       ff    4.0  3.14800        1.374512       0.960845       5.335155</span>
+<span class="go">2    male       fs    4.0  2.77650        0.316843       2.272332       3.280668</span>
+<span class="go">3    male       ss    4.0  3.40175        0.634811       2.391624       4.411876</span>
+<span class="go">4  female       ff    8.0  3.05025        0.959903       2.247751       3.852749</span>
+<span class="go">5  female       fs    8.0  3.31825        1.144539       2.361392       4.275108</span>
+<span class="go">6  female       ss    8.0  3.23450        0.361775       2.932048       3.536952</span>
+</pre></div>
+</div>
+<p>The mean values and 95% confidence intervals of each combination of <em>Sex</em> and <em>Genotype</em> are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">                D.F.  Sum Square  Mean Square  F Statistic   p-value    </span>
+<span class="go">Sex              1.0    0.068080     0.068080     0.086128  0.771180 NaN</span>
+<span class="go">Genotype         2.0    0.277240     0.138620     0.175366  0.840004 NaN</span>
+<span class="go">Sex : Genotype   2.0    0.814641     0.407321     0.515295  0.602515 NaN</span>
+<span class="go">Residual        30.0   23.713823     0.790461          NaN       NaN NaN</span>
+</pre></div>
+</div>
+<p>The p-value of <em>Sex</em> &gt; 0.05, so <em>Activity</em> are not different between the two <em>Sex</em>. The p-value of <em>Genotype</em> &gt; 0.05, so <em>Activity</em> are not different between the three <em>Genotype</em>. The p-value of interaction &gt; 0.05, so there is no interaction between <em>Sex</em> and <em>Genotype</em>.</p>
+</dd></dl>
 
 </section>
 

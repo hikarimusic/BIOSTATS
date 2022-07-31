@@ -1086,8 +1086,8 @@ class Test(ttk.Frame):
                 
                 if variable != self.temp:
                     opt = self.master.data[variable].dropna().unique().tolist()
-                    initial = [1 / len(opt)] * len(opt)
-                    self.option[1].entry_more_set(opt, initial, 6)
+                    #initial = [1 / len(opt)] * len(opt)
+                    self.option[1].entry_more_set(opt, [""]*len(opt), 6)
                 self.temp = variable
 
                 expect = self.option[1].entry_more_get()
@@ -1180,8 +1180,8 @@ class Test(ttk.Frame):
                 
                 if variable != self.temp:
                     opt = self.master.data[variable].dropna().unique().tolist()
-                    initial = [1 / len(opt)] * len(opt)
-                    self.option[1].entry_more_set(opt, initial, 6)
+                    #initial = [1 / len(opt)] * len(opt)
+                    self.option[1].entry_more_set(opt, [""]*len(opt), 6)
                 self.temp = variable
 
                 expect = self.option[1].entry_more_get()

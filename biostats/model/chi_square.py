@@ -37,22 +37,22 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
     data : :py:class:`pandas.DataFrame`
         The input data. Must Contain at least two categorical columns.
     variable_1 : :py:class:`str`
-        The name of the first categorical column.
+        The first categorical column.
     variable_2 : :py:class:`str`
-        The name of the second categorical column. Switching the two variables will not change the result of chi-square test.
+        The second categorical column. Switching the two variables will not change the result of chi-square test.
     kind : :py:class:`str`
         The way to summarize the contingency table.
-        * "count" : Count the appearance.
-        * "vertical" : Calculate the proportion vertically, so that the sum of each column equals 1.
-        * "horizontal" : Calculate the proportion horizontally, so that the sum of each row equals 1.
-        * "overall" : Calculate the overall proportion, so that the sum of the whole table equals 1.
+        * "count" : Count the frequencies of occurance.
+        * "vertical" : Calculate proportions vertically, so that the sum of each column equals 1.
+        * "horizontal" : Calculate proportions horizontally, so that the sum of each row equals 1.
+        * "overall" : Calculate overall proportions, so that the sum of the whole table equals 1.
 
     Returns
     -------
     summary : :py:class:`pandas.DataFrame`
-        The contingency table of the two categorical columns.
+        The contingency table of the two categorical variables.
     result : :py:class:`pandas.DataFrame`
-        The degree of freedom, t statistic, and p-value of the test.
+        The degree of freedom, chi-square statistic, and p-value of the test.
 
     See also
     --------
@@ -86,7 +86,7 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
     ins-del  0.792276    0.207724
     ins-ins  0.750698    0.249302
 
-    The proportion of *disease* in different *Genotype*.
+    The proportions of *disease* in different *Genotype*.
 
     >>> result
             D.F.  Chi Square   p-value   
@@ -195,6 +195,34 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
     return summary, result
 
 def chi_square_test_fit(data, variable, expect):
+    '''
+    Test whether the proportion of a variable is different from the expected proportion.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must Contain at least one categorical column.
+    variable : :py:class:`str`
+        The categorical column that we want to calculate the proportion of.
+    expect : :py:class:`dict`
+        The expected proportions of each group. The sum of the proportions will be automatically normalized to 1.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The contingency table of the two categorical variables.
+    result : :py:class:`pandas.DataFrame`
+        The degree of freedom, chi-square statistic, and p-value of the test.
+
+    See also
+    --------
+    fisher_exact_test : The exact version of chi-square test.
+    mantel_haenszel_test : Test the association between two categorical variables in stratified data.
+
+    Examples
+    --------
+    
+    '''
     
     process(data)
     data = data[[variable]].dropna()
@@ -205,20 +233,26 @@ def chi_square_test_fit(data, variable, expect):
     cat = data.groupby(variable, sort=False)[variable].groups.keys()
     obs = []
     exp = []
+    pro_o = []
+    pro_e = []
+    exp_sum = sum(list(expect.values()))
     for var in cat:
-        obs.append(CC(lambda: data[variable].value_counts()[var]))
-    exp_val = list(expect.values())
-    for var in cat:
-        exp.append(CC(lambda: expect[var] * sum(obs) / sum(exp_val)))
-    dim = CC(lambda: len(obs))
+        obs_val = CC(lambda: data[variable].value_counts()[var])
+        obs.append(CC(lambda: obs_val))
+        pro_o.append(CC(lambda: obs_val / len(data)))
+        exp.append(CC(lambda: expect[var] * len(data) / exp_sum))
+        pro_e.append(CC(lambda: expect[var] / exp_sum))
 
     summary = pd.DataFrame(
         {
             "Observe" : CC(lambda: obs),
-            "Expect"  : CC(lambda: exp)
+            "Prop.(Obs.)" : CC(lambda: pro_o),
+            "Expect"  : CC(lambda: exp),
+            "Prop.(Exp.)" : CC(lambda: pro_e),
         }, index=cat
     )
 
+    dim = CC(lambda: len(obs))
     chi2 = 0
     for i in range(dim):
         chi2 = CC(lambda: chi2 + (obs[i]-exp[i]) * (obs[i]-exp[i]) / exp[i])
