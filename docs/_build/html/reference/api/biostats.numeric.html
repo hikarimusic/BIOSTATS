@@ -554,8 +554,83 @@
 <h1>biostats.numeric<a class="headerlink" href="#biostats-numeric" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.numeric">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">numeric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L21-L68"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.numeric" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">numeric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L21-L139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.numeric" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute descriptive statistics of numeric variables.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one numeric column.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>The list of numeric variables to be analyzed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The count, arithmetic mean, median, geometric mean, harmonic mean, mode, / sample variance, sample standard deviation, coefficient of variation, population variance, population standard deviation, / minimum, 25% percentile, 50% percentile, 75% percentile, maximum, range, interquartile range, / standard error, two-sided 95% confidence interval (lower and upper limit), and one-sided 95% confidence interval (lower and upper limit) of each variable.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.numeric_grouped.html#biostats.numeric_grouped" title="biostats.numeric_grouped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric_grouped</span></code></a></dt><dd><p>Compute descriptive statistics of a numeric variable in different groups.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.one_sample_t_test.html#biostats.one_sample_t_test" title="biostats.one_sample_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_sample_t_test</span></code></a></dt><dd><p>Test whether the mean value of a variable is different from the expected value.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;numeric.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Fish   Crab  Temperature</span>
+<span class="go">0   76.0  123.0         25.7</span>
+<span class="go">1  102.0  265.0         20.1</span>
+<span class="go">2   12.0   35.0          4.2</span>
+<span class="go">3   39.0   86.0         11.4</span>
+<span class="go">4   55.0  140.0         31.2</span>
+<span class="go">5   93.0  315.0         21.0</span>
+<span class="go">6   98.0  279.0         17.8</span>
+<span class="go">7   53.0  120.0         13.3</span>
+<span class="go">8  102.0  312.0         18.5</span>
+</pre></div>
+</div>
+<p>We want to compute descriptive statistics of the three variables.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">numeric</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Fish&quot;</span><span class="p">,</span> <span class="s2">&quot;Crab&quot;</span><span class="p">,</span> <span class="s2">&quot;Temperature&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">                                  Fish          Crab  Temperature</span>
+<span class="go">Count                         9.000000      9.000000     9.000000</span>
+<span class="go">Mean                         70.000000    186.111111    18.133333</span>
+<span class="go">Median                       76.000000    140.000000    18.500000</span>
+<span class="go">Geometric Mean               59.835149    152.721285    16.057497</span>
+<span class="go">Harmonic Mean                45.057085    116.064406    13.243700</span>
+<span class="go">Mode                        102.000000     35.000000     4.200000</span>
+<span class="go">                                NaN           NaN          NaN</span>
+<span class="go">Variance                   1029.500000  11331.111111    62.895000</span>
+<span class="go">Std. Deviation               32.085822    106.447692     7.930637</span>
+<span class="go">Coef. Variation               0.458369      0.571958     0.437351</span>
+<span class="go">(Population) Variance       915.111111  10072.098765    55.906667</span>
+<span class="go">(Population) Std.Dev         30.250803    100.359846     7.477076</span>
+<span class="go">                                NaN           NaN          NaN</span>
+<span class="go">Minimum                      12.000000     35.000000     4.200000</span>
+<span class="go">25% Percentile               53.000000    120.000000    13.300000</span>
+<span class="go">50% Percentile               76.000000    140.000000    18.500000</span>
+<span class="go">75% Percentile               98.000000    279.000000    21.000000</span>
+<span class="go">Maximum                     102.000000    315.000000    31.200000</span>
+<span class="go">Range                        90.000000    280.000000    27.000000</span>
+<span class="go">Interquartile Range          45.000000    159.000000     7.700000</span>
+<span class="go">                                NaN           NaN          NaN</span>
+<span class="go">Std. Error                   10.695274     35.482564     2.643546</span>
+<span class="go">95% CI: Lower                45.336654    104.288172    12.037306</span>
+<span class="go">95% CI: Upper                94.663346    267.934050    24.229360</span>
+<span class="go">(One-Sided) 95% CI: Lower    50.111624    120.129579    13.217533</span>
+<span class="go">(One-Sided) 95% CI: Upper    89.888376    252.092643    23.049133</span>
+</pre></div>
+</div>
+<p>Descriptive statistics of the three variables are computed.</p>
+</dd></dl>
 
 </section>
 

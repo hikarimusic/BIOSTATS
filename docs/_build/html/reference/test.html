@@ -607,16 +607,16 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.numeric.html#biostats.numeric" title="biostats.numeric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></a>(data, variable)</p></td>
-<td><p></p></td>
+<td><p>Compute descriptive statistics of numeric variables.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/biostats.numeric_grouped.html#biostats.numeric_grouped" title="biostats.numeric_grouped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric_grouped</span></code></a>(data, variable, group)</p></td>
-<td><p></p></td>
+<td><p>Compute descriptive statistics of a numeric variable in different groups.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.categorical.html#biostats.categorical" title="biostats.categorical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">categorical</span></code></a>(data, variable)</p></td>
-<td><p></p></td>
+<td><p>Compute descriptive statistics of a categorical variable.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/biostats.contingency.html#biostats.contingency" title="biostats.contingency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contingency</span></code></a>(data, variable_1, variable_2[, kind])</p></td>
-<td><p></p></td>
+<td><p>Compute the contingency table of two categorical variables.</p></td>
 </tr>
 </tbody>
 </table>
@@ -670,10 +670,10 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.binomial_test.html#biostats.binomial_test" title="biostats.binomial_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">binomial_test</span></code></a>(data, variable, expect)</p></td>
-<td><p></p></td>
+<td><p>Test whether the proportion in a categorical variable is different from the expected proportion.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/biostats.fisher_exact_test.html#biostats.fisher_exact_test" title="biostats.fisher_exact_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fisher_exact_test</span></code></a>(data, variable_1, variable_2)</p></td>
-<td><p></p></td>
+<td><p>Test whether there is an association between two categorical variables.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.mcnemar_exact_test.html#biostats.mcnemar_exact_test" title="biostats.mcnemar_exact_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mcnemar_exact_test</span></code></a>(data, variable_1, ...)</p></td>
 <td><p></p></td>
@@ -689,7 +689,7 @@
 <td><p>Test whether there is an association between two categorical variables.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/biostats.chi_square_test_fit.html#biostats.chi_square_test_fit" title="biostats.chi_square_test_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chi_square_test_fit</span></code></a>(data, variable, expect)</p></td>
-<td><p></p></td>
+<td><p>Test whether the proportion of groups in a categorical variable is different from the expected proportion.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.mcnemar_test.html#biostats.mcnemar_test" title="biostats.mcnemar_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mcnemar_test</span></code></a>(data, variable_1, variable_2, pair)</p></td>
 <td><p></p></td>
@@ -705,16 +705,16 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.correlation.html#biostats.correlation" title="biostats.correlation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation</span></code></a>(data, x, y)</p></td>
-<td><p></p></td>
+<td><p>Test whether there is a correlation between two numeric variables.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/biostats.correlation_matrix.html#biostats.correlation_matrix" title="biostats.correlation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation_matrix</span></code></a>(data, variable)</p></td>
-<td><p></p></td>
+<td><p>Compute the correlation coefficients between every two variables.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.simple_linear_regression.html#biostats.simple_linear_regression" title="biostats.simple_linear_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_linear_regression</span></code></a>(data, x, y)</p></td>
-<td><p></p></td>
+<td><p>Fit an equation that predicts a numeric variable from another numeric variable.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/biostats.multiple_linear_regression.html#biostats.multiple_linear_regression" title="biostats.multiple_linear_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_linear_regression</span></code></a>(data, x_numeric, ...)</p></td>
-<td><p>Fit an equation that can predict a numeric variable from other variables.</p></td>
+<td><p>Fit an equation that predicts a numeric variable from other variables.</p></td>
 </tr>
 </tbody>
 </table>
@@ -724,16 +724,16 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.simple_logistic_regression.html#biostats.simple_logistic_regression" title="biostats.simple_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_logistic_regression</span></code></a>(data, x, y, target)</p></td>
-<td><p></p></td>
+<td><p>Fit an equation that predicts a dichotomous categorical variable from a numeric variable.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/biostats.multiple_logistic_regression.html#biostats.multiple_logistic_regression" title="biostats.multiple_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_logistic_regression</span></code></a>(data, ...)</p></td>
-<td><p></p></td>
+<td><p>Fit an equation that predicts a dichotomous categorical variable from other variables.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.ordered_logistic_regression.html#biostats.ordered_logistic_regression" title="biostats.ordered_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ordered_logistic_regression</span></code></a>(data, x_numeric, ...)</p></td>
-<td><p></p></td>
+<td><p>Fit an equation that predicts an ordered categorical variable from other variables.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/biostats.multinomial_logistic_regression.html#biostats.multinomial_logistic_regression" title="biostats.multinomial_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multinomial_logistic_regression</span></code></a>(data, ...)</p></td>
-<td><p></p></td>
+<td><p>Fit an equation that predicts a multinomial categorical variable from other variables.</p></td>
 </tr>
 </tbody>
 </table>
@@ -771,10 +771,10 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.screening_test.html#biostats.screening_test" title="biostats.screening_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">screening_test</span></code></a>(data, disease, ...)</p></td>
-<td><p></p></td>
+<td><p>Compute some common statistics of a screening test.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/biostats.epidemiologic_study.html#biostats.epidemiologic_study" title="biostats.epidemiologic_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epidemiologic_study</span></code></a>(data, disease, ...)</p></td>
-<td><p></p></td>
+<td><p>Compute some common statistics of an epidemiologic study.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/biostats.factor_analysis.html#biostats.factor_analysis" title="biostats.factor_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">factor_analysis</span></code></a>(data, x, factors, analyze)</p></td>
 <td><p></p></td>

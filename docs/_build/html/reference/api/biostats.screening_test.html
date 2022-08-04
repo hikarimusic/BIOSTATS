@@ -554,8 +554,80 @@
 <h1>biostats.screening_test<a class="headerlink" href="#biostats-screening-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.screening_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">screening_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L26-L71"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.screening_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">screening_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L26-L139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.screening_test" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute some common statistics of a screening test.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least two categorical columns.</p>
+</dd>
+<dt><strong>disease</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The variable specifying the disease (or condition).</p>
+</dd>
+<dt><strong>disease_target</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The group of the disease variable that is considered “positive”.</p>
+</dd>
+<dt><strong>test</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The variable specifying the test (or symptom).</p>
+</dd>
+<dt><strong>test_target</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The group of the test variable that is considered “positive”.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The contingency table of true positive, true negative, false positive, and false negative.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The values and confidence intervals of sensitivity (recall), specificity (selectivity), positive predictive value (precision), negative predictive value, accuracy, and prevalence.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.epidemiologic_study.html#biostats.epidemiologic_study" title="biostats.epidemiologic_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epidemiologic_study</span></code></a></dt><dd><p>Compute some common statistics of an epidemiologic study.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.contingency.html#biostats.contingency" title="biostats.contingency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contingency</span></code></a></dt><dd><p>Compute the contingency table of two categorical variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;screening_test.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">      Cancer  PSA Test</span>
+<span class="go">0    Present  Negative</span>
+<span class="go">1     Absent  Negative</span>
+<span class="go">2    Present  Positive</span>
+<span class="go">3     Absent  Negative</span>
+<span class="go">4    Present  Positive</span>
+<span class="go">..       ...       ...</span>
+<span class="go">232  Present  Negative</span>
+<span class="go">233  Present  Positive</span>
+<span class="go">234  Present  Negative</span>
+<span class="go">235   Absent  Negative</span>
+<span class="go">236  Present  Positive</span>
+</pre></div>
+</div>
+<p>We want to compute the sensitivity, specificity and so on of the screening test that detect <em>Cancer</em> from <em>PSA Test</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">screening_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">disease</span><span class="o">=</span><span class="s2">&quot;Cancer&quot;</span><span class="p">,</span> <span class="n">disease_target</span><span class="o">=</span><span class="s2">&quot;Present&quot;</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="s2">&quot;PSA Test&quot;</span><span class="p">,</span> <span class="n">test_target</span><span class="o">=</span><span class="s2">&quot;Positive&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">              Cancer (+)  Cancer (-)</span>
+<span class="go">PSA Test (+)        92.0        27.0</span>
+<span class="go">PSA Test (-)        46.0        72.0</span>
+</pre></div>
+</div>
+<p>The contingency table of TP (true positive), TN, FP and FN is given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">             Estimation  95% CI: Lower  95% CI: Upper</span>
+<span class="go">Sensitivity    0.666667       0.584443       0.739862</span>
+<span class="go">Specificity    0.727273       0.632291       0.805276</span>
+<span class="go">Positive PV    0.773109       0.690014       0.839123</span>
+<span class="go">Negative PV    0.610169       0.520027       0.693365</span>
+<span class="go">Accuracy       0.691983       0.630534       0.747308</span>
+<span class="go">Prevalence     0.582278       0.518666       0.643266</span>
+</pre></div>
+</div>
+<p>The values and confidence intervals of sensitivity, specificity and so on are computed.</p>
+</dd></dl>
 
 </section>
 

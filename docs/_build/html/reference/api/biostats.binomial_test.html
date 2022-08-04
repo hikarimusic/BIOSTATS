@@ -554,8 +554,78 @@
 <h1>biostats.binomial_test<a class="headerlink" href="#biostats-binomial-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.binomial_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">binomial_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/exact_test.py#L94-L134"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.binomial_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">binomial_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/exact_test.py#L94-L205"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.binomial_test" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether the proportion in a categorical variable is different from the expected proportion.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one categorical column.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that we want to calculate the proportion of.</p>
+</dd>
+<dt><strong>expect</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></dt><dd><p>The expected proportions of each group. The sum of the proportions will be automatically normalized to 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The observed counts and proportions of each group, and the expected counts and proportions of each group.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The p-value of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.chi_square_test_fit.html#biostats.chi_square_test_fit" title="biostats.chi_square_test_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chi_square_test_fit</span></code></a></dt><dd><p>The normal approximation version of binomial test.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.fisher_exact_test.html#biostats.fisher_exact_test" title="biostats.fisher_exact_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fisher_exact_test</span></code></a></dt><dd><p>Test the association between two categorical variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The binomial test calculates the exact p-value by iterating through all the possible distributions, so it may consume lots of time when the size of data is huge. For larger data, <a class="reference internal" href="biostats.chi_square_test_fit.html#biostats.chi_square_test_fit" title="biostats.chi_square_test_fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">chi_square_test_fit()</span></code></a> is recommended.</p>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;binomial_test.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">     Flower</span>
+<span class="go">0    Purple</span>
+<span class="go">1    Purple</span>
+<span class="go">2       Red</span>
+<span class="go">3      Blue</span>
+<span class="go">4     White</span>
+<span class="go">..      ...</span>
+<span class="go">143  Purple</span>
+<span class="go">144  Purple</span>
+<span class="go">145    Blue</span>
+<span class="go">146     Red</span>
+<span class="go">147    Blue</span>
+</pre></div>
+</div>
+<p>We want to test whether the proportion in <em>Flower</em> is different from the expected proportions.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">binomial_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Flower&quot;</span><span class="p">,</span> <span class="n">expect</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Purple&quot;</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;Red&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Blue&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;White&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">        Observe  Prop.(Obs.)  Expect  Prop.(Exp.)</span>
+<span class="go">Purple     72.0     0.486486   83.25       0.5625</span>
+<span class="go">Red        38.0     0.256757   27.75       0.1875</span>
+<span class="go">Blue       20.0     0.135135   27.75       0.1875</span>
+<span class="go">White      18.0     0.121622    9.25       0.0625</span>
+</pre></div>
+</div>
+<p>The observed and expected counts and proportions of each group are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">        p-value    </span>
+<span class="go">Model  0.002255  **</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.01, so the observed proportions are significantly different from the expected proportions.</p>
+</dd></dl>
 
 </section>
 

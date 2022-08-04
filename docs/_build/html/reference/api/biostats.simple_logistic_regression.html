@@ -554,8 +554,93 @@
 <h1>biostats.simple_logistic_regression<a class="headerlink" href="#biostats-simple-logistic-regression" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.simple_logistic_regression">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">simple_logistic_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/logistic_regression.py#L35-L82"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.simple_logistic_regression" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">simple_logistic_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/logistic_regression.py#L35-L162"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.simple_logistic_regression" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit an equation that predicts a dichotomous categorical variable from a numeric variable.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one categorical column and one numeric column.</p>
+</dd>
+<dt><strong>x</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The predictor variable. Must be numeric.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The response variable. Must be categorical.</p>
+</dd>
+<dt><strong>target</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The target group of the categorical variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The coefficients of the fitted equation, along with the confidence intervals, standard errors, z statistics, and p-values.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The pseudo R-squared and p-value of the fitted model.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.multiple_logistic_regression.html#biostats.multiple_logistic_regression" title="biostats.multiple_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_logistic_regression</span></code></a></dt><dd><p>Fit an equation that predicts a dichotomous categorical variable from other variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.ordered_logistic_regression.html#biostats.ordered_logistic_regression" title="biostats.ordered_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ordered_logistic_regression</span></code></a></dt><dd><p>Fit an equation that predicts an ordered categorical variable from other variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.multinomial_logistic_regression.html#biostats.multinomial_logistic_regression" title="biostats.multinomial_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multinomial_logistic_regression</span></code></a></dt><dd><p>Fit an equation that predicts a multinomial categorical variable from other variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;simple_logistic_regression.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Continuous Factor</span>
+<span class="go">0         62.0      A</span>
+<span class="go">1         63.0      A</span>
+<span class="go">2         64.0      A</span>
+<span class="go">3         65.0      A</span>
+<span class="go">4         66.0      A</span>
+<span class="go">5         67.0      A</span>
+<span class="go">6         68.0      A</span>
+<span class="go">7         69.0      A</span>
+<span class="go">8         70.0      A</span>
+<span class="go">9         71.0      A</span>
+<span class="go">10        72.0      A</span>
+<span class="go">11        73.0      A</span>
+<span class="go">12        74.0      A</span>
+<span class="go">13        75.0      A</span>
+<span class="go">14        72.5      B</span>
+<span class="go">15        73.5      B</span>
+<span class="go">16        74.5      B</span>
+<span class="go">17        75.0      B</span>
+<span class="go">18        76.0      B</span>
+<span class="go">19        77.0      B</span>
+<span class="go">20        78.0      B</span>
+<span class="go">21        79.0      B</span>
+<span class="go">22        80.0      B</span>
+<span class="go">23        81.0      B</span>
+<span class="go">24        82.0      B</span>
+<span class="go">25        83.0      B</span>
+<span class="go">26        84.0      B</span>
+<span class="go">27        85.0      B</span>
+<span class="go">28        86.0      B</span>
+</pre></div>
+</div>
+<p>We want to fit an equation that predicts <em>Factor</em> from <em>Continuous</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">simple_logistic_regression</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Continuous&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Factor&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">            Coefficient  95% CI: Lower  95% CI: Upper  Std. Error  z Statistic   p-value   </span>
+<span class="go">Intercept    -66.498134    -129.959199      -3.037069   32.378689    -2.053762  0.039999  *</span>
+<span class="go">Continuous     0.902667       0.042352       1.762982    0.438945     2.056449  0.039739  *</span>
+</pre></div>
+</div>
+<p>The coefficients of the fitted equation, along with confidence intervals and p-values are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">       Pseudo R-Squared       p-value     </span>
+<span class="go">Model          0.697579  1.200433e-07  ***</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.001, so there is a significant relation between the predictor and response variables.</p>
+</dd></dl>
 
 </section>
 

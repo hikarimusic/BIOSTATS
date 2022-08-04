@@ -35,13 +35,14 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
     Parameters
     ----------
     data : :py:class:`pandas.DataFrame`
-        The input data. Must Contain at least two categorical columns.
+        The input data. Must contain at least two categorical columns.
     variable_1 : :py:class:`str`
-        The first categorical column.
+        The first categorical variable.
     variable_2 : :py:class:`str`
-        The second categorical column. Switching the two variables will not change the result of chi-square test.
+        The second categorical variable. Switching the two variables will not change the result of chi-square test.
     kind : :py:class:`str`
         The way to summarize the contingency table.
+        
         * "count" : Count the frequencies of occurance.
         * "vertical" : Calculate proportions vertically, so that the sum of each column equals 1.
         * "horizontal" : Calculate proportions horizontally, so that the sum of each row equals 1.
@@ -57,6 +58,7 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
     See also
     --------
     fisher_exact_test : The exact version of chi-square test.
+    chi_square_test_fit : Test the difference between the observed and expected proportion of a variable.
     mantel_haenszel_test : Test the association between two categorical variables in stratified data.
 
     Examples
@@ -86,7 +88,7 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
     ins-del  0.792276    0.207724
     ins-ins  0.750698    0.249302
 
-    The proportions of *disease* in different *Genotype*.
+    The proportions of *disease* in different *Genotype* are given.
 
     >>> result
             D.F.  Chi Square   p-value   
@@ -196,32 +198,65 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
 
 def chi_square_test_fit(data, variable, expect):
     '''
-    Test whether the proportion of a variable is different from the expected proportion.
+    Test whether the proportion of groups in a categorical variable is different from the expected proportion.
 
     Parameters
     ----------
     data : :py:class:`pandas.DataFrame`
-        The input data. Must Contain at least one categorical column.
+        The input data. Must contain at least one categorical column.
     variable : :py:class:`str`
-        The categorical column that we want to calculate the proportion of.
+        The categorical variable that we want to calculate the proportion of.
     expect : :py:class:`dict`
         The expected proportions of each group. The sum of the proportions will be automatically normalized to 1.
 
     Returns
     -------
     summary : :py:class:`pandas.DataFrame`
-        The contingency table of the two categorical variables.
+        The observed counts and proportions of each group, and the expected counts and proportions of each group.
     result : :py:class:`pandas.DataFrame`
         The degree of freedom, chi-square statistic, and p-value of the test.
 
     See also
     --------
-    fisher_exact_test : The exact version of chi-square test.
-    mantel_haenszel_test : Test the association between two categorical variables in stratified data.
+    binomial_test : The exact version of chi-square test (fit).
+    chi_square_test : Test the association between two categorical variables.
 
     Examples
     --------
-    
+    >>> import biostats as bs
+    >>> data = bs.dataset("chi_square_test_fit.csv")
+    >>> data
+            Canopy
+    0      Douglas
+    1    Ponderosa
+    2    Ponderosa
+    3    Ponderosa
+    4      Douglas
+    ..         ...
+    151    Douglas
+    152    Douglas
+    153  Ponderosa
+    154    Douglas
+    155    Douglas
+
+    We want to test whether the proportions of each *Canopy* are different from the expected proportions.
+
+    >>> summary, result = bs.chi_square_test_fit(data=data, variable="Canopy", expect={"Douglas":0.54, "Ponderosa":0.40, "Grand":0.05, "Western":0.01})
+    >>> summary
+               Observe  Prop.(Obs.)  Expect  Prop.(Exp.)
+    Douglas       70.0     0.448718   84.24         0.54
+    Ponderosa     79.0     0.506410   62.40         0.40
+    Western        4.0     0.025641    1.56         0.01
+    Grand          3.0     0.019231    7.80         0.05
+
+    The observed and expected counts and proportions of each group are given.
+
+    >>> result
+            D.F.  Chi Square   p-value    
+    Normal   3.0   13.593424  0.003514  **
+
+    The p-value < 0.01, so the observed proportions are significantly different from the expected proportions.
+
     '''
     
     process(data)

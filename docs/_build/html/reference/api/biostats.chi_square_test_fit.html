@@ -554,8 +554,73 @@
 <h1>biostats.chi_square_test_fit<a class="headerlink" href="#biostats-chi-square-test-fit" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.chi_square_test_fit">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">chi_square_test_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/chi_square.py#L197-L239"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.chi_square_test_fit" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">chi_square_test_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/chi_square.py#L199-L308"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.chi_square_test_fit" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether the proportion of groups in a categorical variable is different from the expected proportion.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one categorical column.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that we want to calculate the proportion of.</p>
+</dd>
+<dt><strong>expect</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></dt><dd><p>The expected proportions of each group. The sum of the proportions will be automatically normalized to 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The observed counts and proportions of each group, and the expected counts and proportions of each group.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, chi-square statistic, and p-value of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.binomial_test.html#biostats.binomial_test" title="biostats.binomial_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">binomial_test</span></code></a></dt><dd><p>The exact version of chi-square test (fit).</p>
+</dd>
+<dt><a class="reference internal" href="biostats.chi_square_test.html#biostats.chi_square_test" title="biostats.chi_square_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chi_square_test</span></code></a></dt><dd><p>Test the association between two categorical variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;chi_square_test_fit.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">        Canopy</span>
+<span class="go">0      Douglas</span>
+<span class="go">1    Ponderosa</span>
+<span class="go">2    Ponderosa</span>
+<span class="go">3    Ponderosa</span>
+<span class="go">4      Douglas</span>
+<span class="go">..         ...</span>
+<span class="go">151    Douglas</span>
+<span class="go">152    Douglas</span>
+<span class="go">153  Ponderosa</span>
+<span class="go">154    Douglas</span>
+<span class="go">155    Douglas</span>
+</pre></div>
+</div>
+<p>We want to test whether the proportions of each <em>Canopy</em> are different from the expected proportions.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">chi_square_test_fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Canopy&quot;</span><span class="p">,</span> <span class="n">expect</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Douglas&quot;</span><span class="p">:</span><span class="mf">0.54</span><span class="p">,</span> <span class="s2">&quot;Ponderosa&quot;</span><span class="p">:</span><span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;Grand&quot;</span><span class="p">:</span><span class="mf">0.05</span><span class="p">,</span> <span class="s2">&quot;Western&quot;</span><span class="p">:</span><span class="mf">0.01</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">           Observe  Prop.(Obs.)  Expect  Prop.(Exp.)</span>
+<span class="go">Douglas       70.0     0.448718   84.24         0.54</span>
+<span class="go">Ponderosa     79.0     0.506410   62.40         0.40</span>
+<span class="go">Western        4.0     0.025641    1.56         0.01</span>
+<span class="go">Grand          3.0     0.019231    7.80         0.05</span>
+</pre></div>
+</div>
+<p>The observed and expected counts and proportions of each group are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">        D.F.  Chi Square   p-value    </span>
+<span class="go">Normal   3.0   13.593424  0.003514  **</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.01, so the observed proportions are significantly different from the expected proportions.</p>
+</dd></dl>
 
 </section>
 

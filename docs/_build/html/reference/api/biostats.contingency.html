@@ -554,8 +554,71 @@
 <h1>biostats.contingency<a class="headerlink" href="#biostats-contingency" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.contingency">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">contingency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'count'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L158-L192"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.contingency" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">contingency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'count'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L362-L453"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.contingency" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the contingency table of two categorical variables.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least two categorical columns.</p>
+</dd>
+<dt><strong>variable_1</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The first categorical variable.</p>
+</dd>
+<dt><strong>variable_2</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The second categorical variable.</p>
+</dd>
+<dt><strong>kind</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The way to summarize the contingency table.</p>
+<ul class="simple">
+<li><p>“count” : Count the frequencies of occurance.</p></li>
+<li><p>“vertical” : Calculate proportions vertically, so that the sum of each column equals 1.</p></li>
+<li><p>“horizontal” : Calculate proportions horizontally, so that the sum of each row equals 1.</p></li>
+<li><p>“overall” : Calculate overall proportions, so that the sum of the whole table equals 1.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The contingency table of the two categorical variables.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.categorical.html#biostats.categorical" title="biostats.categorical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">categorical</span></code></a></dt><dd><p>Compute descriptive statistics of a categorical variable.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.chi_square_test.html#biostats.chi_square_test" title="biostats.chi_square_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chi_square_test</span></code></a></dt><dd><p>Test whether there is an association between two categorical variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;contingency.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">     Genotype      Health</span>
+<span class="go">0     ins-del     disease</span>
+<span class="go">1     ins-ins     disease</span>
+<span class="go">2     ins-del     disease</span>
+<span class="go">3     ins-ins     disease</span>
+<span class="go">4     ins-del  no_disease</span>
+<span class="gp">... </span>      <span class="o">...</span>         <span class="o">...</span>
+<span class="go">2254  ins-ins  no_disease</span>
+<span class="go">2255  ins-del     disease</span>
+<span class="go">2256  ins-del     disease</span>
+<span class="go">2257  ins-ins     disease</span>
+<span class="go">2258  ins-ins  no_disease</span>
+</pre></div>
+</div>
+<p>We want to compute the contingency table of <em>Genotype</em> and <em>Health</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">contingency</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable_1</span><span class="o">=</span><span class="s2">&quot;Genotype&quot;</span><span class="p">,</span> <span class="n">variable_2</span><span class="o">=</span><span class="s2">&quot;Health&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">         disease  no_disease</span>
+<span class="go">del-del    184.0        42.0</span>
+<span class="go">ins-del    759.0       199.0</span>
+<span class="go">ins-ins    807.0       268.0</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </section>
 

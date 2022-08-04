@@ -554,30 +554,32 @@
 <h1>biostats.chi_square_test<a class="headerlink" href="#biostats-chi-square-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.chi_square_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">chi_square_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'count'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/chi_square.py#L31-L195"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.chi_square_test" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">chi_square_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'count'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/chi_square.py#L31-L197"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.chi_square_test" title="Permalink to this definition">#</a></dt>
 <dd><p>Test whether there is an association between two categorical variables.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must Contain at least two categorical columns.</p>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least two categorical columns.</p>
 </dd>
-<dt><strong>variable_1</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The name of the first categorical column.</p>
+<dt><strong>variable_1</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The first categorical variable.</p>
 </dd>
-<dt><strong>variable_2</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The name of the second categorical column. Switching the two variables will not change the result of chi-square test.</p>
+<dt><strong>variable_2</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The second categorical variable. Switching the two variables will not change the result of chi-square test.</p>
 </dd>
-<dt><strong>kind</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The way to summarize the contingency table.
-* “count” : Count the appearance.
-* “vertical” : Calculate the proportion vertically, so that the sum of each column equals 1.
-* “horizontal” : Calculate the proportion horizontally, so that the sum of each row equals 1.
-* “overall” : Calculate the overall proportion, so that the sum of the whole table equals 1.</p>
+<dt><strong>kind</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The way to summarize the contingency table.</p>
+<ul class="simple">
+<li><p>“count” : Count the frequencies of occurance.</p></li>
+<li><p>“vertical” : Calculate proportions vertically, so that the sum of each column equals 1.</p></li>
+<li><p>“horizontal” : Calculate proportions horizontally, so that the sum of each row equals 1.</p></li>
+<li><p>“overall” : Calculate overall proportions, so that the sum of the whole table equals 1.</p></li>
+</ul>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The contingency table of the two categorical columns.</p>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The contingency table of the two categorical variables.</p>
 </dd>
-<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, t statistic, and p-value of the test.</p>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, chi-square statistic, and p-value of the test.</p>
 </dd>
 </dl>
 </dd>
@@ -586,6 +588,8 @@
 <p class="admonition-title">See also</p>
 <dl class="simple">
 <dt><a class="reference internal" href="biostats.fisher_exact_test.html#biostats.fisher_exact_test" title="biostats.fisher_exact_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fisher_exact_test</span></code></a></dt><dd><p>The exact version of chi-square test.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.chi_square_test_fit.html#biostats.chi_square_test_fit" title="biostats.chi_square_test_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chi_square_test_fit</span></code></a></dt><dd><p>Test the difference between the observed and expected proportion of a variable.</p>
 </dd>
 <dt><a class="reference internal" href="biostats.mantel_haenszel_test.html#biostats.mantel_haenszel_test" title="biostats.mantel_haenszel_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mantel_haenszel_test</span></code></a></dt><dd><p>Test the association between two categorical variables in stratified data.</p>
 </dd>
@@ -618,7 +622,7 @@
 <span class="go">ins-ins  0.750698    0.249302</span>
 </pre></div>
 </div>
-<p>The proportion of <em>disease</em> in different <em>Genotype</em>.</p>
+<p>The proportions of <em>disease</em> in different <em>Genotype</em> are given.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
 <span class="go">        D.F.  Chi Square   p-value   </span>
 <span class="go">Normal   2.0    7.259386  0.026524  *</span>

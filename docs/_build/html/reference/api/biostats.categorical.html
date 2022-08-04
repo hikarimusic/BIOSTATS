@@ -554,8 +554,63 @@
 <h1>biostats.categorical<a class="headerlink" href="#biostats-categorical" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.categorical">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">categorical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L122-L155"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.categorical" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">categorical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L275-L359"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.categorical" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute descriptive statistics of a categorical variable.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one categorical column.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable to be analyzed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The count, proportion, 95% confidence interval (lower and upper limit) of each group.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.contingency.html#biostats.contingency" title="biostats.contingency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contingency</span></code></a></dt><dd><p>Compute the contingency table of two categorical variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.chi_square_test_fit.html#biostats.chi_square_test_fit" title="biostats.chi_square_test_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chi_square_test_fit</span></code></a></dt><dd><p>Test whether the proportion of groups in a categorical variable is different from the expected proportion.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;categorical.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">      Color</span>
+<span class="go">0    Yellow</span>
+<span class="go">1      Blue</span>
+<span class="go">2       Red</span>
+<span class="go">3      Blue</span>
+<span class="go">4       Red</span>
+<span class="go">..      ...</span>
+<span class="go">195  Yellow</span>
+<span class="go">196    Blue</span>
+<span class="go">197     Red</span>
+<span class="go">198    Blue</span>
+<span class="go">199    Blue</span>
+</pre></div>
+</div>
+<p>We want to compute descriptive statistics of <em>Color</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">categorical</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Color&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">        Count  Proportion  95% CI: Lower  95% CI: Upper</span>
+<span class="go">Yellow   74.0       0.370       0.306126       0.438774</span>
+<span class="go">Blue     69.0       0.345       0.282598       0.413244</span>
+<span class="go">Red      35.0       0.175       0.128605       0.233644</span>
+<span class="go">Green    22.0       0.110       0.073772       0.160927</span>
+</pre></div>
+</div>
+<p>Descriptive statistics of <em>Color</em> are computed.</p>
+</dd></dl>
 
 </section>
 

@@ -554,8 +554,90 @@
 <h1>biostats.simple_linear_regression<a class="headerlink" href="#biostats-simple-linear-regression" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.simple_linear_regression">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">simple_linear_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L92-L138"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.simple_linear_regression" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">simple_linear_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L211-L334"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.simple_linear_regression" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit an equation that predicts a numeric variable from another numeric variable.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least two numeric columns.</p>
+</dd>
+<dt><strong>x</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The predictor variable. Must be numeric.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The response variable. Must be numeric.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The coefficients of the fitted equation, along with the confidence intervals, standard errors, t statistics, and p-values.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The R-squared, adjusted R-squared, F statistic, and p-value of the fitted model.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.multiple_linear_regression.html#biostats.multiple_linear_regression" title="biostats.multiple_linear_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_linear_regression</span></code></a></dt><dd><p>Fit an equation that predicts a numeric variable from other variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.simple_logistic_regression.html#biostats.simple_logistic_regression" title="biostats.simple_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_logistic_regression</span></code></a></dt><dd><p>Fit an equation that predicts a dichotomous categorical variable from a numeric variable.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.correlation.html#biostats.correlation" title="biostats.correlation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation</span></code></a></dt><dd><p>Test the correlation between two numeric variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;simple_linear_regression.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Weight  Eggs</span>
+<span class="go">0     5.38  29.0</span>
+<span class="go">1     7.36  23.0</span>
+<span class="go">2     6.13  22.0</span>
+<span class="go">3     4.75  20.0</span>
+<span class="go">4     8.10  25.0</span>
+<span class="go">5     8.62  25.0</span>
+<span class="go">6     6.30  17.0</span>
+<span class="go">7     7.44  24.0</span>
+<span class="go">8     7.26  20.0</span>
+<span class="go">9     7.17  27.0</span>
+<span class="go">10    7.78  24.0</span>
+<span class="go">11    6.23  21.0</span>
+<span class="go">12    5.42  22.0</span>
+<span class="go">13    7.87  22.0</span>
+<span class="go">14    5.25  23.0</span>
+<span class="go">15    7.37  35.0</span>
+<span class="go">16    8.01  27.0</span>
+<span class="go">17    4.92  23.0</span>
+<span class="go">18    7.03  25.0</span>
+<span class="go">19    6.45  24.0</span>
+<span class="go">20    5.06  19.0</span>
+<span class="go">21    6.72  21.0</span>
+<span class="go">22    7.00  20.0</span>
+<span class="go">23    9.39  33.0</span>
+<span class="go">24    6.49  17.0</span>
+<span class="go">25    6.34  21.0</span>
+<span class="go">26    6.16  25.0</span>
+<span class="go">27    5.74  22.0</span>
+</pre></div>
+</div>
+<p>We want to fit an equation that predicts <em>Eggs</em> from <em>Weight</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">simple_linear_regression</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Weight&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Eggs&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">           Coefficient  95% CI: Lower  95% CI: Upper  Std. Error  t Statistic   p-value    </span>
+<span class="go">Intercept    12.689022       4.054035      21.324009    4.200858     3.020579  0.005598  **</span>
+<span class="go">Weight        1.601722       0.332202       2.871243    0.617612     2.593411  0.015401   *</span>
+</pre></div>
+</div>
+<p>The coefficients of the fitted equation, along with confidence intervals and p-values are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">       R-Squared  Adj. R-Squared  F Statistic   p-value   </span>
+<span class="go">Model   0.205519        0.174962      6.72578  0.015401  *</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.05, so there is a significant relation between the predictor and response variables.</p>
+</dd></dl>
 
 </section>
 

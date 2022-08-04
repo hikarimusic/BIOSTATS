@@ -554,8 +554,78 @@
 <h1>biostats.correlation<a class="headerlink" href="#biostats-correlation" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.correlation">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L34-L76"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.correlation" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L34-L141"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.correlation" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether there is a correlation between two numeric variables.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least two numeric columns.</p>
+</dd>
+<dt><strong>x</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The first numeric variable.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The second numeric variable. Switching the two variables will not change the result.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The correlation coefficient and the confidence interval.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, t statistic, and p-value of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.correlation_matrix.html#biostats.correlation_matrix" title="biostats.correlation_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation_matrix</span></code></a></dt><dd><p>Compute the correlation coefficients between every two variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.simple_linear_regression.html#biostats.simple_linear_regression" title="biostats.simple_linear_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simple_linear_regression</span></code></a></dt><dd><p>Fit an equation that predicts a numeric variable from another numeric variable.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.spearman_rank_correlation.html#biostats.spearman_rank_correlation" title="biostats.spearman_rank_correlation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spearman_rank_correlation</span></code></a></dt><dd><p>The non-parametric version of correlation test.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;correlation.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Latitude  Species</span>
+<span class="go">0     39.217    128.0</span>
+<span class="go">1     38.800    137.0</span>
+<span class="go">2     39.467    108.0</span>
+<span class="go">3     38.958    118.0</span>
+<span class="go">4     38.600    135.0</span>
+<span class="go">5     38.583     94.0</span>
+<span class="go">6     39.733    113.0</span>
+<span class="go">7     38.033    118.0</span>
+<span class="go">8     38.900     96.0</span>
+<span class="go">9     39.533     98.0</span>
+<span class="go">10    39.133    121.0</span>
+<span class="go">11    38.317    152.0</span>
+<span class="go">12    38.333    108.0</span>
+<span class="go">13    38.367    118.0</span>
+<span class="go">14    37.200    157.0</span>
+<span class="go">15    37.967    125.0</span>
+<span class="go">16    37.667    114.0</span>
+</pre></div>
+</div>
+<p>We want to test whether there is a correlation between <em>Latitude</em> and <em>Species</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">correlation</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Latitude&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Species&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">             Coefficient  95% CI: Lower  95% CI: Upper</span>
+<span class="go">Correlation    -0.462884      -0.771814       0.022842</span>
+</pre></div>
+</div>
+<p>The correlation coefficient and the confidence interval are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">       D.F.  t Statistic   p-value    </span>
+<span class="go">Model  15.0    -2.022457  0.061336 NaN</span>
+</pre></div>
+</div>
+<p>The p-value &gt; 0.05, so there is no significant correlation between <em>Latitude</em> and <em>Species</em>.</p>
+</dd></dl>
 
 </section>
 

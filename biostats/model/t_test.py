@@ -365,7 +365,7 @@ def paired_t_test(data, variable, between, group, pair):
     group : :py:class:`list`
         List of the two groups to be compared.
     pair : :py:class:`list`
-        The column that specifies the pair ID. Samples in the same pair should have the same ID.
+        The variable that specifies the pair ID. Samples in the same pair should have the same ID.
 
     Returns
     -------

@@ -39,7 +39,7 @@ def one_way_anova(data, variable, between):
     Parameters
     ----------
     data : :py:class:`pandas.DataFrame`
-        The input data. Must Contain at least one numeric column and one categorical column.
+        The input data. Must contain at least one numeric column and one categorical column.
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
@@ -185,7 +185,7 @@ def two_way_anova(data, variable, between_1, between_2):
     Parameters
     ----------
     data : :py:class:`pandas.DataFrame`
-        The input data. Must Contain at least one numeric column and two categorical columns.
+        The input data. Must contain at least one numeric column and two categorical columns.
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between_1 : :py:class:`str`
@@ -343,7 +343,7 @@ def one_way_ancova(data, variable, between, covariable):
     Parameters
     ----------
     data : :py:class:`pandas.DataFrame`
-        The input data. Must Contain at least two numeric columns and one categorical column.
+        The input data. Must contain at least two numeric columns and one categorical column.
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
@@ -506,7 +506,7 @@ def two_way_ancova(data, variable, between_1, between_2, covariable):
     Parameters
     ----------
     data : :py:class:`pandas.DataFrame`
-        The input data. Must Contain at least two numeric columns and two categorical columns.
+        The input data. Must contain at least two numeric columns and two categorical columns.
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between_1 : :py:class:`str`

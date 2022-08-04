@@ -92,7 +92,72 @@ class binom_exact:
         return p
 
 def binomial_test(data, variable, expect):
-    
+    '''
+    Test whether the proportion in a categorical variable is different from the expected proportion.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least one categorical column.
+    variable : :py:class:`str`
+        The categorical variable that we want to calculate the proportion of.
+    expect : :py:class:`dict`
+        The expected proportions of each group. The sum of the proportions will be automatically normalized to 1.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The observed counts and proportions of each group, and the expected counts and proportions of each group.
+    result : :py:class:`pandas.DataFrame`
+        The p-value of the test.
+
+    See also
+    --------
+    chi_square_test_fit : The normal approximation version of binomial test.
+    fisher_exact_test : Test the association between two categorical variables.
+
+    Notes
+    -----
+    .. warning::
+        The binomial test calculates the exact p-value by iterating through all the possible distributions, so it may consume lots of time when the size of data is huge. For larger data, :py:func:`chi_square_test_fit` is recommended. 
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("binomial_test.csv")
+    >>> data
+         Flower
+    0    Purple
+    1    Purple
+    2       Red
+    3      Blue
+    4     White
+    ..      ...
+    143  Purple
+    144  Purple
+    145    Blue
+    146     Red
+    147    Blue
+
+    We want to test whether the proportion in *Flower* is different from the expected proportions.
+
+    >>> summary, result = bs.binomial_test(data=data, variable="Flower", expect={"Purple":9, "Red":3, "Blue":3, "White":1})
+    >>> summary
+            Observe  Prop.(Obs.)  Expect  Prop.(Exp.)
+    Purple     72.0     0.486486   83.25       0.5625
+    Red        38.0     0.256757   27.75       0.1875
+    Blue       20.0     0.135135   27.75       0.1875
+    White      18.0     0.121622    9.25       0.0625
+
+    The observed and expected counts and proportions of each group are given.
+
+    >>> result
+            p-value    
+    Model  0.002255  **
+
+    The p-value < 0.01, so the observed proportions are significantly different from the expected proportions.
+
+    '''
     process(data)
     data = data[[variable]].dropna()
 
@@ -250,7 +315,80 @@ class fisher_exact:
         return p
 
 def fisher_exact_test(data, variable_1, variable_2, kind="count"):
-    
+    '''
+    Test whether there is an association between two categorical variables.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least two categorical columns.
+    variable_1 : :py:class:`str`
+        The first categorical variable.
+    variable_2 : :py:class:`str`
+        The second categorical variable. Switching the two variables will not change the result of Fisher exact test.
+    kind : :py:class:`str`
+        The way to summarize the contingency table.
+
+        * "count" : Count the frequencies of occurance.
+        * "vertical" : Calculate proportions vertically, so that the sum of each column equals 1.
+        * "horizontal" : Calculate proportions horizontally, so that the sum of each row equals 1.
+        * "overall" : Calculate overall proportions, so that the sum of the whole table equals 1.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The contingency table of the two categorical variables.
+    result : :py:class:`pandas.DataFrame`
+        The p-value of the test.
+
+    See also
+    --------
+    chi_square_test : The normal approximation version of Fisher exact test.
+    binomial_test : Test the difference between the observed and expected proportion of a variable.
+
+    Notes
+    -----
+    .. warning::
+        Fisher exact test calculates the exact p-value by iterating through all the possible distributions, so it may consume lots of time when the size of data is huge. For larger data, :py:func:`chi_square_test` is recommended. 
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("fisher_exact_test.csv")
+    >>> data
+        Frequency     Result
+    0     Monthly  Undamaged
+    1     Monthly    Damaged
+    2     Monthly    Damaged
+    3     Monthly    Damaged
+    4     Monthly  Undamaged
+    ..        ...        ...
+    95    Monthly  Undamaged
+    96     Weekly  Undamaged
+    97    Monthly    Damaged
+    98  Quarterly  Undamaged
+    99    Monthly  Undamaged
+
+    We want to test whether there is an association between *Frequency* and *Result*.
+
+    >>> summary, result = bs.fisher_exact_test(data=data, variable_1="Frequency", variable_2="Result", kind="horizontal")
+    >>> summary
+               Damaged  Undamaged
+    Daily         0.04       0.96
+    Monthly       0.56       0.44
+    Quarterly     0.44       0.56
+    Weekly        0.20       0.80
+
+    The proportions of *Damaged* in different *Frequency* are given.
+
+    >>> result
+            p-value     
+    Model  0.000123  ***
+
+    The p-value < 0.001, so there is a significant association between *Frequency* and *Result*. That is, the proportions of *Damaged* are different between the four *Frequency*.
+
+    '''
+
     process(data)
     data = data[list({variable_1, variable_2})].dropna()
 

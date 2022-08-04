@@ -24,6 +24,74 @@ def process(data):
 
 
 def screening_test(data, disease, disease_target, test, test_target):
+    '''
+    Compute some common statistics of a screening test.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least two categorical columns. 
+    disease : :py:class:`str`
+        The variable specifying the disease (or condition).
+    disease_target : :py:class:`str`
+        The group of the disease variable that is considered "positive".
+    test : :py:class:`str`
+        The variable specifying the test (or symptom).
+    test_target : :py:class:`str`
+        The group of the test variable that is considered "positive".
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The contingency table of true positive, true negative, false positive, and false negative.
+    result : :py:class:`pandas.DataFrame`
+        The values and confidence intervals of sensitivity (recall), specificity (selectivity), positive predictive value (precision), negative predictive value, accuracy, and prevalence. 
+
+    See also
+    --------
+    epidemiologic_study : Compute some common statistics of an epidemiologic study.
+    contingency : Compute the contingency table of two categorical variables.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("screening_test.csv")
+    >>> data
+          Cancer  PSA Test
+    0    Present  Negative
+    1     Absent  Negative
+    2    Present  Positive
+    3     Absent  Negative
+    4    Present  Positive
+    ..       ...       ...
+    232  Present  Negative
+    233  Present  Positive
+    234  Present  Negative
+    235   Absent  Negative
+    236  Present  Positive
+
+    We want to compute the sensitivity, specificity and so on of the screening test that detect *Cancer* from *PSA Test*.
+
+    >>> summary, result = bs.screening_test(data=data, disease="Cancer", disease_target="Present", test="PSA Test", test_target="Positive")
+    >>> summary
+                  Cancer (+)  Cancer (-)
+    PSA Test (+)        92.0        27.0
+    PSA Test (-)        46.0        72.0
+
+    The contingency table of TP (true positive), TN, FP and FN is given.
+
+    >>> result
+                 Estimation  95% CI: Lower  95% CI: Upper
+    Sensitivity    0.666667       0.584443       0.739862
+    Specificity    0.727273       0.632291       0.805276
+    Positive PV    0.773109       0.690014       0.839123
+    Negative PV    0.610169       0.520027       0.693365
+    Accuracy       0.691983       0.630534       0.747308
+    Prevalence     0.582278       0.518666       0.643266
+
+    The values and confidence intervals of sensitivity, specificity and so on are computed.
+
+    '''
 
     process(data)
     data = data[list({disease, test})].dropna()
@@ -72,6 +140,72 @@ def screening_test(data, disease, disease_target, test, test_target):
 
 
 def epidemiologic_study(data, disease, disease_target, factor, factor_target):
+    '''
+    Compute some common statistics of an epidemiologic study.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least two categorical columns. 
+    disease : :py:class:`str`
+        The variable specifying the disease.
+    disease_target : :py:class:`str`
+        The group of the disease variable that is considered "positive".
+    factor : :py:class:`str`
+        The variable specifying the factor.
+    factor_target : :py:class:`str`
+        The group of the factor variable that is considered "positive".
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The contingency table of the disease and factor.
+    result : :py:class:`pandas.DataFrame`
+        The values and confidence intervals of risk difference, risk ratio (relative risk), odds ratio, and attributable risk.
+
+    See also
+    --------
+    screening_test : Compute some common statistics of a screening test.
+    contingency : Compute the contingency table of two categorical variables.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("epidemiologic_study.csv")
+    >>> data
+                 MI Diabetes
+    0     Not occur       No
+    1     Not occur       No
+    2     Not occur       No
+    3     Not occur       No
+    4     Not occur       No
+    ...         ...      ...
+    2993  Not occur       No
+    2994  Not occur       No
+    2995  Not occur       No
+    2996  Not occur       No
+    2997  Not occur       No
+
+    We want to compute the risk ratio, odds ratio and so on of the epidemiologic study that investigates the relation between *MI* and *Diabetes*.
+
+    >>> summary, result = bs.epidemiologic_study(data=data, disease="MI", disease_target="Occur", factor="Diabetes", factor_target="Yes")
+    >>> summary
+                  MI (+)  MI (-)
+    Diabetes (+)    48.0   183.0
+    Diabetes (-)   210.0  2557.0
+
+    The contingency table of *MI* and *Diabetes* is given.
+
+    >>> result
+                       Estimation  95% CI: Lower  95% CI: Upper
+    Risk Difference      0.131898       0.078654       0.185141
+    Risk Ratio           2.737910       2.062282       3.634880
+    Odds Ratio           3.193755       2.256038       4.521233
+    Attributable Risk    0.118094       0.078925       0.173051
+
+    The values and confidence intervals of risk ratio, odds ratio and so on are computed.
+
+    '''
 
     process(data)
     data = data[list({disease, factor})].dropna()

@@ -554,8 +554,87 @@
 <h1>biostats.multinomial_logistic_regression<a class="headerlink" href="#biostats-multinomial-logistic-regression" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.multinomial_logistic_regression">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multinomial_logistic_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/logistic_regression.py#L210-L298"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multinomial_logistic_regression" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multinomial_logistic_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/logistic_regression.py#L440-L602"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multinomial_logistic_regression" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit an equation that predicts a multinomial categorical variable from other variables.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one categorical column and several other columns (can be either numeric or categorical).</p>
+</dd>
+<dt><strong>x_numeric</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>The list of predictor variables that are numeric.</p>
+</dd>
+<dt><strong>x_categorical</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>The list of predictor variables that are categorical.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The response variable. Must be categorical.</p>
+</dd>
+<dt><strong>baseline</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The baseline group of the categorical variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The coefficients of the fitted equation, along with the confidence intervals, standard errors, z statistics, and p-values.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The pseudo R-squared and p-value of the fitted model.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.multiple_logistic_regression.html#biostats.multiple_logistic_regression" title="biostats.multiple_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_logistic_regression</span></code></a></dt><dd><p>Fit an equation that predicts a dichotomous categorical variable from other variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.ordered_logistic_regression.html#biostats.ordered_logistic_regression" title="biostats.ordered_logistic_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ordered_logistic_regression</span></code></a></dt><dd><p>Fit an equation that predicts an ordered categorical variable from other variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.multiple_linear_regression.html#biostats.multiple_linear_regression" title="biostats.multiple_linear_regression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multiple_linear_regression</span></code></a></dt><dd><p>Fit an equation that predicts a numeric variable from other variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;multinomial_logistic_regression.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">     write     ses      prog</span>
+<span class="go">0     35.0     low  vocation</span>
+<span class="go">1     33.0  middle   general</span>
+<span class="go">2     39.0    high  vocation</span>
+<span class="go">3     37.0     low  vocation</span>
+<span class="go">4     31.0  middle  vocation</span>
+<span class="go">..     ...     ...       ...</span>
+<span class="go">195   65.0    high  academic</span>
+<span class="go">196   63.0  middle  vocation</span>
+<span class="go">197   67.0  middle  academic</span>
+<span class="go">198   65.0  middle  academic</span>
+<span class="go">199   62.0  middle  academic</span>
+</pre></div>
+</div>
+<p>We want to fit an equation that predicts <em>prog</em> from <em>write</em> and <em>ses</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">multinomial_logistic_regression</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x_numeric</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;write&quot;</span><span class="p">],</span> <span class="n">x_categorical</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ses&quot;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;prog&quot;</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="s2">&quot;academic&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">              Coefficient  95% CI: Lower  95% CI: Upper  Std. Error  z Statistic       p-value     </span>
+<span class="go">vocation              NaN            NaN            NaN         NaN          NaN           NaN  NaN</span>
+<span class="go">Intercept        4.235530       1.874390       6.596670    1.204685     3.515881  4.382977e-04  ***</span>
+<span class="go">ses (low)        0.982670      -0.184619       2.149960    0.595567     1.649975  9.894813e-02  NaN</span>
+<span class="go">ses (middle)     1.274063       0.272309       2.275818    0.511109     2.492744  1.267601e-02    *</span>
+<span class="go">write           -0.113603      -0.157153      -0.070052    0.022220    -5.112653  3.176650e-07  ***</span>
+<span class="go">                      NaN            NaN            NaN         NaN          NaN           NaN  NaN</span>
+<span class="go">general               NaN            NaN            NaN         NaN          NaN           NaN  NaN</span>
+<span class="go">Intercept        1.689354      -0.715399       4.094108    1.226938     1.376887  1.685473e-01  NaN</span>
+<span class="go">ses (low)        1.162832       0.154980       2.170684    0.514219     2.261354  2.373737e-02    *</span>
+<span class="go">ses (middle)     0.629541      -0.281897       1.540979    0.465028     1.353770  1.758099e-01  NaN</span>
+<span class="go">write           -0.057928      -0.099893      -0.015964    0.021411    -2.705551  6.819115e-03   **</span>
+<span class="go">                      NaN            NaN            NaN         NaN          NaN           NaN  NaN</span>
+</pre></div>
+</div>
+<p>The coefficients of the fitted equation, along with confidence intervals and p-values are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">       Pseudo R-Squared       p-value     </span>
+<span class="go">Model          0.118155  1.063001e-08  ***</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.001, so there is a significant relation between the predictor and response variables.</p>
+</dd></dl>
 
 </section>
 

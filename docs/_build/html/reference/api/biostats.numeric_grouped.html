@@ -554,8 +554,94 @@
 <h1>biostats.numeric_grouped<a class="headerlink" href="#biostats-numeric-grouped" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.numeric_grouped">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">numeric_grouped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L71-L119"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.numeric_grouped" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">numeric_grouped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L142-L272"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.numeric_grouped" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute descriptive statistics of a numeric variable in different groups.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one numeric column and one categorical column.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The numeric variable that we want to analyze.</p>
+</dd>
+<dt><strong>group</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that specifies which group the samples belong to.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The count, arithmetic mean, median, geometric mean, harmonic mean, mode, / sample variance, sample standard deviation, coefficient of variation, population variance, population standard deviation, / minimum, 25% percentile, 50% percentile, 75% percentile, maximum, range, interquartile range, / standard error, two-sided 95% confidence interval (lower and upper limit), and one-sided 95% confidence interval (lower and upper limit) of the variable in each group.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.numeric.html#biostats.numeric" title="biostats.numeric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric</span></code></a></dt><dd><p>Compute descriptive statistics of numeric variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.one_way_anova.html#biostats.one_way_anova" title="biostats.one_way_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_way_anova</span></code></a></dt><dd><p>Test whether the mean values of a variable are different between several groups.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;numeric_grouped.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Count  Animal</span>
+<span class="go">0    76.0    Fish</span>
+<span class="go">1   102.0    Fish</span>
+<span class="go">2    12.0    Fish</span>
+<span class="go">3    39.0    Fish</span>
+<span class="go">4    55.0    Fish</span>
+<span class="go">5    93.0    Fish</span>
+<span class="go">6    98.0    Fish</span>
+<span class="go">7    53.0    Fish</span>
+<span class="go">8   102.0    Fish</span>
+<span class="go">9    28.0  Insect</span>
+<span class="go">10   85.0  Insect</span>
+<span class="go">11   17.0  Insect</span>
+<span class="go">12   20.0  Insect</span>
+<span class="go">13   33.0  Insect</span>
+<span class="go">14   75.0  Insect</span>
+<span class="go">15   78.0  Insect</span>
+<span class="go">16   25.0  Insect</span>
+<span class="go">17   87.0  Insect</span>
+</pre></div>
+</div>
+<p>We want to compute descriptive statistics of <em>Count</em> in the two <em>Animal</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">numeric_grouped</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Count&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s2">&quot;Animal&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">                                 Fish      Insect</span>
+<span class="go">Count                        9.000000    9.000000</span>
+<span class="go">Mean                        70.000000   49.777778</span>
+<span class="go">Median                      76.000000   33.000000</span>
+<span class="go">Geometric Mean              59.835149   41.169549</span>
+<span class="go">Harmonic Mean               45.057085   34.058186</span>
+<span class="go">Mode                       102.000000   17.000000</span>
+<span class="go">                                NaN         NaN</span>
+<span class="go">Variance                  1029.500000  923.694444</span>
+<span class="go">Std. Deviation              32.085822   30.392342</span>
+<span class="go">Coef. Variation              0.458369    0.610560</span>
+<span class="go">(Population) Variance      915.111111  821.061728</span>
+<span class="go">(Population) Std.Dev        30.250803   28.654175</span>
+<span class="go">                                NaN         NaN</span>
+<span class="go">Minimum                     12.000000   17.000000</span>
+<span class="go">25% Percentile              53.000000   25.000000</span>
+<span class="go">50% Percentile              76.000000   33.000000</span>
+<span class="go">75% Percentile              98.000000   78.000000</span>
+<span class="go">Maximum                    102.000000   87.000000</span>
+<span class="go">Range                       90.000000   70.000000</span>
+<span class="go">Interquartile Range         45.000000   53.000000</span>
+<span class="go">                                NaN         NaN</span>
+<span class="go">Std. Error                  10.695274   10.130781</span>
+<span class="go">95% CI: Lower               45.336654   26.416156</span>
+<span class="go">95% CI: Upper               94.663346   73.139400</span>
+<span class="go">(One-Tail) 95% CI: Lower    50.111624   30.939105</span>
+<span class="go">(One-Tail) 95% CI: Upper    89.888376   68.616451</span>
+</pre></div>
+</div>
+<p>Descriptive statistics of <em>Count</em> in the two <em>Animal</em> are computed.</p>
+</dd></dl>
 
 </section>
 
