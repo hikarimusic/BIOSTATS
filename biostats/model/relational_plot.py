@@ -13,6 +13,7 @@ def process(data):
 def scatter_plot(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if str(data[x].dtypes) != "float64":
@@ -31,6 +32,7 @@ def scatter_plot(data, x, y, color=None):
 def line_plot(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if str(data[x].dtypes) != "float64":
@@ -49,8 +51,9 @@ def line_plot(data, x, y, color=None):
 def regression_plot(data, x, y):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
-
+    
     if str(data[x].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(x))
     if str(data[y].dtypes) != "float64":

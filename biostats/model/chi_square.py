@@ -98,8 +98,8 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
 
     '''
     
-    process(data)
     data = data[list({variable_1, variable_2})].dropna()
+    process(data)
 
     if data[variable_1].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
@@ -198,7 +198,7 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
 
 def chi_square_test_fit(data, variable, expect):
     '''
-    Test whether the proportion of groups in a categorical variable is different from the expected proportion.
+    Test whether the proportion of a categorical variable is different from the expected proportion.
 
     Parameters
     ----------
@@ -259,8 +259,8 @@ def chi_square_test_fit(data, variable, expect):
 
     '''
     
-    process(data)
     data = data[[variable]].dropna()
+    process(data)
 
     if data[variable].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable))
@@ -308,9 +308,71 @@ def chi_square_test_fit(data, variable, expect):
     return summary, result
 
 def mcnemar_test(data, variable_1, variable_2, pair):
+    '''
+    Test whether the proportions of a categorical variable are different in two paired groups.
 
-    process(data)
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least two categorical columns, and a column specifying the pairs.
+    variable_1 : :py:class:`str`
+        The categorical variable that specifies which group the samples belong to. The most frequently appearing two groups will be chosen automatically.
+    variable_2 : :py:class:`str`
+        The categorical variable that we want to calculate proportions of. The most frequently appearing two groups will be chosen automatically.
+    pair : :py:class:`str`
+        The variable that specifies the pair ID. Samples in the same pair should have the same ID.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The contingency table of the two categorical variables with matched pairs as the unit.
+    result : :py:class:`pandas.DataFrame`
+        The degree of freedom, chi-square statistic, and p-value of the test (both normal and corrected).
+
+    See also
+    --------
+    mcnemar_exact_test : The exact version of McNemar's test,
+    chi_square_test : Test the association between two categorical variables.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("mcnemar_test.csv")
+    >>> data
+        Treatment       Result     ID
+    0      before      support    1.0
+    1      before      support    2.0
+    2      before      support    3.0
+    3      before      support    4.0
+    4      before      support    5.0
+    ..        ...          ...    ...
+    195     after  not_support   96.0
+    196     after  not_support   97.0
+    197     after  not_support   98.0
+    198     after  not_support   99.0
+    199     after  not_support  100.0
+
+    We want to test whether the proportions of *Result* are different between the two *Treatment*, where each *before* is paired with a *after*.
+
+    >>> summary, result = bs.mcnemar_test(data=data, variable_1="Treatment", variable_2="Result", pair="ID")
+    >>> summary
+                          after : support  after : not_support
+    before : support                 30.0                 12.0
+    before : not_support             40.0                 18.0
+
+    The contingency table of *Treatment* and *Result* where the counting unit is the matched pair.
+
+    >>> result
+               D.F.  Chi Square   p-value     
+    Normal      1.0   15.076923  0.000103  ***
+    Corrected   1.0   14.019231  0.000181  ***
+
+    The p-value < 0.001, so there is a significant difference between the proportions of *Result* under the two *Treatment*.
+
+    '''
+
     data = data[list({variable_1, variable_2, pair})].dropna()
+    process(data)
 
     if data[variable_1].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
@@ -371,10 +433,83 @@ def mcnemar_test(data, variable_1, variable_2, pair):
 
 
 def mantel_haenszel_test(data, variable_1, variable_2, stratum):
-    
-    process(data)
-    data = data[list({variable_1, variable_2, stratum})].dropna()
+    '''
+    Test whether there is an association between two categorical variables in stratified data.
 
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least three categorical columns.
+    variable_1 : :py:class:`str`
+        The first categorical variable.
+    variable_2 : :py:class:`str`
+        The second categorical variable. Switching the two variables will not change the result.
+    stratum : :py:class:`str`
+        The categorical variable that specifies which stratum the samples belong to.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The contingency table of the two categorical variables in each stratum.
+    result : :py:class:`pandas.DataFrame`
+        The degree of freedom, chi-square statistic, and p-value of the test.
+
+    See also
+    --------
+    chi_square_test : Test the association between two categorical variables.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("mantel_haenszel_test.csv")
+    >>> data
+        Treatment Revascularization  Study
+    0      Niacin               Yes   FATS
+    1      Niacin               Yes   FATS
+    2      Niacin                No   FATS
+    3      Niacin                No   FATS
+    4      Niacin                No   FATS
+    ..        ...               ...    ...
+    669   Placebo                No  CLAS1
+    670   Placebo                No  CLAS1
+    671   Placebo                No  CLAS1
+    672   Placebo                No  CLAS1
+    673   Placebo                No  CLAS1
+
+    We want to test whether there is an association between *Treatment* and *Revascularization*, with the data including the five *Study*.
+
+    >>> summary, result = bs.mantel_haenszel_test(data=data, variable_1="Treatment", variable_2="Revascularization", stratum="Study")
+    >>> summary
+                         No   Yes
+    FATS       Niacin  46.0   2.0
+            Placebo  41.0  11.0
+                        NaN   NaN
+    AFREGS     Niacin  67.0   4.0
+            Placebo  60.0  12.0
+                        NaN   NaN
+    ARBITER2   Niacin  86.0   1.0
+            Placebo  76.0   4.0
+                        NaN   NaN
+    HATS       Niacin  37.0   1.0
+            Placebo  32.0   6.0
+                        NaN   NaN
+    CLAS1      Niacin  92.0   2.0
+            Placebo  93.0   1.0
+                        NaN   NaN
+
+    The contingency tables of *Treatment* and *Revascularization* in the five *Study*.
+
+    >>> result
+            D.F.  Chi Square   p-value     
+    Normal   1.0   12.745723  0.000357  ***
+
+    The p-value < 0.001, so there is a significant association between *Treatment* and *Revascularization* in the stratified data.
+
+    '''
+
+    data = data[list({variable_1, variable_2, stratum})].dropna()
+    process(data)
+    
     if data[variable_1].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
     if data[variable_2].nunique() > 20:

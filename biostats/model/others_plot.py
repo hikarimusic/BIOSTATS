@@ -16,6 +16,7 @@ def process(data):
 def heatmap(data, x, y, value=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if data[x].nunique() > 20:
@@ -33,6 +34,7 @@ def heatmap(data, x, y, value=None):
 def fa_plot(data, x, factors, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     for var in x:
@@ -69,7 +71,9 @@ def fa_plot(data, x, factors, color=None):
 def pca_plot(data, x, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
+
 
     for var in x:
         if str(data[var].dtypes) != "float64":
@@ -105,6 +109,7 @@ def pca_plot(data, x, color=None):
 def lda_plot(data, x, y):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     for var in x:

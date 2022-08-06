@@ -93,8 +93,8 @@ def screening_test(data, disease, disease_target, test, test_target):
 
     '''
 
-    process(data)
     data = data[list({disease, test})].dropna()
+    process(data)
 
     if data[disease].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(disease))
@@ -207,8 +207,8 @@ def epidemiologic_study(data, disease, disease_target, factor, factor_target):
 
     '''
 
-    process(data)
     data = data[list({disease, factor})].dropna()
+    process(data)
 
     if data[disease].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(disease))
@@ -272,8 +272,8 @@ def epidemiologic_study(data, disease, disease_target, factor, factor_target):
 
 def factor_analysis(data, x, factors, analyze):
 
-    process(data)
     data = data[list(set(x))].dropna()
+    process(data)
 
     for var in x:
         if str(data[var].dtypes) != "float64":
@@ -316,8 +316,8 @@ def factor_analysis(data, x, factors, analyze):
 
 def principal_component_analysis(data, x, transform=None):
 
-    process(data)
     data = data[list(set(x))].dropna()
+    process(data)
 
     for var in x:
         if str(data[var].dtypes) != "float64":
@@ -363,9 +363,9 @@ def principal_component_analysis(data, x, transform=None):
 
 def linear_discriminant_analysis(data, x, y, predict=None):
 
-    process(data)
     data = data[list(set(x+[y]))].dropna()
-
+    process(data)
+    
     for var in x:
         if str(data[var].dtypes) != "float64":
             raise Warning("The column '{}' must be numeric".format(var))

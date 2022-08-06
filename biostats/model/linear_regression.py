@@ -98,8 +98,8 @@ def correlation(data, x, y):
 
     '''
 
-    process(data)   
     data = data[list({x, y})].dropna()
+    process(data)   
 
     if str(data[x].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(x))
@@ -196,8 +196,8 @@ def correlation_matrix(data, variable):
 
     '''
 
-    process(data)
     data = data[list(set(variable))].dropna()
+    process(data)
 
     for var in variable:
         if str(data[var].dtypes) != "float64":
@@ -287,8 +287,8 @@ def simple_linear_regression(data, x, y):
     
     '''
 
-    process(data)
     data = data[list({x, y})].dropna()
+    process(data)
 
     if str(data[x].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(x))
@@ -398,9 +398,9 @@ def multiple_linear_regression(data, x_numeric, x_categorical, y):
     
     '''
 
-    process(data)
     data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
-
+    process(data)
+    
     for var in x_numeric:
         if str(data[var].dtypes) != "float64":
             raise Warning("The column '{}' must be numeric".format(var))

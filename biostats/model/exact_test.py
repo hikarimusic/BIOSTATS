@@ -93,7 +93,7 @@ class binom_exact:
 
 def binomial_test(data, variable, expect):
     '''
-    Test whether the proportion in a categorical variable is different from the expected proportion.
+    Test whether the proportion of a categorical variable is different from the expected proportion.
 
     Parameters
     ----------
@@ -158,8 +158,9 @@ def binomial_test(data, variable, expect):
     The p-value < 0.01, so the observed proportions are significantly different from the expected proportions.
 
     '''
-    process(data)
+
     data = data[[variable]].dropna()
+    process(data)
 
     if data[variable].nunique() > 10:
         raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable))
@@ -389,8 +390,8 @@ def fisher_exact_test(data, variable_1, variable_2, kind="count"):
 
     '''
 
-    process(data)
     data = data[list({variable_1, variable_2})].dropna()
+    process(data)
 
     if data[variable_1].nunique() > 10:
         raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_1))
@@ -440,10 +441,71 @@ def fisher_exact_test(data, variable_1, variable_2, kind="count"):
     return summary, result
 
 def mcnemar_exact_test(data, variable_1, variable_2, pair):
+    '''
+    Test whether the proportions of a categorical variable are different in two paired groups.
 
-    process(data)
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least two categorical columns, and a column specifying the pairs.
+    variable_1 : :py:class:`str`
+        The categorical variable that specifies which group the samples belong to. The most frequently appearing two groups will be chosen automatically.
+    variable_2 : :py:class:`str`
+        The categorical variable that we want to calculate proportions of. The most frequently appearing two groups will be chosen automatically.
+    pair : :py:class:`str`
+        The variable that specifies the pair ID. Samples in the same pair should have the same ID.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The contingency table of the two categorical variables with matched pairs as the unit.
+    result : :py:class:`pandas.DataFrame`
+        The p-value of the test.
+
+    See also
+    --------
+    mcnemar_test : The normal approximation version of McNemar's test,
+    fisher_exact_test : Test the association between two categorical variables.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("mcnemar_exact_test.csv")
+    >>> data
+       Treatment Result    ID
+    0    control   fail   1.0
+    1    control   fail   2.0
+    2    control   fail   3.0
+    3    control   fail   4.0
+    4    control   fail   5.0
+    ..       ...    ...   ...
+    83      test   pass  40.0
+    84      test   pass  41.0
+    85      test   pass  42.0
+    86      test   pass  43.0
+    87      test   pass  44.0
+
+    We want to test whether the proportions of *Result* are different between the two *Treatment*, where each *control* is paired with a *test*.
+
+    >>> summary, result = bs.mcnemar_exact_test(data=data, variable_1="Treatment", variable_2="Result", pair="ID")
+    >>> summary
+                    test : fail  test : pass
+    control : fail         21.0          9.0
+    control : pass          2.0         12.0
+
+    The contingency table of *Treatment* and *Result* where the counting unit is the matched pair.
+
+    >>> result
+           p-value    
+    Model  0.06543 NaN
+
+    The p-value > 0.05, so there is no significant difference between the proportions of *Result* under the two *Treatment*.
+
+    '''
+
     data = data[list({variable_1, variable_2, pair})].dropna()
-
+    process(data)
+    
     if data[variable_1].nunique() > 10:
         raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_1))
     if data[variable_2].nunique() > 10:

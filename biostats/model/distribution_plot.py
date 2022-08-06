@@ -65,6 +65,7 @@ def histogram(data, x, band, color=None):
     '''
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if str(data[x].dtypes) != "float64":
@@ -82,6 +83,7 @@ def histogram(data, x, band, color=None):
 def density_plot(data, x, smooth, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if str(data[x].dtypes) != "float64":
@@ -98,6 +100,7 @@ def density_plot(data, x, smooth, color=None):
 def cumulative_plot(data, x, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if str(data[x].dtypes) != "float64":
@@ -114,6 +117,7 @@ def cumulative_plot(data, x, color=None):
 def histogram_2D(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if str(data[x].dtypes) != "float64":
@@ -132,8 +136,9 @@ def histogram_2D(data, x, y, color=None):
 def density_plot_2D(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
-
+    
     if str(data[x].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(x))
     if str(data[y].dtypes) != "float64":

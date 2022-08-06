@@ -554,8 +554,84 @@
 <h1>biostats.mantel_haenszel_test<a class="headerlink" href="#biostats-mantel-haenszel-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.mantel_haenszel_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">mantel_haenszel_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stratum</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/chi_square.py#L373-L428"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.mantel_haenszel_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">mantel_haenszel_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stratum</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/chi_square.py#L435-L563"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.mantel_haenszel_test" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether there is an association between two categorical variables in stratified data.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least three categorical columns.</p>
+</dd>
+<dt><strong>variable_1</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The first categorical variable.</p>
+</dd>
+<dt><strong>variable_2</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The second categorical variable. Switching the two variables will not change the result.</p>
+</dd>
+<dt><strong>stratum</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that specifies which stratum the samples belong to.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The contingency table of the two categorical variables in each stratum.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, chi-square statistic, and p-value of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.chi_square_test.html#biostats.chi_square_test" title="biostats.chi_square_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chi_square_test</span></code></a></dt><dd><p>Test the association between two categorical variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;mantel_haenszel_test.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Treatment Revascularization  Study</span>
+<span class="go">0      Niacin               Yes   FATS</span>
+<span class="go">1      Niacin               Yes   FATS</span>
+<span class="go">2      Niacin                No   FATS</span>
+<span class="go">3      Niacin                No   FATS</span>
+<span class="go">4      Niacin                No   FATS</span>
+<span class="go">..        ...               ...    ...</span>
+<span class="go">669   Placebo                No  CLAS1</span>
+<span class="go">670   Placebo                No  CLAS1</span>
+<span class="go">671   Placebo                No  CLAS1</span>
+<span class="go">672   Placebo                No  CLAS1</span>
+<span class="go">673   Placebo                No  CLAS1</span>
+</pre></div>
+</div>
+<p>We want to test whether there is an association between <em>Treatment</em> and <em>Revascularization</em>, with the data including the five <em>Study</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">mantel_haenszel_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable_1</span><span class="o">=</span><span class="s2">&quot;Treatment&quot;</span><span class="p">,</span> <span class="n">variable_2</span><span class="o">=</span><span class="s2">&quot;Revascularization&quot;</span><span class="p">,</span> <span class="n">stratum</span><span class="o">=</span><span class="s2">&quot;Study&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">                     No   Yes</span>
+<span class="go">FATS       Niacin  46.0   2.0</span>
+<span class="go">        Placebo  41.0  11.0</span>
+<span class="go">                    NaN   NaN</span>
+<span class="go">AFREGS     Niacin  67.0   4.0</span>
+<span class="go">        Placebo  60.0  12.0</span>
+<span class="go">                    NaN   NaN</span>
+<span class="go">ARBITER2   Niacin  86.0   1.0</span>
+<span class="go">        Placebo  76.0   4.0</span>
+<span class="go">                    NaN   NaN</span>
+<span class="go">HATS       Niacin  37.0   1.0</span>
+<span class="go">        Placebo  32.0   6.0</span>
+<span class="go">                    NaN   NaN</span>
+<span class="go">CLAS1      Niacin  92.0   2.0</span>
+<span class="go">        Placebo  93.0   1.0</span>
+<span class="go">                    NaN   NaN</span>
+</pre></div>
+</div>
+<p>The contingency tables of <em>Treatment</em> and <em>Revascularization</em> in the five <em>Study</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">        D.F.  Chi Square   p-value     </span>
+<span class="go">Normal   1.0   12.745723  0.000357  ***</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.001, so there is a significant association between <em>Treatment</em> and <em>Revascularization</em> in the stratified data.</p>
+</dd></dl>
 
 </section>
 

@@ -91,8 +91,8 @@ def numeric(data, variable):
 
     '''
 
-    process(data)
     data = data[list(set(variable))].dropna(how='all')
+    process(data)
 
     for var in variable:
         if str(data[var].dtypes) != "float64":
@@ -223,8 +223,8 @@ def numeric_grouped(data, variable, group):
 
     '''
 
-    process(data)
     data = data[list({variable, group})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -325,8 +325,8 @@ def categorical(data, variable):
 
     '''
 
-    process(data)
     data = data[[variable]].dropna()
+    process(data)
 
     if data[variable].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable))
@@ -418,8 +418,8 @@ def contingency(data, variable_1, variable_2, kind="count"):
 
     '''
 
-    process(data)
     data = data[list({variable_1, variable_2})].dropna()
+    process(data)
 
     if data[variable_1].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))

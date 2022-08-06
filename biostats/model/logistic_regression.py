@@ -114,8 +114,8 @@ def simple_logistic_regression(data, x, y, target):
 
     '''
 
-    process(data)
     data = data[list({x, y})].dropna()
+    process(data)
 
     if str(data[x].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(x))
@@ -233,9 +233,8 @@ def multiple_logistic_regression(data, x_numeric, x_categorical, y, target):
 
     '''
 
-
-    process(data)
     data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
+    process(data)
 
     for var in x_numeric:
         if str(data[var].dtypes) != "float64":
@@ -371,8 +370,8 @@ def ordered_logistic_regression(data, x_numeric, x_categorical, y, order):
 
     '''
 
-    process(data)
     data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
+    process(data)
 
     for var in x_numeric:
         if str(data[var].dtypes) != "float64":
@@ -513,9 +512,9 @@ def multinomial_logistic_regression(data, x_numeric, x_categorical, y, baseline)
 
     '''
 
-    process(data)
     data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
-
+    process(data)
+    
     for var in x_numeric:
         if str(data[var].dtypes) != "float64":
             raise Warning("The column '{}' must be numeric".format(var))

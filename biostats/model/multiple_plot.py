@@ -13,6 +13,7 @@ def process(data):
 def ultimate_plot(data, variable):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     for var in variable:
@@ -72,36 +73,11 @@ def ultimate_plot(data, variable):
 
     return fig
 
-"""
-fig, axs= plt.subplots(2,2)
-sns.stripplot(x="Location", y="Length", data=data, ax=axs[0,0])
-sns.swarmplot(x="Location", y="Length", data=data, ax=axs[0,1])
-sns.stripplot(x="Location", y="Length", data=data, ax=axs[1,0])
-sns.swarmplot(x="Location", y="Length", data=data, ax=axs[1,1])
-
-m = 2
-n = 2
-
-for i in range(m):
-    for j in range (n):
-        if i != m-1:
-            axs[i,j].set_xlabel("")
-            axs[i,j].set_xticklabels([])
-        if j != 0:
-            axs[i,j].set_ylabel("")
-            axs[i,j].set_yticklabels([])
-        plt.sca(axs[i,j])
-        plt.xticks(rotation=90)
-
-
-fig.subplots_adjust(wspace=0.02, hspace=0.02)
-"""
-
-
 
 def pair_plot(data, variable, color=None, kind="scatter"):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     for var in variable:
@@ -125,8 +101,9 @@ def pair_plot(data, variable, color=None, kind="scatter"):
 def joint_plot(data, x, y, color=None, kind="scatter"):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
-
+    
     if str(data[x].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(x))
     if str(data[y].dtypes) != "float64":

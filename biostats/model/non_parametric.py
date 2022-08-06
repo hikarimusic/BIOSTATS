@@ -54,8 +54,8 @@ class permutation:
 
 def median_test(data, variable, expect):
 
-    process(data)
     data = data[[variable]].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -120,8 +120,8 @@ def median_test(data, variable, expect):
 
 def sign_test(data, variable, between, group, pair):
 
-    process(data)
     data = data[list({variable, between, pair})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -205,8 +205,8 @@ def sign_test(data, variable, between, group, pair):
 
 def wilcoxon_signed_rank_test(data, variable, between, group, pair):
 
-    process(data)
     data = data[list({variable, between, pair})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -284,8 +284,8 @@ def wilcoxon_signed_rank_test(data, variable, between, group, pair):
 
 def wilcoxon_rank_sum_test(data, variable, between, group):
 
-    process(data)
     data = data[list({variable, between})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -348,8 +348,8 @@ def wilcoxon_rank_sum_test(data, variable, between, group):
 
 def kruskal_wallis_test(data, variable, between):
 
-    process(data)
     data = data[list({variable, between})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -418,8 +418,8 @@ def kruskal_wallis_test(data, variable, between):
 
 def friedman_test(data, variable, between, subject):
 
-    process(data)
     data = data[list({variable, between, subject})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -486,9 +486,9 @@ def friedman_test(data, variable, between, subject):
 
 def spearman_rank_correlation(data, x, y):
 
-    process(data)
     data = data[list({x, y})].dropna()
-
+    process(data)
+    
     if str(data[x].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(x))
     if str(data[y].dtypes) != "float64":

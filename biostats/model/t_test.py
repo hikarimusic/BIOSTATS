@@ -97,8 +97,8 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
 
     '''
 
-    process(data)
     data = data[[variable]].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -266,8 +266,8 @@ def two_sample_t_test(data, variable, between, group, kind="equal variances"):
 
     '''
 
-    process(data)
     data = data[list({variable, between})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -364,7 +364,7 @@ def paired_t_test(data, variable, between, group, pair):
         The categorical variable that specifies which group the samples belong to.
     group : :py:class:`list`
         List of the two groups to be compared.
-    pair : :py:class:`list`
+    pair : :py:class:`str`
         The variable that specifies the pair ID. Samples in the same pair should have the same ID.
 
     Returns
@@ -437,8 +437,8 @@ def paired_t_test(data, variable, between, group, pair):
 
     '''
 
-    process(data)
     data = data[list({variable, between, pair})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -513,9 +513,108 @@ def paired_t_test(data, variable, between, group, pair):
 
 
 def pairwise_t_test(data, variable, between):
+    '''
+    Test whether the mean values of a variable are different between every two groups.
 
-    process(data)
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least one numeric column and one categorical column.
+    variable : :py:class:`str`
+        The numeric variable that we want to calculate mean values of.
+    between : :py:class:`str`
+        The categorical variable that specifies which group the samples belong to.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The counts, mean values, standard deviations, and confidence intervals of each group.
+    result : :py:class:`pandas.DataFrame`
+        The differences, standard errors, t statistics, and p-values of two-sample t-tests on every pair of groups.
+
+    See also
+    --------
+    one_way_anova : Test whether the mean values are different between groups.
+    two_sample_t_test : Test whether the mean values of a variable are different in two groups.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("pairwise_t_test.csv")
+    >>> data
+        Length    Location
+    0   0.0571   Tillamook
+    1   0.0813   Tillamook
+    2   0.0831   Tillamook
+    3   0.0976   Tillamook
+    4   0.0817   Tillamook
+    5   0.0859   Tillamook
+    6   0.0735   Tillamook
+    7   0.0659   Tillamook
+    8   0.0923   Tillamook
+    9   0.0836   Tillamook
+    10  0.0873     Newport
+    11  0.0662     Newport
+    12  0.0672     Newport
+    13  0.0819     Newport
+    14  0.0749     Newport
+    15  0.0649     Newport
+    16  0.0835     Newport
+    17  0.0725     Newport
+    18  0.0974  Petersburg
+    19  0.1352  Petersburg
+    20  0.0817  Petersburg
+    21  0.1016  Petersburg
+    22  0.0968  Petersburg
+    23  0.1064  Petersburg
+    24  0.1050  Petersburg
+    25  0.1033     Magadan
+    26  0.0915     Magadan
+    27  0.0781     Magadan
+    28  0.0685     Magadan
+    29  0.0677     Magadan
+    30  0.0697     Magadan
+    31  0.0764     Magadan
+    32  0.0689     Magadan
+    33  0.0703   Tvarminne
+    34  0.1026   Tvarminne
+    35  0.0956   Tvarminne
+    36  0.0973   Tvarminne
+    37  0.1039   Tvarminne
+    38  0.1045   Tvarminne
+
+    We want to perform two-sample t-tests on every pair of *Location*.
+
+    >>> summary, result = bs.pairwise_t_test(data=data, variable="Length", between="Location")
+    >>> summary
+         Location  Count      Mean  Std. Deviation  95% CI: Lower  95% CI: Upper
+    1   Tillamook   10.0  0.080200        0.011963       0.071642       0.088758
+    2     Newport    8.0  0.074800        0.008597       0.067613       0.081987
+    3  Petersburg    7.0  0.103443        0.016209       0.088452       0.118434
+    4     Magadan    8.0  0.078012        0.012945       0.067190       0.088835
+    5   Tvarminne    6.0  0.095700        0.012962       0.082098       0.109302
+
+    The mean values of *Length* and their 95% confidence intervals in each group are given.
+
+    >>> result
+           Group 1     Group 2  Difference  Std. Error  t Statistic   p-value     
+    1      Newport   Tillamook   -0.005400    0.005975    -0.903754  1.000000  NaN
+    2   Petersburg   Tillamook    0.023243    0.006208     3.744222  0.006696   **
+    3      Magadan   Tillamook   -0.002187    0.005975    -0.366104  1.000000  NaN
+    4    Tvarminne   Tillamook    0.015500    0.006505     2.382840  0.229125  NaN
+    5   Petersburg     Newport    0.028643    0.006519     4.393516  0.001034   **
+    6      Magadan     Newport    0.003213    0.006298     0.510059  1.000000  NaN
+    7    Tvarminne     Newport    0.020900    0.006803     3.072207  0.041651    *
+    8      Magadan  Petersburg   -0.025430    0.006519    -3.900752  0.004300   **
+    9    Tvarminne  Petersburg   -0.007743    0.007008    -1.104846  1.000000  NaN
+    10   Tvarminne     Magadan    0.017688    0.006803     2.599983  0.136962  NaN
+
+    The p-values of *Petersburg/Tillamook*, *Petersburg/Newport*, *Petersburg/Magadan*, and *Newport/Tvarminne* < 0.05, so the differences of mean values in these pairs of groups are significant.
+
+    '''
+
     data = data[list({variable, between})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))

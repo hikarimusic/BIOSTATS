@@ -126,8 +126,8 @@ def one_way_anova(data, variable, between):
 
     '''
 
-    process(data)
     data = data[list({variable, between})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -273,8 +273,8 @@ def two_way_anova(data, variable, between_1, between_2):
 
     '''
 
-    process(data)
     data = data[list({variable, between_1, between_2})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -439,8 +439,8 @@ def one_way_ancova(data, variable, between, covariable):
 
     '''
 
-    process(data)
     data = data[list({variable, between, covariable})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -597,9 +597,8 @@ def two_way_ancova(data, variable, between_1, between_2, covariable):
 
     '''
 
-
-    process(data)
     data = data[list({variable, between_1, between_2, covariable})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))
@@ -669,9 +668,68 @@ def two_way_ancova(data, variable, between_1, between_2, covariable):
     return summary, result
 
 def multivariate_anova(data, variable, between):
+    '''
+    Test whether the mean values of several variables are different between several groups.
 
-    process(data)
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least two numeric columns and one categorical column.
+    variable : :py:class:`list`
+        The list of numeric variables that we want to calculate mean values of.
+    between : :py:class:`str`
+        The categorical variable that specifies which group the samples belong to.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The mean values and standard deviations of each numeric variable in each group.
+    result : :py:class:`pandas.DataFrame`
+        The degree of freedom, Pillai's Trace, F statistic, and p-value of the test.
+
+    See also
+    --------
+    one_way_anova : Test whether the mean values of a variable are different between groups.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("multivariate_anova.csv")
+    >>> data
+         sepal_length  sepal_width    species
+    0             5.1          3.5     setosa
+    1             4.9          3.0     setosa
+    2             4.7          3.2     setosa
+    3             4.6          3.1     setosa
+    4             5.0          3.6     setosa
+    ..            ...          ...        ...
+    145           6.7          3.0  virginica
+    146           6.3          2.5  virginica
+    147           6.5          3.0  virginica
+    148           6.2          3.4  virginica
+    149           5.9          3.0  virginica
+
+    We want to test whether the mean values of *sepal_length* and *sepal_width* in each *species* are different.
+
+    >>> summary, result = bs.multivariate_anova(data=data, variable=["sepal_length", "sepal_width"], between="species")
+    >>> summary
+          species  Mean (sepal_length)  Std. (sepal_length)  Mean (sepal_width)  Std. (sepal_width)
+    1      setosa                5.006             0.352490               3.428            0.379064
+    2  versicolor                5.936             0.516171               2.770            0.313798
+    3   virginica                6.588             0.635880               2.974            0.322497
+
+    The mean values of *sepal_length* and *sepal_width* in each *species* are given.
+
+    >>> result
+             D.F.  Pillai's Trace  F Statistic       p-value     
+    species   2.0        0.945314     65.87798  9.902977e-40  ***
+
+    The p-value < 0.001, so the mean values of *sepal_length* and *sepal_width* in each group are significantly different.
+
+    '''
+
     data = data[list(set(variable + [between]))].dropna()
+    process(data)
 
     for var in variable:
         if str(data[var].dtypes) != "float64":
@@ -715,9 +773,81 @@ def multivariate_anova(data, variable, between):
     return summary, result
 
 def repeated_measures_anova(data, variable, between, subject):
+    '''
+    Test whether the mean values of a variable are different between several groups on repeated measured data.
 
-    process(data)
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least one numeric column and one categorical column, as well as a column specifying the pairs.
+    variable : :py:class:`str`
+        The numeric variable that we want to calculate mean values of.
+    between : :py:class:`str`
+        The categorical variable that specifies which group the samples belong to.
+    subject : :py:class:`str`
+        The variable that specifies the subject ID. Samples measured on the same subject should have the same ID.
+
+    Returns
+    -------
+    summary : :py:class:`pandas.DataFrame`
+        The counts, mean values, standard deviations, and confidence intervals of each group.
+    result : :py:class:`pandas.DataFrame`
+        The degree of freedom, sum of squares, mean of squares, F statistic, and p-value of the test.
+
+    See also
+    --------
+    one_way_anova : Test whether the mean values of a variable are different between groups.
+
+    Examples
+    --------
+    >>> import biostats as bs
+    >>> data = bs.dataset("repeated_measures_anova.csv")
+    >>> data
+       response drug patient
+    0      30.0    A     1.0
+    1      28.0    B     1.0
+    2      16.0    C     1.0
+    3      34.0    D     1.0
+    4      14.0    A     2.0
+    5      18.0    B     2.0
+    6      10.0    C     2.0
+    7      22.0    D     2.0
+    8      24.0    A     3.0
+    9      20.0    B     3.0
+    10     18.0    C     3.0
+    11     30.0    D     3.0
+    12     38.0    A     4.0
+    13     34.0    B     4.0
+    14     20.0    C     4.0
+    15     44.0    D     4.0
+    16     26.0    A     5.0
+    17     28.0    B     5.0
+    18     14.0    C     5.0
+    19     30.0    D     5.0
+
+    We want to test whether the mean values of *response* in each *drug* are different, when the samples are repeatedly measured on the four *patient*.
+
+    >>> summary, result = bs.repeated_measures_anova(data=data, variable="response", between="drug", subject="patient")
+    >>> summary
+      drug  Count  Mean  Std. Deviation  95% CI: Lower  95% CI: Upper
+    1    A    5.0  26.4        8.763561      15.518602      37.281398
+    2    B    5.0  25.6        6.542171      17.476822      33.723178
+    3    C    5.0  15.6        3.847077      10.823223      20.376777
+    4    D    5.0  32.0        8.000000      22.066688      41.933312
+
+    The mean values of *response* and their 95% confidence intervals in each group are given.
+
+    >>> result
+              D.F.  Sum Square  Mean Square  F Statistic  p-value     
+    drug       3.0       698.2   232.733333    24.758865  0.00002  ***
+    Residual  12.0       112.8     9.400000          NaN      NaN  NaN
+
+    The p-value < 0.001, so the mean values of *response* in each group are significantly different.
+
+    '''
+
     data = data[list({variable, between, subject})].dropna()
+    process(data)
 
     if str(data[variable].dtypes) != "float64":
         raise Warning("The column '{}' must be numeric".format(variable))

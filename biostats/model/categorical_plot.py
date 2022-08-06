@@ -13,6 +13,7 @@ def process(data):
 def count_plot(data, x, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if data[x].nunique() > 20:
@@ -29,6 +30,7 @@ def count_plot(data, x, color=None):
 def strip_plot(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if data[x].nunique() > 20:
@@ -47,6 +49,7 @@ def strip_plot(data, x, y, color=None):
 def swarm_plot(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if data[x].nunique() > 20:
@@ -65,6 +68,7 @@ def swarm_plot(data, x, y, color=None):
 def box_plot(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if data[x].nunique() > 20:
@@ -83,6 +87,7 @@ def box_plot(data, x, y, color=None):
 def boxen_plot(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if data[x].nunique() > 20:
@@ -101,6 +106,7 @@ def boxen_plot(data, x, y, color=None):
 def violin_plot(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
 
     if data[x].nunique() > 20:
@@ -119,8 +125,9 @@ def violin_plot(data, x, y, color=None):
 def bar_plot(data, x, y, color=None):
 
     sns.set_theme()
+    data = data.dropna(how='all')
     process(data)
-
+    
     if data[x].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(x))
     if str(data[y].dtypes) != "float64":

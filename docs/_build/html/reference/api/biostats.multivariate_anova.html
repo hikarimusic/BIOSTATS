@@ -554,8 +554,70 @@
 <h1>biostats.multivariate_anova<a class="headerlink" href="#biostats-multivariate-anova" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.multivariate_anova">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multivariate_anova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L671-L715"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multivariate_anova" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multivariate_anova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L670-L773"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multivariate_anova" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether the mean values of several variables are different between several groups.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least two numeric columns and one categorical column.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>The list of numeric variables that we want to calculate mean values of.</p>
+</dd>
+<dt><strong>between</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that specifies which group the samples belong to.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The mean values and standard deviations of each numeric variable in each group.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, Pillai’s Trace, F statistic, and p-value of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.one_way_anova.html#biostats.one_way_anova" title="biostats.one_way_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_way_anova</span></code></a></dt><dd><p>Test whether the mean values of a variable are different between groups.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;multivariate_anova.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">     sepal_length  sepal_width    species</span>
+<span class="go">0             5.1          3.5     setosa</span>
+<span class="go">1             4.9          3.0     setosa</span>
+<span class="go">2             4.7          3.2     setosa</span>
+<span class="go">3             4.6          3.1     setosa</span>
+<span class="go">4             5.0          3.6     setosa</span>
+<span class="go">..            ...          ...        ...</span>
+<span class="go">145           6.7          3.0  virginica</span>
+<span class="go">146           6.3          2.5  virginica</span>
+<span class="go">147           6.5          3.0  virginica</span>
+<span class="go">148           6.2          3.4  virginica</span>
+<span class="go">149           5.9          3.0  virginica</span>
+</pre></div>
+</div>
+<p>We want to test whether the mean values of <em>sepal_length</em> and <em>sepal_width</em> in each <em>species</em> are different.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">multivariate_anova</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sepal_length&quot;</span><span class="p">,</span> <span class="s2">&quot;sepal_width&quot;</span><span class="p">],</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;species&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">      species  Mean (sepal_length)  Std. (sepal_length)  Mean (sepal_width)  Std. (sepal_width)</span>
+<span class="go">1      setosa                5.006             0.352490               3.428            0.379064</span>
+<span class="go">2  versicolor                5.936             0.516171               2.770            0.313798</span>
+<span class="go">3   virginica                6.588             0.635880               2.974            0.322497</span>
+</pre></div>
+</div>
+<p>The mean values of <em>sepal_length</em> and <em>sepal_width</em> in each <em>species</em> are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">         D.F.  Pillai&#39;s Trace  F Statistic       p-value     </span>
+<span class="go">species   2.0        0.945314     65.87798  9.902977e-40  ***</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.001, so the mean values of <em>sepal_length</em> and <em>sepal_width</em> in each group are significantly different.</p>
+</dd></dl>
 
 </section>
 
