@@ -939,7 +939,7 @@ class Example(ttk.Menubutton):
             self.master.plot_win.change()
             self.master.plot_win.option[1].radio_one_var.set(1)
             self.master.plot_win.change()
-            self.master.plot_win.option[2].radio_one_var.set(0)
+            self.master.plot_win.option[2].radio_one_var.set(1)
             self.master.plot_win.change()
 
         if which == "PCA Plot":
@@ -954,7 +954,7 @@ class Example(ttk.Menubutton):
             self.master.plot_win.option[0].check_more_var[2].set(1)
             self.master.plot_win.option[0].check_more_var[3].set(1)
             self.master.plot_win.change()
-            self.master.plot_win.option[1].radio_one_var.set(0)
+            self.master.plot_win.option[1].radio_one_var.set(1)
             self.master.plot_win.change()
 
         if which == "LDA Plot":

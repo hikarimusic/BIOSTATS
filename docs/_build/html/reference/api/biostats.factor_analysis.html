@@ -554,8 +554,128 @@
 <h1>biostats.factor_analysis<a class="headerlink" href="#biostats-factor-analysis" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.factor_analysis">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">factor_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyze</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L273-L314"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.factor_analysis" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">factor_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyze</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L273-L430"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.factor_analysis" title="Permalink to this definition">#</a></dt>
+<dd><p>Find the underlying factors of a set of variables.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least two numeric columns.</p>
+</dd>
+<dt><strong>x</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>The list of numeric variables to be analyzed.</p>
+</dd>
+<dt><strong>factors</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>The number of factors.</p>
+</dd>
+<dt><strong>analyze</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></dt><dd><p>The data to be analyzed. Optional.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The uniqueness of each variable.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The loadings of each variable, sum of squared loadings, proportion of variance, and cumulative proportion of variance of each factor.</p>
+</dd>
+<dt><strong>analysis</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The factor scores of the data to be analyzed.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.principal_component_analysis.html#biostats.principal_component_analysis" title="biostats.principal_component_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">principal_component_analysis</span></code></a></dt><dd><p>Find the linear combination of a set of variables to manifest the variation of data.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.linear_discriminant_analysis.html#biostats.linear_discriminant_analysis" title="biostats.linear_discriminant_analysis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_discriminant_analysis</span></code></a></dt><dd><p>Find the linear combination of a set of variables to distinguish between groups.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;factor_analysis.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">     Oil Density Crispy Fracture Hardness</span>
+<span class="go">0   16.5  2955.0   10.0     23.0     97.0</span>
+<span class="go">1   17.7  2660.0   14.0      9.0    139.0</span>
+<span class="go">2   16.2  2870.0   12.0     17.0    143.0</span>
+<span class="go">3   16.7  2920.0   10.0     31.0     95.0</span>
+<span class="go">4   16.3  2975.0   11.0     26.0    143.0</span>
+<span class="go">5   19.1  2790.0   13.0     16.0    189.0</span>
+<span class="go">6   18.4  2750.0   13.0     17.0    114.0</span>
+<span class="go">7   17.5  2770.0   10.0     26.0     63.0</span>
+<span class="go">8   15.7  2955.0   11.0     23.0    123.0</span>
+<span class="go">9   16.4  2945.0   11.0     24.0    132.0</span>
+<span class="go">10  18.0  2830.0   12.0     15.0    121.0</span>
+<span class="go">11  17.4  2835.0   12.0     18.0    172.0</span>
+<span class="go">12  18.4  2860.0   14.0     11.0    170.0</span>
+<span class="go">13  13.9  2965.0   12.0     19.0    169.0</span>
+<span class="go">14  15.8  2930.0    9.0     26.0     65.0</span>
+<span class="go">15  16.4  2770.0   15.0     16.0    183.0</span>
+<span class="go">16  18.9  2650.0   14.0     20.0    114.0</span>
+<span class="go">17  17.3  2890.0   12.0     17.0    142.0</span>
+<span class="go">18  16.7  2695.0   13.0     13.0    111.0</span>
+<span class="go">19  19.1  2755.0   14.0     10.0    140.0</span>
+<span class="go">20  13.7  3000.0   10.0     27.0    177.0</span>
+<span class="go">21  14.7  2980.0   10.0     20.0    133.0</span>
+<span class="go">22  18.1  2780.0   13.0     14.0    150.0</span>
+<span class="go">23  17.2  2705.0    8.0     27.0    113.0</span>
+<span class="go">24  18.7  2825.0   13.0     20.0    166.0</span>
+<span class="go">25  18.1  2875.0   12.0     15.0    150.0</span>
+<span class="go">26  16.6  2945.0   10.0     25.0    100.0</span>
+<span class="go">27  17.1  2920.0   10.0     25.0    123.0</span>
+<span class="go">28  17.4  2845.0   13.0     19.0    129.0</span>
+<span class="go">29  19.4  2645.0   12.0     18.0     68.0</span>
+<span class="go">30  15.9  3080.0   10.0     23.0    106.0</span>
+<span class="go">31  17.1  2825.0   10.0     28.0    131.0</span>
+<span class="go">32  15.5  3125.0    7.0     33.0     92.0</span>
+<span class="go">33  17.7  2780.0   13.0     22.0    141.0</span>
+<span class="go">34  15.9  2900.0   12.0     21.0    192.0</span>
+<span class="go">35  21.2  2570.0   14.0     13.0    105.0</span>
+<span class="go">36  19.5  2635.0   13.0     22.0    101.0</span>
+<span class="go">37  20.5  2725.0   14.0     16.0    145.0</span>
+<span class="go">38  17.0  2865.0   11.0     22.0    100.0</span>
+<span class="go">39  16.7  2975.0   10.0     26.0    105.0</span>
+<span class="go">40  16.8  2980.0   10.0     24.0    144.0</span>
+<span class="go">41  16.8  2870.0   12.0     20.0    123.0</span>
+<span class="go">42  16.3  2920.0   11.0     22.0    136.0</span>
+<span class="go">43  16.2  3100.0    8.0     27.0    140.0</span>
+<span class="go">44  18.1  2910.0   12.0     21.0    120.0</span>
+<span class="go">45  16.6  2865.0   11.0     25.0    120.0</span>
+<span class="go">46  16.4  2995.0   12.0     20.0    165.0</span>
+<span class="go">47  15.1  2925.0   10.0     29.0    118.0</span>
+<span class="go">48  21.1  2700.0   13.0     16.0    116.0</span>
+<span class="go">49  16.3  2845.0   10.0     26.0     75.0</span>
+</pre></div>
+</div>
+<p>We want to find the underlying factors of the five variables.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">analysis</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">factor_analysis</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Oil&quot;</span><span class="p">,</span> <span class="s2">&quot;Density&quot;</span><span class="p">,</span> <span class="s2">&quot;Crispy&quot;</span><span class="p">,</span> <span class="s2">&quot;Fracture&quot;</span><span class="p">,</span> <span class="s2">&quot;Hardness&quot;</span><span class="p">],</span> <span class="n">factors</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+<span class="gp">... </span>    <span class="n">analyze</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Oil&quot;</span><span class="p">:</span><span class="mf">17.2</span><span class="p">,</span> <span class="s2">&quot;Density&quot;</span><span class="p">:</span><span class="mi">2830</span><span class="p">,</span> <span class="s2">&quot;Crispy&quot;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span> <span class="s2">&quot;Fracture&quot;</span><span class="p">:</span><span class="mi">19</span><span class="p">,</span> <span class="s2">&quot;Hardness&quot;</span><span class="p">:</span><span class="mi">121</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">                 Oil   Density   Crispy  Fracture  Hardness</span>
+<span class="go">Uniqueness  0.322983  0.169086  0.04781  0.251765  0.398991</span>
+</pre></div>
+</div>
+<p>The uniqueness of each variable (proportion of variability that cannot be explained by the factors) are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">                 Factor 1  Factor 2</span>
+<span class="go">Oil             -0.822497 -0.022736</span>
+<span class="go">Density          0.911124  0.027689</span>
+<span class="go">Crispy          -0.747793  0.626893</span>
+<span class="go">Fracture         0.653877 -0.566286</span>
+<span class="go">Hardness         0.095274  0.769371</span>
+<span class="go">                    NaN       NaN</span>
+<span class="go">SS Loadings      2.502476  1.306891</span>
+<span class="go">Proportion Var.  0.500495  0.261378</span>
+<span class="go">Cumulative Var.  0.500495  0.761873</span>
+</pre></div>
+</div>
+<p>The loadings (contribution of each original variable to the factor), SS Loadings (sum of squared loadings), Proportion Var (proportion of variance explained by each factor), and Cumulative Var (cumulative proportion of variance) are calculated.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">analysis</span>
+<span class="go">          Factor 1  Factor 2</span>
+<span class="go">Analysis -0.251185  0.090308</span>
+</pre></div>
+</div>
+<p>The factor scores of the data to be analyzed are calculated.</p>
+</dd></dl>
 
 </section>
 

@@ -420,7 +420,7 @@ class Plot(ttk.Frame):
             
                 self.option_label[2].config(text="Color:")
                 self.option_label[2].grid()
-                self.option[2].radio_one_set(self.master.data_col["cat"])
+                self.option[2].radio_one_set(["None"]+self.master.data_col["cat"])
                 self.option[2].grid()
 
                 self.temp = ""
@@ -433,7 +433,7 @@ class Plot(ttk.Frame):
             
                 self.option_label[1].config(text="Color:")
                 self.option_label[1].grid()
-                self.option[1].radio_one_set(self.master.data_col["cat"])
+                self.option[1].radio_one_set(["None"]+self.master.data_col["cat"])
                 self.option[1].grid()
 
             if plot == "LDA Plot":

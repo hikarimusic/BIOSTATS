@@ -23,7 +23,7 @@
 -  It is free and open-source.
 -  It works on *Windows* / *Linux*.
 
-You can preform tests with a few clicks
+You can perform tests with a few clicks
 ---------------------------------------
 
 *t-Test*
