@@ -554,7 +554,7 @@
 <h1>biostats.two_way_anova<a class="headerlink" href="#biostats-two-way-anova" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.two_way_anova">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">two_way_anova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between_2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L181-L336"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.two_way_anova" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">two_way_anova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between_2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L156-L311"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.two_way_anova" title="Permalink to this definition">#</a></dt>
 <dd><p>Test whether the mean values of a variable are different between several groups, when the groups are classified in two ways.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -634,21 +634,21 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">two_way_anova</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Activity&quot;</span><span class="p">,</span> <span class="n">between_1</span><span class="o">=</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span> <span class="n">between_2</span><span class="o">=</span><span class="s2">&quot;Genotype&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
 <span class="go">      Sex Genotype  Count     Mean  Std. Deviation  95% CI: Lower  95% CI: Upper</span>
-<span class="go">1    male       ff    4.0  3.14800        1.374512       0.960845       5.335155</span>
-<span class="go">2    male       fs    4.0  2.77650        0.316843       2.272332       3.280668</span>
-<span class="go">3    male       ss    4.0  3.40175        0.634811       2.391624       4.411876</span>
-<span class="go">4  female       ff    8.0  3.05025        0.959903       2.247751       3.852749</span>
-<span class="go">5  female       fs    8.0  3.31825        1.144539       2.361392       4.275108</span>
-<span class="go">6  female       ss    8.0  3.23450        0.361775       2.932048       3.536952</span>
+<span class="go">1    male       ff      4  3.14800        1.374512       0.960845       5.335155</span>
+<span class="go">2    male       fs      4  2.77650        0.316843       2.272332       3.280668</span>
+<span class="go">3    male       ss      4  3.40175        0.634811       2.391624       4.411876</span>
+<span class="go">4  female       ff      8  3.05025        0.959903       2.247751       3.852749</span>
+<span class="go">5  female       fs      8  3.31825        1.144539       2.361392       4.275108</span>
+<span class="go">6  female       ss      8  3.23450        0.361775       2.932048       3.536952</span>
 </pre></div>
 </div>
 <p>The mean values and 95% confidence intervals of each combination of <em>Sex</em> and <em>Genotype</em> are given.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
-<span class="go">                D.F.  Sum Square  Mean Square  F Statistic   p-value    </span>
-<span class="go">Sex              1.0    0.068080     0.068080     0.086128  0.771180 NaN</span>
-<span class="go">Genotype         2.0    0.277240     0.138620     0.175366  0.840004 NaN</span>
-<span class="go">Sex : Genotype   2.0    0.814641     0.407321     0.515295  0.602515 NaN</span>
-<span class="go">Residual        30.0   23.713823     0.790461          NaN       NaN NaN</span>
+<span class="go">                D.F.  Sum Square  Mean Square  F Statistic   p-value      </span>
+<span class="go">Sex                1    0.068080     0.068080     0.086128  0.771180  &lt;NA&gt;</span>
+<span class="go">Genotype           2    0.277240     0.138620     0.175366  0.840004  &lt;NA&gt;</span>
+<span class="go">Sex : Genotype     2    0.814641     0.407321     0.515295  0.602515  &lt;NA&gt;</span>
+<span class="go">Residual          30   23.713823     0.790461          NaN       NaN  &lt;NA&gt;</span>
 </pre></div>
 </div>
 <p>The p-value of <em>Sex</em> &gt; 0.05, so <em>Activity</em> are not different between the two <em>Sex</em>. The p-value of <em>Genotype</em> &gt; 0.05, so <em>Activity</em> are not different between the three <em>Genotype</em>. The p-value of interaction &gt; 0.05, so there is no interaction between <em>Sex</em> and <em>Genotype</em>.</p>
@@ -701,7 +701,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

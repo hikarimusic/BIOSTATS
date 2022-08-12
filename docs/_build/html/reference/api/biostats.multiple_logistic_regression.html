@@ -554,7 +554,7 @@
 <h1>biostats.multiple_logistic_regression<a class="headerlink" href="#biostats-multiple-logistic-regression" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.multiple_logistic_regression">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multiple_logistic_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/logistic_regression.py#L165-L300"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multiple_logistic_regression" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multiple_logistic_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/logistic_regression.py#L140-L271"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multiple_logistic_regression" title="Permalink to this definition">#</a></dt>
 <dd><p>Fit an equation that predicts a dichotomous categorical variable from other variables.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -596,21 +596,21 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;multiple_logistic_regression.csv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
 <span class="go">    Upland  Migr    Mass  Indiv  Insect  Wood  Status</span>
-<span class="go">0      0.0   1.0  9600.0   29.0    12.0   0.0     1.0</span>
-<span class="go">1      0.0   1.0  5000.0   85.0     0.0   0.0     1.0</span>
-<span class="go">2      0.0   1.0  3360.0    8.0     0.0   0.0     1.0</span>
-<span class="go">3      0.0   3.0  2517.0   10.0    12.0   0.0     0.0</span>
-<span class="go">4      0.0   3.0  3170.0    7.0     0.0   0.0     0.0</span>
+<span class="go">0        0     1  9600.0     29      12     0       1</span>
+<span class="go">1        0     1  5000.0     85       0     0       1</span>
+<span class="go">2        0     1  3360.0      8       0     0       1</span>
+<span class="go">3        0     3  2517.0     10      12     0       0</span>
+<span class="go">4        0     3  3170.0      7       0     0       0</span>
 <span class="go">..     ...   ...     ...    ...     ...   ...     ...</span>
-<span class="go">74     0.0   1.0    23.6   29.0    12.0   1.0     1.0</span>
-<span class="go">75     0.0   1.0    20.7    9.0    12.0   0.0     0.0</span>
-<span class="go">76     0.0   3.0    31.0    2.0    12.0   1.0     0.0</span>
-<span class="go">77     0.0   2.0    36.9    2.0     8.0   0.0     0.0</span>
-<span class="go">78     0.0   2.0   106.5    2.0    12.0   0.0     0.0</span>
+<span class="go">74       0     1    23.6     29      12     1       1</span>
+<span class="go">75       0     1    20.7      9      12     0       0</span>
+<span class="go">76       0     3    31.0      2      12     1       0</span>
+<span class="go">77       0     2    36.9      2       8     0       0</span>
+<span class="go">78       0     2   106.5      2      12     0       0</span>
 </pre></div>
 </div>
 <p>We want to fit an equation that predicts <em>Status</em> from <em>Upland</em>, <em>Migr</em>, <em>Mass</em>, <em>Indiv</em>, <em>Insect</em>, and <em>Wood</em>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">multiple_logistic_regression</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x_numeric</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Upland&quot;</span><span class="p">,</span> <span class="s2">&quot;Migr&quot;</span><span class="p">,</span> <span class="s2">&quot;Mass&quot;</span><span class="p">,</span> <span class="s2">&quot;Indiv&quot;</span><span class="p">,</span> <span class="s2">&quot;Insect&quot;</span><span class="p">,</span> <span class="s2">&quot;Wood&quot;</span><span class="p">],</span> <span class="n">x_categorical</span><span class="o">=</span><span class="p">[],</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Status&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">multiple_logistic_regression</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x_numeric</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Upland&quot;</span><span class="p">,</span> <span class="s2">&quot;Migr&quot;</span><span class="p">,</span> <span class="s2">&quot;Mass&quot;</span><span class="p">,</span> <span class="s2">&quot;Indiv&quot;</span><span class="p">,</span> <span class="s2">&quot;Insect&quot;</span><span class="p">,</span> <span class="s2">&quot;Wood&quot;</span><span class="p">],</span> <span class="n">x_categorical</span><span class="o">=</span><span class="p">[],</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Status&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
 <span class="go">           Coefficient  95% CI: Lower  95% CI: Upper  Std. Error  z Statistic   p-value     </span>
 <span class="go">Intercept    -3.549648      -7.631768       0.532472    2.082753    -1.704306  0.088324  NaN</span>
@@ -678,7 +678,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

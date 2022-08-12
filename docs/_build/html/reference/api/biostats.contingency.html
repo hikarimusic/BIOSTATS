@@ -554,7 +554,7 @@
 <h1>biostats.contingency<a class="headerlink" href="#biostats-contingency" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.contingency">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">contingency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'count'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L362-L453"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.contingency" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">contingency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'count'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L350-L441"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.contingency" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the contingency table of two categorical variables.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -613,9 +613,9 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">contingency</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable_1</span><span class="o">=</span><span class="s2">&quot;Genotype&quot;</span><span class="p">,</span> <span class="n">variable_2</span><span class="o">=</span><span class="s2">&quot;Health&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
 <span class="go">         disease  no_disease</span>
-<span class="go">del-del    184.0        42.0</span>
-<span class="go">ins-del    759.0       199.0</span>
-<span class="go">ins-ins    807.0       268.0</span>
+<span class="go">del-del      184          42</span>
+<span class="go">ins-del      759         199</span>
+<span class="go">ins-ins      807         268</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -667,7 +667,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

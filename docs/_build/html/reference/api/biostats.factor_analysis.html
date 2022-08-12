@@ -554,7 +554,7 @@
 <h1>biostats.factor_analysis<a class="headerlink" href="#biostats-factor-analysis" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.factor_analysis">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">factor_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyze</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L273-L430"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.factor_analysis" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">factor_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyze</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L248-L405"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.factor_analysis" title="Permalink to this definition">#</a></dt>
 <dd><p>Find the underlying factors of a set of variables.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -593,57 +593,57 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;factor_analysis.csv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
-<span class="go">     Oil Density Crispy Fracture Hardness</span>
-<span class="go">0   16.5  2955.0   10.0     23.0     97.0</span>
-<span class="go">1   17.7  2660.0   14.0      9.0    139.0</span>
-<span class="go">2   16.2  2870.0   12.0     17.0    143.0</span>
-<span class="go">3   16.7  2920.0   10.0     31.0     95.0</span>
-<span class="go">4   16.3  2975.0   11.0     26.0    143.0</span>
-<span class="go">5   19.1  2790.0   13.0     16.0    189.0</span>
-<span class="go">6   18.4  2750.0   13.0     17.0    114.0</span>
-<span class="go">7   17.5  2770.0   10.0     26.0     63.0</span>
-<span class="go">8   15.7  2955.0   11.0     23.0    123.0</span>
-<span class="go">9   16.4  2945.0   11.0     24.0    132.0</span>
-<span class="go">10  18.0  2830.0   12.0     15.0    121.0</span>
-<span class="go">11  17.4  2835.0   12.0     18.0    172.0</span>
-<span class="go">12  18.4  2860.0   14.0     11.0    170.0</span>
-<span class="go">13  13.9  2965.0   12.0     19.0    169.0</span>
-<span class="go">14  15.8  2930.0    9.0     26.0     65.0</span>
-<span class="go">15  16.4  2770.0   15.0     16.0    183.0</span>
-<span class="go">16  18.9  2650.0   14.0     20.0    114.0</span>
-<span class="go">17  17.3  2890.0   12.0     17.0    142.0</span>
-<span class="go">18  16.7  2695.0   13.0     13.0    111.0</span>
-<span class="go">19  19.1  2755.0   14.0     10.0    140.0</span>
-<span class="go">20  13.7  3000.0   10.0     27.0    177.0</span>
-<span class="go">21  14.7  2980.0   10.0     20.0    133.0</span>
-<span class="go">22  18.1  2780.0   13.0     14.0    150.0</span>
-<span class="go">23  17.2  2705.0    8.0     27.0    113.0</span>
-<span class="go">24  18.7  2825.0   13.0     20.0    166.0</span>
-<span class="go">25  18.1  2875.0   12.0     15.0    150.0</span>
-<span class="go">26  16.6  2945.0   10.0     25.0    100.0</span>
-<span class="go">27  17.1  2920.0   10.0     25.0    123.0</span>
-<span class="go">28  17.4  2845.0   13.0     19.0    129.0</span>
-<span class="go">29  19.4  2645.0   12.0     18.0     68.0</span>
-<span class="go">30  15.9  3080.0   10.0     23.0    106.0</span>
-<span class="go">31  17.1  2825.0   10.0     28.0    131.0</span>
-<span class="go">32  15.5  3125.0    7.0     33.0     92.0</span>
-<span class="go">33  17.7  2780.0   13.0     22.0    141.0</span>
-<span class="go">34  15.9  2900.0   12.0     21.0    192.0</span>
-<span class="go">35  21.2  2570.0   14.0     13.0    105.0</span>
-<span class="go">36  19.5  2635.0   13.0     22.0    101.0</span>
-<span class="go">37  20.5  2725.0   14.0     16.0    145.0</span>
-<span class="go">38  17.0  2865.0   11.0     22.0    100.0</span>
-<span class="go">39  16.7  2975.0   10.0     26.0    105.0</span>
-<span class="go">40  16.8  2980.0   10.0     24.0    144.0</span>
-<span class="go">41  16.8  2870.0   12.0     20.0    123.0</span>
-<span class="go">42  16.3  2920.0   11.0     22.0    136.0</span>
-<span class="go">43  16.2  3100.0    8.0     27.0    140.0</span>
-<span class="go">44  18.1  2910.0   12.0     21.0    120.0</span>
-<span class="go">45  16.6  2865.0   11.0     25.0    120.0</span>
-<span class="go">46  16.4  2995.0   12.0     20.0    165.0</span>
-<span class="go">47  15.1  2925.0   10.0     29.0    118.0</span>
-<span class="go">48  21.1  2700.0   13.0     16.0    116.0</span>
-<span class="go">49  16.3  2845.0   10.0     26.0     75.0</span>
+<span class="go">     Oil  Density  Crispy  Fracture  Hardness</span>
+<span class="go">0   16.5     2955      10        23        97</span>
+<span class="go">1   17.7     2660      14         9       139</span>
+<span class="go">2   16.2     2870      12        17       143</span>
+<span class="go">3   16.7     2920      10        31        95</span>
+<span class="go">4   16.3     2975      11        26       143</span>
+<span class="go">5   19.1     2790      13        16       189</span>
+<span class="go">6   18.4     2750      13        17       114</span>
+<span class="go">7   17.5     2770      10        26        63</span>
+<span class="go">8   15.7     2955      11        23       123</span>
+<span class="go">9   16.4     2945      11        24       132</span>
+<span class="go">10  18.0     2830      12        15       121</span>
+<span class="go">11  17.4     2835      12        18       172</span>
+<span class="go">12  18.4     2860      14        11       170</span>
+<span class="go">13  13.9     2965      12        19       169</span>
+<span class="go">14  15.8     2930       9        26        65</span>
+<span class="go">15  16.4     2770      15        16       183</span>
+<span class="go">16  18.9     2650      14        20       114</span>
+<span class="go">17  17.3     2890      12        17       142</span>
+<span class="go">18  16.7     2695      13        13       111</span>
+<span class="go">19  19.1     2755      14        10       140</span>
+<span class="go">20  13.7     3000      10        27       177</span>
+<span class="go">21  14.7     2980      10        20       133</span>
+<span class="go">22  18.1     2780      13        14       150</span>
+<span class="go">23  17.2     2705       8        27       113</span>
+<span class="go">24  18.7     2825      13        20       166</span>
+<span class="go">25  18.1     2875      12        15       150</span>
+<span class="go">26  16.6     2945      10        25       100</span>
+<span class="go">27  17.1     2920      10        25       123</span>
+<span class="go">28  17.4     2845      13        19       129</span>
+<span class="go">29  19.4     2645      12        18        68</span>
+<span class="go">30  15.9     3080      10        23       106</span>
+<span class="go">31  17.1     2825      10        28       131</span>
+<span class="go">32  15.5     3125       7        33        92</span>
+<span class="go">33  17.7     2780      13        22       141</span>
+<span class="go">34  15.9     2900      12        21       192</span>
+<span class="go">35  21.2     2570      14        13       105</span>
+<span class="go">36  19.5     2635      13        22       101</span>
+<span class="go">37  20.5     2725      14        16       145</span>
+<span class="go">38  17.0     2865      11        22       100</span>
+<span class="go">39  16.7     2975      10        26       105</span>
+<span class="go">40  16.8     2980      10        24       144</span>
+<span class="go">41  16.8     2870      12        20       123</span>
+<span class="go">42  16.3     2920      11        22       136</span>
+<span class="go">43  16.2     3100       8        27       140</span>
+<span class="go">44  18.1     2910      12        21       120</span>
+<span class="go">45  16.6     2865      11        25       120</span>
+<span class="go">46  16.4     2995      12        20       165</span>
+<span class="go">47  15.1     2925      10        29       118</span>
+<span class="go">48  21.1     2700      13        16       116</span>
+<span class="go">49  16.3     2845      10        26        75</span>
 </pre></div>
 </div>
 <p>We want to find the underlying factors of the five variables.</p>
@@ -724,7 +724,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

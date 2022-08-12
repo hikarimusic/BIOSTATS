@@ -554,8 +554,75 @@
 <h1>biostats.spearman_rank_correlation<a class="headerlink" href="#biostats-spearman-rank-correlation" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.spearman_rank_correlation">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">spearman_rank_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/non_parametric.py#L487-L526"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.spearman_rank_correlation" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">spearman_rank_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/non_parametric.py#L941-L1044"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.spearman_rank_correlation" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether there is a correlation between two numeric variables with nonparametric methods.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least two numeric columns.</p>
+</dd>
+<dt><strong>x</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The first numeric variable.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The second numeric variable. Switching the two variables will not change the result.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The correlation coefficient.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, t statistic, and p-value of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.correlation.html#biostats.correlation" title="biostats.correlation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation</span></code></a></dt><dd><p>The parametric version of Spearman’s rank correlation.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;spearman_rank_correlation.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Volume  Pitch</span>
+<span class="go">0     1760    529</span>
+<span class="go">1     2040    566</span>
+<span class="go">2     2440    473</span>
+<span class="go">3     2550    461</span>
+<span class="go">4     2730    465</span>
+<span class="go">5     2740    532</span>
+<span class="go">6     3010    484</span>
+<span class="go">7     3080    527</span>
+<span class="go">8     3370    488</span>
+<span class="go">9     3740    485</span>
+<span class="go">10    4910    478</span>
+<span class="go">11    5090    434</span>
+<span class="go">12    5090    468</span>
+<span class="go">13    5380    449</span>
+<span class="go">14    5850    425</span>
+<span class="go">15    6730    389</span>
+<span class="go">16    6990    421</span>
+<span class="go">17    7960    416</span>
+</pre></div>
+</div>
+<p>We want to test whether there is a correlation between <em>Volume</em> and <em>Pitch</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">spearman_rank_correlation</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Volume&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Pitch&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">             Coefficient</span>
+<span class="go">Correlation    -0.763036</span>
+</pre></div>
+</div>
+<p>The correlation coefficient is given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">       D.F.  t Statistic  p-value     </span>
+<span class="go">Model    16    -4.722075  0.00023  ***</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.001, so there is a significant correlation between <em>Volume</em> and <em>Pitch</em>.</p>
+</dd></dl>
 
 </section>
 
@@ -604,7 +671,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

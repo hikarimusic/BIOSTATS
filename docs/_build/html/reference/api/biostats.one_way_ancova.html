@@ -554,7 +554,7 @@
 <h1>biostats.one_way_ancova<a class="headerlink" href="#biostats-one-way-ancova" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.one_way_ancova">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">one_way_ancova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L339-L499"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.one_way_ancova" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">one_way_ancova</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/anova.py#L314-L474"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.one_way_ancova" title="Permalink to this definition">#</a></dt>
 <dd><p>Test whether the mean values of a variable are different between several groups, when another variable is controlled.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -646,17 +646,17 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">one_way_ancova</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Pulse&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;Species&quot;</span><span class="p">,</span> <span class="n">covariable</span><span class="o">=</span><span class="s2">&quot;Temp&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
 <span class="go">  Species  Count  Mean (Pulse)  Std. (Pulse)  Mean (Temp)  Std. (Temp)</span>
-<span class="go">1      ex   14.0     85.585714      11.69930    25.757143     3.074639</span>
-<span class="go">2     niv   17.0     62.429412      12.95684    22.123529     3.659325</span>
-<span class="go">3    fake   17.0     92.429412      12.95684    22.123529     3.659325</span>
+<span class="go">1      ex     14     85.585714      11.69930    25.757143     3.074639</span>
+<span class="go">2     niv     17     62.429412      12.95684    22.123529     3.659325</span>
+<span class="go">3    fake     17     92.429412      12.95684    22.123529     3.659325</span>
 </pre></div>
 </div>
 <p>The mean values of <em>Pulse</em> and <em>Temp</em> in each group are given.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
 <span class="go">           Sum Square  D.F.  F Statistic       p-value     </span>
-<span class="go">Species   7835.737962   2.0  1372.995165  2.252680e-40  ***</span>
-<span class="go">Temp      7025.952857   1.0  2462.205692  2.877499e-40  ***</span>
-<span class="go">Residual   125.554874  44.0          NaN           NaN  NaN</span>
+<span class="go">Species   7835.737962     2  1372.995165  2.252680e-40  ***</span>
+<span class="go">Temp      7025.952857     1  2462.205692  2.877499e-40  ***</span>
+<span class="go">Residual   125.554874    44          NaN           NaN  NaN</span>
 </pre></div>
 </div>
 <p>The p-value of <em>Species</em> &lt; 0.05, so the mean values of <em>Pulse</em> are different between the three <em>Species</em>, even after <em>Temp</em> being controlled.</p>
@@ -709,7 +709,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

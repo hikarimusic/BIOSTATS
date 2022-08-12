@@ -2,31 +2,7 @@ import numpy as np
 import pandas as pd
 import math
 
-def CC(fun, *args):
-    try:
-        return fun(*args)
-    except:
-        return np.nan
-
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
-
-def add_p(data):
-    temp = [np.nan] * len(data)
-    for i in range(len(data)):
-        if data['p-value'][i] <= 0.05:
-            temp[i] = "*"
-        if data['p-value'][i] <= 0.01:
-            temp[i] = "**"
-        if data['p-value'][i] <= 0.001:
-            temp[i] = "***"
-    data[""] = temp
+from biostats.model.util import _CC, _process, _add_p
 
 class binom_exact:
 
@@ -144,10 +120,10 @@ def binomial_test(data, variable, expect):
     >>> summary, result = bs.binomial_test(data=data, variable="Flower", expect={"Purple":9, "Red":3, "Blue":3, "White":1})
     >>> summary
             Observe  Prop.(Obs.)  Expect  Prop.(Exp.)
-    Purple     72.0     0.486486   83.25       0.5625
-    Red        38.0     0.256757   27.75       0.1875
-    Blue       20.0     0.135135   27.75       0.1875
-    White      18.0     0.121622    9.25       0.0625
+    Purple       72     0.486486   83.25       0.5625
+    Red          38     0.256757   27.75       0.1875
+    Blue         20     0.135135   27.75       0.1875
+    White        18     0.121622    9.25       0.0625
 
     The observed and expected counts and proportions of each group are given.
 
@@ -160,7 +136,7 @@ def binomial_test(data, variable, expect):
     '''
 
     data = data[[variable]].dropna()
-    process(data)
+    _process(data, cat=[variable])
 
     if data[variable].nunique() > 10:
         raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable))
@@ -174,34 +150,34 @@ def binomial_test(data, variable, expect):
     pro_e = []
     exp_sum = sum(list(expect.values()))
     for var in cat:
-        obs_val = CC(lambda: data[variable].value_counts()[var])
-        obs.append(CC(lambda: obs_val))
-        pro_o.append(CC(lambda: obs_val / len(data)))
-        exp.append(CC(lambda: expect[var] * len(data) / exp_sum))
-        pro_e.append(CC(lambda: expect[var] / exp_sum))
+        obs_val = _CC(lambda: data[variable].value_counts()[var])
+        obs.append(_CC(lambda: obs_val))
+        pro_o.append(_CC(lambda: obs_val / len(data)))
+        exp.append(_CC(lambda: expect[var] * len(data) / exp_sum))
+        pro_e.append(_CC(lambda: expect[var] / exp_sum))
 
     summary = pd.DataFrame(
         {
-            "Observe" : CC(lambda: obs),
-            "Prop.(Obs.)" : CC(lambda: pro_o),
-            "Expect"  : CC(lambda: exp),
-            "Prop.(Exp.)" : CC(lambda: pro_e),
+            "Observe" : _CC(lambda: obs),
+            "Prop.(Obs.)" : _CC(lambda: pro_o),
+            "Expect"  : _CC(lambda: exp),
+            "Prop.(Exp.)" : _CC(lambda: pro_e),
         }, index=cat
     )
 
     test = binom_exact(obs, pro_e)
-    p = CC(lambda: test.calc())
+    p = _CC(lambda: test.calc())
 
     result = pd.DataFrame(
         {
-            "p-value": CC(lambda: p)
+            "p-value": _CC(lambda: p)
         }, index=["Model"]
     )
 
-    add_p(result)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 
@@ -391,7 +367,7 @@ def fisher_exact_test(data, variable_1, variable_2, kind="count"):
     '''
 
     data = data[list({variable_1, variable_2})].dropna()
-    process(data)
+    _process(data, cat=[variable_1, variable_2])
 
     if data[variable_1].nunique() > 10:
         raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_1))
@@ -407,36 +383,36 @@ def fisher_exact_test(data, variable_1, variable_2, kind="count"):
     obs = summary.values.tolist()
 
     if kind == "vertical":
-        col_sum = CC(lambda: summary.sum(axis=0))
+        col_sum = _CC(lambda: summary.sum(axis=0))
         for i in range(summary.shape[0]):
             for j in range(summary.shape[1]):
-                summary.iat[i,j] = CC(lambda: summary.iat[i,j] / col_sum[j])
+                summary.iat[i,j] = _CC(lambda: summary.iat[i,j] / col_sum[j])
 
     if kind == "horizontal":
-        col_sum = CC(lambda: summary.sum(axis=1))
+        col_sum = _CC(lambda: summary.sum(axis=1))
         for i in range(summary.shape[0]):
             for j in range(summary.shape[1]):
-                summary.iat[i,j] = CC(lambda: summary.iat[i,j] / col_sum[i])
+                summary.iat[i,j] = _CC(lambda: summary.iat[i,j] / col_sum[i])
 
     if kind == "overall":
-        _sum = CC(lambda: summary.to_numpy().sum())
+        _sum = _CC(lambda: summary.to_numpy().sum())
         for i in range(summary.shape[0]):
             for j in range(summary.shape[1]):
-                summary.iat[i,j] = CC(lambda: summary.iat[i,j] / _sum)
+                summary.iat[i,j] = _CC(lambda: summary.iat[i,j] / _sum)
 
     test = fisher_exact(obs)
-    p = CC(lambda: test.calc())
+    p = _CC(lambda: test.calc())
 
     result = pd.DataFrame(
         {
-            "p-value": CC(lambda: p)
+            "p-value": _CC(lambda: p)
         }, index=["Model"]
     )
     
-    add_p(result)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 
@@ -472,39 +448,39 @@ def mcnemar_exact_test(data, variable_1, variable_2, pair):
     >>> import biostats as bs
     >>> data = bs.dataset("mcnemar_exact_test.csv")
     >>> data
-       Treatment Result    ID
-    0    control   fail   1.0
-    1    control   fail   2.0
-    2    control   fail   3.0
-    3    control   fail   4.0
-    4    control   fail   5.0
-    ..       ...    ...   ...
-    83      test   pass  40.0
-    84      test   pass  41.0
-    85      test   pass  42.0
-    86      test   pass  43.0
-    87      test   pass  44.0
+       Treatment Result  ID
+    0    control   fail   1
+    1    control   fail   2
+    2    control   fail   3
+    3    control   fail   4
+    4    control   fail   5
+    ..       ...    ...  ..
+    83      test   pass  40
+    84      test   pass  41
+    85      test   pass  42
+    86      test   pass  43
+    87      test   pass  44
 
     We want to test whether the proportions of *Result* are different between the two *Treatment*, where each *control* is paired with a *test*.
 
     >>> summary, result = bs.mcnemar_exact_test(data=data, variable_1="Treatment", variable_2="Result", pair="ID")
     >>> summary
                     test : fail  test : pass
-    control : fail         21.0          9.0
-    control : pass          2.0         12.0
+    control : fail           21            9
+    control : pass            2           12
 
     The contingency table of *Treatment* and *Result* where the counting unit is the matched pair.
 
     >>> result
-           p-value    
-    Model  0.06543 NaN
+           p-value      
+    Model  0.06543  <NA>
 
     The p-value > 0.05, so there is no significant difference between the proportions of *Result* under the two *Treatment*.
 
     '''
 
     data = data[list({variable_1, variable_2, pair})].dropna()
-    process(data)
+    _process(data, cat=[variable_1, variable_2, pair])
     
     if data[variable_1].nunique() > 10:
         raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_1))
@@ -532,10 +508,10 @@ def mcnemar_exact_test(data, variable_1, variable_2, pair):
         }
     )
 
-    a = CC(lambda: _dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[0])]["fst"].count())
-    b = CC(lambda: _dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[1])]["fst"].count())
-    c = CC(lambda: _dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[0])]["fst"].count())
-    d = CC(lambda: _dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[1])]["fst"].count())
+    a = _CC(lambda: _dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[0])]["fst"].count())
+    b = _CC(lambda: _dat[(_dat["fst"]==grp_2[0]) & (_dat["snd"]==grp_2[1])]["fst"].count())
+    c = _CC(lambda: _dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[0])]["fst"].count())
+    d = _CC(lambda: _dat[(_dat["fst"]==grp_2[1]) & (_dat["snd"]==grp_2[1])]["fst"].count())
 
     summary = pd.DataFrame(
         {
@@ -544,27 +520,27 @@ def mcnemar_exact_test(data, variable_1, variable_2, pair):
         }, index=["{} : {}".format(grp_1[0], grp_2[0]), "{} : {}".format(grp_1[0], grp_2[1])]
     )
 
-    p = CC(lambda: 0)
-    n = CC(lambda: b + c)
+    p = _CC(lambda: 0)
+    n = _CC(lambda: b + c)
     if b < c:
         for x in range(0, b+1):
-            p = CC(lambda: p + math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n))
-        p = CC(lambda: p * 2)
+            p = _CC(lambda: p + math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n))
+        p = _CC(lambda: p * 2)
     elif b > c:
         for x in range(b, n+1):
-            p = CC(lambda: p + math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n))
-        p = CC(lambda: p * 2)
+            p = _CC(lambda: p + math.factorial(n) / (math.factorial(x) * math.factorial(n-x) * 2**n))
+        p = _CC(lambda: p * 2)
     else: 
-        p = CC(lambda: 1)
+        p = _CC(lambda: 1)
 
     result = pd.DataFrame(
         {
-            "p-value": CC(lambda: p)
+            "p-value": _CC(lambda: p)
         }, index=["Model"]
     )
-    add_p(result)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result

@@ -5,31 +5,7 @@ import math
 
 from statsmodels.formula.api import ols
 
-def CC(fun, *args):
-    try:
-        return fun(*args)
-    except:
-        return np.nan
-
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
-
-def add_p(data):
-    temp = [np.nan] * len(data)
-    for i in range(len(data)):
-        if data['p-value'][i] <= 0.05:
-            temp[i] = "*"
-        if data['p-value'][i] <= 0.01:
-            temp[i] = "**"
-        if data['p-value'][i] <= 0.001:
-            temp[i] = "***"
-    data[""] = temp
+from biostats.model.util import _CC, _process, _add_p
 
 def correlation(data, x, y):
     '''
@@ -63,23 +39,23 @@ def correlation(data, x, y):
     >>> data = bs.dataset("correlation.csv")
     >>> data
         Latitude  Species
-    0     39.217    128.0
-    1     38.800    137.0
-    2     39.467    108.0
-    3     38.958    118.0
-    4     38.600    135.0
-    5     38.583     94.0
-    6     39.733    113.0
-    7     38.033    118.0
-    8     38.900     96.0
-    9     39.533     98.0
-    10    39.133    121.0
-    11    38.317    152.0
-    12    38.333    108.0
-    13    38.367    118.0
-    14    37.200    157.0
-    15    37.967    125.0
-    16    37.667    114.0
+    0     39.217      128
+    1     38.800      137
+    2     39.467      108
+    3     38.958      118
+    4     38.600      135
+    5     38.583       94
+    6     39.733      113
+    7     38.033      118
+    8     38.900       96
+    9     39.533       98
+    10    39.133      121
+    11    38.317      152
+    12    38.333      108
+    13    38.367      118
+    14    37.200      157
+    15    37.967      125
+    16    37.667      114
 
     We want to test whether there is a correlation between *Latitude* and *Species*.
 
@@ -91,52 +67,52 @@ def correlation(data, x, y):
     The correlation coefficient and the confidence interval are given.
 
     >>> result
-           D.F.  t Statistic   p-value    
-    Model  15.0    -2.022457  0.061336 NaN
+           D.F.  t Statistic   p-value      
+    Model    15    -2.022457  0.061336  <NA>
 
     The p-value > 0.05, so there is no significant correlation between *Latitude* and *Species*.
 
     '''
 
     data = data[list({x, y})].dropna()
-    process(data)   
+    _process(data, num=[x, y])
 
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
 
-    n = CC(lambda: len(data))
-    r, p = CC(lambda: st.pearsonr(data[x], data[y]))
-    r_z = CC(lambda: np.arctanh(r))
-    rz_l = CC(lambda: st.norm.ppf(0.025, r_z, 1/np.sqrt(n-3)))
-    rz_h = CC(lambda: st.norm.ppf(0.975, r_z, 1/np.sqrt(n-3)))
-    r_l = CC(lambda: np.tanh(rz_l))
-    r_h = CC(lambda: np.tanh(rz_h))
+    n = _CC(lambda: len(data))
+    r, p = _CC(lambda: st.pearsonr(data[x], data[y]))
+    r_z = _CC(lambda: np.arctanh(r))
+    rz_l = _CC(lambda: st.norm.ppf(0.025, r_z, 1/np.sqrt(n-3)))
+    rz_h = _CC(lambda: st.norm.ppf(0.975, r_z, 1/np.sqrt(n-3)))
+    r_l = _CC(lambda: np.tanh(rz_l))
+    r_h = _CC(lambda: np.tanh(rz_h))
 
     summary = pd.DataFrame(
         {
-            "Coefficient": CC(lambda: r) ,
-            "95% CI: Lower": CC(lambda: r_l), 
-            "95% CI: Upper": CC(lambda: r_h)
+            "Coefficient": _CC(lambda: r) ,
+            "95% CI: Lower": _CC(lambda: r_l), 
+            "95% CI: Upper": _CC(lambda: r_h)
         }, index=["Correlation"]
     )
 
-    t = CC(lambda: r * math.sqrt((n - 2) / (1 - r * r)))
-    p = CC(lambda: st.t.cdf(t, n-2))
-    p = CC(lambda: 2*min(p, 1-p))
+    t = _CC(lambda: r * math.sqrt((n - 2) / (1 - r * r)))
+    p = _CC(lambda: st.t.cdf(t, n-2))
+    p = _CC(lambda: 2*min(p, 1-p))
 
     result = pd.DataFrame(
         {
-            "D.F." : CC(lambda: n-2) ,
-            "t Statistic" : CC(lambda: t) ,
-            "p-value" : CC(lambda: p)
+            "D.F." : _CC(lambda: n-2) ,
+            "t Statistic" : _CC(lambda: t) ,
+            "p-value" : _CC(lambda: p)
         }, index=["Model"]
     )
-    add_p(result)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 
@@ -167,17 +143,17 @@ def correlation_matrix(data, variable):
     >>> data = bs.dataset("correlation_matrix.csv")
     >>> data
         Longnose  Acerage   DO2  Maxdepth   NO3    SO4  Temp
-    0       13.0   2528.0   9.6      80.0  2.28  16.75  15.3
-    1       12.0   3333.0   8.5      83.0  5.34   7.74  19.4
-    2       54.0  19611.0   8.3      96.0  0.99  10.92  19.5
-    3       19.0   3570.0   9.2      56.0  5.44  16.53  17.0
-    4       37.0   1722.0   8.1      43.0  5.66   5.91  19.3
+    0         13     2528   9.6        80  2.28  16.75  15.3
+    1         12     3333   8.5        83  5.34   7.74  19.4
+    2         54    19611   8.3        96  0.99  10.92  19.5
+    3         19     3570   9.2        56  5.44  16.53  17.0
+    4         37     1722   8.1        43  5.66   5.91  19.3
     ..       ...      ...   ...       ...   ...    ...   ...
-    63       2.0   6311.0   7.6      46.0  0.64  21.16  18.5
-    64      26.0   1450.0   7.9      60.0  2.96   8.84  18.6
-    65      20.0   4106.0  10.0      96.0  2.62   5.45  15.4
-    66      38.0  10274.0   9.3      90.0  5.45  24.76  15.0
-    67      19.0    510.0   6.7      82.0  5.25  14.19  26.5
+    63         2     6311   7.6        46  0.64  21.16  18.5
+    64        26     1450   7.9        60  2.96   8.84  18.6
+    65        20     4106  10.0        96  2.62   5.45  15.4
+    66        38    10274   9.3        90  5.45  24.76  15.0
+    67        19      510   6.7        82  5.25  14.19  26.5
 
     We want to compute the correlation coefficients between every two variables in the data.
 
@@ -197,10 +173,10 @@ def correlation_matrix(data, variable):
     '''
 
     data = data[list(set(variable))].dropna()
-    process(data)
+    _process(data, num=variable)
 
     for var in variable:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
 
     result = data.corr()
@@ -240,34 +216,34 @@ def simple_linear_regression(data, x, y):
     >>> data = bs.dataset("simple_linear_regression.csv")
     >>> data
         Weight  Eggs
-    0     5.38  29.0
-    1     7.36  23.0
-    2     6.13  22.0
-    3     4.75  20.0
-    4     8.10  25.0
-    5     8.62  25.0
-    6     6.30  17.0
-    7     7.44  24.0
-    8     7.26  20.0
-    9     7.17  27.0
-    10    7.78  24.0
-    11    6.23  21.0
-    12    5.42  22.0
-    13    7.87  22.0
-    14    5.25  23.0
-    15    7.37  35.0
-    16    8.01  27.0
-    17    4.92  23.0
-    18    7.03  25.0
-    19    6.45  24.0
-    20    5.06  19.0
-    21    6.72  21.0
-    22    7.00  20.0
-    23    9.39  33.0
-    24    6.49  17.0
-    25    6.34  21.0
-    26    6.16  25.0
-    27    5.74  22.0
+    0     5.38    29
+    1     7.36    23
+    2     6.13    22
+    3     4.75    20
+    4     8.10    25
+    5     8.62    25
+    6     6.30    17
+    7     7.44    24
+    8     7.26    20
+    9     7.17    27
+    10    7.78    24
+    11    6.23    21
+    12    5.42    22
+    13    7.87    22
+    14    5.25    23
+    15    7.37    35
+    16    8.01    27
+    17    4.92    23
+    18    7.03    25
+    19    6.45    24
+    20    5.06    19
+    21    6.72    21
+    22    7.00    20
+    23    9.39    33
+    24    6.49    17
+    25    6.34    21
+    26    6.16    25
+    27    5.74    22
 
     We want to fit an equation that predicts *Eggs* from *Weight*.
 
@@ -288,11 +264,11 @@ def simple_linear_regression(data, x, y):
     '''
 
     data = data[list({x, y})].dropna()
-    process(data)
+    _process(data, num=[x, y])
 
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
 
 
@@ -302,12 +278,12 @@ def simple_linear_regression(data, x, y):
 
     summary = pd.DataFrame(
         {
-            "Coefficient"   : CC(lambda: model.params),
-            "95% CI: Lower" : CC(lambda: model.conf_int()[0]) ,
-            "95% CI: Upper" : CC(lambda: model.conf_int()[1]) ,
-            "Std. Error"    : CC(lambda: model.bse),
-            "t Statistic"   : CC(lambda: model.tvalues),
-            "p-value"       : CC(lambda: model.pvalues)
+            "Coefficient"   : _CC(lambda: model.params),
+            "95% CI: Lower" : _CC(lambda: model.conf_int()[0]) ,
+            "95% CI: Upper" : _CC(lambda: model.conf_int()[1]) ,
+            "Std. Error"    : _CC(lambda: model.bse),
+            "t Statistic"   : _CC(lambda: model.tvalues),
+            "p-value"       : _CC(lambda: model.pvalues)
         }
     )
     index_change = {}
@@ -318,18 +294,18 @@ def simple_linear_regression(data, x, y):
 
     result = pd.DataFrame(
         {
-            "R-Squared": CC(lambda: model.rsquared),
-            "Adj. R-Squared": CC(lambda: model.rsquared_adj),
-            "F Statistic": CC(lambda: model.fvalue),
-            "p-value": CC(lambda: model.f_pvalue)
+            "R-Squared": _CC(lambda: model.rsquared),
+            "Adj. R-Squared": _CC(lambda: model.rsquared_adj),
+            "F Statistic": _CC(lambda: model.fvalue),
+            "p-value": _CC(lambda: model.f_pvalue)
         }, index=["Model"]
     )
 
-    add_p(summary)
-    add_p(result)
+    _add_p(summary)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 
@@ -366,17 +342,17 @@ def multiple_linear_regression(data, x_numeric, x_categorical, y):
     >>> data = bs.dataset("multiple_linear_regression.csv")
     >>> data
         Acerage  Maxdepth   NO3  Longnose
-    0    2528.0      80.0  2.28      13.0
-    1    3333.0      83.0  5.34      12.0
-    2   19611.0      96.0  0.99      54.0
-    3    3570.0      56.0  5.44      19.0
-    4    1722.0      43.0  5.66      37.0
+    0      2528        80  2.28        13
+    1      3333        83  5.34        12
+    2     19611        96  0.99        54
+    3      3570        56  5.44        19
+    4      1722        43  5.66        37
     ..      ...       ...   ...       ...
-    63   6311.0      46.0  0.64       2.0
-    64   1450.0      60.0  2.96      26.0
-    65   4106.0      96.0  2.62      20.0
-    66  10274.0      90.0  5.45      38.0
-    67    510.0      82.0  5.25      19.0
+    63     6311        46  0.64         2
+    64     1450        60  2.96        26
+    65     4106        96  2.62        20
+    66    10274        90  5.45        38
+    67      510        82  5.25        19
 
     We want to fit an equation that predicts *Longnose* from *Acerage*, *Maxdepth*, and *NO3*.
 
@@ -399,15 +375,15 @@ def multiple_linear_regression(data, x_numeric, x_categorical, y):
     '''
 
     data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
-    process(data)
+    _process(data, num=x_numeric+[y], cat=x_categorical)
     
     for var in x_numeric:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
     for var in x_categorical:
         if data[var].nunique() > 20:
             raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(var))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
 
     formula = "Q('%s') ~ " % y
@@ -420,12 +396,12 @@ def multiple_linear_regression(data, x_numeric, x_categorical, y):
 
     summary = pd.DataFrame(
         {
-            "Coefficient"   : CC(lambda: model.params),
-            "95% CI: Lower" : CC(lambda: model.conf_int()[0]) ,
-            "95% CI: Upper" : CC(lambda: model.conf_int()[1]) ,
-            "Std. Error"    : CC(lambda: model.bse),
-            "t Statistic"   : CC(lambda: model.tvalues),
-            "p-value"       : CC(lambda: model.pvalues)
+            "Coefficient"   : _CC(lambda: model.params),
+            "95% CI: Lower" : _CC(lambda: model.conf_int()[0]) ,
+            "95% CI: Upper" : _CC(lambda: model.conf_int()[1]) ,
+            "Std. Error"    : _CC(lambda: model.bse),
+            "t Statistic"   : _CC(lambda: model.tvalues),
+            "p-value"       : _CC(lambda: model.pvalues)
         }
     )
     index_change = {}
@@ -442,17 +418,17 @@ def multiple_linear_regression(data, x_numeric, x_categorical, y):
 
     result = pd.DataFrame(
         {
-            "R-Squared": CC(lambda: model.rsquared),
-            "Adj. R-Squared": CC(lambda: model.rsquared_adj),
-            "F Statistic": CC(lambda: model.fvalue),
-            "p-value": CC(lambda: model.f_pvalue)
+            "R-Squared": _CC(lambda: model.rsquared),
+            "Adj. R-Squared": _CC(lambda: model.rsquared_adj),
+            "F Statistic": _CC(lambda: model.fvalue),
+            "p-value": _CC(lambda: model.f_pvalue)
         }, index=["Model"]
     )
 
-    add_p(summary)
-    add_p(result)
+    _add_p(summary)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result

@@ -554,7 +554,7 @@
 <h1>biostats.principal_component_analysis<a class="headerlink" href="#biostats-principal-component-analysis" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.principal_component_analysis">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">principal_component_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L433-L589"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.principal_component_analysis" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">principal_component_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L408-L564"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.principal_component_analysis" title="Permalink to this definition">#</a></dt>
 <dd><p>Find the linear combination of a set of variables to manifest the variation of data.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -591,71 +591,71 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;principal_component_analysis.csv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
-<span class="go">   Murder Assault UrbanPop  Rape</span>
-<span class="go">0    13.2   236.0     58.0  21.2</span>
-<span class="go">1    10.0   263.0     48.0  44.5</span>
-<span class="go">2     8.1   294.0     80.0  31.0</span>
-<span class="go">3     8.8   190.0     50.0  19.5</span>
-<span class="go">4     9.0   276.0     91.0  40.6</span>
-<span class="go">5     7.9   204.0     78.0  38.7</span>
-<span class="go">6     3.3   110.0     77.0  11.1</span>
-<span class="go">7     5.9   238.0     72.0  15.8</span>
-<span class="go">8    15.4   335.0     80.0  31.9</span>
-<span class="go">9    17.4   211.0     60.0  25.8</span>
-<span class="go">10    5.3    46.0     83.0  20.2</span>
-<span class="go">11    2.6   120.0     54.0  14.2</span>
-<span class="go">12   10.4   249.0     83.0  24.0</span>
-<span class="go">13    7.2   113.0     65.0  21.0</span>
-<span class="go">14    2.2    56.0     57.0  11.3</span>
-<span class="go">15    6.0   115.0     66.0  18.0</span>
-<span class="go">16    9.7   109.0     52.0  16.3</span>
-<span class="go">17   15.4   249.0     66.0  22.2</span>
-<span class="go">18    2.1    83.0     51.0   7.8</span>
-<span class="go">19   11.3   300.0     67.0  27.8</span>
-<span class="go">20    4.4   149.0     85.0  16.3</span>
-<span class="go">21   12.1   255.0     74.0  35.1</span>
-<span class="go">22    2.7    72.0     66.0  14.9</span>
-<span class="go">23   16.1   259.0     44.0  17.1</span>
-<span class="go">24    9.0   178.0     70.0  28.2</span>
-<span class="go">25    6.0   109.0     53.0  16.4</span>
-<span class="go">26    4.3   102.0     62.0  16.5</span>
-<span class="go">27   12.2   252.0     81.0  46.0</span>
-<span class="go">28    2.1    57.0     56.0   9.5</span>
-<span class="go">29    7.4   159.0     89.0  18.8</span>
-<span class="go">30   11.4   285.0     70.0  32.1</span>
-<span class="go">31   11.1   254.0     86.0  26.1</span>
-<span class="go">32   13.0   337.0     45.0  16.1</span>
-<span class="go">33    0.8    45.0     44.0   7.3</span>
-<span class="go">34    7.3   120.0     75.0  21.4</span>
-<span class="go">35    6.6   151.0     68.0  20.0</span>
-<span class="go">36    4.9   159.0     67.0  29.3</span>
-<span class="go">37    6.3   106.0     72.0  14.9</span>
-<span class="go">38    3.4   174.0     87.0   8.3</span>
-<span class="go">39   14.4   279.0     48.0  22.5</span>
-<span class="go">40    3.8    86.0     45.0  12.8</span>
-<span class="go">41   13.2   188.0     59.0  26.9</span>
-<span class="go">42   12.7   201.0     80.0  25.5</span>
-<span class="go">43    3.2   120.0     80.0  22.9</span>
-<span class="go">44    2.2    48.0     32.0  11.2</span>
-<span class="go">45    8.5   156.0     63.0  20.7</span>
-<span class="go">46    4.0   145.0     73.0  26.2</span>
-<span class="go">47    5.7    81.0     39.0   9.3</span>
-<span class="go">48    2.6    53.0     66.0  10.8</span>
-<span class="go">49    6.8   161.0     60.0  15.6</span>
+<span class="go">    Murder  Assault  UrbanPop  Rape</span>
+<span class="go">0     13.2      236        58  21.2</span>
+<span class="go">1     10.0      263        48  44.5</span>
+<span class="go">2      8.1      294        80  31.0</span>
+<span class="go">3      8.8      190        50  19.5</span>
+<span class="go">4      9.0      276        91  40.6</span>
+<span class="go">5      7.9      204        78  38.7</span>
+<span class="go">6      3.3      110        77  11.1</span>
+<span class="go">7      5.9      238        72  15.8</span>
+<span class="go">8     15.4      335        80  31.9</span>
+<span class="go">9     17.4      211        60  25.8</span>
+<span class="go">10     5.3       46        83  20.2</span>
+<span class="go">11     2.6      120        54  14.2</span>
+<span class="go">12    10.4      249        83  24.0</span>
+<span class="go">13     7.2      113        65  21.0</span>
+<span class="go">14     2.2       56        57  11.3</span>
+<span class="go">15     6.0      115        66  18.0</span>
+<span class="go">16     9.7      109        52  16.3</span>
+<span class="go">17    15.4      249        66  22.2</span>
+<span class="go">18     2.1       83        51   7.8</span>
+<span class="go">19    11.3      300        67  27.8</span>
+<span class="go">20     4.4      149        85  16.3</span>
+<span class="go">21    12.1      255        74  35.1</span>
+<span class="go">22     2.7       72        66  14.9</span>
+<span class="go">23    16.1      259        44  17.1</span>
+<span class="go">24     9.0      178        70  28.2</span>
+<span class="go">25     6.0      109        53  16.4</span>
+<span class="go">26     4.3      102        62  16.5</span>
+<span class="go">27    12.2      252        81  46.0</span>
+<span class="go">28     2.1       57        56   9.5</span>
+<span class="go">29     7.4      159        89  18.8</span>
+<span class="go">30    11.4      285        70  32.1</span>
+<span class="go">31    11.1      254        86  26.1</span>
+<span class="go">32    13.0      337        45  16.1</span>
+<span class="go">33     0.8       45        44   7.3</span>
+<span class="go">34     7.3      120        75  21.4</span>
+<span class="go">35     6.6      151        68  20.0</span>
+<span class="go">36     4.9      159        67  29.3</span>
+<span class="go">37     6.3      106        72  14.9</span>
+<span class="go">38     3.4      174        87   8.3</span>
+<span class="go">39    14.4      279        48  22.5</span>
+<span class="go">40     3.8       86        45  12.8</span>
+<span class="go">41    13.2      188        59  26.9</span>
+<span class="go">42    12.7      201        80  25.5</span>
+<span class="go">43     3.2      120        80  22.9</span>
+<span class="go">44     2.2       48        32  11.2</span>
+<span class="go">45     8.5      156        63  20.7</span>
+<span class="go">46     4.0      145        73  26.2</span>
+<span class="go">47     5.7       81        39   9.3</span>
+<span class="go">48     2.6       53        66  10.8</span>
+<span class="go">49     6.8      161        60  15.6</span>
 </pre></div>
 </div>
 <p>We want to find the linear combination of the four variables to manifest the variation of data.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">transformation</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">principal_component_analysis</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Murder&quot;</span><span class="p">,</span> <span class="s2">&quot;Assault&quot;</span><span class="p">,</span> <span class="s2">&quot;UrbanPop&quot;</span><span class="p">,</span> <span class="s2">&quot;Rape&quot;</span><span class="p">],</span> 
 <span class="gp">... </span>    <span class="n">transform</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Murder&quot;</span><span class="p">:</span><span class="mf">10.2</span><span class="p">,</span> <span class="s2">&quot;Assault&quot;</span><span class="p">:</span><span class="mi">211</span><span class="p">,</span> <span class="s2">&quot;UrbanPop&quot;</span><span class="p">:</span><span class="mi">67</span><span class="p">,</span> <span class="s2">&quot;Rape&quot;</span><span class="p">:</span><span class="mf">32.3</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">summaryThe</span> <span class="n">factor</span> <span class="n">scores</span> <span class="n">of</span> <span class="n">the</span> <span class="n">data</span> <span class="n">to</span> <span class="n">be</span> <span class="n">analyzed</span> <span class="n">are</span> <span class="n">calculated</span><span class="o">.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
 <span class="go">          Count     Mean  Std. Deviation     Variance</span>
-<span class="go">Murder     50.0    7.788        4.355510    18.970465</span>
-<span class="go">Assault    50.0  170.760       83.337661  6945.165714</span>
-<span class="go">UrbanPop   50.0   65.540       14.474763   209.518776</span>
-<span class="go">Rape       50.0   21.232        9.366385    87.729159</span>
+<span class="go">Murder       50    7.788        4.355510    18.970465</span>
+<span class="go">Assault      50  170.760       83.337661  6945.165714</span>
+<span class="go">UrbanPop     50   65.540       14.474763   209.518776</span>
+<span class="go">Rape         50   21.232        9.366385    87.729159</span>
 </pre></div>
 </div>
-<p>Basic summary statistics of the four variables are calculated.</p>
+<p>Basic descriptive statistics of the four variables are calculated.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
 <span class="go">               Murder   Assault  UrbanPop      Rape   Intercept  Proportion</span>
 <span class="go">Dimension 1  0.041704  0.995221  0.046336  0.075156 -174.901326    0.965534</span>
@@ -720,7 +720,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

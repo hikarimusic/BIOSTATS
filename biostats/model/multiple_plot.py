@@ -1,23 +1,16 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
+from biostats.model.util import _CC, _process, _add_p
 
 def ultimate_plot(data, variable):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=variable)
 
     for var in variable:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             if data[var].nunique() > 20:
                 raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(var))
 
@@ -78,10 +71,10 @@ def pair_plot(data, variable, color=None, kind="scatter"):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=variable, cat=[color])
 
     for var in variable:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
     if color:
         if data[color].nunique() > 20:
@@ -102,11 +95,11 @@ def joint_plot(data, x, y, color=None, kind="scatter"):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[x, y], cat=[color])
     
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:

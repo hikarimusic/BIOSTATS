@@ -554,7 +554,7 @@
 <h1>biostats.binomial_test<a class="headerlink" href="#biostats-binomial-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.binomial_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">binomial_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/exact_test.py#L94-L206"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.binomial_test" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">binomial_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/exact_test.py#L70-L182"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.binomial_test" title="Permalink to this definition">#</a></dt>
 <dd><p>Test whether the proportion of a categorical variable is different from the expected proportion.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -612,10 +612,10 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">binomial_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Flower&quot;</span><span class="p">,</span> <span class="n">expect</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Purple&quot;</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;Red&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Blue&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;White&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
 <span class="go">        Observe  Prop.(Obs.)  Expect  Prop.(Exp.)</span>
-<span class="go">Purple     72.0     0.486486   83.25       0.5625</span>
-<span class="go">Red        38.0     0.256757   27.75       0.1875</span>
-<span class="go">Blue       20.0     0.135135   27.75       0.1875</span>
-<span class="go">White      18.0     0.121622    9.25       0.0625</span>
+<span class="go">Purple       72     0.486486   83.25       0.5625</span>
+<span class="go">Red          38     0.256757   27.75       0.1875</span>
+<span class="go">Blue         20     0.135135   27.75       0.1875</span>
+<span class="go">White        18     0.121622    9.25       0.0625</span>
 </pre></div>
 </div>
 <p>The observed and expected counts and proportions of each group are given.</p>
@@ -674,7 +674,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

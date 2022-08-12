@@ -188,6 +188,7 @@ class Data(ttk.Frame):
                 except:
                     pass
             except:
+                df[col] = df[col].astype('object')
                 col_cat.append(col)
 
 

@@ -554,8 +554,93 @@
 <h1>biostats.sign_test<a class="headerlink" href="#biostats-sign-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.sign_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">sign_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/non_parametric.py#L121-L203"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.sign_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">sign_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/non_parametric.py#L155-L317"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.sign_test" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether the mean values of a variable are different in two paired groups with nonparametric methods.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one numeric column and one categorical column, as well as a column specifying the pairs.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The numeric variable that we want to calculate mean values of.</p>
+</dd>
+<dt><strong>between</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that specifies which group the samples belong to.</p>
+</dd>
+<dt><strong>group</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>List of the two groups to be compared.</p>
+</dd>
+<dt><strong>pair</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The variable that specifies the pair ID. Samples in the same pair should have the same ID.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The counts, mean values, standard deviations, minimums, first quartiles, medians, third quartiles, and maximums of the variable in the two groups.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The sums of sign, z statistic, and p-values of the normal and exact tests.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.wilcoxon_signed_rank_test.html#biostats.wilcoxon_signed_rank_test" title="biostats.wilcoxon_signed_rank_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wilcoxon_signed_rank_test</span></code></a></dt><dd><p>Similar with sign test but taking the values of difference into account.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.wilcoxon_rank_sum_test.html#biostats.wilcoxon_rank_sum_test" title="biostats.wilcoxon_rank_sum_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wilcoxon_rank_sum_test</span></code></a></dt><dd><p>Compare the mean values between two independent groups with nonparametric methods.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.paired_t_test.html#biostats.paired_t_test" title="biostats.paired_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">paired_t_test</span></code></a></dt><dd><p>The parametric version of sign test.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;sign_test.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">   Concentration     Month           Clone</span>
+<span class="go">0            8.1    August    Balsam_Spire</span>
+<span class="go">1           10.0    August         Beaupre</span>
+<span class="go">2           16.5    August       Hazendans</span>
+<span class="go">3           13.6    August       Hoogvorst</span>
+<span class="go">4            9.5    August        Raspalje</span>
+<span class="go">5            8.3    August            Unal</span>
+<span class="go">6           18.3    August  Columbia_River</span>
+<span class="go">7           13.3    August   Fritzi_Pauley</span>
+<span class="go">8            7.9    August       Trichobel</span>
+<span class="go">9            8.1    August           Gaver</span>
+<span class="go">10           8.9    August          Gibecq</span>
+<span class="go">11          12.6    August           Primo</span>
+<span class="go">12          13.4    August       Wolterson</span>
+<span class="go">13          11.2  November    Balsam_Spire</span>
+<span class="go">14          16.3  November         Beaupre</span>
+<span class="go">15          15.3  November       Hazendans</span>
+<span class="go">16          15.6  November       Hoogvorst</span>
+<span class="go">17          10.5  November        Raspalje</span>
+<span class="go">18          15.5  November            Unal</span>
+<span class="go">19          12.7  November  Columbia_River</span>
+<span class="go">20          11.1  November   Fritzi_Pauley</span>
+<span class="go">21          19.9  November       Trichobel</span>
+<span class="go">22          20.4  November           Gaver</span>
+<span class="go">23          14.2  November          Gibecq</span>
+<span class="go">24          12.7  November           Primo</span>
+<span class="go">25          36.8  November       Wolterson</span>
+</pre></div>
+</div>
+<p>We want to test whether <em>Concentration</em> is different between <em>August</em> and <em>November</em> for every <em>Clone</em> with nonparametric methods.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">sign_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Concentration&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;Month&quot;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;August&quot;</span><span class="p">,</span> <span class="s2">&quot;November&quot;</span><span class="p">],</span> <span class="n">pair</span><span class="o">=</span><span class="s2">&quot;Clone&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">          Count       Mean  Std. Deviation  Minimum  1st Quartile  Median  3rd Quartile  Maximum</span>
+<span class="go">August       13  11.423077        3.451607      7.9           8.3    10.0          13.4     18.3</span>
+<span class="go">November     13  16.323077        6.886963     10.5          12.7    15.3          16.3     36.8</span>
+</pre></div>
+</div>
+<p>The mean values and some descriptive statistics of the two groups are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">        Sum  z Statistic   p-value      </span>
+<span class="go">Normal    3    -1.664101  0.096092  &lt;NA&gt;</span>
+<span class="go">Exact     3          NaN  0.092285  &lt;NA&gt;</span>
+</pre></div>
+</div>
+<p>The p-value &gt; 0.05, so there is no significant difference between <em>Concentration</em> of <em>August</em> and <em>November</em>.</p>
+</dd></dl>
 
 </section>
 
@@ -604,7 +689,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

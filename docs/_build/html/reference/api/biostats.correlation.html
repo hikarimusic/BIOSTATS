@@ -554,7 +554,7 @@
 <h1>biostats.correlation<a class="headerlink" href="#biostats-correlation" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.correlation">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L34-L141"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.correlation" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/linear_regression.py#L10-L117"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.correlation" title="Permalink to this definition">#</a></dt>
 <dd><p>Test whether there is a correlation between two numeric variables.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -592,23 +592,23 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;correlation.csv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
 <span class="go">    Latitude  Species</span>
-<span class="go">0     39.217    128.0</span>
-<span class="go">1     38.800    137.0</span>
-<span class="go">2     39.467    108.0</span>
-<span class="go">3     38.958    118.0</span>
-<span class="go">4     38.600    135.0</span>
-<span class="go">5     38.583     94.0</span>
-<span class="go">6     39.733    113.0</span>
-<span class="go">7     38.033    118.0</span>
-<span class="go">8     38.900     96.0</span>
-<span class="go">9     39.533     98.0</span>
-<span class="go">10    39.133    121.0</span>
-<span class="go">11    38.317    152.0</span>
-<span class="go">12    38.333    108.0</span>
-<span class="go">13    38.367    118.0</span>
-<span class="go">14    37.200    157.0</span>
-<span class="go">15    37.967    125.0</span>
-<span class="go">16    37.667    114.0</span>
+<span class="go">0     39.217      128</span>
+<span class="go">1     38.800      137</span>
+<span class="go">2     39.467      108</span>
+<span class="go">3     38.958      118</span>
+<span class="go">4     38.600      135</span>
+<span class="go">5     38.583       94</span>
+<span class="go">6     39.733      113</span>
+<span class="go">7     38.033      118</span>
+<span class="go">8     38.900       96</span>
+<span class="go">9     39.533       98</span>
+<span class="go">10    39.133      121</span>
+<span class="go">11    38.317      152</span>
+<span class="go">12    38.333      108</span>
+<span class="go">13    38.367      118</span>
+<span class="go">14    37.200      157</span>
+<span class="go">15    37.967      125</span>
+<span class="go">16    37.667      114</span>
 </pre></div>
 </div>
 <p>We want to test whether there is a correlation between <em>Latitude</em> and <em>Species</em>.</p>
@@ -620,8 +620,8 @@
 </div>
 <p>The correlation coefficient and the confidence interval are given.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
-<span class="go">       D.F.  t Statistic   p-value    </span>
-<span class="go">Model  15.0    -2.022457  0.061336 NaN</span>
+<span class="go">       D.F.  t Statistic   p-value      </span>
+<span class="go">Model    15    -2.022457  0.061336  &lt;NA&gt;</span>
 </pre></div>
 </div>
 <p>The p-value &gt; 0.05, so there is no significant correlation between <em>Latitude</em> and <em>Species</em>.</p>
@@ -674,7 +674,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

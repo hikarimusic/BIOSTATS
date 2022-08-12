@@ -554,7 +554,7 @@
 <h1>biostats.mcnemar_exact_test<a class="headerlink" href="#biostats-mcnemar-exact-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.mcnemar_exact_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">mcnemar_exact_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/exact_test.py#L443-L570"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.mcnemar_exact_test" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">mcnemar_exact_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pair</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/exact_test.py#L419-L546"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.mcnemar_exact_test" title="Permalink to this definition">#</a></dt>
 <dd><p>Test whether the proportions of a categorical variable are different in two paired groups.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -591,32 +591,32 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;mcnemar_exact_test.csv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
-<span class="go">   Treatment Result    ID</span>
-<span class="go">0    control   fail   1.0</span>
-<span class="go">1    control   fail   2.0</span>
-<span class="go">2    control   fail   3.0</span>
-<span class="go">3    control   fail   4.0</span>
-<span class="go">4    control   fail   5.0</span>
-<span class="go">..       ...    ...   ...</span>
-<span class="go">83      test   pass  40.0</span>
-<span class="go">84      test   pass  41.0</span>
-<span class="go">85      test   pass  42.0</span>
-<span class="go">86      test   pass  43.0</span>
-<span class="go">87      test   pass  44.0</span>
+<span class="go">   Treatment Result  ID</span>
+<span class="go">0    control   fail   1</span>
+<span class="go">1    control   fail   2</span>
+<span class="go">2    control   fail   3</span>
+<span class="go">3    control   fail   4</span>
+<span class="go">4    control   fail   5</span>
+<span class="go">..       ...    ...  ..</span>
+<span class="go">83      test   pass  40</span>
+<span class="go">84      test   pass  41</span>
+<span class="go">85      test   pass  42</span>
+<span class="go">86      test   pass  43</span>
+<span class="go">87      test   pass  44</span>
 </pre></div>
 </div>
 <p>We want to test whether the proportions of <em>Result</em> are different between the two <em>Treatment</em>, where each <em>control</em> is paired with a <em>test</em>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">mcnemar_exact_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable_1</span><span class="o">=</span><span class="s2">&quot;Treatment&quot;</span><span class="p">,</span> <span class="n">variable_2</span><span class="o">=</span><span class="s2">&quot;Result&quot;</span><span class="p">,</span> <span class="n">pair</span><span class="o">=</span><span class="s2">&quot;ID&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
 <span class="go">                test : fail  test : pass</span>
-<span class="go">control : fail         21.0          9.0</span>
-<span class="go">control : pass          2.0         12.0</span>
+<span class="go">control : fail           21            9</span>
+<span class="go">control : pass            2           12</span>
 </pre></div>
 </div>
 <p>The contingency table of <em>Treatment</em> and <em>Result</em> where the counting unit is the matched pair.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
-<span class="go">       p-value    </span>
-<span class="go">Model  0.06543 NaN</span>
+<span class="go">       p-value      </span>
+<span class="go">Model  0.06543  &lt;NA&gt;</span>
 </pre></div>
 </div>
 <p>The p-value &gt; 0.05, so there is no significant difference between the proportions of <em>Result</em> under the two <em>Treatment</em>.</p>
@@ -669,7 +669,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

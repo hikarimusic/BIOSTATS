@@ -554,7 +554,7 @@
 <h1>biostats.two_sample_t_test<a class="headerlink" href="#biostats-two-sample-t-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.two_sample_t_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">two_sample_t_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'equal</span> <span class="pre">variances'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/t_test.py#L177-L350"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.two_sample_t_test" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">two_sample_t_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'equal</span> <span class="pre">variances'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/t_test.py#L152-L324"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.two_sample_t_test" title="Permalink to this definition">#</a></dt>
 <dd><p>Test whether the mean values of a variable are different in two groups.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -599,40 +599,40 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;two_sample_t_test.csv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
 <span class="go">    Value Time</span>
-<span class="go">0    69.0  2pm</span>
-<span class="go">1    70.0  2pm</span>
-<span class="go">2    66.0  2pm</span>
-<span class="go">3    63.0  2pm</span>
-<span class="go">4    68.0  2pm</span>
-<span class="go">5    70.0  2pm</span>
-<span class="go">6    69.0  2pm</span>
-<span class="go">7    67.0  2pm</span>
-<span class="go">8    62.0  2pm</span>
-<span class="go">9    63.0  2pm</span>
-<span class="go">10   76.0  2pm</span>
-<span class="go">11   59.0  2pm</span>
-<span class="go">12   62.0  2pm</span>
-<span class="go">13   62.0  2pm</span>
-<span class="go">14   75.0  2pm</span>
-<span class="go">15   62.0  2pm</span>
-<span class="go">16   72.0  2pm</span>
-<span class="go">17   63.0  2pm</span>
-<span class="go">18   68.0  5pm</span>
-<span class="go">19   62.0  5pm</span>
-<span class="go">20   67.0  5pm</span>
-<span class="go">21   68.0  5pm</span>
-<span class="go">22   69.0  5pm</span>
-<span class="go">23   67.0  5pm</span>
-<span class="go">24   61.0  5pm</span>
-<span class="go">25   59.0  5pm</span>
-<span class="go">26   62.0  5pm</span>
-<span class="go">27   61.0  5pm</span>
-<span class="go">28   69.0  5pm</span>
-<span class="go">29   66.0  5pm</span>
-<span class="go">30   62.0  5pm</span>
-<span class="go">31   62.0  5pm</span>
-<span class="go">32   61.0  5pm</span>
-<span class="go">33   70.0  5pm</span>
+<span class="go">0      69  2pm</span>
+<span class="go">1      70  2pm</span>
+<span class="go">2      66  2pm</span>
+<span class="go">3      63  2pm</span>
+<span class="go">4      68  2pm</span>
+<span class="go">5      70  2pm</span>
+<span class="go">6      69  2pm</span>
+<span class="go">7      67  2pm</span>
+<span class="go">8      62  2pm</span>
+<span class="go">9      63  2pm</span>
+<span class="go">10     76  2pm</span>
+<span class="go">11     59  2pm</span>
+<span class="go">12     62  2pm</span>
+<span class="go">13     62  2pm</span>
+<span class="go">14     75  2pm</span>
+<span class="go">15     62  2pm</span>
+<span class="go">16     72  2pm</span>
+<span class="go">17     63  2pm</span>
+<span class="go">18     68  5pm</span>
+<span class="go">19     62  5pm</span>
+<span class="go">20     67  5pm</span>
+<span class="go">21     68  5pm</span>
+<span class="go">22     69  5pm</span>
+<span class="go">23     67  5pm</span>
+<span class="go">24     61  5pm</span>
+<span class="go">25     59  5pm</span>
+<span class="go">26     62  5pm</span>
+<span class="go">27     61  5pm</span>
+<span class="go">28     69  5pm</span>
+<span class="go">29     66  5pm</span>
+<span class="go">30     62  5pm</span>
+<span class="go">31     62  5pm</span>
+<span class="go">32     61  5pm</span>
+<span class="go">33     70  5pm</span>
 </pre></div>
 </div>
 <p>We want to test whether <em>value</em> is different between <em>2pm</em> and <em>5pm</em>.</p>
@@ -646,8 +646,8 @@
 </div>
 <p>The mean values of the two groups and the difference between them are given.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
-<span class="go">       D.F.  t Statistic  p-value    </span>
-<span class="go">Model  32.0     1.288822   0.2067 NaN</span>
+<span class="go">       D.F.  t Statistic  p-value      </span>
+<span class="go">Model    32     1.288822   0.2067  &lt;NA&gt;</span>
 </pre></div>
 </div>
 <p>The p-value &gt; 0.05, so there is no significant difference between the two groups.</p>
@@ -700,7 +700,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

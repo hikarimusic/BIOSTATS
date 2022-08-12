@@ -1,24 +1,17 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
+from biostats.model.util import _CC, _process, _add_p
 
 def scatter_plot(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[x, y], cat=[color])
 
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:
@@ -33,11 +26,11 @@ def line_plot(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[x, y], cat=[color])
 
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:
@@ -52,11 +45,11 @@ def regression_plot(data, x, y):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[x, y])
     
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
 
     fig, ax = plt.subplots()

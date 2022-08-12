@@ -1,20 +1,13 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
+from biostats.model.util import _CC, _process, _add_p
 
 def count_plot(data, x, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, cat=[x, color])
 
     if data[x].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(x))
@@ -31,11 +24,11 @@ def strip_plot(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[y], cat=[x, color])
 
     if data[x].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:
@@ -50,11 +43,11 @@ def swarm_plot(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[y], cat=[x, color])
 
     if data[x].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:
@@ -69,11 +62,11 @@ def box_plot(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[y], cat=[x, color])
 
     if data[x].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:
@@ -88,11 +81,11 @@ def boxen_plot(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[y], cat=[x, color])
 
     if data[x].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:
@@ -107,11 +100,11 @@ def violin_plot(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[y], cat=[x, color])
 
     if data[x].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:
@@ -126,11 +119,11 @@ def bar_plot(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[y], cat=[x, color])
     
     if data[x].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:

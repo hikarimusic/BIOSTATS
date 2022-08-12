@@ -4,41 +4,34 @@ from factor_analyzer import FactorAnalyzer
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
+from biostats.model.util import _CC, _process, _add_p
 
-def heatmap(data, x, y, value=None):
+def heatmap(data, x, y, value):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[value], cat=[x, y])
 
     if data[x].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
     if data[y].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_2))
-    if str(data[value].dtypes) != "float64":
+    if str(data[value].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(value))
 
     fig, ax = plt.subplots()
-    sns.heatmap(data.pivot(y, x, value), ax=ax)
+    sns.heatmap(data.pivot_table(index=y, columns=x, values=value, sort=False), ax=ax)
         
     return fig
 
 def fa_plot(data, x, factors, color=None):
 
     sns.set_theme()
-    data = data.dropna(how='all')
-    process(data)
+    data = data.dropna()
+    _process(data, num=x, cat=[color])
 
     for var in x:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
     if color:
         if data[color].nunique() > 20:
@@ -71,12 +64,11 @@ def fa_plot(data, x, factors, color=None):
 def pca_plot(data, x, color=None):
 
     sns.set_theme()
-    data = data.dropna(how='all')
-    process(data)
-
+    data = data.dropna()
+    _process(data, num=x, cat=[color])
 
     for var in x:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
     if color:
         if data[color].nunique() > 20:
@@ -109,11 +101,11 @@ def pca_plot(data, x, color=None):
 def lda_plot(data, x, y):
 
     sns.set_theme()
-    data = data.dropna(how='all')
-    process(data)
+    data = data.dropna()
+    _process(data, num=x, cat=[y])
 
     for var in x:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
     if data[y].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))

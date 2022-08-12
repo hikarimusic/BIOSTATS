@@ -554,7 +554,7 @@
 <h1>biostats.pairwise_t_test<a class="headerlink" href="#biostats-pairwise-t-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.pairwise_t_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">pairwise_t_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/t_test.py#L515-L689"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.pairwise_t_test" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">pairwise_t_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/t_test.py#L489-L663"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.pairwise_t_test" title="Permalink to this definition">#</a></dt>
 <dd><p>Test whether the mean values of a variable are different between every two groups.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -635,11 +635,11 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">pairwise_t_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Length&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;Location&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
 <span class="go">     Location  Count      Mean  Std. Deviation  95% CI: Lower  95% CI: Upper</span>
-<span class="go">1   Tillamook   10.0  0.080200        0.011963       0.071642       0.088758</span>
-<span class="go">2     Newport    8.0  0.074800        0.008597       0.067613       0.081987</span>
-<span class="go">3  Petersburg    7.0  0.103443        0.016209       0.088452       0.118434</span>
-<span class="go">4     Magadan    8.0  0.078012        0.012945       0.067190       0.088835</span>
-<span class="go">5   Tvarminne    6.0  0.095700        0.012962       0.082098       0.109302</span>
+<span class="go">1   Tillamook     10  0.080200        0.011963       0.071642       0.088758</span>
+<span class="go">2     Newport      8  0.074800        0.008597       0.067613       0.081987</span>
+<span class="go">3  Petersburg      7  0.103443        0.016209       0.088452       0.118434</span>
+<span class="go">4     Magadan      8  0.078012        0.012945       0.067190       0.088835</span>
+<span class="go">5   Tvarminne      6  0.095700        0.012962       0.082098       0.109302</span>
 </pre></div>
 </div>
 <p>The mean values of <em>Length</em> and their 95% confidence intervals in each group are given.</p>
@@ -707,7 +707,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

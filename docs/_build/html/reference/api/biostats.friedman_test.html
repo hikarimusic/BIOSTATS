@@ -554,8 +554,84 @@
 <h1>biostats.friedman_test<a class="headerlink" href="#biostats-friedman-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.friedman_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">friedman_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/non_parametric.py#L419-L484"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.friedman_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">friedman_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">between</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/non_parametric.py#L801-L938"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.friedman_test" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether the mean values of a variable are different between several groups on repeated measured data with nonparametric methods.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one numeric column and one categorical column, as well as a column specifying the subjects.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The numeric variable that we want to calculate mean values of.</p>
+</dd>
+<dt><strong>between</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The categorical variable that specifies which group the samples belong to.</p>
+</dd>
+<dt><strong>subject</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The variable that specifies the subject ID. Samples measured on the same subject should have the same ID.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The counts, mean values, standard deviations, minimums, first quartiles, medians, third quartiles, and maximums of the variable in each group.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The degree of freedom, chi-square statistic, and p-value of the test.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.kruskal_wallis_test.html#biostats.kruskal_wallis_test" title="biostats.kruskal_wallis_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kruskal_wallis_test</span></code></a></dt><dd><p>Test whether the mean values of a variable are different between groups with nonparametric methods.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.repeated_measures_anova.html#biostats.repeated_measures_anova" title="biostats.repeated_measures_anova"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeated_measures_anova</span></code></a></dt><dd><p>The parametric version of Friedman Test.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;friedman_test.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    response drug  patient</span>
+<span class="go">0         30    A        1</span>
+<span class="go">1         28    B        1</span>
+<span class="go">2         16    C        1</span>
+<span class="go">3         34    D        1</span>
+<span class="go">4         14    A        2</span>
+<span class="go">5         18    B        2</span>
+<span class="go">6         10    C        2</span>
+<span class="go">7         22    D        2</span>
+<span class="go">8         24    A        3</span>
+<span class="go">9         20    B        3</span>
+<span class="go">10        18    C        3</span>
+<span class="go">11        30    D        3</span>
+<span class="go">12        38    A        4</span>
+<span class="go">13        34    B        4</span>
+<span class="go">14        20    C        4</span>
+<span class="go">15        44    D        4</span>
+<span class="go">16        26    A        5</span>
+<span class="go">17        28    B        5</span>
+<span class="go">18        14    C        5</span>
+<span class="go">19        30    D        5</span>
+</pre></div>
+</div>
+<p>We want to test whether the mean values of <em>response</em> in each <em>drug</em> are different with nonparametric methods, when the samples are repeatedly measured on the four <em>patient</em>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">friedman_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;response&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;drug&quot;</span><span class="p">,</span> <span class="n">subject</span><span class="o">=</span><span class="s2">&quot;patient&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">  drug  Count  Mean  Std. Deviation  Minimum  1st Quartile  Median  3rd Quartile  Maximum</span>
+<span class="go">1    A      5  26.4        8.763561       14            24      26            30       38</span>
+<span class="go">2    B      5  25.6        6.542171       18            20      28            28       34</span>
+<span class="go">3    C      5  15.6        3.847077       10            14      16            18       20</span>
+<span class="go">4    D      5  32.0        8.000000       22            30      30            34       44</span>
+</pre></div>
+</div>
+<p>The mean values and some descriptive statistics of each group are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">       D.F.  Chi Square  p-value    </span>
+<span class="go">Model     3       13.56  0.00357  **</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.01, so the mean values of <em>response</em> in each group are significantly different.</p>
+</dd></dl>
 
 </section>
 
@@ -604,7 +680,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

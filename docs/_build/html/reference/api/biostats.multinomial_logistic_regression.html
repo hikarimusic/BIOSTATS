@@ -554,7 +554,7 @@
 <h1>biostats.multinomial_logistic_regression<a class="headerlink" href="#biostats-multinomial-logistic-regression" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.multinomial_logistic_regression">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multinomial_logistic_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/logistic_regression.py#L439-L601"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multinomial_logistic_regression" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">multinomial_logistic_regression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_numeric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_categorical</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/logistic_regression.py#L410-L572"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.multinomial_logistic_regression" title="Permalink to this definition">#</a></dt>
 <dd><p>Fit an equation that predicts a multinomial categorical variable from other variables.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -596,17 +596,17 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;multinomial_logistic_regression.csv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
 <span class="go">     write     ses      prog</span>
-<span class="go">0     35.0     low  vocation</span>
-<span class="go">1     33.0  middle   general</span>
-<span class="go">2     39.0    high  vocation</span>
-<span class="go">3     37.0     low  vocation</span>
-<span class="go">4     31.0  middle  vocation</span>
+<span class="go">0       35     low  vocation</span>
+<span class="go">1       33  middle   general</span>
+<span class="go">2       39    high  vocation</span>
+<span class="go">3       37     low  vocation</span>
+<span class="go">4       31  middle  vocation</span>
 <span class="go">..     ...     ...       ...</span>
-<span class="go">195   65.0    high  academic</span>
-<span class="go">196   63.0  middle  vocation</span>
-<span class="go">197   67.0  middle  academic</span>
-<span class="go">198   65.0  middle  academic</span>
-<span class="go">199   62.0  middle  academic</span>
+<span class="go">195     65    high  academic</span>
+<span class="go">196     63  middle  vocation</span>
+<span class="go">197     67  middle  academic</span>
+<span class="go">198     65  middle  academic</span>
+<span class="go">199     62  middle  academic</span>
 </pre></div>
 </div>
 <p>We want to fit an equation that predicts <em>prog</em> from <em>write</em> and <em>ses</em>.</p>
@@ -683,7 +683,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

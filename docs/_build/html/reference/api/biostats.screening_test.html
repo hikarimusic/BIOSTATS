@@ -554,7 +554,7 @@
 <h1>biostats.screening_test<a class="headerlink" href="#biostats-screening-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.screening_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">screening_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L26-L139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.screening_test" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">screening_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disease_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_target</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/others_test.py#L12-L114"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.screening_test" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute some common statistics of a screening test.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -611,8 +611,8 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">screening_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">disease</span><span class="o">=</span><span class="s2">&quot;Cancer&quot;</span><span class="p">,</span> <span class="n">disease_target</span><span class="o">=</span><span class="s2">&quot;Present&quot;</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="s2">&quot;PSA Test&quot;</span><span class="p">,</span> <span class="n">test_target</span><span class="o">=</span><span class="s2">&quot;Positive&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
 <span class="go">              Cancer (+)  Cancer (-)</span>
-<span class="go">PSA Test (+)        92.0        27.0</span>
-<span class="go">PSA Test (-)        46.0        72.0</span>
+<span class="go">PSA Test (+)          92          27</span>
+<span class="go">PSA Test (-)          46          72</span>
 </pre></div>
 </div>
 <p>The contingency table of TP (true positive), TN, FP and FN is given.</p>
@@ -676,7 +676,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

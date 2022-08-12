@@ -1,14 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
+from biostats.model.util import _CC, _process, _add_p
 
 def histogram(data, x, band, color=None):
 
@@ -66,9 +59,9 @@ def histogram(data, x, band, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[x], cat=[color])
 
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
     if color:
         if data[color].nunique() > 20:
@@ -84,9 +77,9 @@ def density_plot(data, x, smooth, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[x], cat=[color])
 
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
     if color:
         if data[color].nunique() > 20:
@@ -101,9 +94,9 @@ def cumulative_plot(data, x, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[x], cat=[color])
 
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
     if color:
         if data[color].nunique() > 20:
@@ -118,11 +111,11 @@ def histogram_2D(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[x, y], cat=[color])
 
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:
@@ -137,11 +130,11 @@ def density_plot_2D(data, x, y, color=None):
 
     sns.set_theme()
     data = data.dropna(how='all')
-    process(data)
+    _process(data, num=[x, y], cat=[color])
     
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
-    if str(data[y].dtypes) != "float64":
+    if str(data[y].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(y))
     if color:
         if data[color].nunique() > 20:

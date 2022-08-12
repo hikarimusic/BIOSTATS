@@ -554,8 +554,72 @@
 <h1>biostats.median_test<a class="headerlink" href="#biostats-median-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.median_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">median_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/non_parametric.py#L55-L118"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.median_test" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">median_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/non_parametric.py#L30-L152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.median_test" title="Permalink to this definition">#</a></dt>
+<dd><p>Test whether the mean value of a variable is different from the expected value with nonparametric methods.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one numeric column.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The numeric variable that we want to calculate the mean value of.</p>
+</dd>
+<dt><strong>expect</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></dt><dd><p>The expected value.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>summary</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The count, mean value, standard deviation, minimum, first quartile, median, third quartile, and maximum of the variable.</p>
+</dd>
+<dt><strong>result</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The rank sums, z statistic, and p-values of the normal and exact tests.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.wilcoxon_rank_sum_test.html#biostats.wilcoxon_rank_sum_test" title="biostats.wilcoxon_rank_sum_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wilcoxon_rank_sum_test</span></code></a></dt><dd><p>Compare the mean values between two groups with nonparametric methods.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.wilcoxon_signed_rank_test.html#biostats.wilcoxon_signed_rank_test" title="biostats.wilcoxon_signed_rank_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wilcoxon_signed_rank_test</span></code></a></dt><dd><p>Compare the mean values between two paired groups with nonparametric methods.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.one_sample_t_test.html#biostats.one_sample_t_test" title="biostats.one_sample_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">one_sample_t_test</span></code></a></dt><dd><p>The parametric version of median test.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;median_test.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">   Value</span>
+<span class="go">0      3</span>
+<span class="go">1      4</span>
+<span class="go">2      5</span>
+<span class="go">3      4</span>
+<span class="go">4      4</span>
+<span class="go">5      4</span>
+<span class="go">6      4</span>
+<span class="go">7      3</span>
+<span class="go">8      2</span>
+<span class="go">9      5</span>
+</pre></div>
+</div>
+<p>We want to test whether the mean value of <em>Value</em> is different from 3 with nonparametric methods.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">median_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="n">expect</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
+<span class="go">       Count  Mean  Std. Deviation  Minimum  1st Quartile  Median  3rd Quartile  Maximum</span>
+<span class="go">Value     10   3.8        0.918937        2          3.25       4             4        5</span>
+</pre></div>
+</div>
+<p>The mean value and some descriptive statistics are given.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
+<span class="go">        Rank Sum  z Statistic   p-value   </span>
+<span class="go">Normal      32.5      2.05306  0.040067  *</span>
+<span class="go">Exact       32.5          NaN  0.039062  *</span>
+</pre></div>
+</div>
+<p>The p-value &lt; 0.05, so the mean value of <em>Value</em> is significantly different from the expected value.</p>
+</dd></dl>
 
 </section>
 
@@ -604,7 +668,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

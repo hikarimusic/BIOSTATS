@@ -554,7 +554,7 @@
 <h1>biostats.numeric_grouped<a class="headerlink" href="#biostats-numeric-grouped" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.numeric_grouped">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">numeric_grouped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L142-L272"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.numeric_grouped" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">numeric_grouped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/basic.py#L130-L260"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.numeric_grouped" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute descriptive statistics of a numeric variable in different groups.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -588,24 +588,24 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;numeric_grouped.csv&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
 <span class="go">    Count  Animal</span>
-<span class="go">0    76.0    Fish</span>
-<span class="go">1   102.0    Fish</span>
-<span class="go">2    12.0    Fish</span>
-<span class="go">3    39.0    Fish</span>
-<span class="go">4    55.0    Fish</span>
-<span class="go">5    93.0    Fish</span>
-<span class="go">6    98.0    Fish</span>
-<span class="go">7    53.0    Fish</span>
-<span class="go">8   102.0    Fish</span>
-<span class="go">9    28.0  Insect</span>
-<span class="go">10   85.0  Insect</span>
-<span class="go">11   17.0  Insect</span>
-<span class="go">12   20.0  Insect</span>
-<span class="go">13   33.0  Insect</span>
-<span class="go">14   75.0  Insect</span>
-<span class="go">15   78.0  Insect</span>
-<span class="go">16   25.0  Insect</span>
-<span class="go">17   87.0  Insect</span>
+<span class="go">0      76    Fish</span>
+<span class="go">1     102    Fish</span>
+<span class="go">2      12    Fish</span>
+<span class="go">3      39    Fish</span>
+<span class="go">4      55    Fish</span>
+<span class="go">5      93    Fish</span>
+<span class="go">6      98    Fish</span>
+<span class="go">7      53    Fish</span>
+<span class="go">8     102    Fish</span>
+<span class="go">9      28  Insect</span>
+<span class="go">10     85  Insect</span>
+<span class="go">11     17  Insect</span>
+<span class="go">12     20  Insect</span>
+<span class="go">13     33  Insect</span>
+<span class="go">14     75  Insect</span>
+<span class="go">15     78  Insect</span>
+<span class="go">16     25  Insect</span>
+<span class="go">17     87  Insect</span>
 </pre></div>
 </div>
 <p>We want to compute descriptive statistics of <em>Count</em> in the two <em>Animal</em>.</p>
@@ -618,13 +618,13 @@
 <span class="go">Geometric Mean              59.835149   41.169549</span>
 <span class="go">Harmonic Mean               45.057085   34.058186</span>
 <span class="go">Mode                       102.000000   17.000000</span>
-<span class="go">                                NaN         NaN</span>
+<span class="go">                                  NaN         NaN</span>
 <span class="go">Variance                  1029.500000  923.694444</span>
 <span class="go">Std. Deviation              32.085822   30.392342</span>
 <span class="go">Coef. Variation              0.458369    0.610560</span>
 <span class="go">(Population) Variance      915.111111  821.061728</span>
 <span class="go">(Population) Std.Dev        30.250803   28.654175</span>
-<span class="go">                                NaN         NaN</span>
+<span class="go">                                  NaN         NaN</span>
 <span class="go">Minimum                     12.000000   17.000000</span>
 <span class="go">25% Percentile              53.000000   25.000000</span>
 <span class="go">50% Percentile              76.000000   33.000000</span>
@@ -632,7 +632,7 @@
 <span class="go">Maximum                    102.000000   87.000000</span>
 <span class="go">Range                       90.000000   70.000000</span>
 <span class="go">Interquartile Range         45.000000   53.000000</span>
-<span class="go">                                NaN         NaN</span>
+<span class="go">                                  NaN         NaN</span>
 <span class="go">Std. Error                  10.695274   10.130781</span>
 <span class="go">95% CI: Lower               45.336654   26.416156</span>
 <span class="go">95% CI: Upper               94.663346   73.139400</span>
@@ -690,7 +690,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   

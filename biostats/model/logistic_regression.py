@@ -5,32 +5,7 @@ from statsmodels.formula.api import logit
 from statsmodels.miscmodels.ordinal_model import OrderedModel
 from statsmodels.discrete.discrete_model import MNLogit
 
-def CC(fun, *args):
-    try:
-        return fun(*args)
-    except:
-        return np.nan
-
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
-
-def add_p(data):
-    temp = [np.nan] * len(data)
-    for i in range(len(data)):
-        if data['p-value'][i] <= 0.05:
-            temp[i] = "*"
-        if data['p-value'][i] <= 0.01:
-            temp[i] = "**"
-        if data['p-value'][i] <= 0.001:
-            temp[i] = "***"
-    data[""] = temp
-
+from biostats.model.util import _CC, _process, _add_p
 
 def simple_logistic_regression(data, x, y, target):
     '''
@@ -115,9 +90,9 @@ def simple_logistic_regression(data, x, y, target):
     '''
 
     data = data[list({x, y})].dropna()
-    process(data)
+    _process(data, num=[x], cat=[y])
 
-    if str(data[x].dtypes) != "float64":
+    if str(data[x].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(x))
     if data[y].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
@@ -132,12 +107,12 @@ def simple_logistic_regression(data, x, y, target):
     
     summary = pd.DataFrame(
         {
-            "Coefficient"   : CC(lambda: model.params),
-            "95% CI: Lower" : CC(lambda: model.conf_int()[0]) ,
-            "95% CI: Upper" : CC(lambda: model.conf_int()[1]) ,
-            "Std. Error"    : CC(lambda: model.bse),
-            "z Statistic"   : CC(lambda: model.tvalues),
-            "p-value"       : CC(lambda: model.pvalues)
+            "Coefficient"   : _CC(lambda: model.params),
+            "95% CI: Lower" : _CC(lambda: model.conf_int()[0]) ,
+            "95% CI: Upper" : _CC(lambda: model.conf_int()[1]) ,
+            "Std. Error"    : _CC(lambda: model.bse),
+            "z Statistic"   : _CC(lambda: model.tvalues),
+            "p-value"       : _CC(lambda: model.pvalues)
         }
     )
     index_change = {}
@@ -148,16 +123,16 @@ def simple_logistic_regression(data, x, y, target):
 
     result = pd.DataFrame(
         {
-            "Pseudo R-Squared": CC(lambda: model.prsquared),
-            "p-value": CC(lambda: model.llr_pvalue)
+            "Pseudo R-Squared": _CC(lambda: model.prsquared),
+            "p-value": _CC(lambda: model.llr_pvalue)
         }, index=["Model"]
     )
 
-    add_p(summary)
-    add_p(result)
+    _add_p(summary)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 
@@ -198,21 +173,21 @@ def multiple_logistic_regression(data, x_numeric, x_categorical, y, target):
     >>> data = bs.dataset("multiple_logistic_regression.csv")
     >>> data
         Upland  Migr    Mass  Indiv  Insect  Wood  Status
-    0      0.0   1.0  9600.0   29.0    12.0   0.0     1.0
-    1      0.0   1.0  5000.0   85.0     0.0   0.0     1.0
-    2      0.0   1.0  3360.0    8.0     0.0   0.0     1.0
-    3      0.0   3.0  2517.0   10.0    12.0   0.0     0.0
-    4      0.0   3.0  3170.0    7.0     0.0   0.0     0.0
+    0        0     1  9600.0     29      12     0       1
+    1        0     1  5000.0     85       0     0       1
+    2        0     1  3360.0      8       0     0       1
+    3        0     3  2517.0     10      12     0       0
+    4        0     3  3170.0      7       0     0       0
     ..     ...   ...     ...    ...     ...   ...     ...
-    74     0.0   1.0    23.6   29.0    12.0   1.0     1.0
-    75     0.0   1.0    20.7    9.0    12.0   0.0     0.0
-    76     0.0   3.0    31.0    2.0    12.0   1.0     0.0
-    77     0.0   2.0    36.9    2.0     8.0   0.0     0.0
-    78     0.0   2.0   106.5    2.0    12.0   0.0     0.0
+    74       0     1    23.6     29      12     1       1
+    75       0     1    20.7      9      12     0       0
+    76       0     3    31.0      2      12     1       0
+    77       0     2    36.9      2       8     0       0
+    78       0     2   106.5      2      12     0       0
 
     We want to fit an equation that predicts *Status* from *Upland*, *Migr*, *Mass*, *Indiv*, *Insect*, and *Wood*.
 
-    >>> summary, result = bs.multiple_logistic_regression(data=data, x_numeric=["Upland", "Migr", "Mass", "Indiv", "Insect", "Wood"], x_categorical=[], y="Status", target="1")
+    >>> summary, result = bs.multiple_logistic_regression(data=data, x_numeric=["Upland", "Migr", "Mass", "Indiv", "Insect", "Wood"], x_categorical=[], y="Status", target=1)
     >>> summary
                Coefficient  95% CI: Lower  95% CI: Upper  Std. Error  z Statistic   p-value     
     Intercept    -3.549648      -7.631768       0.532472    2.082753    -1.704306  0.088324  NaN
@@ -233,22 +208,18 @@ def multiple_logistic_regression(data, x_numeric, x_categorical, y, target):
 
     '''
 
+
     data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
-    process(data)
+    _process(data, num=x_numeric, cat=x_categorical+[y])
 
     for var in x_numeric:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
     for var in x_categorical:
         if data[var].nunique() > 20:
             raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(var))
     if data[y].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
-
-    try:
-        target = float(target)
-    except:
-        pass
 
     data2 = data[x_numeric+x_categorical].copy()
     data2[y] = 0
@@ -264,12 +235,12 @@ def multiple_logistic_regression(data, x_numeric, x_categorical, y, target):
     
     summary = pd.DataFrame(
         {
-            "Coefficient"   : CC(lambda: model.params),
-            "95% CI: Lower" : CC(lambda: model.conf_int()[0]) ,
-            "95% CI: Upper" : CC(lambda: model.conf_int()[1]) ,
-            "Std. Error"    : CC(lambda: model.bse),
-            "z Statistic"   : CC(lambda: model.tvalues),
-            "p-value"       : CC(lambda: model.pvalues)
+            "Coefficient"   : _CC(lambda: model.params),
+            "95% CI: Lower" : _CC(lambda: model.conf_int()[0]) ,
+            "95% CI: Upper" : _CC(lambda: model.conf_int()[1]) ,
+            "Std. Error"    : _CC(lambda: model.bse),
+            "z Statistic"   : _CC(lambda: model.tvalues),
+            "p-value"       : _CC(lambda: model.pvalues)
         }
     )
     index_change = {}
@@ -286,16 +257,16 @@ def multiple_logistic_regression(data, x_numeric, x_categorical, y, target):
 
     result = pd.DataFrame(
         {
-            "Pseudo R-Squared": CC(lambda: model.prsquared),
-            "p-value": CC(lambda: model.llr_pvalue)
+            "Pseudo R-Squared": _CC(lambda: model.prsquared),
+            "p-value": _CC(lambda: model.llr_pvalue)
         }, index=["Model"]
     )
 
-    add_p(summary)
-    add_p(result)
+    _add_p(summary)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 
@@ -336,17 +307,17 @@ def ordered_logistic_regression(data, x_numeric, x_categorical, y, order):
     >>> data = bs.dataset("ordered_logistic_regression.csv")
     >>> data
          pared  public   gpa            apply
-    0      0.0     0.0  3.26      very likely
-    1      1.0     0.0  3.21  somewhat likely
-    2      1.0     1.0  3.94         unlikely
-    3      0.0     0.0  2.81  somewhat likely
-    4      0.0     0.0  2.53  somewhat likely
+    0        0       0  3.26      very likely
+    1        1       0  3.21  somewhat likely
+    2        1       1  3.94         unlikely
+    3        0       0  2.81  somewhat likely
+    4        0       0  2.53  somewhat likely
     ..     ...     ...   ...              ...
-    395    0.0     0.0  3.70         unlikely
-    396    0.0     0.0  2.63         unlikely
-    397    0.0     0.0  2.25  somewhat likely
-    398    0.0     0.0  3.26  somewhat likely
-    399    0.0     0.0  3.52      very likely
+    395      0       0  3.70         unlikely
+    396      0       0  2.63         unlikely
+    397      0       0  2.25  somewhat likely
+    398      0       0  3.26  somewhat likely
+    399      0       0  3.52      very likely
 
     We want to fit an equation that predicts *apply* from *pared*, *public*, and *gpa*.
 
@@ -371,10 +342,10 @@ def ordered_logistic_regression(data, x_numeric, x_categorical, y, order):
     '''
 
     data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
-    process(data)
+    _process(data, num=x_numeric, cat=x_categorical+[y])
 
     for var in x_numeric:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
     for var in x_categorical:
         if data[var].nunique() > 20:
@@ -397,12 +368,12 @@ def ordered_logistic_regression(data, x_numeric, x_categorical, y, order):
 
     summary = pd.DataFrame(
         {
-            "Coefficient"   : CC(lambda: model.params),
-            "95% CI: Lower" : CC(lambda: model.conf_int()[0]) ,
-            "95% CI: Upper" : CC(lambda: model.conf_int()[1]) ,
-            "Std. Error"    : CC(lambda: model.bse),
-            "z Statistic"   : CC(lambda: model.tvalues),
-            "p-value"       : CC(lambda: model.pvalues)
+            "Coefficient"   : _CC(lambda: model.params),
+            "95% CI: Lower" : _CC(lambda: model.conf_int()[0]) ,
+            "95% CI: Upper" : _CC(lambda: model.conf_int()[1]) ,
+            "Std. Error"    : _CC(lambda: model.bse),
+            "z Statistic"   : _CC(lambda: model.tvalues),
+            "p-value"       : _CC(lambda: model.pvalues)
         }
     )
     summary.iloc[n:,0] = model_0.transform_threshold_params(model.params[n:])[1:-1]
@@ -422,16 +393,16 @@ def ordered_logistic_regression(data, x_numeric, x_categorical, y, order):
 
     result = pd.DataFrame(
         {
-            "Pseudo R-Squared": CC(lambda: model.prsquared) ,
-            "p-value": CC(lambda: model.llr_pvalue)
+            "Pseudo R-Squared": _CC(lambda: model.prsquared) ,
+            "p-value": _CC(lambda: model.llr_pvalue)
         }, index=["Model"]
     )
 
-    add_p(summary)
-    add_p(result)
+    _add_p(summary)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 
@@ -472,17 +443,17 @@ def multinomial_logistic_regression(data, x_numeric, x_categorical, y, baseline)
     >>> data = bs.dataset("multinomial_logistic_regression.csv")
     >>> data
          write     ses      prog
-    0     35.0     low  vocation
-    1     33.0  middle   general
-    2     39.0    high  vocation
-    3     37.0     low  vocation
-    4     31.0  middle  vocation
+    0       35     low  vocation
+    1       33  middle   general
+    2       39    high  vocation
+    3       37     low  vocation
+    4       31  middle  vocation
     ..     ...     ...       ...
-    195   65.0    high  academic
-    196   63.0  middle  vocation
-    197   67.0  middle  academic
-    198   65.0  middle  academic
-    199   62.0  middle  academic
+    195     65    high  academic
+    196     63  middle  vocation
+    197     67  middle  academic
+    198     65  middle  academic
+    199     62  middle  academic
 
     We want to fit an equation that predicts *prog* from *write* and *ses*.
 
@@ -513,10 +484,10 @@ def multinomial_logistic_regression(data, x_numeric, x_categorical, y, baseline)
     '''
 
     data = data[list(set(x_numeric+x_categorical+[y]))].dropna()
-    process(data)
+    _process(data, num=x_numeric, cat=x_categorical+[y])
     
     for var in x_numeric:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
     for var in x_categorical:
         if data[var].nunique() > 20:
@@ -556,12 +527,12 @@ def multinomial_logistic_regression(data, x_numeric, x_categorical, y, baseline)
         )
         temp_2 = pd.DataFrame(
             {
-                "Coefficient" : CC(lambda: model.params[i]),
-                "95% CI: Lower" : CC(lambda: model.conf_int().xs(str(i+1), level=0)["lower"]) ,
-                "95% CI: Upper" : CC(lambda: model.conf_int().xs(str(i+1), level=0)["upper"]) ,
-                "Std. Error"  : CC(lambda: model.bse[i]),
-                "z Statistic" : CC(lambda: model.tvalues[i]),
-                "p-value"     : CC(lambda: model.pvalues[i])
+                "Coefficient" : _CC(lambda: model.params[i]),
+                "95% CI: Lower" : _CC(lambda: model.conf_int().xs(str(i+1), level=0)["lower"]) ,
+                "95% CI: Upper" : _CC(lambda: model.conf_int().xs(str(i+1), level=0)["upper"]) ,
+                "Std. Error"  : _CC(lambda: model.bse[i]),
+                "z Statistic" : _CC(lambda: model.tvalues[i]),
+                "p-value"     : _CC(lambda: model.pvalues[i])
             }
         )
         temp_3 = pd.DataFrame(
@@ -587,16 +558,16 @@ def multinomial_logistic_regression(data, x_numeric, x_categorical, y, baseline)
 
     result = pd.DataFrame(
         {
-            "Pseudo R-Squared": CC(lambda: model.prsquared),
-            "p-value": CC(lambda: model.llr_pvalue)
+            "Pseudo R-Squared": _CC(lambda: model.prsquared),
+            "p-value": _CC(lambda: model.llr_pvalue)
         }, index=["Model"]
     )
 
-    add_p(summary)
-    add_p(result)
+    _add_p(summary)
+    _add_p(result)
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 

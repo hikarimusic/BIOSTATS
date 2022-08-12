@@ -3,20 +3,7 @@ import numpy as np
 from scipy import stats as st
 from statsmodels.stats.proportion import proportion_confint
 
-def CC(fun, *args):
-    try:
-        return fun(*args)
-    except:
-        return np.nan
-
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
+from biostats.model.util import _CC, _process, _add_p
 
 def numeric(data, variable):
     '''
@@ -44,16 +31,16 @@ def numeric(data, variable):
     >>> import biostats as bs
     >>> data = bs.dataset("numeric.csv")
     >>> data
-        Fish   Crab  Temperature
-    0   76.0  123.0         25.7
-    1  102.0  265.0         20.1
-    2   12.0   35.0          4.2
-    3   39.0   86.0         11.4
-    4   55.0  140.0         31.2
-    5   93.0  315.0         21.0
-    6   98.0  279.0         17.8
-    7   53.0  120.0         13.3
-    8  102.0  312.0         18.5
+       Fish  Crab  Temperature
+    0    76   123         25.7
+    1   102   265         20.1
+    2    12    35          4.2
+    3    39    86         11.4
+    4    55   140         31.2
+    5    93   315         21.0
+    6    98   279         17.8
+    7    53   120         13.3
+    8   102   312         18.5
 
     We want to compute descriptive statistics of the three variables.
 
@@ -66,13 +53,13 @@ def numeric(data, variable):
     Geometric Mean               59.835149    152.721285    16.057497
     Harmonic Mean                45.057085    116.064406    13.243700
     Mode                        102.000000     35.000000     4.200000
-                                    NaN           NaN          NaN
+                                       NaN           NaN          NaN
     Variance                   1029.500000  11331.111111    62.895000
     Std. Deviation               32.085822    106.447692     7.930637
     Coef. Variation               0.458369      0.571958     0.437351
     (Population) Variance       915.111111  10072.098765    55.906667
     (Population) Std.Dev         30.250803    100.359846     7.477076
-                                    NaN           NaN          NaN
+                                       NaN           NaN          NaN
     Minimum                      12.000000     35.000000     4.200000
     25% Percentile               53.000000    120.000000    13.300000
     50% Percentile               76.000000    140.000000    18.500000
@@ -80,7 +67,7 @@ def numeric(data, variable):
     Maximum                     102.000000    315.000000    31.200000
     Range                        90.000000    280.000000    27.000000
     Interquartile Range          45.000000    159.000000     7.700000
-                                    NaN           NaN          NaN
+                                       NaN           NaN          NaN
     Std. Error                   10.695274     35.482564     2.643546
     95% CI: Lower                45.336654    104.288172    12.037306
     95% CI: Upper                94.663346    267.934050    24.229360
@@ -92,10 +79,11 @@ def numeric(data, variable):
     '''
 
     data = data[list(set(variable))].dropna(how='all')
-    process(data)
+    _process(data, num=variable)
 
     for var in variable:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
+            print(str(data[var].dtypes))
             raise Warning("The column '{}' must be numeric".format(var))
 
     index = ["Count", "Mean", "Median", "Geometric Mean", "Harmonic Mean", "Mode"]
@@ -106,35 +94,35 @@ def numeric(data, variable):
 
     for var in variable:
         result[var] = [
-            CC(data[var].count) ,
-            CC(st.tmean, data[var].dropna()) ,
-            CC(np.median, data[var].dropna()) ,
-            CC(st.gmean, data[var].dropna()) ,
-            CC(st.hmean, data[var].dropna()) ,
-            CC(lambda a: st.mode(a)[0][0], data[var].dropna()) ,
+            _CC(data[var].count) ,
+            _CC(st.tmean, data[var].dropna()) ,
+            _CC(np.median, data[var].dropna()) ,
+            _CC(st.gmean, data[var].dropna()) ,
+            _CC(st.hmean, data[var].dropna()) ,
+            _CC(lambda a: st.mode(a)[0][0], data[var].dropna()) ,
             np.nan ,
-            CC(st.tvar, data[var].dropna()) ,
-            CC(st.tstd, data[var].dropna()) ,
-            CC(lambda a: st.tstd(a)/st.tmean(a), data[var].dropna()) ,
-            CC(np.var, data[var].dropna()) ,
-            CC(np.std, data[var].dropna()) ,
+            _CC(st.tvar, data[var].dropna()) ,
+            _CC(st.tstd, data[var].dropna()) ,
+            _CC(lambda a: st.tstd(a)/st.tmean(a), data[var].dropna()) ,
+            _CC(np.var, data[var].dropna()) ,
+            _CC(np.std, data[var].dropna()) ,
             np.nan ,
-            CC(np.percentile, data[var].dropna(), 0) ,
-            CC(np.percentile, data[var].dropna(), 25) ,
-            CC(np.percentile, data[var].dropna(), 50) ,
-            CC(np.percentile, data[var].dropna(), 75) ,
-            CC(np.percentile, data[var].dropna(), 100) ,
-            CC(lambda a: np.percentile(a,100)-np.percentile(a,0), data[var].dropna()) ,
-            CC(lambda a: np.percentile(a,75)-np.percentile(a,25), data[var].dropna()) ,
+            _CC(np.percentile, data[var].dropna(), 0) ,
+            _CC(np.percentile, data[var].dropna(), 25) ,
+            _CC(np.percentile, data[var].dropna(), 50) ,
+            _CC(np.percentile, data[var].dropna(), 75) ,
+            _CC(np.percentile, data[var].dropna(), 100) ,
+            _CC(lambda a: np.percentile(a,100)-np.percentile(a,0), data[var].dropna()) ,
+            _CC(lambda a: np.percentile(a,75)-np.percentile(a,25), data[var].dropna()) ,
             np.nan ,
-            CC(st.tsem, data[var].dropna()) ,
-            CC(lambda a: st.t.ppf(0.025, a.count()-1, st.tmean(a), st.tsem(a)), data[var].dropna()) ,
-            CC(lambda a: st.t.ppf(0.975, a.count()-1, st.tmean(a), st.tsem(a)), data[var].dropna()) ,
-            CC(lambda a: st.t.ppf(0.050, a.count()-1, st.tmean(a), st.tsem(a)), data[var].dropna()) ,
-            CC(lambda a: st.t.ppf(0.950, a.count()-1, st.tmean(a), st.tsem(a)), data[var].dropna()) ,
+            _CC(st.tsem, data[var].dropna()) ,
+            _CC(lambda a: st.t.ppf(0.025, a.count()-1, st.tmean(a), st.tsem(a)), data[var].dropna()) ,
+            _CC(lambda a: st.t.ppf(0.975, a.count()-1, st.tmean(a), st.tsem(a)), data[var].dropna()) ,
+            _CC(lambda a: st.t.ppf(0.050, a.count()-1, st.tmean(a), st.tsem(a)), data[var].dropna()) ,
+            _CC(lambda a: st.t.ppf(0.950, a.count()-1, st.tmean(a), st.tsem(a)), data[var].dropna()) ,
         ]
 
-    process(result)
+    _process(result)
 
     return result
 
@@ -168,24 +156,24 @@ def numeric_grouped(data, variable, group):
     >>> data = bs.dataset("numeric_grouped.csv")
     >>> data
         Count  Animal
-    0    76.0    Fish
-    1   102.0    Fish
-    2    12.0    Fish
-    3    39.0    Fish
-    4    55.0    Fish
-    5    93.0    Fish
-    6    98.0    Fish
-    7    53.0    Fish
-    8   102.0    Fish
-    9    28.0  Insect
-    10   85.0  Insect
-    11   17.0  Insect
-    12   20.0  Insect
-    13   33.0  Insect
-    14   75.0  Insect
-    15   78.0  Insect
-    16   25.0  Insect
-    17   87.0  Insect
+    0      76    Fish
+    1     102    Fish
+    2      12    Fish
+    3      39    Fish
+    4      55    Fish
+    5      93    Fish
+    6      98    Fish
+    7      53    Fish
+    8     102    Fish
+    9      28  Insect
+    10     85  Insect
+    11     17  Insect
+    12     20  Insect
+    13     33  Insect
+    14     75  Insect
+    15     78  Insect
+    16     25  Insect
+    17     87  Insect
 
     We want to compute descriptive statistics of *Count* in the two *Animal*.
 
@@ -198,13 +186,13 @@ def numeric_grouped(data, variable, group):
     Geometric Mean              59.835149   41.169549
     Harmonic Mean               45.057085   34.058186
     Mode                       102.000000   17.000000
-                                    NaN         NaN
+                                      NaN         NaN
     Variance                  1029.500000  923.694444
     Std. Deviation              32.085822   30.392342
     Coef. Variation              0.458369    0.610560
     (Population) Variance      915.111111  821.061728
     (Population) Std.Dev        30.250803   28.654175
-                                    NaN         NaN
+                                      NaN         NaN
     Minimum                     12.000000   17.000000
     25% Percentile              53.000000   25.000000
     50% Percentile              76.000000   33.000000
@@ -212,7 +200,7 @@ def numeric_grouped(data, variable, group):
     Maximum                    102.000000   87.000000
     Range                       90.000000   70.000000
     Interquartile Range         45.000000   53.000000
-                                    NaN         NaN
+                                      NaN         NaN
     Std. Error                  10.695274   10.130781
     95% CI: Lower               45.336654   26.416156
     95% CI: Upper               94.663346   73.139400
@@ -224,9 +212,9 @@ def numeric_grouped(data, variable, group):
     '''
 
     data = data[list({variable, group})].dropna()
-    process(data)
+    _process(data, num=[variable], cat=[group])
 
-    if str(data[variable].dtypes) != "float64":
+    if str(data[variable].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(variable))
     if data[group].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(group))
@@ -239,35 +227,35 @@ def numeric_grouped(data, variable, group):
 
     for cat in data[group].dropna().unique():
         result[cat] = [
-            CC(data[data[group]==cat][variable].count) ,
-            CC(st.tmean, data[data[group]==cat][variable].dropna()) ,
-            CC(np.median, data[data[group]==cat][variable].dropna()) ,
-            CC(st.gmean, data[data[group]==cat][variable].dropna()) ,
-            CC(st.hmean, data[data[group]==cat][variable].dropna()) ,
-            CC(lambda a: st.mode(a)[0][0], data[data[group]==cat][variable].dropna()) ,
+            _CC(data[data[group]==cat][variable].count) ,
+            _CC(st.tmean, data[data[group]==cat][variable].dropna()) ,
+            _CC(np.median, data[data[group]==cat][variable].dropna()) ,
+            _CC(st.gmean, data[data[group]==cat][variable].dropna()) ,
+            _CC(st.hmean, data[data[group]==cat][variable].dropna()) ,
+            _CC(lambda a: st.mode(a)[0][0], data[data[group]==cat][variable].dropna()) ,
             np.nan ,
-            CC(st.tvar, data[data[group]==cat][variable].dropna()) ,
-            CC(st.tstd, data[data[group]==cat][variable].dropna()) ,
-            CC(lambda a: st.tstd(a)/st.tmean(a), data[data[group]==cat][variable].dropna()) ,
-            CC(np.var, data[data[group]==cat][variable].dropna()) ,
-            CC(np.std, data[data[group]==cat][variable].dropna()) ,
+            _CC(st.tvar, data[data[group]==cat][variable].dropna()) ,
+            _CC(st.tstd, data[data[group]==cat][variable].dropna()) ,
+            _CC(lambda a: st.tstd(a)/st.tmean(a), data[data[group]==cat][variable].dropna()) ,
+            _CC(np.var, data[data[group]==cat][variable].dropna()) ,
+            _CC(np.std, data[data[group]==cat][variable].dropna()) ,
             np.nan ,
-            CC(np.percentile, data[data[group]==cat][variable].dropna(), 0) ,
-            CC(np.percentile, data[data[group]==cat][variable].dropna(), 25) ,
-            CC(np.percentile, data[data[group]==cat][variable].dropna(), 50) ,
-            CC(np.percentile, data[data[group]==cat][variable].dropna(), 75) ,
-            CC(np.percentile, data[data[group]==cat][variable].dropna(), 100) ,
-            CC(lambda a: np.percentile(a,100)-np.percentile(a,0), data[data[group]==cat][variable].dropna()) ,
-            CC(lambda a: np.percentile(a,75)-np.percentile(a,25), data[data[group]==cat][variable].dropna()) ,
+            _CC(np.percentile, data[data[group]==cat][variable].dropna(), 0) ,
+            _CC(np.percentile, data[data[group]==cat][variable].dropna(), 25) ,
+            _CC(np.percentile, data[data[group]==cat][variable].dropna(), 50) ,
+            _CC(np.percentile, data[data[group]==cat][variable].dropna(), 75) ,
+            _CC(np.percentile, data[data[group]==cat][variable].dropna(), 100) ,
+            _CC(lambda a: np.percentile(a,100)-np.percentile(a,0), data[data[group]==cat][variable].dropna()) ,
+            _CC(lambda a: np.percentile(a,75)-np.percentile(a,25), data[data[group]==cat][variable].dropna()) ,
             np.nan ,
-            CC(st.tsem, data[data[group]==cat][variable].dropna()) ,
-            CC(lambda a: st.t.ppf(0.025, a.count()-1, st.tmean(a), st.tsem(a)), data[data[group]==cat][variable].dropna()) ,
-            CC(lambda a: st.t.ppf(0.975, a.count()-1, st.tmean(a), st.tsem(a)), data[data[group]==cat][variable].dropna()) ,
-            CC(lambda a: st.t.ppf(0.050, a.count()-1, st.tmean(a), st.tsem(a)), data[data[group]==cat][variable].dropna()) ,
-            CC(lambda a: st.t.ppf(0.950, a.count()-1, st.tmean(a), st.tsem(a)), data[data[group]==cat][variable].dropna()) ,
+            _CC(st.tsem, data[data[group]==cat][variable].dropna()) ,
+            _CC(lambda a: st.t.ppf(0.025, a.count()-1, st.tmean(a), st.tsem(a)), data[data[group]==cat][variable].dropna()) ,
+            _CC(lambda a: st.t.ppf(0.975, a.count()-1, st.tmean(a), st.tsem(a)), data[data[group]==cat][variable].dropna()) ,
+            _CC(lambda a: st.t.ppf(0.050, a.count()-1, st.tmean(a), st.tsem(a)), data[data[group]==cat][variable].dropna()) ,
+            _CC(lambda a: st.t.ppf(0.950, a.count()-1, st.tmean(a), st.tsem(a)), data[data[group]==cat][variable].dropna()) ,
         ]    
 
-    process(result)
+    _process(result)
 
     return result
 
@@ -316,17 +304,17 @@ def categorical(data, variable):
     >>> result = bs.categorical(data=data, variable="Color")
     >>> result
             Count  Proportion  95% CI: Lower  95% CI: Upper
-    Yellow   74.0       0.370       0.306126       0.438774
-    Blue     69.0       0.345       0.282598       0.413244
-    Red      35.0       0.175       0.128605       0.233644
-    Green    22.0       0.110       0.073772       0.160927
+    Yellow     74       0.370       0.306126       0.438774
+    Blue       69       0.345       0.282598       0.413244
+    Red        35       0.175       0.128605       0.233644
+    Green      22       0.110       0.073772       0.160927
 
     Descriptive statistics of *Color* are computed.
 
     '''
 
     data = data[[variable]].dropna()
-    process(data)
+    _process(data, cat=[variable])
 
     if data[variable].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable))
@@ -337,24 +325,24 @@ def categorical(data, variable):
     CI_low = []
     CI_high = []
     for var in cat:
-        cnt.append(CC(lambda: data[variable].value_counts()[var]))
-    n = CC(lambda: sum(cnt))
+        cnt.append(_CC(lambda: data[variable].value_counts()[var]))
+    n = _CC(lambda: sum(cnt))
     for x in cnt:
-        prop.append(CC(lambda: x / n))
-        (ci_1, ci_2) = CC(lambda: proportion_confint(x, n, method="wilson"))
+        prop.append(_CC(lambda: x / n))
+        (ci_1, ci_2) = _CC(lambda: proportion_confint(x, n, method="wilson"))
         CI_low.append(ci_1)
         CI_high.append(ci_2)
 
     result = pd.DataFrame(
         {
-            "Count" : CC(lambda: cnt), 
-            "Proportion"  : CC(lambda: prop),
-            "95% CI: Lower" : CC(lambda: CI_low),
-            "95% CI: Upper" : CC(lambda: CI_high)
+            "Count" : _CC(lambda: cnt), 
+            "Proportion"  : _CC(lambda: prop),
+            "95% CI: Lower" : _CC(lambda: CI_low),
+            "95% CI: Upper" : _CC(lambda: CI_high)
         }, index=cat
     )
 
-    process(result)
+    _process(result)
 
     return result
 
@@ -412,14 +400,14 @@ def contingency(data, variable_1, variable_2, kind="count"):
     >>> result = bs.contingency(data=data, variable_1="Genotype", variable_2="Health", kind="count")
     >>> result
              disease  no_disease
-    del-del    184.0        42.0
-    ins-del    759.0       199.0
-    ins-ins    807.0       268.0
+    del-del      184          42
+    ins-del      759         199
+    ins-ins      807         268
 
     '''
 
     data = data[list({variable_1, variable_2})].dropna()
-    process(data)
+    _process(data, cat=[variable_1, variable_2])
 
     if data[variable_1].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
@@ -431,23 +419,23 @@ def contingency(data, variable_1, variable_2, kind="count"):
     result.columns.name = None
 
     if kind == "vertical":
-        col_sum = CC(lambda: result.sum(axis=0))
+        col_sum = _CC(lambda: result.sum(axis=0))
         for i in range(result.shape[0]):
             for j in range(result.shape[1]):
-                result.iat[i,j] = CC(lambda: result.iat[i,j] / col_sum[j])
+                result.iat[i,j] = _CC(lambda: result.iat[i,j] / col_sum[j])
 
     if kind == "horizontal":
-        col_sum = CC(lambda: result.sum(axis=1))
+        col_sum = _CC(lambda: result.sum(axis=1))
         for i in range(result.shape[0]):
             for j in range(result.shape[1]):
-                result.iat[i,j] = CC(lambda: result.iat[i,j] / col_sum[i])
+                result.iat[i,j] = _CC(lambda: result.iat[i,j] / col_sum[i])
 
     if kind == "overall":
-        _sum = CC(lambda: result.to_numpy().sum())
+        _sum = _CC(lambda: result.to_numpy().sum())
         for i in range(result.shape[0]):
             for j in range(result.shape[1]):
-                result.iat[i,j] = CC(lambda: result.iat[i,j] / _sum)
+                result.iat[i,j] = _CC(lambda: result.iat[i,j] / _sum)
 
-    process(result)
+    _process(result)
 
     return result

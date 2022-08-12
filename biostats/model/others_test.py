@@ -7,21 +7,7 @@ from factor_analyzer import FactorAnalyzer
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
-def CC(fun, *args):
-    try:
-        return fun(*args)
-    except:
-        return np.nan
-
-def process(data):
-    for col in data:
-        try: 
-            data[col] = data[col].astype('float64')
-        except:
-            pass  
-    data.columns = data.columns.map(str)
-    data.index = data.index.map(str)
-
+from biostats.model.util import _CC, _process, _add_p
 
 def screening_test(data, disease, disease_target, test, test_target):
     '''
@@ -75,8 +61,8 @@ def screening_test(data, disease, disease_target, test, test_target):
     >>> summary, result = bs.screening_test(data=data, disease="Cancer", disease_target="Present", test="PSA Test", test_target="Positive")
     >>> summary
                   Cancer (+)  Cancer (-)
-    PSA Test (+)        92.0        27.0
-    PSA Test (-)        46.0        72.0
+    PSA Test (+)          92          27
+    PSA Test (-)          46          72
 
     The contingency table of TP (true positive), TN, FP and FN is given.
 
@@ -94,32 +80,21 @@ def screening_test(data, disease, disease_target, test, test_target):
     '''
 
     data = data[list({disease, test})].dropna()
-    process(data)
+    _process(data, cat=[disease, test])
 
     if data[disease].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(disease))
     if data[test].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(test))
 
-    TP = CC(data[(data[disease]==disease_target) & (data[test]==test_target)][disease].count)
-    TN = CC(data[(data[disease]!=disease_target) & (data[test]!=test_target)][disease].count)
-    FP = CC(data[(data[disease]!=disease_target) & (data[test]==test_target)][disease].count)
-    FN = CC(data[(data[disease]==disease_target) & (data[test]!=test_target)][disease].count)
+    TP = _CC(data[(data[disease]==disease_target) & (data[test]==test_target)][disease].count)
+    TN = _CC(data[(data[disease]!=disease_target) & (data[test]!=test_target)][disease].count)
+    FP = _CC(data[(data[disease]!=disease_target) & (data[test]==test_target)][disease].count)
+    FN = _CC(data[(data[disease]==disease_target) & (data[test]!=test_target)][disease].count)
 
     summary = pd.DataFrame([[TP,FP],[FN,TN]])
     summary.index = ["{} (+)".format(test), "{} (-)".format(test)]
     summary.columns = ["{} (+)".format(disease), "{} (-)".format(disease)]
-
-    """
-    summary = pd.DataFrame(
-        {
-            "True Positive": TP ,
-            "True Negative": TN ,
-            "False Positive": FP ,
-            "False Negative": FN
-        }, index=["Case"]
-    )    
-    """
 
     table = []
     table.append([TP/(TP+FN)] + list(proportion_confint(TP, TP+FN, method="wilson")))
@@ -133,8 +108,8 @@ def screening_test(data, disease, disease_target, test, test_target):
     result.index = ["Sensitivity", "Specificity", "Positive PV", "Negative PV", "Accuracy", "Prevalence"]
     result.columns = ["Estimation", "95% CI: Lower", "95% CI: Upper"]
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 
@@ -191,8 +166,8 @@ def epidemiologic_study(data, disease, disease_target, factor, factor_target):
     >>> summary, result = bs.epidemiologic_study(data=data, disease="MI", disease_target="Occur", factor="Diabetes", factor_target="Yes")
     >>> summary
                   MI (+)  MI (-)
-    Diabetes (+)    48.0   183.0
-    Diabetes (-)   210.0  2557.0
+    Diabetes (+)      48     183
+    Diabetes (-)     210    2557
 
     The contingency table of *MI* and *Diabetes* is given.
 
@@ -208,7 +183,7 @@ def epidemiologic_study(data, disease, disease_target, factor, factor_target):
     '''
 
     data = data[list({disease, factor})].dropna()
-    process(data)
+    _process(data, cat=[disease, factor])
 
     if data[disease].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(disease))
@@ -217,42 +192,42 @@ def epidemiologic_study(data, disease, disease_target, factor, factor_target):
 
     data = data[[disease, factor]].dropna()
 
-    a = CC(data[(data[disease]==disease_target) & (data[factor]==factor_target)][disease].count)
-    b = CC(data[(data[disease]!=disease_target) & (data[factor]==factor_target)][disease].count)
-    c = CC(data[(data[disease]==disease_target) & (data[factor]!=factor_target)][disease].count)
-    d = CC(data[(data[disease]!=disease_target) & (data[factor]!=factor_target)][disease].count)
+    a = _CC(data[(data[disease]==disease_target) & (data[factor]==factor_target)][disease].count)
+    b = _CC(data[(data[disease]!=disease_target) & (data[factor]==factor_target)][disease].count)
+    c = _CC(data[(data[disease]==disease_target) & (data[factor]!=factor_target)][disease].count)
+    d = _CC(data[(data[disease]!=disease_target) & (data[factor]!=factor_target)][disease].count)
 
 
     summary = pd.DataFrame([[a,b],[c,d]])
     summary.index = ["{} (+)".format(factor), "{} (-)".format(factor)]
     summary.columns = ["{} (+)".format(disease), "{} (-)".format(disease)]
 
-    n_1 = CC(lambda: a + b)
-    n_2 = CC(lambda: c + d)
-    p_1 = CC(lambda: a / n_1)
-    p_2 = CC(lambda: c / n_2)
-    p = CC(lambda: n_1 / (n_1 + n_2))
+    n_1 = _CC(lambda: a + b)
+    n_2 = _CC(lambda: c + d)
+    p_1 = _CC(lambda: a / n_1)
+    p_2 = _CC(lambda: c / n_2)
+    p = _CC(lambda: n_1 / (n_1 + n_2))
 
-    RD = CC(lambda: p_1 - p_2)
-    RD_l = CC(lambda: st.norm.ppf(0.025, RD, math.sqrt(p_1*(1-p_1)/n_1+p_2*(1-p_2)/n_2)))
-    RD_h = CC(lambda: st.norm.ppf(0.975, RD, math.sqrt(p_1*(1-p_1)/n_1+p_2*(1-p_2)/n_2)))
+    RD = _CC(lambda: p_1 - p_2)
+    RD_l = _CC(lambda: st.norm.ppf(0.025, RD, math.sqrt(p_1*(1-p_1)/n_1+p_2*(1-p_2)/n_2)))
+    RD_h = _CC(lambda: st.norm.ppf(0.975, RD, math.sqrt(p_1*(1-p_1)/n_1+p_2*(1-p_2)/n_2)))
 
-    RR = CC(lambda: p_1 / p_2)
-    RR_s = CC(lambda: math.sqrt(b/(a*n_1)+d/(c*n_2)))
-    RR_l = CC(lambda: math.exp(st.norm.ppf(0.025, math.log(RR), RR_s)))
-    RR_h = CC(lambda: math.exp(st.norm.ppf(0.975, math.log(RR), RR_s)))
+    RR = _CC(lambda: p_1 / p_2)
+    RR_s = _CC(lambda: math.sqrt(b/(a*n_1)+d/(c*n_2)))
+    RR_l = _CC(lambda: math.exp(st.norm.ppf(0.025, math.log(RR), RR_s)))
+    RR_h = _CC(lambda: math.exp(st.norm.ppf(0.975, math.log(RR), RR_s)))
 
-    OR = CC(lambda: (a * d) / (b * c))
-    OR_s = CC(lambda: math.sqrt(1/a+1/b+1/c+1/d))
-    OR_l = CC(lambda: math.exp(st.norm.ppf(0.025, math.log(OR), OR_s)))
-    OR_h = CC(lambda: math.exp(st.norm.ppf(0.975, math.log(OR), OR_s)))
+    OR = _CC(lambda: (a * d) / (b * c))
+    OR_s = _CC(lambda: math.sqrt(1/a+1/b+1/c+1/d))
+    OR_l = _CC(lambda: math.exp(st.norm.ppf(0.025, math.log(OR), OR_s)))
+    OR_h = _CC(lambda: math.exp(st.norm.ppf(0.975, math.log(OR), OR_s)))
 
-    AR = CC(lambda: (RR-1) * p / ((RR-1) * p + 1))
-    AR_s = CC(lambda: (RR / abs(RR-1)) * math.sqrt(b/(a*n_1)+d/(c*n_2)))
-    AR_c1 = CC(lambda: st.norm.ppf(0.025, math.log(AR/(1-AR)), AR_s))
-    AR_c2 = CC(lambda: st.norm.ppf(0.975, math.log(AR/(1-AR)), AR_s))
-    AR_l = CC(lambda: math.exp(AR_c1) / (1 + math.exp(AR_c1)))
-    AR_h = CC(lambda: math.exp(AR_c2) / (1 + math.exp(AR_c2)))
+    AR = _CC(lambda: (RR-1) * p / ((RR-1) * p + 1))
+    AR_s = _CC(lambda: (RR / abs(RR-1)) * math.sqrt(b/(a*n_1)+d/(c*n_2)))
+    AR_c1 = _CC(lambda: st.norm.ppf(0.025, math.log(AR/(1-AR)), AR_s))
+    AR_c2 = _CC(lambda: st.norm.ppf(0.975, math.log(AR/(1-AR)), AR_s))
+    AR_l = _CC(lambda: math.exp(AR_c1) / (1 + math.exp(AR_c1)))
+    AR_h = _CC(lambda: math.exp(AR_c2) / (1 + math.exp(AR_c2)))
 
     table = []
     table.append([RD, RD_l, RD_h])
@@ -264,8 +239,8 @@ def epidemiologic_study(data, disease, disease_target, factor, factor_target):
     result.index = ["Risk Difference", "Risk Ratio", "Odds Ratio", "Attributable Risk"]
     result.columns = ["Estimation", "95% CI: Lower", "95% CI: Upper"]
 
-    process(summary)
-    process(result)
+    _process(summary)
+    _process(result)
 
     return summary, result
 
@@ -304,57 +279,57 @@ def factor_analysis(data, x, factors, analyze=None):
     >>> import biostats as bs
     >>> data = bs.dataset("factor_analysis.csv")
     >>> data
-         Oil Density Crispy Fracture Hardness
-    0   16.5  2955.0   10.0     23.0     97.0
-    1   17.7  2660.0   14.0      9.0    139.0
-    2   16.2  2870.0   12.0     17.0    143.0
-    3   16.7  2920.0   10.0     31.0     95.0
-    4   16.3  2975.0   11.0     26.0    143.0
-    5   19.1  2790.0   13.0     16.0    189.0
-    6   18.4  2750.0   13.0     17.0    114.0
-    7   17.5  2770.0   10.0     26.0     63.0
-    8   15.7  2955.0   11.0     23.0    123.0
-    9   16.4  2945.0   11.0     24.0    132.0
-    10  18.0  2830.0   12.0     15.0    121.0
-    11  17.4  2835.0   12.0     18.0    172.0
-    12  18.4  2860.0   14.0     11.0    170.0
-    13  13.9  2965.0   12.0     19.0    169.0
-    14  15.8  2930.0    9.0     26.0     65.0
-    15  16.4  2770.0   15.0     16.0    183.0
-    16  18.9  2650.0   14.0     20.0    114.0
-    17  17.3  2890.0   12.0     17.0    142.0
-    18  16.7  2695.0   13.0     13.0    111.0
-    19  19.1  2755.0   14.0     10.0    140.0
-    20  13.7  3000.0   10.0     27.0    177.0
-    21  14.7  2980.0   10.0     20.0    133.0
-    22  18.1  2780.0   13.0     14.0    150.0
-    23  17.2  2705.0    8.0     27.0    113.0
-    24  18.7  2825.0   13.0     20.0    166.0
-    25  18.1  2875.0   12.0     15.0    150.0
-    26  16.6  2945.0   10.0     25.0    100.0
-    27  17.1  2920.0   10.0     25.0    123.0
-    28  17.4  2845.0   13.0     19.0    129.0
-    29  19.4  2645.0   12.0     18.0     68.0
-    30  15.9  3080.0   10.0     23.0    106.0
-    31  17.1  2825.0   10.0     28.0    131.0
-    32  15.5  3125.0    7.0     33.0     92.0
-    33  17.7  2780.0   13.0     22.0    141.0
-    34  15.9  2900.0   12.0     21.0    192.0
-    35  21.2  2570.0   14.0     13.0    105.0
-    36  19.5  2635.0   13.0     22.0    101.0
-    37  20.5  2725.0   14.0     16.0    145.0
-    38  17.0  2865.0   11.0     22.0    100.0
-    39  16.7  2975.0   10.0     26.0    105.0
-    40  16.8  2980.0   10.0     24.0    144.0
-    41  16.8  2870.0   12.0     20.0    123.0
-    42  16.3  2920.0   11.0     22.0    136.0
-    43  16.2  3100.0    8.0     27.0    140.0
-    44  18.1  2910.0   12.0     21.0    120.0
-    45  16.6  2865.0   11.0     25.0    120.0
-    46  16.4  2995.0   12.0     20.0    165.0
-    47  15.1  2925.0   10.0     29.0    118.0
-    48  21.1  2700.0   13.0     16.0    116.0
-    49  16.3  2845.0   10.0     26.0     75.0
+         Oil  Density  Crispy  Fracture  Hardness
+    0   16.5     2955      10        23        97
+    1   17.7     2660      14         9       139
+    2   16.2     2870      12        17       143
+    3   16.7     2920      10        31        95
+    4   16.3     2975      11        26       143
+    5   19.1     2790      13        16       189
+    6   18.4     2750      13        17       114
+    7   17.5     2770      10        26        63
+    8   15.7     2955      11        23       123
+    9   16.4     2945      11        24       132
+    10  18.0     2830      12        15       121
+    11  17.4     2835      12        18       172
+    12  18.4     2860      14        11       170
+    13  13.9     2965      12        19       169
+    14  15.8     2930       9        26        65
+    15  16.4     2770      15        16       183
+    16  18.9     2650      14        20       114
+    17  17.3     2890      12        17       142
+    18  16.7     2695      13        13       111
+    19  19.1     2755      14        10       140
+    20  13.7     3000      10        27       177
+    21  14.7     2980      10        20       133
+    22  18.1     2780      13        14       150
+    23  17.2     2705       8        27       113
+    24  18.7     2825      13        20       166
+    25  18.1     2875      12        15       150
+    26  16.6     2945      10        25       100
+    27  17.1     2920      10        25       123
+    28  17.4     2845      13        19       129
+    29  19.4     2645      12        18        68
+    30  15.9     3080      10        23       106
+    31  17.1     2825      10        28       131
+    32  15.5     3125       7        33        92
+    33  17.7     2780      13        22       141
+    34  15.9     2900      12        21       192
+    35  21.2     2570      14        13       105
+    36  19.5     2635      13        22       101
+    37  20.5     2725      14        16       145
+    38  17.0     2865      11        22       100
+    39  16.7     2975      10        26       105
+    40  16.8     2980      10        24       144
+    41  16.8     2870      12        20       123
+    42  16.3     2920      11        22       136
+    43  16.2     3100       8        27       140
+    44  18.1     2910      12        21       120
+    45  16.6     2865      11        25       120
+    46  16.4     2995      12        20       165
+    47  15.1     2925      10        29       118
+    48  21.1     2700      13        16       116
+    49  16.3     2845      10        26        75
 
     We want to find the underlying factors of the five variables.
 
@@ -389,10 +364,10 @@ def factor_analysis(data, x, factors, analyze=None):
     '''
 
     data = data[list(set(x))].dropna()
-    process(data)
+    _process(data, num=x)
 
     for var in x:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
 
     fa = FactorAnalyzer(n_factors=factors, rotation='varimax')
@@ -423,9 +398,9 @@ def factor_analysis(data, x, factors, analyze=None):
     else:
         analysis = pd.DataFrame()
 
-    process(summary)
-    process(result)
-    process(analysis)
+    _process(summary)
+    _process(result)
+    _process(analysis)
 
     return summary, result, analysis
 
@@ -462,70 +437,70 @@ def principal_component_analysis(data, x, transform=None):
     >>> import biostats as bs
     >>> data = bs.dataset("principal_component_analysis.csv")
     >>> data
-       Murder Assault UrbanPop  Rape
-    0    13.2   236.0     58.0  21.2
-    1    10.0   263.0     48.0  44.5
-    2     8.1   294.0     80.0  31.0
-    3     8.8   190.0     50.0  19.5
-    4     9.0   276.0     91.0  40.6
-    5     7.9   204.0     78.0  38.7
-    6     3.3   110.0     77.0  11.1
-    7     5.9   238.0     72.0  15.8
-    8    15.4   335.0     80.0  31.9
-    9    17.4   211.0     60.0  25.8
-    10    5.3    46.0     83.0  20.2
-    11    2.6   120.0     54.0  14.2
-    12   10.4   249.0     83.0  24.0
-    13    7.2   113.0     65.0  21.0
-    14    2.2    56.0     57.0  11.3
-    15    6.0   115.0     66.0  18.0
-    16    9.7   109.0     52.0  16.3
-    17   15.4   249.0     66.0  22.2
-    18    2.1    83.0     51.0   7.8
-    19   11.3   300.0     67.0  27.8
-    20    4.4   149.0     85.0  16.3
-    21   12.1   255.0     74.0  35.1
-    22    2.7    72.0     66.0  14.9
-    23   16.1   259.0     44.0  17.1
-    24    9.0   178.0     70.0  28.2
-    25    6.0   109.0     53.0  16.4
-    26    4.3   102.0     62.0  16.5
-    27   12.2   252.0     81.0  46.0
-    28    2.1    57.0     56.0   9.5
-    29    7.4   159.0     89.0  18.8
-    30   11.4   285.0     70.0  32.1
-    31   11.1   254.0     86.0  26.1
-    32   13.0   337.0     45.0  16.1
-    33    0.8    45.0     44.0   7.3
-    34    7.3   120.0     75.0  21.4
-    35    6.6   151.0     68.0  20.0
-    36    4.9   159.0     67.0  29.3
-    37    6.3   106.0     72.0  14.9
-    38    3.4   174.0     87.0   8.3
-    39   14.4   279.0     48.0  22.5
-    40    3.8    86.0     45.0  12.8
-    41   13.2   188.0     59.0  26.9
-    42   12.7   201.0     80.0  25.5
-    43    3.2   120.0     80.0  22.9
-    44    2.2    48.0     32.0  11.2
-    45    8.5   156.0     63.0  20.7
-    46    4.0   145.0     73.0  26.2
-    47    5.7    81.0     39.0   9.3
-    48    2.6    53.0     66.0  10.8
-    49    6.8   161.0     60.0  15.6
+        Murder  Assault  UrbanPop  Rape
+    0     13.2      236        58  21.2
+    1     10.0      263        48  44.5
+    2      8.1      294        80  31.0
+    3      8.8      190        50  19.5
+    4      9.0      276        91  40.6
+    5      7.9      204        78  38.7
+    6      3.3      110        77  11.1
+    7      5.9      238        72  15.8
+    8     15.4      335        80  31.9
+    9     17.4      211        60  25.8
+    10     5.3       46        83  20.2
+    11     2.6      120        54  14.2
+    12    10.4      249        83  24.0
+    13     7.2      113        65  21.0
+    14     2.2       56        57  11.3
+    15     6.0      115        66  18.0
+    16     9.7      109        52  16.3
+    17    15.4      249        66  22.2
+    18     2.1       83        51   7.8
+    19    11.3      300        67  27.8
+    20     4.4      149        85  16.3
+    21    12.1      255        74  35.1
+    22     2.7       72        66  14.9
+    23    16.1      259        44  17.1
+    24     9.0      178        70  28.2
+    25     6.0      109        53  16.4
+    26     4.3      102        62  16.5
+    27    12.2      252        81  46.0
+    28     2.1       57        56   9.5
+    29     7.4      159        89  18.8
+    30    11.4      285        70  32.1
+    31    11.1      254        86  26.1
+    32    13.0      337        45  16.1
+    33     0.8       45        44   7.3
+    34     7.3      120        75  21.4
+    35     6.6      151        68  20.0
+    36     4.9      159        67  29.3
+    37     6.3      106        72  14.9
+    38     3.4      174        87   8.3
+    39    14.4      279        48  22.5
+    40     3.8       86        45  12.8
+    41    13.2      188        59  26.9
+    42    12.7      201        80  25.5
+    43     3.2      120        80  22.9
+    44     2.2       48        32  11.2
+    45     8.5      156        63  20.7
+    46     4.0      145        73  26.2
+    47     5.7       81        39   9.3
+    48     2.6       53        66  10.8
+    49     6.8      161        60  15.6
 
     We want to find the linear combination of the four variables to manifest the variation of data.
 
     >>> summary, result, transformation = bs.principal_component_analysis(data=data, x=["Murder", "Assault", "UrbanPop", "Rape"], 
     ...     transform={"Murder":10.2, "Assault":211, "UrbanPop":67, "Rape":32.3})
-    >>> summaryThe factor scores of the data to be analyzed are calculated.
+    >>> summary
               Count     Mean  Std. Deviation     Variance
-    Murder     50.0    7.788        4.355510    18.970465
-    Assault    50.0  170.760       83.337661  6945.165714
-    UrbanPop   50.0   65.540       14.474763   209.518776
-    Rape       50.0   21.232        9.366385    87.729159
+    Murder       50    7.788        4.355510    18.970465
+    Assault      50  170.760       83.337661  6945.165714
+    UrbanPop     50   65.540       14.474763   209.518776
+    Rape         50   21.232        9.366385    87.729159
 
-    Basic summary statistics of the four variables are calculated.
+    Basic descriptive statistics of the four variables are calculated.
 
     >>> result
                    Murder   Assault  UrbanPop      Rape   Intercept  Proportion
@@ -545,18 +520,18 @@ def principal_component_analysis(data, x, transform=None):
     '''
 
     data = data[list(set(x))].dropna()
-    process(data)
+    _process(data, num=x)
 
     for var in x:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
 
     summary = pd.DataFrame(
         {
-            "Count" : [CC(data[var].count) for var in x] ,
-            "Mean" : [CC(st.tmean, data[var].dropna()) for var in x] ,
-            "Std. Deviation" : [CC(st.tstd, data[var].dropna()) for var in x] ,
-            "Variance" : [CC(st.tvar, data[var].dropna()) for var in x]
+            "Count" : [_CC(data[var].count) for var in x] ,
+            "Mean" : [_CC(st.tmean, data[var].dropna()) for var in x] ,
+            "Std. Deviation" : [_CC(st.tstd, data[var].dropna()) for var in x] ,
+            "Variance" : [_CC(st.tvar, data[var].dropna()) for var in x]
         }, index=x
     )
 
@@ -582,9 +557,9 @@ def principal_component_analysis(data, x, transform=None):
     else:
         transformation = pd.DataFrame()
 
-    process(summary)
-    process(result)
-    process(transformation)
+    _process(summary)
+    _process(result)
+    _process(transformation)
 
     return summary, result, transformation
 
@@ -664,10 +639,10 @@ def linear_discriminant_analysis(data, x, y, predict=None):
     '''
 
     data = data[list(set(x+[y]))].dropna()
-    process(data)
+    _process(data, num=x, cat=[y])
     
     for var in x:
-        if str(data[var].dtypes) != "float64":
+        if str(data[var].dtypes) not in ("float64", "Int64"):
             raise Warning("The column '{}' must be numeric".format(var))
     if data[y].nunique() > 20:
         raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
@@ -698,9 +673,9 @@ def linear_discriminant_analysis(data, x, y, predict=None):
     else:
         prediction = pd.DataFrame()
 
-    process(summary)
-    process(result)
-    process(prediction)
+    _process(summary)
+    _process(result)
+    _process(prediction)
 
     return summary, result, prediction
     

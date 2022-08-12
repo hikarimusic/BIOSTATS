@@ -554,7 +554,7 @@
 <h1>biostats.mantel_haenszel_test<a class="headerlink" href="#biostats-mantel-haenszel-test" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.mantel_haenszel_test">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">mantel_haenszel_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stratum</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/chi_square.py#L435-L563"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.mantel_haenszel_test" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">mantel_haenszel_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stratum</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/chi_square.py#L411-L539"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.mantel_haenszel_test" title="Permalink to this definition">#</a></dt>
 <dd><p>Test whether there is an association between two categorical variables in stratified data.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -607,27 +607,27 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">mantel_haenszel_test</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable_1</span><span class="o">=</span><span class="s2">&quot;Treatment&quot;</span><span class="p">,</span> <span class="n">variable_2</span><span class="o">=</span><span class="s2">&quot;Revascularization&quot;</span><span class="p">,</span> <span class="n">stratum</span><span class="o">=</span><span class="s2">&quot;Study&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">summary</span>
 <span class="go">                     No   Yes</span>
-<span class="go">FATS       Niacin  46.0   2.0</span>
-<span class="go">        Placebo  41.0  11.0</span>
-<span class="go">                    NaN   NaN</span>
-<span class="go">AFREGS     Niacin  67.0   4.0</span>
-<span class="go">        Placebo  60.0  12.0</span>
-<span class="go">                    NaN   NaN</span>
-<span class="go">ARBITER2   Niacin  86.0   1.0</span>
-<span class="go">        Placebo  76.0   4.0</span>
-<span class="go">                    NaN   NaN</span>
-<span class="go">HATS       Niacin  37.0   1.0</span>
-<span class="go">        Placebo  32.0   6.0</span>
-<span class="go">                    NaN   NaN</span>
-<span class="go">CLAS1      Niacin  92.0   2.0</span>
-<span class="go">        Placebo  93.0   1.0</span>
-<span class="go">                    NaN   NaN</span>
+<span class="go">FATS       Niacin    46     2</span>
+<span class="go">          Placebo    41    11</span>
+<span class="go">                   &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="go">AFREGS     Niacin    67     4</span>
+<span class="go">          Placebo    60    12</span>
+<span class="go">                   &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="go">ARBITER2   Niacin    86     1</span>
+<span class="go">          Placebo    76     4</span>
+<span class="go">                   &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="go">HATS       Niacin    37     1</span>
+<span class="go">          Placebo    32     6</span>
+<span class="go">                   &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="go">CLAS1      Niacin    92     2</span>
+<span class="go">          Placebo    93     1</span>
+<span class="go">                   &lt;NA&gt;  &lt;NA&gt;</span>
 </pre></div>
 </div>
 <p>The contingency tables of <em>Treatment</em> and <em>Revascularization</em> in the five <em>Study</em>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span>
 <span class="go">        D.F.  Chi Square   p-value     </span>
-<span class="go">Normal   1.0   12.745723  0.000357  ***</span>
+<span class="go">Normal     1   12.745723  0.000357  ***</span>
 </pre></div>
 </div>
 <p>The p-value &lt; 0.001, so there is a significant association between <em>Treatment</em> and <em>Revascularization</em> in the stratified data.</p>
@@ -680,7 +680,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
 </p>
   </div>
   
