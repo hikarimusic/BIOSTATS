@@ -554,8 +554,71 @@
 <h1>biostats.dataset<a class="headerlink" href="#biostats-dataset" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.dataset">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/datasets/util.py#L28-L35"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.dataset" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/datasets/util.py#L28-L100"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Load the example datasets of BIOSTATS.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>name</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The name of the dataset.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The dataset.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The names of the example datasets are <em>function_name.csv</em>. There are also some famous datasets, such as <em>penguins.csv</em>, <em>iris.csv</em>, <em>tips.csv</em>, <em>titanic.csv</em>, and <em>flights.csv</em>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;one_way_anova.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    Length    Location</span>
+<span class="go">0   0.0571   Tillamook</span>
+<span class="go">1   0.0813   Tillamook</span>
+<span class="go">2   0.0831   Tillamook</span>
+<span class="go">3   0.0976   Tillamook</span>
+<span class="go">4   0.0817   Tillamook</span>
+<span class="go">5   0.0859   Tillamook</span>
+<span class="go">6   0.0735   Tillamook</span>
+<span class="go">7   0.0659   Tillamook</span>
+<span class="go">8   0.0923   Tillamook</span>
+<span class="go">9   0.0836   Tillamook</span>
+<span class="go">10  0.0873     Newport</span>
+<span class="go">11  0.0662     Newport</span>
+<span class="go">12  0.0672     Newport</span>
+<span class="go">13  0.0819     Newport</span>
+<span class="go">14  0.0749     Newport</span>
+<span class="go">15  0.0649     Newport</span>
+<span class="go">16  0.0835     Newport</span>
+<span class="go">17  0.0725     Newport</span>
+<span class="go">18  0.0974  Petersburg</span>
+<span class="go">19  0.1352  Petersburg</span>
+<span class="go">20  0.0817  Petersburg</span>
+<span class="go">21  0.1016  Petersburg</span>
+<span class="go">22  0.0968  Petersburg</span>
+<span class="go">23  0.1064  Petersburg</span>
+<span class="go">24  0.1050  Petersburg</span>
+<span class="go">25  0.1033     Magadan</span>
+<span class="go">26  0.0915     Magadan</span>
+<span class="go">27  0.0781     Magadan</span>
+<span class="go">28  0.0685     Magadan</span>
+<span class="go">29  0.0677     Magadan</span>
+<span class="go">30  0.0697     Magadan</span>
+<span class="go">31  0.0764     Magadan</span>
+<span class="go">32  0.0689     Magadan</span>
+<span class="go">33  0.0703   Tvarminne</span>
+<span class="go">34  0.1026   Tvarminne</span>
+<span class="go">35  0.0956   Tvarminne</span>
+<span class="go">36  0.0973   Tvarminne</span>
+<span class="go">37  0.1039   Tvarminne</span>
+<span class="go">38  0.1045   Tvarminne</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </section>
 

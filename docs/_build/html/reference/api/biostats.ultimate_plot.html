@@ -554,8 +554,105 @@
 <h1>biostats.ultimate_plot<a class="headerlink" href="#biostats-ultimate-plot" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="biostats.ultimate_plot">
-<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">ultimate_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/multiple_plot.py#L6-L67"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.ultimate_plot" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">biostats.</span></span><span class="sig-name descname"><span class="pre">ultimate_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/blob/main/biostats/model/multiple_plot.py#L6-L134"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biostats.ultimate_plot" title="Permalink to this definition">#</a></dt>
+<dd><p>Draw a multiple plot to show the relations between every two variables.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></span></dt><dd><p>The input data. Must contain at least one column.</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></dt><dd><p>The list of variables to be plotted.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>fig</strong><span class="classifier"><a class="reference external" href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="(in Matplotlib v3.5.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code></a></span></dt><dd><p>The generated plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="biostats.pair_plot.html#biostats.pair_plot" title="biostats.pair_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pair_plot</span></code></a></dt><dd><p>Draw a multiple plot to show the relations between every two numeric variables.</p>
+</dd>
+<dt><a class="reference internal" href="biostats.joint_plot.html#biostats.joint_plot" title="biostats.joint_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">joint_plot</span></code></a></dt><dd><p>Draw a combined plot to show the relation between two numeric variables.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The kinds of plots that will be generated in each grid:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable 1</p></th>
+<th class="head"><p>Variable 2</p></th>
+<th class="head"><p>Plot</p></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>numeric</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>histogram</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>categorical</p></td>
+<td><ul class="simple">
+<li></li>
+</ul>
+</td>
+<td><p>count plot</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>numeric</p></td>
+<td><p>numeric</p></td>
+<td><p>scatter plot</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>numeric</p></td>
+<td><p>categorical</p></td>
+<td><p>strip plot</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>categorical</p></td>
+<td><p>categorical</p></td>
+<td><p>count plot (colored)</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;penguins.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">    species     island  bill_length_mm  bill_depth_mm  flipper_length_mm  body_mass_g     sex</span>
+<span class="go">0    Adelie  Torgersen            39.1           18.7                181         3750    MALE</span>
+<span class="go">1    Adelie  Torgersen            39.5           17.4                186         3800  FEMALE</span>
+<span class="go">2    Adelie  Torgersen            40.3           18.0                195         3250  FEMALE</span>
+<span class="go">3    Adelie  Torgersen             NaN            NaN               &lt;NA&gt;         &lt;NA&gt;     NaN</span>
+<span class="go">4    Adelie  Torgersen            36.7           19.3                193         3450  FEMALE</span>
+<span class="go">..      ...        ...             ...            ...                ...          ...     ...</span>
+<span class="go">339  Gentoo     Biscoe             NaN            NaN               &lt;NA&gt;         &lt;NA&gt;     NaN</span>
+<span class="go">340  Gentoo     Biscoe            46.8           14.3                215         4850  FEMALE</span>
+<span class="go">341  Gentoo     Biscoe            50.4           15.7                222         5750    MALE</span>
+<span class="go">342  Gentoo     Biscoe            45.2           14.8                212         5200  FEMALE</span>
+<span class="go">343  Gentoo     Biscoe            49.9           16.1                213         5400    MALE</span>
+</pre></div>
+</div>
+<p>We want to visualize the relations between these variables.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">ultimate_plot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">,</span> <span class="s2">&quot;bill_length_mm&quot;</span><span class="p">,</span> <span class="s2">&quot;body_mass_g&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../_images/biostats-ultimate_plot-1.png" class="plot-directive" src="../../_images/biostats-ultimate_plot-1.png" />
+</figure>
+</dd></dl>
 
 </section>
 

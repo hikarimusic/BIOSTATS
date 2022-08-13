@@ -310,37 +310,37 @@ plt.show()
 
 # Count Plot
 data = bs.dataset("titanic.csv")
-fig = bs.count_plot(data=data, x="class", color="who")
+fig = bs.count_plot(data=data, x="deck")
 plt.show()
 
 # Strip Plot
 data = bs.dataset("tips.csv")
-fig = bs.strip_plot(data=data, x="day", y="total_bill", color="smoker")
+fig = bs.strip_plot(data=data, x="day", y="total_bill")
 plt.show()
 
 # Swarm Plot
 data = bs.dataset("tips.csv")
-fig = bs.swarm_plot(data=data, x="day", y="total_bill", color="smoker")
+fig = bs.swarm_plot(data=data, x="day", y="total_bill")
 plt.show()
 
 # Box Plot
 data = bs.dataset("tips.csv")
-fig = bs.box_plot(data=data, x="day", y="total_bill", color="smoker")
+fig = bs.box_plot(data=data, x="day", y="total_bill")
 plt.show()
 
 # Boxen Plot
 data = bs.dataset("tips.csv")
-fig = bs.boxen_plot(data=data, x="day", y="total_bill", color="smoker")
+fig = bs.boxen_plot(data=data, x="day", y="total_bill")
 plt.show()
 
 # Violin Plot
 data = bs.dataset("tips.csv")
-fig = bs.violin_plot(data=data, x="day", y="total_bill", color="smoker")
+fig = bs.violin_plot(data=data, x="day", y="total_bill")
 plt.show()
 
 # Bar Plot
 data = bs.dataset("tips.csv")
-fig = bs.bar_plot(data=data, x="day", y="total_bill", color="smoker")
+fig = bs.bar_plot(data=data, x="day", y="total_bill")
 plt.show()
 
 # ---------------------------------------------------------------
@@ -348,7 +348,7 @@ plt.show()
 
 # Scatter Plot
 data = bs.dataset("tips.csv")
-fig = bs.scatter_plot(data=data, x="total_bill", y="tip", color="time")
+fig = bs.scatter_plot(data=data, x="total_bill", y="tip", color="day")
 plt.show()
 
 # Line Plot

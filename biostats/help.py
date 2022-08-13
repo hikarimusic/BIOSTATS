@@ -736,9 +736,9 @@ class Example(ttk.Menubutton):
             self.master.plot_win.plot_1.set("Categorical")
             self.master.plot_win.plot_2["Categorical"].set("Count Plot")
             self.master.plot_win.plot_change()
-            self.master.plot_win.option[0].radio_one_var.set(6)
+            self.master.plot_win.option[0].radio_one_var.set(9)
             self.master.plot_win.change()
-            self.master.plot_win.option[1].radio_one_var.set(8)
+            self.master.plot_win.option[1].radio_one_var.set(0)
             self.master.plot_win.change()
 
         if which == "Strip Plot":
@@ -752,7 +752,7 @@ class Example(ttk.Menubutton):
             self.master.plot_win.change()
             self.master.plot_win.option[1].radio_one_var.set(0)
             self.master.plot_win.change()
-            self.master.plot_win.option[2].radio_one_var.set(2)
+            self.master.plot_win.option[2].radio_one_var.set(0)
             self.master.plot_win.change()
 
         if which == "Swarm Plot":
@@ -766,7 +766,7 @@ class Example(ttk.Menubutton):
             self.master.plot_win.change()
             self.master.plot_win.option[1].radio_one_var.set(0)
             self.master.plot_win.change()
-            self.master.plot_win.option[2].radio_one_var.set(2)
+            self.master.plot_win.option[2].radio_one_var.set(0)
             self.master.plot_win.change()
 
         if which == "Box Plot":
@@ -780,7 +780,7 @@ class Example(ttk.Menubutton):
             self.master.plot_win.change()
             self.master.plot_win.option[1].radio_one_var.set(0)
             self.master.plot_win.change()
-            self.master.plot_win.option[2].radio_one_var.set(2)
+            self.master.plot_win.option[2].radio_one_var.set(0)
             self.master.plot_win.change()
 
         if which == "Boxen Plot":
@@ -794,7 +794,7 @@ class Example(ttk.Menubutton):
             self.master.plot_win.change()
             self.master.plot_win.option[1].radio_one_var.set(0)
             self.master.plot_win.change()
-            self.master.plot_win.option[2].radio_one_var.set(2)
+            self.master.plot_win.option[2].radio_one_var.set(0)
             self.master.plot_win.change()
 
         if which == "Violin Plot":
@@ -808,7 +808,7 @@ class Example(ttk.Menubutton):
             self.master.plot_win.change()
             self.master.plot_win.option[1].radio_one_var.set(0)
             self.master.plot_win.change()
-            self.master.plot_win.option[2].radio_one_var.set(2)
+            self.master.plot_win.option[2].radio_one_var.set(0)
             self.master.plot_win.change()
 
         if which == "Bar Plot":
@@ -822,7 +822,7 @@ class Example(ttk.Menubutton):
             self.master.plot_win.change()
             self.master.plot_win.option[1].radio_one_var.set(0)
             self.master.plot_win.change()
-            self.master.plot_win.option[2].radio_one_var.set(2)
+            self.master.plot_win.option[2].radio_one_var.set(0)
             self.master.plot_win.change()
 
         if which == "Scatter Plot":
@@ -836,7 +836,7 @@ class Example(ttk.Menubutton):
             self.master.plot_win.change()
             self.master.plot_win.option[1].radio_one_var.set(1)
             self.master.plot_win.change()
-            self.master.plot_win.option[2].radio_one_var.set(4)
+            self.master.plot_win.option[2].radio_one_var.set(3)
             self.master.plot_win.change()
 
         if which == "Line Plot":

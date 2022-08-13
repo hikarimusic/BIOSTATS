@@ -7,6 +7,56 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from biostats.model.util import _CC, _process, _add_p
 
 def heatmap(data, x, y, value):
+    '''
+    Draw a heat map to show the relation between two categorical variables.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least one numeric column and two categorical columns. 
+    x : :py:class:`str`
+        The categorical variable to be plotted in x-axis.
+    y : :py:class:`str`
+        The categorical variable to be plotted in y-axis.
+    value : :py:class:`str`
+        The numeric variable to be plotted with different colors.
+
+    Returns
+    -------
+    fig : :py:class:`matplotlib.figure.Figure`
+        The generated plot.
+
+    See also
+    --------
+    histogram_2D : Draw a 2D histogram to show the distribution of two numeric variables.
+
+    Examples
+    --------
+    .. plot::
+
+        >>> import biostats as bs
+        >>> import matplotlib.pyplot as plt
+        >>> data = bs.dataset("flights.csv")
+        >>> data
+             year      month  passengers
+        0    1949    January         112
+        1    1949   February         118
+        2    1949      March         132
+        3    1949      April         129
+        4    1949        May         121
+        ..    ...        ...         ...
+        139  1960     August         606
+        140  1960  September         508
+        141  1960    October         461
+        142  1960   November         390
+        143  1960   December         432
+
+        We want to visualize the relation between *year* and *month* by examining *passengers*.
+
+        >>> fig = bs.heatmap(data=data, x="year", y="month", value="passengers")
+        >>> plt.show()
+
+    '''
 
     sns.set_theme()
     data = data.dropna(how='all')
@@ -19,7 +69,7 @@ def heatmap(data, x, y, value):
     if str(data[value].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(value))
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(6,6))
     sns.heatmap(data.pivot_table(index=y, columns=x, values=value, sort=False), ax=ax)
         
     return fig
