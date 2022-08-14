@@ -144,6 +144,8 @@ def pair_plot(data, variable, color=None, kind="scatter"):
         The input data. Must contain at least one numeric column.
     variable : :py:class:`list`
         The list of variables to be plotted.
+    color : :py:class:`str`
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
     kind : :py:class:`str`
         * "scatter" : Draw scatter plots.
         * "regression" : Draw regression plots.
@@ -223,7 +225,7 @@ def joint_plot(data, x, y, color=None, kind="scatter"):
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional.
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional.
     kind : :py:class:`str`
         * "scatter" : Draw scatter plots.
         * "regression" : Draw regression plots.

@@ -13,9 +13,9 @@ def chi_square_test(data, variable_1, variable_2, kind="count"):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least two categorical columns.
     variable_1 : :py:class:`str`
-        The first categorical variable.
+        The first categorical variable. Maximum 20 groups.
     variable_2 : :py:class:`str`
-        The second categorical variable. Switching the two variables will not change the result of chi-square test.
+        The second categorical variable. Maximum 20 groups. Switching the two variables will not change the result of chi-square test.
     kind : :py:class:`str`
         The way to summarize the contingency table.
         
@@ -181,7 +181,7 @@ def chi_square_test_fit(data, variable, expect):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one categorical column.
     variable : :py:class:`str`
-        The categorical variable that we want to calculate the proportion of.
+        The categorical variable that we want to calculate the proportion of. Maximum 20 groups.
     expect : :py:class:`dict`
         The expected proportions of each group. The sum of the proportions will be automatically normalized to 1.
 
@@ -292,11 +292,11 @@ def mcnemar_test(data, variable_1, variable_2, pair):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least two categorical columns, and a column specifying the pairs.
     variable_1 : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to. The most frequently appearing two groups will be chosen automatically.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups. The most frequently appearing two groups will be chosen automatically.
     variable_2 : :py:class:`str`
-        The categorical variable that we want to calculate proportions of. The most frequently appearing two groups will be chosen automatically.
+        The categorical variable that we want to calculate proportions of. Maximum 20 groups. The most frequently appearing two groups will be chosen automatically.
     pair : :py:class:`str`
-        The variable that specifies the pair ID. Samples in the same pair should have the same ID.
+        The variable that specifies the pair ID. Samples in the same pair should have the same ID. Maximum 2000 pairs.
 
     Returns
     -------
@@ -417,11 +417,11 @@ def mantel_haenszel_test(data, variable_1, variable_2, stratum):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least three categorical columns.
     variable_1 : :py:class:`str`
-        The first categorical variable.
+        The first categorical variable. Maximum 20 groups.
     variable_2 : :py:class:`str`
-        The second categorical variable. Switching the two variables will not change the result.
+        The second categorical variable. Maximum 20 groups. Switching the two variables will not change the result.
     stratum : :py:class:`str`
-        The categorical variable that specifies which stratum the samples belong to.
+        The categorical variable that specifies which stratum the samples belong to. Maximum 30 strata.
 
     Returns
     -------

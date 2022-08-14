@@ -15,9 +15,9 @@ def heatmap(data, x, y, value):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one numeric column and two categorical columns. 
     x : :py:class:`str`
-        The categorical variable to be plotted in x-axis.
+        The categorical variable to be plotted in x-axis. Maximum 20 groups.
     y : :py:class:`str`
-        The categorical variable to be plotted in y-axis.
+        The categorical variable to be plotted in y-axis. Maximum 20 groups.
     value : :py:class:`str`
         The numeric variable to be plotted with different colors.
 
@@ -75,6 +75,58 @@ def heatmap(data, x, y, value):
     return fig
 
 def fa_plot(data, x, factors, color=None):
+    '''
+    Perform a factor analysis and draw a scatter plot to show the transformed data.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least two numeric columns.
+    x : :py:class:`list`
+        The list of numeric variables to be analyzed.
+    factors : :py:class:`int`
+        The number of factors.
+    color : :py:class:`str`
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional.
+
+    Returns
+    -------
+    fig : :py:class:`matplotlib.figure.Figure`
+        The generated plot.
+
+    See also
+    --------
+    pca_plot : Perform a principle component analysis and draw a scatter plot to show the transformed data.
+    lda_plot : Perform a linear discriminant analysis and draw a scatter plot to show the transformed data.
+    factor_analysis : Find the underlying factors of a set of variables.
+
+    Examples
+    --------
+    .. plot::
+
+        >>> import biostats as bs
+        >>> import matplotlib.pyplot as plt
+        >>> data = bs.dataset("iris.csv")
+        >>> data
+             sepal_length  sepal_width  petal_length  petal_width    species
+        0             5.1          3.5           1.4          0.2     setosa
+        1             4.9          3.0           1.4          0.2     setosa
+        2             4.7          3.2           1.3          0.2     setosa
+        3             4.6          3.1           1.5          0.2     setosa
+        4             5.0          3.6           1.4          0.2     setosa
+        ..            ...          ...           ...          ...        ...
+        145           6.7          3.0           5.2          2.3  virginica
+        146           6.3          2.5           5.0          1.9  virginica
+        147           6.5          3.0           5.2          2.0  virginica
+        148           6.2          3.4           5.4          2.3  virginica
+        149           5.9          3.0           5.1          1.8  virginica
+
+        We want to perform a factor analysis and visualize the transformed data.
+
+        >>> fig = bs.fa_plot(data=data, x=["sepal_length", "sepal_width", "petal_length" ,"petal_width"], factors=2, color="species")
+        >>> plt.show()
+
+    '''
 
     sns.set_theme()
     data = data.dropna()
@@ -112,6 +164,56 @@ def fa_plot(data, x, factors, color=None):
 
 
 def pca_plot(data, x, color=None):
+    '''
+    Perform a principle component analysis and draw a scatter plot to show the transformed data.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least two numeric columns.
+    x : :py:class:`list`
+        The list of numeric variables to be analyzed.
+    color : :py:class:`str`
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional.
+
+    Returns
+    -------
+    fig : :py:class:`matplotlib.figure.Figure`
+        The generated plot.
+
+    See also
+    --------
+    fa_plot : Perform a factor analysis and draw a scatter plot to show the transformed data.
+    lda_plot : Perform a linear discriminant analysis and draw a scatter plot to show the transformed data.
+    principal_component_analysis : Find the linear combination of a set of variables to manifest the variation of data.
+
+    Examples
+    --------
+    .. plot::
+
+        >>> import biostats as bs
+        >>> import matplotlib.pyplot as plt
+        >>> data = bs.dataset("iris.csv")
+        >>> data
+             sepal_length  sepal_width  petal_length  petal_width    species
+        0             5.1          3.5           1.4          0.2     setosa
+        1             4.9          3.0           1.4          0.2     setosa
+        2             4.7          3.2           1.3          0.2     setosa
+        3             4.6          3.1           1.5          0.2     setosa
+        4             5.0          3.6           1.4          0.2     setosa
+        ..            ...          ...           ...          ...        ...
+        145           6.7          3.0           5.2          2.3  virginica
+        146           6.3          2.5           5.0          1.9  virginica
+        147           6.5          3.0           5.2          2.0  virginica
+        148           6.2          3.4           5.4          2.3  virginica
+        149           5.9          3.0           5.1          1.8  virginica
+
+        We want to perform a principal component analysis and visualize the transformed data.
+
+        >>> fig = bs.pca_plot(data=data, x=["sepal_length", "sepal_width", "petal_length" ,"petal_width"], color="species")
+        >>> plt.show()
+
+    '''
 
     sns.set_theme()
     data = data.dropna()
@@ -149,6 +251,56 @@ def pca_plot(data, x, color=None):
 
 
 def lda_plot(data, x, y):
+    '''
+    Perform a linear discriminant analysis and draw a scatter plot to show the transformed data.
+
+    Parameters
+    ----------
+    data : :py:class:`pandas.DataFrame`
+        The input data. Must contain at least two numeric columns and one categorical column.
+    x : :py:class:`list`
+        The list of numeric variables to be analyzed.
+    y : :py:class:`str`
+        The categorical variable that specifies the groups to be distinguished. Maximum 20 groups.
+
+    Returns
+    -------
+    fig : :py:class:`matplotlib.figure.Figure`
+        The generated plot.
+
+    See also
+    --------
+    fa_plot : Perform a factor analysis and draw a scatter plot to show the transformed data.
+    pca_plot : Perform a principle component analysis and draw a scatter plot to show the transformed data.
+    linear_discriminant_analysis : Find the linear combination of a set of variables to distinguish between groups.
+
+    Examples
+    --------
+    .. plot::
+
+        >>> import biostats as bs
+        >>> import matplotlib.pyplot as plt
+        >>> data = bs.dataset("iris.csv")
+        >>> data
+             sepal_length  sepal_width  petal_length  petal_width    species
+        0             5.1          3.5           1.4          0.2     setosa
+        1             4.9          3.0           1.4          0.2     setosa
+        2             4.7          3.2           1.3          0.2     setosa
+        3             4.6          3.1           1.5          0.2     setosa
+        4             5.0          3.6           1.4          0.2     setosa
+        ..            ...          ...           ...          ...        ...
+        145           6.7          3.0           5.2          2.3  virginica
+        146           6.3          2.5           5.0          1.9  virginica
+        147           6.5          3.0           5.2          2.0  virginica
+        148           6.2          3.4           5.4          2.3  virginica
+        149           5.9          3.0           5.1          1.8  virginica
+
+        We want to perform a linear discriminant analysis and visualize the transformed data.
+
+        >>> fig = bs.lda_plot(data=data, x=["sepal_length", "sepal_width", "petal_length" ,"petal_width"], y="species")
+        >>> plt.show()
+
+    '''
 
     sns.set_theme()
     data = data.dropna()

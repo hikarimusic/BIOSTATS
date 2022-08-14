@@ -74,9 +74,9 @@ def binomial_test(data, variable, expect):
     Parameters
     ----------
     data : :py:class:`pandas.DataFrame`
-        The input data. Must contain at least one categorical column.
+        The input data. Must contain at least one categorical column. Maximum 500 rows.
     variable : :py:class:`str`
-        The categorical variable that we want to calculate the proportion of.
+        The categorical variable that we want to calculate the proportion of. Maximum 10 groups.
     expect : :py:class:`dict`
         The expected proportions of each group. The sum of the proportions will be automatically normalized to 1.
 
@@ -300,9 +300,9 @@ def fisher_exact_test(data, variable_1, variable_2, kind="count"):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least two categorical columns.
     variable_1 : :py:class:`str`
-        The first categorical variable.
+        The first categorical variable. Maximum 10 groups.
     variable_2 : :py:class:`str`
-        The second categorical variable. Switching the two variables will not change the result of Fisher exact test.
+        The second categorical variable. Switching the two variables will not change the result of Fisher exact test. Maximum 10 groups.
     kind : :py:class:`str`
         The way to summarize the contingency table.
 
@@ -373,8 +373,6 @@ def fisher_exact_test(data, variable_1, variable_2, kind="count"):
         raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_1))
     if data[variable_2].nunique() > 10:
         raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_2))
-    if data[variable_2].nunique() > 10:
-        raise Warning("The nmuber of classes in column '{}' cannot > 10.".format(variable_2))
 
     summary = pd.crosstab(index=data[variable_1], columns=data[variable_2])
     summary.index.name = None
@@ -425,11 +423,11 @@ def mcnemar_exact_test(data, variable_1, variable_2, pair):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least two categorical columns, and a column specifying the pairs.
     variable_1 : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to. The most frequently appearing two groups will be chosen automatically.
+        The categorical variable that specifies which group the samples belong to. Maximum 10 groups. The most frequently appearing two groups will be chosen automatically.
     variable_2 : :py:class:`str`
-        The categorical variable that we want to calculate proportions of. The most frequently appearing two groups will be chosen automatically.
+        The categorical variable that we want to calculate proportions of. Maximum 10 groups. The most frequently appearing two groups will be chosen automatically.
     pair : :py:class:`str`
-        The variable that specifies the pair ID. Samples in the same pair should have the same ID.
+        The variable that specifies the pair ID. Samples in the same pair should have the same ID. Maximum 1000 pairs.
 
     Returns
     -------

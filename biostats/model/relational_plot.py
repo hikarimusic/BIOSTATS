@@ -16,7 +16,7 @@ def scatter_plot(data, x, y, color=None):
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------
@@ -86,7 +86,7 @@ def line_plot(data, x, y, color=None):
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------

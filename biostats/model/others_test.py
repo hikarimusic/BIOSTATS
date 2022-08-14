@@ -18,11 +18,11 @@ def screening_test(data, disease, disease_target, test, test_target):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least two categorical columns. 
     disease : :py:class:`str`
-        The variable specifying the disease (or condition).
+        The variable specifying the disease (or condition). Maximum 20 groups.
     disease_target : :py:class:`str`
         The group of the disease variable that is considered "positive".
     test : :py:class:`str`
-        The variable specifying the test (or symptom).
+        The variable specifying the test (or symptom). Maximum 20 groups.
     test_target : :py:class:`str`
         The group of the test variable that is considered "positive".
 
@@ -123,11 +123,11 @@ def epidemiologic_study(data, disease, disease_target, factor, factor_target):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least two categorical columns. 
     disease : :py:class:`str`
-        The variable specifying the disease.
+        The variable specifying the disease. Maximum 20 groups.
     disease_target : :py:class:`str`
         The group of the disease variable that is considered "positive".
     factor : :py:class:`str`
-        The variable specifying the factor.
+        The variable specifying the factor. Maximum 20 groups.
     factor_target : :py:class:`str`
         The group of the factor variable that is considered "positive".
 
@@ -575,7 +575,7 @@ def linear_discriminant_analysis(data, x, y, predict=None):
     x : :py:class:`list`
         The list of numeric variables to be analyzed.
     y : :py:class:`str`
-        The categorical variable that specifies the groups to be distinguished.
+        The categorical variable that specifies the groups to be distinguished. Maximum 20 groups.
     predict : :py:class:`dict`
         The data to be predicted. Optional.
     

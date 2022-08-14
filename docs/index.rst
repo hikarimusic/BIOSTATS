@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. image:: ../assets/banner2.png
+.. image:: _static/home/banner2.png
 
 .. image:: https://img.shields.io/pypi/v/biostatistics
    :target: https://pypi.org/project/biostatistics/
@@ -28,22 +28,22 @@ You can perform tests with a few clicks
 
 *t-Test*
 
-.. image:: ../assets/t_test.png
+.. image:: _static/home/t_test.png
    :width: 500
 
 *ANOVA*
 
-.. image:: ../assets/anova.png
+.. image:: _static/home/anova.png
    :width: 500
 
 *Chi-Square Test*
 
-.. image:: ../assets/chi_square_test.png
+.. image:: _static/home/chi_square_test.png
    :width: 500
 
 *Regression*
 
-.. image:: ../assets/regression.png
+.. image:: _static/home/regression.png
    :width: 500
 
 You can visualize plots with a few clicks
@@ -51,22 +51,22 @@ You can visualize plots with a few clicks
 
 *Histogram*
 
-.. image:: ../assets/histogram.png
+.. image:: _static/home/histogram.png
    :width: 500
 
 *Box Plot*
 
-.. image:: ../assets/box_plot.png
+.. image:: _static/home/box_plot.png
    :width: 500
 
 *Regression Plot*
 
-.. image:: ../assets/regression_plot.png
+.. image:: _static/home/regression_plot.png
    :width: 500
 
 *Multiple Plot*
 
-.. image:: ../assets/multiple_plot.png
+.. image:: _static/home/multiple_plot.png
    :width: 500
 
 BIOSTATS includes these tests:
@@ -136,17 +136,17 @@ BIOSTATS includes these plots:
 Downloads
 ---------
 
-The application can be download from the links below:
+The application can be downloaded from the links below:
 
 **Windows** :
-https://github.com/hikarimusic/BIOSTATS/releases/download/cd6da0c/BIOSTATS.exe
+https://github.com/hikarimusic/BIOSTATS/releases/latest/download/BIOSTATS.exe
 
 **Linux** :
-https://github.com/hikarimusic/BIOSTATS/releases/download/cd6da0c/BIOSTATS
+https://github.com/hikarimusic/BIOSTATS/releases/latest/download/BIOSTATS
 
 .. note::
    Your computer may warn you not to run BIOSTATS.exe for security
-   concerns. Please ingore it and run it anyway. There is definitely no
+   concerns. Please ignore it and run it anyway. There is definitely no
    virus in BIOSTATS because I don’t know how to write a virus :D
 
 .. note::
@@ -163,7 +163,7 @@ Examples
 You can open examples from *Help > Examples*. Sample datasets will be
 imported, and all the options will be automatically set.
 
-.. image:: ../assets/examples.png
+.. image:: _static/home/examples.png
    :width: 500
 
 Install Package
@@ -191,15 +191,16 @@ You can also import *biostats* and use the functions:
    >>> summary, result = bs.one_way_anova(data=data, variable="Length", between="Location")
    >>> summary
         Location  Count      Mean  Std. Deviation  95% CI: Lower  95% CI: Upper
-   1   Tillamook   10.0  0.080200        0.011963       0.071642       0.088758
-   2     Newport    8.0  0.074800        0.008597       0.067613       0.081987
-   3  Petersburg    7.0  0.103443        0.016209       0.088452       0.118434
-   4     Magadan    8.0  0.078012        0.012945       0.067190       0.088835
-   5   Tvarminne    6.0  0.095700        0.012962       0.082098       0.109302
+   1   Tillamook     10  0.080200        0.011963       0.071642       0.088758
+   2     Newport      8  0.074800        0.008597       0.067613       0.081987
+   3  Petersburg      7  0.103443        0.016209       0.088452       0.118434
+   4     Magadan      8  0.078012        0.012945       0.067190       0.088835
+   5   Tvarminne      6  0.095700        0.012962       0.082098       0.109302
    >>> result
              D.F.  Sum Square  Mean Square  F Statistic   p-value     
-   Location   4.0    0.004520     0.001130     7.121019  0.000281  ***
-   Residual  34.0    0.005395     0.000159          NaN       NaN  NaN
+   Location     4    0.004520     0.001130     7.121019  0.000281  ***
+   Residual    34    0.005395     0.000159          NaN       NaN  NaN
+
 
 **More Info**
 =============
@@ -215,7 +216,7 @@ For more information, check out these pages:
 
 .. note::
 
-   If you have any suggestion or find any bug, please contact me. We need
+   If you have any suggestions or find any bugs, please contact me. We need
    your help! 
 
    -  Contact me: hikarimusic.tm@gmail.com   
@@ -224,3 +225,16 @@ For more information, check out these pages:
    of BIOSTATS.
 
    -  Citation: *working*
+
+**References**:
+
+McDonald, J.H. *Handbook of Biological Statistics (3rd ed.)*. Sparky House Publishing, Baltimore, Maryland, 2014.
+
+Mangiafico, S.S. *An R Companion for the Handbook of Biological Statistics, version 1.3.2*. 2015, rcompanion.org/rcompanion/.
+
+Rosner, Bernard. *Fundamentals of biostatistics*. Cengage learning, 2015.
+
+Zach. *Statology*. 2021, www.statology.org.
+
+UCLA. *Statistical Methods and Data Analytics*. 2021, stats.oarc.ucla.edu.
+

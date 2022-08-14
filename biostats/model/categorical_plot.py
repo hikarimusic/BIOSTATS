@@ -12,9 +12,9 @@ def count_plot(data, x, color=None):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one categorical column. 
     x : :py:class:`str`
-        The categorical variable to be plotted.
+        The categorical variable to be plotted. Maximum 20 groups.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional.
 
     Returns
     -------
@@ -77,11 +77,11 @@ def strip_plot(data, x, y, color=None):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one numeric column and one categorical column.
     x : :py:class:`str`
-        The categorical variable to be plotted in x-axis.
+        The categorical variable to be plotted in x-axis. Maximum 20 groups.
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional.
 
     Returns
     -------
@@ -147,11 +147,11 @@ def swarm_plot(data, x, y, color=None):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one numeric column and one categorical column.
     x : :py:class:`str`
-        The categorical variable to be plotted in x-axis.
+        The categorical variable to be plotted in x-axis. Maximum 20 groups.
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional.
 
     Returns
     -------
@@ -217,11 +217,11 @@ def box_plot(data, x, y, color=None):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one numeric column and one categorical column.
     x : :py:class:`str`
-        The categorical variable to be plotted in x-axis.
+        The categorical variable to be plotted in x-axis. Maximum 20 groups.
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------
@@ -287,11 +287,11 @@ def boxen_plot(data, x, y, color=None):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one numeric column and one categorical column.
     x : :py:class:`str`
-        The categorical variable to be plotted in x-axis.
+        The categorical variable to be plotted in x-axis. Maximum 20 groups.
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------
@@ -357,11 +357,11 @@ def violin_plot(data, x, y, color=None):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one numeric column and one categorical column.
     x : :py:class:`str`
-        The categorical variable to be plotted in x-axis.
+        The categorical variable to be plotted in x-axis. Maximum 20 groups.
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------
@@ -427,11 +427,11 @@ def bar_plot(data, x, y, color=None):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one numeric column and one categorical column.
     x : :py:class:`str`
-        The categorical variable to be plotted in x-axis.
+        The categorical variable to be plotted in x-axis. Maximum 20 groups.
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------

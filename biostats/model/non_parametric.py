@@ -163,11 +163,11 @@ def sign_test(data, variable, between, group, pair):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
     group : :py:class:`list`
         List of the two groups to be compared.
     pair : :py:class:`str`
-        The variable that specifies the pair ID. Samples in the same pair should have the same ID.
+        The variable that specifies the pair ID. Samples in the same pair should have the same ID. Maximum 2000 pairs.
 
     Returns
     -------
@@ -328,11 +328,11 @@ def wilcoxon_signed_rank_test(data, variable, between, group, pair):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
     group : :py:class:`list`
         List of the two groups to be compared.
     pair : :py:class:`str`
-        The variable that specifies the pair ID. Samples in the same pair should have the same ID.
+        The variable that specifies the pair ID. Samples in the same pair should have the same ID. Maximum 2000 pairs.
 
     Returns
     -------
@@ -487,7 +487,7 @@ def wilcoxon_rank_sum_test(data, variable, between, group):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
     group : :py:class:`list`
         List of the two groups to be compared. 
 
@@ -637,7 +637,7 @@ def kruskal_wallis_test(data, variable, between):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
 
     Returns
     -------
@@ -809,9 +809,9 @@ def friedman_test(data, variable, between, subject):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
     subject : :py:class:`str`
-        The variable that specifies the subject ID. Samples measured on the same subject should have the same ID.
+        The variable that specifies the subject ID. Samples measured on the same subject should have the same ID. Maximum 2000 subjects.
 
     Returns
     -------

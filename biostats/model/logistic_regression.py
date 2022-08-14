@@ -18,7 +18,7 @@ def simple_logistic_regression(data, x, y, target):
     x : :py:class:`str`
         The predictor variable. Must be numeric.
     y : :py:class:`str`
-        The response variable. Must be categorical.
+        The response variable. Must be categorical. Maximum 20 groups.
     target : :py:class:`str` or :py:class:`int` or :py:class:`float`
         The target group of the categorical variable.
     
@@ -148,9 +148,9 @@ def multiple_logistic_regression(data, x_numeric, x_categorical, y, target):
     x_numeric : :py:class:`list`
         The list of predictor variables that are numeric.
     x_categorical : :py:class:`list`
-        The list of predictor variables that are categorical.
+        The list of predictor variables that are categorical. Maximum 20 groups.
     y : :py:class:`str`
-        The response variable. Must be categorical.
+        The response variable. Must be categorical. Maximum 20 groups.
     target : :py:class:`str` or :py:class:`int` or :py:class:`float`
         The target group of the categorical variable.
     
@@ -282,9 +282,9 @@ def ordered_logistic_regression(data, x_numeric, x_categorical, y, order):
     x_numeric : :py:class:`list`
         The list of predictor variables that are numeric.
     x_categorical : :py:class:`list`
-        The list of predictor variables that are categorical.
+        The list of predictor variables that are categorical. Maximum 20 groups.
     y : :py:class:`str`
-        The response variable. Must be categorical.
+        The response variable. Must be categorical. Maximum 20 groups.
     order : :py:class:`dict`
         The order of groups in the categorical variable.
     
@@ -418,9 +418,9 @@ def multinomial_logistic_regression(data, x_numeric, x_categorical, y, baseline)
     x_numeric : :py:class:`list`
         The list of predictor variables that are numeric.
     x_categorical : :py:class:`list`
-        The list of predictor variables that are categorical.
+        The list of predictor variables that are categorical. Maximum 20 groups.
     y : :py:class:`str`
-        The response variable. Must be categorical.
+        The response variable. Must be categorical. Maximum 20 groups.
     baseline : :py:class:`str` or :py:class:`int` or :py:class:`float`
         The baseline group of the categorical variable.
     

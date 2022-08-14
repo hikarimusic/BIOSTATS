@@ -16,7 +16,7 @@ def histogram(data, x, band, color=None):
     band : :py:class:`int`
         The number of bands in the histogram.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------
@@ -85,7 +85,7 @@ def density_plot(data, x, smooth, color=None):
     smooth : :py:class:`float` or :py:class:`int`
         The smoothing of the curve. Larger value with smoother curve.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------
@@ -151,7 +151,7 @@ def cumulative_plot(data, x, color=None):
     x : :py:class:`str`
         The numeric variable to be plotted.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------
@@ -218,7 +218,7 @@ def histogram_2D(data, x, y, color=None):
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------
@@ -288,7 +288,7 @@ def density_plot_2D(data, x, y, color=None):
     y : :py:class:`str`
         The numeric variable to be plotted in y-axis.
     color : :py:class:`str`
-        The categorical variable specifying groups to be plotted with different colors. Optional. 
+        The categorical variable specifying groups to be plotted with different colors. Maximum 20 groups. Optional. 
 
     Returns
     -------

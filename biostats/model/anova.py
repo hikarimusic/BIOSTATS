@@ -18,7 +18,7 @@ def one_way_anova(data, variable, between):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
 
     Returns
     -------
@@ -164,9 +164,9 @@ def two_way_anova(data, variable, between_1, between_2):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between_1 : :py:class:`str`
-        The first categorical variable that specifies the groups of the samples.
+        The first categorical variable that specifies the groups of the samples. Maximum 20 groups.
     between_2 : :py:class:`str`
-        The second categorical variable that specifies the groups of the samples.
+        The second categorical variable that specifies the groups of the samples. Maximum 20 groups.
 
     Returns
     -------
@@ -322,7 +322,7 @@ def one_way_ancova(data, variable, between, covariable):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
     covariable : :py:class:`str`
         Another numeric variable that we want to control.
 
@@ -485,9 +485,9 @@ def two_way_ancova(data, variable, between_1, between_2, covariable):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between_1 : :py:class:`str`
-        The first categorical variable that specifies the groups of the samples.
+        The first categorical variable that specifies the groups of the samples. Maximum 20 groups.
     between_2 : :py:class:`str`
-        The second categorical variable that specifies the groups of the samples.
+        The second categorical variable that specifies the groups of the samples. Maximum 20 groups.
     covariable : :py:class:`str`
         Another numeric variable that we want to control.
 
@@ -653,7 +653,7 @@ def multivariate_anova(data, variable, between):
     variable : :py:class:`list`
         The list of numeric variables that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
 
     Returns
     -------
@@ -758,9 +758,9 @@ def repeated_measures_anova(data, variable, between, subject):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
     subject : :py:class:`str`
-        The variable that specifies the subject ID. Samples measured on the same subject should have the same ID.
+        The variable that specifies the subject ID. Samples measured on the same subject should have the same ID. Maximum 2000 subjects.
 
     Returns
     -------

@@ -36,7 +36,7 @@ def one_sample_t_test(data, variable, expect, kind="two-side"):
     --------
     two_sample_t_test : Compare the mean values between two groups.
     paired_t_test : Compare the mean values between two paired groups.
-    median_test : The non-parametric version of one-sample t-test.
+    median_test : The non-parametric version of one-sample t-test.    
 
     Examples
     --------
@@ -160,7 +160,7 @@ def two_sample_t_test(data, variable, between, group, kind="equal variances"):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
     group : :py:class:`list`
         List of the two groups to be compared. 
     kind : :py:class:`str`
@@ -335,11 +335,11 @@ def paired_t_test(data, variable, between, group, pair):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
     group : :py:class:`list`
         List of the two groups to be compared.
     pair : :py:class:`str`
-        The variable that specifies the pair ID. Samples in the same pair should have the same ID.
+        The variable that specifies the pair ID. Samples in the same pair should have the same ID. Maximum 2000 pairs.
 
     Returns
     -------
@@ -497,7 +497,7 @@ def pairwise_t_test(data, variable, between):
     variable : :py:class:`str`
         The numeric variable that we want to calculate mean values of.
     between : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
 
     Returns
     -------

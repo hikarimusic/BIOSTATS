@@ -35,13 +35,13 @@ class Data(ttk.Frame):
         self.bar_view.grid(row=0, column=0, sticky="nsew")
         self.bar_view.columnconfigure(index=2, weight=1)
 
-        self.edit_button = ttk.Button(self.bar_view, text="Edit")
-        self.edit_button.config(command=lambda: self.switch("edit"))
-        self.edit_button.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
-
         self.open_button = ttk.Button(self.bar_view, text="Open")
         self.open_button.config(command=self.open)
-        self.open_button.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
+        self.open_button.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+
+        self.edit_button = ttk.Button(self.bar_view, text="Edit")
+        self.edit_button.config(command=lambda: self.switch("edit"))
+        self.edit_button.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
         # Tree
         self.tree = Tree(self, 20)

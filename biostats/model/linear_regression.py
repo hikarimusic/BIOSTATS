@@ -320,7 +320,7 @@ def multiple_linear_regression(data, x_numeric, x_categorical, y):
     x_numeric : :py:class:`list`
         The list of predictor variables that are numeric.
     x_categorical : :py:class:`list`
-        The list of predictor variables that are categorical.
+        The list of predictor variables that are categorical. Maximum 20 groups.
     y : :py:class:`str`
         The response variable. Must be numeric.
     

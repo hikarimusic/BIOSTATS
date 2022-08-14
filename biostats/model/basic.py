@@ -138,7 +138,7 @@ def numeric_grouped(data, variable, group):
     variable : :py:class:`str`
         The numeric variable that we want to analyze.
     group : :py:class:`str`
-        The categorical variable that specifies which group the samples belong to.
+        The categorical variable that specifies which group the samples belong to. Maximum 20 groups.
 
     Returns
     -------
@@ -269,7 +269,7 @@ def categorical(data, variable):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least one categorical column.
     variable : :py:class:`str`
-        The categorical variable to be analyzed.
+        The categorical variable to be analyzed. Maximum 20 groups.
 
     Returns
     -------
@@ -356,9 +356,9 @@ def contingency(data, variable_1, variable_2, kind="count"):
     data : :py:class:`pandas.DataFrame`
         The input data. Must contain at least two categorical columns.
     variable_1 : :py:class:`str`
-        The first categorical variable.
+        The first categorical variable. Maximum 20 groups.
     variable_2 : :py:class:`str`
-        The second categorical variable.
+        The second categorical variable. Maximum 20 groups.
     kind : :py:class:`str`
         The way to summarize the contingency table.
         
