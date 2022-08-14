@@ -154,12 +154,12 @@ If you use BIOSTATS in your research, it's a good idea to cite the paper of BIOS
 
 #### __References__:
 
-McDonald, John H. _Handbook of biological statistics_. Vol. 2. Baltimore, MD: sparky house publishing, 2009.
+McDonald, J.H. _Handbook of Biological Statistics (3rd ed.)_. Sparky House Publishing, Baltimore, Maryland, 2014.
 
-Mangiafico, Salvatore S. "An R companion for the handbook of biological statistics." _Available: rcompanion.org/documents/RCompanionBioStatistics.pdf.(January 2016)_ (2015).
+Mangiafico, S.S. _An R Companion for the Handbook of Biological Statistics, version 1.3.2_. 2015, rcompanion.org/rcompanion/.
 
 Rosner, Bernard. _Fundamentals of biostatistics_. Cengage learning, 2015.
 
-Zach. _Statology_. 2021, www.statology.org.
+Bobbitt, Zach. _Statology_. 2021, www.statology.org.
 
 UCLA. _Statistical Methods and Data Analytics_. 2021, stats.oarc.ucla.edu.

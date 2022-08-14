@@ -6,6 +6,6 @@ Mangiafico, S.S. _An R Companion for the Handbook of Biological Statistics, vers
 
 Rosner, Bernard. _Fundamentals of biostatistics_. Cengage learning, 2015.
 
-Zach. _Statology_. 2021, www.statology.org.
+Bobbitt, Zach. _Statology_. 2021, www.statology.org.
 
 UCLA. _Statistical Methods and Data Analytics_. 2021, stats.oarc.ucla.edu.
