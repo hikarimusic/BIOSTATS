@@ -1,4 +1,4 @@
-<img src="docs/_static/home/banner2.png"><br>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/banner2.png"><br>
 
 
 [![PyPI Version](https://img.shields.io/pypi/v/biostatistics)](https://pypi.org/project/biostatistics/)
@@ -15,37 +15,37 @@
 
 _t-Test_
 
-<img src="docs/_static/home/t_test.png" width=500>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/t_test.png" width=500>
 
 _ANOVA_
 
-<img src="docs/_static/home/anova.png" width=500>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/anova.png" width=500>
 
 _Chi-Square Test_
 
-<img src="docs/_static/home/chi_square_test.png" width=500>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/chi_square_test.png" width=500>
 
 _Regression_
 
-<img src="docs/_static/home/regression.png" width=500>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/regression.png" width=500>
 
 ### __You can visualize plots with a few clicks__
 
 _Histogram_
 
-<img src="docs/_static/home/histogram.png" width=500>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/histogram.png" width=500>
 
 _Box Plot_
 
-<img src="docs/_static/home/box_plot.png" width=500>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/box_plot.png" width=500>
 
 _Regression Plot_
 
-<img src="docs/_static/home/regression_plot.png" width=500>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/regression_plot.png" width=500>
 
 _Multiple Plot_
 
-<img src="docs/_static/home/multiple_plot.png" width=500>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/multiple_plot.png" width=500>
 
 ### __BIOSTATS includes these tests:__
 
@@ -102,7 +102,7 @@ _(In Linux, you may need to permit the execution by `chmod +x BIOSTATS` before r
 
 You can open examples from _Help > Examples_. Sample datasets will be imported, and all the options will be automatically set.
 
-<img src="docs/_static/home/examples.png" width=500>
+<img src="https://github.com/hikarimusic/BIOSTATS/raw/main/docs/_static/home/examples.png" width=500>
 
 ### __Install Package__
 
