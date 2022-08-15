@@ -38,7 +38,6 @@
     <link rel="shortcut icon" href="../_static/icon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Windows" href="windows.html" />
     <link rel="prev" title="biostats.dataset" href="../reference/api/biostats.dataset.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
@@ -149,30 +148,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="windows.html">
-   <strong>
-    Windows
-   </strong>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="linux.html">
-   <strong>
-    Linux
-   </strong>
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="package.html">
-   <strong>
-    Python Package
-   </strong>
-  </a>
- </li>
-</ul>
-
+    
   </div>
 </nav>
   </div>
@@ -189,9 +165,35 @@
     
     <div class="toc-item">
       
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
-    
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#windows">
+   <strong>
+    Windows
+   </strong>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linux">
+   <strong>
+    Linux
+   </strong>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#python-package">
+   <strong>
+    Python Package
+   </strong>
+  </a>
+ </li>
+</ul>
+
 </nav>
     </div>
     
@@ -211,13 +213,79 @@
                 
   <section id="download">
 <h1><strong>Download</strong><a class="headerlink" href="#download" title="Permalink to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="windows.html"><strong>Windows</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="linux.html"><strong>Linux</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="package.html"><strong>Python Package</strong></a></li>
+<section id="windows">
+<h2><strong>Windows</strong><a class="headerlink" href="#windows" title="Permalink to this heading">#</a></h2>
+<p>You can download the latest version from <a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/releases/latest/">Github Release</a>. Please select the <em>BIOSTATS.exe</em> file.</p>
+<img alt="../_images/windows.png" src="../_images/windows.png" />
+<p>Or you can download it from the link below:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/releases/latest/download/BIOSTATS.exe">https://github.com/hikarimusic/BIOSTATS/releases/latest/download/BIOSTATS.exe</a></p></li>
 </ul>
+<p>Double click the downloaded file to run BIOSTATS.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <em>Windows</em> protect you from running it, please press <em>More info &gt; Run anyway</em>.
+There is definitely no virus in BIOSTATS, and you can check all the codes on the <a class="reference external" href="https://github.com/hikarimusic/BIOSTATS">Github Repository</a>.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sometimes it will take quite a long time to open BIOSTATS. It is usually due to the virus scanning process of your computer,
+and I can do nothing about it. Please just wait for a while and maybe have a cup of tea!</p>
+</div>
+</section>
+<section id="linux">
+<h2><strong>Linux</strong><a class="headerlink" href="#linux" title="Permalink to this heading">#</a></h2>
+<p>You can download the latest version from <a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/releases/latest/">Github Release</a>. Please select the <em>BIOSTATS</em> file.</p>
+<img alt="../_images/linux.png" src="../_images/linux.png" />
+<p>Or you can download it from the link below:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/hikarimusic/BIOSTATS/releases/latest/download/BIOSTATS">https://github.com/hikarimusic/BIOSTATS/releases/latest/download/BIOSTATS</a></p></li>
+</ul>
+<p>Double click the downloaded file to run BIOSTATS. Or you can <code class="docutils literal notranslate"><span class="pre">cd</span></code> into the directory where BIOSTATS is in, and run the program by <code class="docutils literal notranslate"><span class="pre">./BIOSTATS</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Linux, you may need to permit the execution by <code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">+x</span> <span class="pre">BIOSTATS</span></code> before running the program.</p>
+</div>
+</section>
+<section id="python-package">
+<h2><strong>Python Package</strong><a class="headerlink" href="#python-package" title="Permalink to this heading">#</a></h2>
+<p>For users who are familiar with Python, you can download the Python package and use it in the interactive mode or in your own project.
+To download the package, run the following command in the terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">biostatistics</span>
+</pre></div>
+</div>
+<p>You can open the main window directly by the command <code class="docutils literal notranslate"><span class="pre">biostats</span></code> in any directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">biostats</span>
+</pre></div>
+</div>
+<p>Or you can use BIOSTATS interactively in the terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>:~$ python3
+&gt;&gt;&gt; import biostats as bs
+&gt;&gt;&gt; data = bs.dataset(&quot;one_way_anova.csv&quot;)
+&gt;&gt;&gt; summary, result = bs.one_way_anova(data=data, variable=&quot;Length&quot;, between=&quot;Location&quot;)
+&gt;&gt;&gt; summary
+     Location  Count      Mean  Std. Deviation  95% CI: Lower  95% CI: Upper
+1   Tillamook     10  0.080200        0.011963       0.071642       0.088758
+2     Newport      8  0.074800        0.008597       0.067613       0.081987
+3  Petersburg      7  0.103443        0.016209       0.088452       0.118434
+4     Magadan      8  0.078012        0.012945       0.067190       0.088835
+5   Tvarminne      6  0.095700        0.012962       0.082098       0.109302
+&gt;&gt;&gt; result
+          D.F.  Sum Square  Mean Square  F Statistic   p-value
+Location     4    0.004520     0.001130     7.121019  0.000281  ***
+Residual    34    0.005395     0.000159          NaN       NaN  NaN
+</pre></div>
+</div>
+<p>or incorporate BIOSTATS into your own project:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">biostats</span> <span class="k">as</span> <span class="nn">bs</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="s2">&quot;one_way_anova.csv&quot;</span><span class="p">)</span>
+<span class="n">summary</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">bs</span><span class="o">.</span><span class="n">one_way_anova</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Length&quot;</span><span class="p">,</span> <span class="n">between</span><span class="o">=</span><span class="s2">&quot;Location&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -234,13 +302,6 @@
           <p class="prev-next-subtitle">previous</p>
           <p class="prev-next-title">biostats.dataset</p>
       </div>
-  </a>
-  <a class='right-next' id="next-link" href="windows.html" title="next page">
-  <div class="prev-next-info">
-      <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title"><strong>Windows</strong></p>
-  </div>
-  <i class="fas fa-angle-right"></i>
   </a>
 </div>
               </footer>
