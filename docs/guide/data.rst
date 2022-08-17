@@ -15,21 +15,21 @@ You can open the data by pressing *Open* button in *Data* window:
 
 File types that can be opened by BIOSTATS:
 
-+------------+------------+
-| File Type  | Extension  |
-+============+============+
-| Excel File | .xlsx      |
-+------------+------------+
-| CSV File   | .csv       |
-+------------+------------+
-| JSON File  | .json      |
-+------------+------------+
-| SAS File   | .sas7bdat  |
-+------------+------------+
-| Stata File | .dta       |
-+------------+------------+
-| SPSS File  | .sav       |
-+------------+------------+
++------------+------------+------------------------------------------------------------------------------------------------------+
+| File Type  | Extension  |Sample Data                                                                                           |
++============+============+======================================================================================================+
+| Excel File | .xlsx      |`sample.xlsx <https://github.com/hikarimusic/BIOSTATS/raw/main/examples/sample/sample.xlsx>`_         |
++------------+------------+------------------------------------------------------------------------------------------------------+
+| CSV File   | .csv       |`sample.csv <https://github.com/hikarimusic/BIOSTATS/raw/main/examples/sample/sample.csv>`_           |
++------------+------------+------------------------------------------------------------------------------------------------------+
+| JSON File  | .json      |`sample.json <https://github.com/hikarimusic/BIOSTATS/raw/main/examples/sample/sample.json>`_         |
++------------+------------+------------------------------------------------------------------------------------------------------+
+| SAS File   | .sas7bdat  |`sample.sas7bat <https://github.com/hikarimusic/BIOSTATS/raw/main/examples/sample/sample.sas7bat>`_   |
++------------+------------+------------------------------------------------------------------------------------------------------+
+| Stata File | .dta       |`sample.dta <https://github.com/hikarimusic/BIOSTATS/raw/main/examples/sample/sample.dta>`_           |
++------------+------------+------------------------------------------------------------------------------------------------------+
+| SPSS File  | .sav       |`sample.sav <https://github.com/hikarimusic/BIOSTATS/raw/main/examples/sample/sample.sav>`_           |
++------------+------------+------------------------------------------------------------------------------------------------------+
 
 .. tip::
 

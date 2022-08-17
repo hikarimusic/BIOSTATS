@@ -16,7 +16,7 @@ sys.path.insert(0, pathlib.Path(__file__).parents[1].resolve().as_posix())
 project = 'BIOSTATS'
 copyright = '2022, Yeu-Guang Tung'
 author = 'Yeu-Guang Tung'
-release = '0.0.4'
+release = '0.1.2'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
