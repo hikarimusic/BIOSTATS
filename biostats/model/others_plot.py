@@ -63,9 +63,9 @@ def heatmap(data, x, y, value):
     _process(data, num=[value], cat=[x, y])
 
     if data[x].nunique() > 20:
-        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_1))
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(x))
     if data[y].nunique() > 20:
-        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(variable_2))
+        raise Warning("The nmuber of classes in column '{}' cannot > 20.".format(y))
     if str(data[value].dtypes) not in ("float64", "Int64"):
         raise Warning("The column '{}' must be numeric".format(value))
 
