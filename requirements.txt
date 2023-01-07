@@ -9,4 +9,3 @@ scipy
 seaborn
 statsmodels
 tabulate
-pytest

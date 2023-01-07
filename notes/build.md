@@ -1,8 +1,8 @@
 # Linux
 
 ## Virtual Environment
-    python3 -m venv env
-    source env/bin/activate
+    python3 -m venv .biostats
+    source .biostats/bin/activate
 
 ## Clone Repo
     git clone https://github.com/hikarimusic/BIOSTATS.git
@@ -26,8 +26,8 @@
 # Windows
 
 ## Virtual Environment
-    py -m venv env
-    env\Scripts\activate.bat
+    py -m venv .biostats
+    .biostats\Scripts\activate.bat
 
 ## Clone Repo
     git clone https://github.com/hikarimusic/BIOSTATS.git
