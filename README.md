@@ -3,6 +3,7 @@
 
 [![PyPI Version](https://img.shields.io/pypi/v/biostatistics)](https://pypi.org/project/biostatistics/)
 [![License](https://img.shields.io/pypi/l/biostatistics)](https://github.com/hikarimusic/BIOSTATS/blob/main/LICENSE)
+[![Tests](https://github.com/hikarimusic/BIOSTATS/workflows/CI/badge.svg)](https://github.com/hikarimusic/BIOSTATS/actions)
 [![Downloads](https://img.shields.io/github/downloads/hikarimusic/BIOSTATS/total.svg)](https://github.com/hikarimusic/BIOSTATS/releases)
 
 # __What is BIOSTATS__
