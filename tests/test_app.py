@@ -1,5 +1,6 @@
 from biostats import app
 
-if __name__ == "__main__":
+def test_launch():
     root = app.App()
     root.mainloop()
+ 
