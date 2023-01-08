@@ -14,7 +14,7 @@ affiliations:
   - name: School of Medicine, National Taiwan University, Taiwan
     index: 1
 date: 7 January 2023
-bibliography: paper.blb
+bibliography: paper.bib
 ---
 
 # Summary
