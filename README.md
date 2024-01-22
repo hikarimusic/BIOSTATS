@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/pypi/l/biostatistics)](https://github.com/hikarimusic/BIOSTATS/blob/main/LICENSE)
 [![Tests](https://github.com/hikarimusic/BIOSTATS/workflows/CI/badge.svg)](https://github.com/hikarimusic/BIOSTATS/actions)
 [![Downloads](https://img.shields.io/github/downloads/hikarimusic/BIOSTATS/total.svg)](https://github.com/hikarimusic/BIOSTATS/releases)
+[![DOI](https://zenodo.org/badge/474227681.svg)](https://zenodo.org/doi/10.5281/zenodo.10550105)
 
 # __What is BIOSTATS__
 
@@ -151,7 +152,7 @@ If you have any suggestion or find any bug, please contach me. We need your help
 
 If you use BIOSTATS in your research, it's a good idea to cite the paper of BIOSTATS.
 
-* Citation: _working_
+* Citation: Tung, Yeu-Guang (2022). BIOSTATS: An Intuitive GUI for Biostatistical Analysis. Zenodo. https://doi.org/10.5281/zenodo.10550106
 
 #### __References__:
 

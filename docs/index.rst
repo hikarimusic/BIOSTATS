@@ -14,6 +14,9 @@
 .. image:: https://img.shields.io/github/downloads/hikarimusic/BIOSTATS/total.svg
    :target: https://github.com/hikarimusic/BIOSTATS/releases
 
+.. image:: https://zenodo.org/badge/474227681.svg
+  :target: https://zenodo.org/doi/10.5281/zenodo.10550105
+
 |
 
 **What is BIOSTATS**
@@ -224,7 +227,7 @@ For more information, check out these pages:
    If you use BIOSTATS in your research, it’s a good idea to cite the paper
    of BIOSTATS.
 
-   -  Citation: *working*
+   -  Citation: Tung, Yeu-Guang (2022). BIOSTATS: An Intuitive GUI for Biostatistical Analysis. Zenodo. https://doi.org/10.5281/zenodo.10550106
 
 **References**:
 
